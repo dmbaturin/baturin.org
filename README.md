@@ -18,4 +18,4 @@ The result will be in the build/ directory.
 
 It uses an ad-hoc website generator. Because you know, there are so many of them it's easier
 to make a new one than to choose. Besides, most of them want you to use markdown or another
-limited markup language that doesn't even allow you to insert <marquee> tags.
+limited markup language that doesn't even allow you to insert marquee tags.
