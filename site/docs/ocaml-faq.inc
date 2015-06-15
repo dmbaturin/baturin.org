@@ -1,0 +1,279 @@
+{% set date 2015 June 16 %}
+
+<h1>What I wish I knew when learning OCaml</h1>
+
+<p>This is a poorly structured list of common questions and answers about OCaml
+   I had to ask myself or have been asked often.</p>
+
+<div>
+<div id="generated-toc"> </div>
+
+<h2>The language</h2>
+
+<h3>The double semicolon</h3>
+<p>The answer to the question &ldquo;When do I need the <strong>;;</strong> within
+   OCaml source code?&rdquo; is <strong>never</strong>.</p>
+<p>It's not a part of the language and is only used by the interpreter as an end of input mark.</p>
+<p>The right way to write top-level expressions called solely for their side effects is to wrap
+   them in a let-expression (the left hand side of a let-expression can be any pattern, including
+   nullary constructors and the wildcard).</p>
+<pre>
+let hello () = print_endline "hello world"
+
+let () = hello ()
+
+let _ = exit 0
+</pre>
+<p>If you know that your expression should evaluate to unit (like the print_endline call above),
+   it's better to use <strong>let () =</strong> rather than <strong>let _ =</strong>,
+   since it will throw a type error if you accidentally write something of different type
+  on the right hand side (e.g. forget the argument).</p>
+<p><strong>Note:</strong> If you are running a program in the interpreter (i.e. <tt>ocaml /path/to/file.ml</tt>),
+   you do need the ;; after directives, as in <tt>#use "topfind";;</tt>. But the directives are not part
+   of the language either.</p>
+
+<h3>Functions and currying</h3>
+<p>The good thing about currying in OCaml and other ML-style languages is that you don't need to know what
+   currying is to use it. Every time you create a function of &ldquo;multiple arguments&rdquo;,
+   you really create a curried function. Which means that</p>
+<pre>
+let add x y = x + y
+</pre>
+<p>is a sugar for</p>
+<pre>
+let add =
+  fun x -&gt;
+    fun y -&gt; x + y
+</pre>
+<p>This makes partial application very easy: just omit some of the arguments 
+   and what you get is a new function.</p>
+<pre>
+# let add1 = add 1 ;;
+val add1 : int -&gt; int = &lt;fun&gt;
+</pre>
+<p>To be precise, what you get is a closure: a function plus an environment
+   where name <em>x</em> is bound to 1, but you don't need to think about it
+   to use it.</p>
+<p><strong>Note:</strong> this is also the reason OCaml never gives you
+   &ldquo;too few arguments&rdquo; errors if you forgot an argument. Only when you try to use
+   that value, it just tells you that your value has type <em>foo &rarr; bar</em> but was expected
+   to have type <em>bar</em>. If you see an error like that, check for
+   missing arguments. Example:</p>
+<pre>
+# (add 1) + 9 ;;
+Error: This expression has type int -&gt; int but an expression was expected of type int 
+</pre>
+
+<h3>Type definitions</h3>
+
+<p>The ML term for a tuple is <em>product type</em>. A natural example of a sum type
+   is a point on a plane that has X and Y coordinates.</p>
+<pre>
+type point = float * float
+</pre>
+<p>Product types are rarely named, and the compiler will not start calling everything that
+   is float * float a point after you declare this type. They are usually implicit or
+   incorporated into definitions of sum types and record.</p>
+<p>Another kind of types that has no direct analogy in most other languages is
+   <em>sum type</em> (variant records in Pascal and Ada are pretty close). Easier to show than
+   to explain. An example: in color printing, a color of a dot is either the key color (usually black)
+   or a combination of cyan, yellow, and magenta. We can represent colors with this type:</p>
+<pre>
+type color = Key | Color of int * int * int
+</pre>
+<p>Sum and product types are referred to as <em>algebraic data types</em>.</p>
+<br />
+<p>Some jargon you should know:</p>
+<img src="/images/caml-faq/ocaml_type_definition.png" alt="Type definition diagram"/>
+<p>A type is <em>polymorphic</em> if there are free <em>type variables</em>,
+   placeholders that can be substituted with any type. The name of the type
+   is often referred to as <em>type constructor</em>.</p>
+<p>Type variables are always prefixed with an apostrophe, names can be arbitrary.
+   This is perfectly acceptable:</p>
+<pre>
+type ('result, 'error) result = Success of 'result | Error of 'error
+</pre>
+<p>The elements of a sum type, such as Left and Right above, are called <em>data constructors</em>.
+   Their names must be capitalized. Data constructors can be nullary, this is equivalent to enumerated
+   types in other languages such as C enum.</p>
+<pre>
+type ml = OCaml | SML | FSharp (* Nullary constructors *)
+</pre>
+
+<p>There are two types for which special syntactic sugar is provided: unit and list.
+   In imaginary syntax their definitions can be written as:</p>
+<pre>
+type unit = ()
+
+type 'a list = 'a :: 'a list | []
+</pre>
+<p>The <strong>()</strong> and <strong>::</strong> are special only syntactically,
+   otherwise they are just data constructors like any other and can be used in pattern
+   matching and anywhere else where normal constructors are allowed.</p>
+
+<h3>Semicolons and expression sequences</h3>
+<p>Semicolon is an expression separator, not a statement terminator.</p>
+<p>This code</p>
+<pre>
+let foo x y =
+    print_endline "Now I'll add up two numbers";
+    print_endline "Yes, seriously";
+    x + y
+</pre>
+<p>is semantically equivalent to</p>
+<pre>
+let foo x y =
+    let _ = print_endline "Now I'll add	up two numbers" in
+    let _ = print_endline "Yes,	seriously" in
+    x + y
+</pre>
+<p>Therefore, if you end a sequence of expressions with a semicolon, whatever comes next will
+   be treated as the last expression of the sequence, and will likely cause a syntax error
+   (e.g. if the next thing is a let binding) or, worse, incorrect behaviour.</p>
+
+<h3>let vs. let rec</h3>
+
+<p>At first the <strong>rec</strong> keyword may look like syntactic noise, but it isn't.</p>
+<p>If the name of your binding is unique within the scope, <strong>rec</strong> simply allows you
+   to refer to its name within your expression, but if you are shadowing another binding,
+   it allows you to choose whether that name will refer to the older binding or to the newly defined one.</p>
+<p>An example: suppose you want to redefine the <strong>incr</strong> function from Pervasives so it
+   prints a debug message when called.</p>
+<p>Let's define it. Note the lack of <strong>rec</strong>.</p>
+<pre>
+let incr i =
+    print_endline "Counter was incremented";
+    incr i
+</pre>
+<p>Now let's try it.</p>
+<pre>
+# let x = ref 0 ;;
+val x : int ref = {contents = 0}
+
+# incr x ;;
+Counter was incremented
+- : unit = ()
+
+# !x ;;
+- : int = 1
+</pre>
+<p>This works as expected, our new incr calls the old incr, and everything within our new scope refers to the new incr definition.</p>
+<p>However, if we use a definition with <strong>rec</strong>, <em>incr i</em> within our definition will refer to the <em>new definition</em>
+   of incr rather than incr from Pervasives, thus creating a useless infinite loop.</p>
+
+<h3>Abstract types</h3>
+<p>Abstract types is a way to implement encapsulation. A type is treated as abstract if module interface doesn't
+   expose anything but its name.</p>
+<p>In object oriented programming, hiding values inside objects serve two purposes: to abstract from implementation details,
+   and to prevent invariant violations. These tasks are not really related to each other though, and it can be done with 
+   different mechanisms.</p>
+<p>In ML modules, we may hide (rather, not expose) functions to avoid cluttering the interface with implementation details.
+   But if those functions are used with values that come from the outside world, how do we protect invariants?
+   ML gives us ability to hide a <em>type</em> implementation inside a module and make functions work with that type
+   rather than types known to the outside world. Then we can provide a function that creates values of that type.</p>
+<p>Suppose we want to write a module for working with natural numbers whose values cannot be negative.
+   Internally, the type we are working with will be <em>int</em>, but no one outside the module will know this,
+   and therefore will not be able to use it with our functions without converting it first.</p>
+<pre>
+module type NATURAL = sig
+    exception Negative_argument
+
+    type t (* No implementation *)
+
+    val from_int : int -> t (* Convert an int to the mysterious type t *)
+    val to_int : t -&gt; int   (* Convert back to int *)
+    val add : t -&gt; t -&gt; t   (* Note: t -&gt; t, not int -&gt; int *)
+end
+
+module Natural : NATURAL = struct
+    type t = int
+
+    exception Negative_argument
+
+    let from_int x = 
+        if x &lt; 0 then raise Negative_argument else x
+
+    let to_int x = x
+
+    let add x y = x + y
+end
+</pre>
+<p>Let's see how it works:</p>
+<pre>
+# Natural.add 3 2 ;;
+Error: This expression has type int but an expression was expected of type Natural.t   
+
+# Positive.from_int (-10) ;;
+Exception: Natural.Negative_argument. 
+
+# let a = Natural.add (Natural.from_int 4) (Natural.from_int 3) ;;
+val a : t = &lt;abstr&gt;
+
+# Natural.to_int a ;;
+- : int = 7
+</pre>
+<p>The type <em>t</em> is indeed <em>int</em> internally, but leaving it abstract makes OCaml treat it as
+   a distinct type. If we change the signature to use <em>type t = int</em>, the <em>add</em>
+   function will work with any values of the type <em>int</em>. If we make add <em>int &rarr; int</em>
+   rather than <em>t &rarr; t</em>, it will have the same effect:</p>
+<pre>
+# Natural.add (-9) 8 ;;
+- : int = -1
+</pre>
+
+<h2>The toolchain</h2>
+
+<h3>Compiled? Interpreted?</h3>
+<p>OCaml is a good demonstration that the terms &ldquo;compiled language&rdquo; and &ldquo;interpreted language&rdquo;
+   are meaningless. Right in the distribution, there are:</p>
+<ul>
+  <li>An interpreter</li>
+  <li>A bytecode compiler and bytecode interpreter</li>
+  <li>A native code compiler</li>
+</ul>
+
+<p>The interpreter can work in both interactive mode (read-eval-print loop) and batch mode, like shell or Perl or Python.</p>
+<p>The bytecode compiler is useful on platforms where the native compiler is not available (e.g. MIPS), or for bootstrapping the native code
+   compiler on new machines (the bytecode interpreter is written in C). You can also product Javascript from OCaml bytecode files
+   with js_of_ocaml.</p>
+<p> Bytecode executables are a lot slower than native ones, so most of the time people either use the interpreter for exploratory programming
+and scripting or compile to native code. </p>
+<p>Due to this, there are multiple executables:</p>
+<dl>
+  <dt>ocaml</dt>
+  <dd>The interpreter</dd>
+  <dt>ocamlc</dt>
+  <dd>The bytecode executable of the bytecode compiler</dd>
+  <dt>ocamlc.opt</dt>
+  <dd>The native executable of the bytecode compiler</dd>
+  <dt>ocamlopt</dt>
+  <dd>The bytecode executable of the native code compiler</dd>
+  <dt>ocamlopt.opt</dt>
+  <dd>The native executable of the native code compiler
+</dl>
+<p>Fortunately, you don't have to remember it in most cases.</p>
+<p><strong>Note:</strong> the REPL is often referred to as &ldquo;toplevel&rdquo;.</p>
+
+<h3>Interactive interpreter is annoying to use</h3>
+<p>No history, no completion, almost no line editing. A perfect environment for exploratory programming indeed.</p>
+<p>There are two things you can do: use ocaml with rlwrap, or install utop.</p>
+<p>If you want function name completion, utop is a better choice.</p>
+
+<h3>How do I link libraries</h3>
+<p>The easiest way to compile a program that uses libraries is to use ocamlfind from findlib.</p>
+<pre>
+ocamlfind ocamlopt -package unix -o prog.native prog.ml
+ocamlfind ocamlc -package unix -o prog.byte prog.ml
+</pre>
+<p>You can do it by hand, but you'll have to specify different library file names (.cma vs .cmxa) for bytecode
+   and native versions, while ocamlfind will do it automatically for you.</p>
+
+<h3>How do I produce module signatures automatically?</h3>
+<p>Global type inference makes it possible.</p>
+<pre>
+ocamlc -i mymodule.ml > mymodule.mli
+</pre>
+<p>Sadly, it can't automatically update existing signatures (add what's missing and preserve what's already
+   there if it was edited by hand), but copying autogenerated lines is still faster than writing them by hand.</p>
+
+</div>

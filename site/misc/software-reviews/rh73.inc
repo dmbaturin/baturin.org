@@ -1,0 +1,99 @@
+<h1>RedHat Linux 7.3 (2002)</h1>
+
+<p>RedHat Linux 7.3 was released in 2002. Internet access in most places was still slow,
+   so it was easier and cheaper to buy a CD or copy it from a friend than download it.</p>
+<p>Package repositories as we know them today didn't exist yet, although there was an update
+   utility and RedHat Network already, installing a package from remote
+   source in one command was not possible.</p>
+<p>Anyway, let's just look at screenshots from the past.</p>
+
+<p>Loading the CD takes us to the installer.</p>
+<a href="/images/rh73/rh73_install_00.png"> <img src="/images/rh73/preview/rh73_install_00.png"/> </a>
+
+<p>Hardware configuration and partitionining aren't all that interesting.
+   What is more interesting is that back then installers usually didn't install a
+   set of packages selected by the distro maintainers, but asked you what you want
+   to install, up to individual packages.</p>
+<a href="/images/rh73/rh73_install_03.png"> <img src="/images/rh73/preview/rh73_install_03.png"/> </a>
+
+<p>Now just watch the progress bar.</p>
+<a href="/images/rh73/rh73_install_05.png"> <img src="/images/rh73/preview/rh73_install_05.png"/> </a>
+
+<p>Well, until the installer asks us to insert the next CD.</p>
+<a href="/images/rh73/rh73_install_06.png"> <img src="/images/rh73/preview/rh73_install_06.png"/> </a>
+
+<p>The installer tries to keep us entertained.</p>
+<a href="/images/rh73/rh73_install_07.png"> <img src="/images/rh73/preview/rh73_install_07.png"/> </a>
+
+<p>Maybe it's not a very health concious advice, but they have a point.
+   At the time, OS installation could easily take a couple of hours
+   on average hardware.</p>
+<a href="/images/rh73/rh73_install_09.png"> <img src="/images/rh73/preview/rh73_install_09.png"/> </a>
+
+<p>With modern hardware, we don't have to wait so long of course.</p>
+<a href="/images/rh73/rh73_install_10.png"> <img src="/images/rh73/preview/rh73_install_10.png"/> </a>
+
+<p>When floppy drives are ubiquitous, a rescue floppy is quite a useful thing.</p>
+<a href="/images/rh73/rh73_install_11.png"> <img src="/images/rh73/preview/rh73_install_11.png"/> </a>
+
+<p>Time to reboot.</p>
+<a href="/images/rh73/rh73_grub_00.png"> <img src="/images/rh73/preview/rh73_grub_00.png"/> </a>
+
+<p>Graphical boot didn't exist at the time.</p>
+<a href="/images/rh73/rh73_boot.png"> <img src="/images/rh73/preview/rh73_boot.png"/> </a>
+
+<p>Finally we are at the login screen.</p>
+<a href="/images/rh73/rh73_login_screen.png"> <img src="/images/rh73/preview/rh73_login_screen.png"/> </a>
+
+<p>GNOME 1.4. Back then it would take some time to load and had a load progress screen,
+   but now it loads too fast to easily make a screenshot of it.</p>
+<a href="/images/rh73/rh73_gnome_desktop.png"> <img src="/images/rh73/preview/rh73_gnome_desktop.png"/> </a>
+
+<p>Those days I preferred KDE though. This is 3.0.0.</p>
+<a href="/images/rh73/rh73_kde_desktop.png"> <img src="/images/rh73/preview/rh73_kde_desktop.png"/> </a>
+
+<p>Lots of settings.</p>
+<a href="/images/rh73/rh73_kde_control_center.png"> <img src="/images/rh73/preview/rh73_kde_control_center.png"/> </a>
+
+<p>It could even cosplay CDE, in a rather convincing way.</p>
+<a href="/images/rh73/rh73_kde_cde_cosplay.png"> <img src="/images/rh73/preview/rh73_kde_cde_cosplay.png"/> </a>
+
+<p>Binary packages for distros that old are hard to find, and finding and building old source tarballs is hardly worth
+   the time, but we can look at some of the software included in the installation CDs.</p>
+
+<p>AbiWord 0.99.5.</p>
+<a href="/images/rh73/rh73_abiword.png"> <img src="/images/rh73/preview/rh73_abiword.png"/> </a>
+
+<p>Mostly works, not with ODF and post-2000 MS Word format of course. Also, default fonts look awful.</p>
+<a href="/images/rh73/rh73_abiword_file.png"> <img src="/images/rh73/preview/rh73_abiword_file.png"/> </a>
+
+<p>Some things, like gnuplot default settings, never change.</p>
+<a href="/images/rh73/rh73_gnuplot.png"> <img src="/images/rh73/preview/rh73_gnuplot.png"/> </a>
+
+<p>Ethereal before it was Wireshark.</p>
+<a href="/images/rh73/rh73_ethereal.png"> <img src="/images/rh73/preview/rh73_ethereal.png"/> </a>
+
+<p>KGhostView still displays PDFs pretty much fine. There was Acrobat Reader too, I don't remember if it was any better.</p>
+<a href="/images/rh73/rh73_pdf_viewer.png"> <img src="/images/rh73/preview/rh73_pdf_viewer.png"/> </a>
+
+<p>Python 1.5.</p>
+<a href="/images/rh73/rh73_python_kde.png"> <img src="/images/rh73/preview/rh73_python_kde.png"/> </a>
+
+<p>OCaml 3.06. The binary package somehow survived on an INRIA FTP site.</p>
+<a href="/images/rh73/rh73_ocaml.png"> <img src="/images/rh73/preview/rh73_ocaml.png"/> </a>
+
+<p>Mozilla 0.9.9. Still renders some websites sort of correctly.</p>
+<a href="/images/rh73/rh73_mozilla099.png"> <img src="/images/rh73/preview/rh73_mozilla099.png"/> </a>
+
+<p>Well, only some of them. Most are beyond any recognition.</p>
+<a href="/images/rh73/rh73_mozilla_redhat.png"> <img src="/images/rh73/preview/rh73_mozilla_redhat.png"/> </a>
+
+<p>Still it's better than Netscape. I couldn't find a single modern (not archived) website it would still
+   be able to render.</p>
+<a href="/images/rh73/rh73_netscape.png"> <img src="/images/rh73/preview/rh73_netscape.png"/> </a>
+
+<p>If you want to install it yourself, images are still available from a number of servers, e.g. from
+   <a href="https://archive.org/details/redhat-7.3_release">archive.org/details/redhat-7.3_release</a>.
+   Works fine in VirtualBox, just don't use a SATA controller (SATA didn't exist at the time), IDE or SCSI
+   should be fine. Mouse integration and the like obviously don't work, VirtualBox itself also didn't
+   exist at the time.</p>
