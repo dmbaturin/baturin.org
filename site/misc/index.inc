@@ -1,4 +1,4 @@
-{% set date 2015 June 10 %}
+{% set date 2015 June 25 %}
 
 <p>Various things that don't fit anywhere else.</p>
 
@@ -6,5 +6,6 @@
   <li class="nav"> <a href="/misc/quotes">Quotes</a> </li>
   <li class="nav"> <a href="/misc/software-reviews">Software reviews</a> </li>
   <li class="nav"> <a href="/misc/obey">OBEY message generator</a> </li>
+  <li class="nav"> <a href="/misc/edgeos-undocumented">Undocumented EdgeOS commands</a> </li>
   <li class="nav"> <a href="/misc/wishlist">Wishlist</a> </li>
 </ul>
