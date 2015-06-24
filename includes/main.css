@@ -75,3 +75,23 @@ hr
     margin-bottom: 2em;
     margin-top: 2em;
 }
+
+table
+{
+    border-collapse: collapse;
+}
+
+th
+{
+    text-align: left;
+}
+
+table, th, td
+{
+   border: 1px solid #87a7bf;
+}
+
+th, td
+{
+    padding: 0.5em;
+} 
