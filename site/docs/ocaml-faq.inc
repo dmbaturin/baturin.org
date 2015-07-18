@@ -264,7 +264,7 @@ and scripting or compile to native code. </p>
    Directives start with <tt>#</tt> character, which sometimes confuses readers
    because <tt>#</tt> is also the REPL prompt.</p>
 <p>If you want to load all definitions from <tt>file.ml</tt> into the REPL:</p>
-<pre>#use "program.ml";;
+<pre>#use "program.ml";;</pre>
 
 <p>If you want to load a file as a module:</p>
 <pre>#mod_use "program.ml";;</pre>
