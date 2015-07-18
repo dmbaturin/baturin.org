@@ -259,6 +259,55 @@ and scripting or compile to native code. </p>
 <p>There are two things you can do: use ocaml with rlwrap, or install utop.</p>
 <p>If you want function name completion, utop is a better choice.</p>
 
+<h3>How do I load source code files into the REPL?</h3>
+<p>In the REPL you can load source files and binary libraries with interpreter directives.
+   Directives start with <tt>#</tt> character, which sometimes confuses readers
+   because <tt>#</tt> is also the REPL prompt.</p>
+<p>If you want to load all definitions from <tt>file.ml</tt> into the REPL:</p>
+<pre>#use "program.ml";;
+
+<p>If you want to load a file as a module:</p>
+<pre>#mod_use "program.ml";;</pre>
+
+<p>For demonstration, suppose you have a file named <tt>program.ml</tt> in your current directory
+with contents:</p>
+<pre>
+let hello () = print_endline "hello world"
+</pre>
+<p>Here's a session transcript that demonstrates how these directives work:</p>
+<pre>
+$ ocaml
+        OCaml version 4.02.1
+
+# #use "program.ml";;
+val hello : unit -&gt; unit = &lt;fun&gt;
+
+# #mod_use "program.ml";;
+module Program : sig val hello : unit -&gt; unit end
+
+# hello () ;;
+hello world
+- : unit = ()
+
+# Program.hello () ;;
+hello world
+- : unit = ()
+</pre>
+
+<h3>How do I load compiled libraries in the REPL?</h3>
+<p>If you have findlib installed and the library you want to load was installed with e.g. OPAM,
+   the easiest way is to load the findlib package. For this purpose, findlib installs a handler
+   for <tt>#require</tt> directive that can automatically load a package and its dependencies.</p>
+<p>In utop, the topfind library is loaded by default, in standard OCaml REPL you'll have to load it
+   yourself with <tt>#use "topfind";;</tt></p>
+<p>Then you can list available packages with <tt>#list;;</tt> and load packages you want, e.g.
+   <tt>#require "unix";;</tt>.</p>
+
+<p>If you want to load a library that is not installed, use <tt>#load</tt> directive, as in
+   <tt>#load "somedir/mylib.cma";;</tt>. Note that unlike findlib's <tt>#require</tt>,
+   <tt>#load</tt> does not automatically load dependencies.</p>
+
+
 <h3>How do I link libraries</h3>
 <p>The easiest way to compile a program that uses libraries is to use ocamlfind from findlib.</p>
 <pre>
