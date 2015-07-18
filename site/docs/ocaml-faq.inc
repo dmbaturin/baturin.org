@@ -85,9 +85,10 @@ type color = Key | Color of int * int * int
 <br />
 <p>Some jargon you should know:</p>
 <img src="/images/caml-faq/ocaml_type_definition.png" alt="Type definition diagram"/>
-<p>A type is <em>polymorphic</em> if there are free <em>type variables</em>,
-   placeholders that can be substituted with any type. The name of the type
-   is often referred to as <em>type constructor</em>.</p>
+<p>A type is <em>polymorphic</em> if there are free <em>type variables</em>&mdash;
+   placeholders that can be substituted for any type. Type names are
+   often referred to as <em>type constructors</em> (a polymorphic type <tt>'a list</tt>
+   can produce <tt>int list</tt>, <tt>string list</tt> and so on).</p>
 <p>Type variables are always prefixed with an apostrophe, names can be arbitrary.
    This is perfectly acceptable:</p>
 <pre>
@@ -110,6 +111,10 @@ type 'a list = 'a :: 'a list | []
 <p>The <strong>()</strong> and <strong>::</strong> are special only syntactically,
    otherwise they are just data constructors like any other and can be used in pattern
    matching and anywhere else where normal constructors are allowed.</p>
+
+<p><strong>Note:</strong> in print and blackboard writing people often use greek letters
+   for type variables, e.g. <em>&alpha; list</em> rather than <tt>'a list</tt>.
+   Likewise, the <tt>*</tt> in product types is often substituted for the &times; sign.</p>
 
 <h3>Semicolons and expression sequences</h3>
 <p>Semicolon is an expression separator, not a statement terminator.</p>
@@ -158,8 +163,8 @@ Counter was incremented
 - : int = 1
 </pre>
 <p>This works as expected, our new incr calls the old incr, and everything within our new scope refers to the new incr definition.</p>
-<p>However, if we use a definition with <strong>rec</strong>, <em>incr i</em> within our definition will refer to the <em>new definition</em>
-   of incr rather than incr from Pervasives, thus creating a useless infinite loop.</p>
+<p>However, if we use a definition with <strong>rec</strong>, <tt>incr i</tt> within our definition will refer to the <em>new definition</em>
+   of <tt>incr</tt> rather than <tt>incr</tt> from Pervasives, thus creating a useless infinite loop.</p>
 
 <h3>Abstract types</h3>
 <p>Abstract types is a way to implement encapsulation. A type is treated as abstract if module interface doesn't
@@ -213,8 +218,8 @@ val a : t = &lt;abstr&gt;
 - : int = 7
 </pre>
 <p>The type <em>t</em> is indeed <em>int</em> internally, but leaving it abstract makes OCaml treat it as
-   a distinct type. If we change the signature to use <em>type t = int</em>, the <em>add</em>
-   function will work with any values of the type <em>int</em>. If we make add <em>int &rarr; int</em>
+   a distinct type. If we change the signature to use <em>type t = int</em>, the <tt>add</tt>
+   function will work with any values of the type <em>int</em>. If we make the <tt>add</tt> function <em>int &rarr; int</em>
    rather than <em>t &rarr; t</em>, it will have the same effect:</p>
 <pre>
 # Natural.add (-9) 8 ;;
