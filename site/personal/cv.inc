@@ -1,4 +1,4 @@
-{% set date 2015 June 10 %}
+{% set date 2015 July 28 %}
 
 <h1>Curriculum vitae</h1>
 
@@ -165,9 +165,9 @@
 <p>A civil engineering company.</p>
 <p>Temporary contract. A small office with about thirty workstations and a couple of servers.</p>
 <p>Didn't break anything, kept the network running, provided support to users.</p>
-<p>My main accomplishment there was made long after I quit. My successor quit after a few weeks and didn't tell
-   his successor the password for the encrypted partition with sensitive data, so after reboot access to it was lost.
-   His successor couldn't contact me, but he could contact me, and somehow I managed to remember that password
+<p>My main accomplishment there was made long after I quit. My successor quit after a couple of months and didn't tell
+   his successor the password for the encrypted partition with sensitive data, so after server reboot access to it was lost.
+   The successor couldn't contact him, but he contacted me and somehow I managed to remember that password
    months after I last used it.</p>
 
 <h3>Tomsk Polytechnic University, Center for Technological Innovations, Tomsk, Russia</h3>
