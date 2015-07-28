@@ -1,4 +1,4 @@
-{% set date 2015 June 10 %}
+{% set date 2015 July 28 %}
 
 <h1>Object-oriented Peano arithmetic in Python</h1>
 
