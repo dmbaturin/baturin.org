@@ -1,19 +1,14 @@
 {% set date 2015 June 10 %}
 
-<h1>Object-oriented Peano arithmetics in Python</h1>
+<h1>Object-oriented Peano arithmetic in Python</h1>
 
 <p>I'm not sure what would be the best way to implement Peano arithmetics in Python
    or another language without algebraic data types, but I think I've found the
    <em>worst</em> (and the funniest) way to do it.</p>
-<p>If you've never seen it, the idea is to use unary encoding. Instead of just assuming
-   something called numbers exists, we postulate that there exists an object O and
-   that is a natural number, and a <em>successor</em> function S(n) such that
-   for every n, S(n) is a natural number. Then we can think that 0 = O, 1 = S(O),
-   2 = S(S(O)) and so on.</p>
 <p>Python has introspection and for every class we can find its base class(es).
    It can also create classes on the fly and attach string representation functions to classes.
-   So we can assume that some base class is O, its subclass (any of them) is S(O),
-   subclass of its subclass is S(S(O)) and so on.</p>
+   So we can assume that some base class is zero, its subclasses are S(O),
+   subclasses of its subclasses is S(S(O)) and so on.</p>
 <p><strong>Note:</strong> this only works in Python2, Python3 made a lot of changes
    to metaclasses and I haven't found a way to add pretty print to classes there yet.</p>
 
@@ -54,6 +49,14 @@ class Zero(object):
         else:
             return self.__bases__[0].add(x.succ())
 
+    @classmethod
+    def mul(self, x):
+        if self == Zero:
+            return self
+        else:
+            return x.add(self.__bases__[0].mul(x))
+
+
 if __name__ == '__main__':
     one = Zero.succ()
     two = Zero.succ().succ()
@@ -63,14 +66,53 @@ if __name__ == '__main__':
     print("{0} + {1} = {2}".format(Zero, one, Zero.add(one)))
     print("{0} + {1} = {2}".format(two, three, two.add(three)))
     print("{0} + {1} = {2}".format(three, two, three.add(two)))
+    print ""
+    print("{0} * {1} = {2}".format(Zero, Zero, Zero.mul(Zero)))
+    print("{0} * {1} = {2}".format(Zero, one, Zero.mul(one)))
+    print("{0} * {1} = {2}".format(two, one, two.mul(one)))
+    print("{0} * {1} = {2}".format(two, three, two.mul(three)))
+    print("{0} * {1} = {2}".format(three, two, three.mul(two)))
 </pre>
 
-<p>The output demonstrates that zero is indeed the identity element
-   and that addition is commutative.</p>
+<p>The output demonstrates that zero and one are indeed the additive and multiplicative identity elements
+   respectively, and that addition and multiplication as we defined them are commutative.</p>
 <pre>
 $ python peano.py
 O + O = O
 O + S(O) = S(O)
 S(S(O)) + S(S(S(O))) = S(S(S(S(S(O)))))
 S(S(S(O))) + S(S(O)) = S(S(S(S(S(O)))))
+
+O * O = O
+O * S(O) = O
+S(S(O)) * S(O) = S(S(O))
+S(S(O)) * S(S(S(O))) = S(S(S(S(S(S(O))))))
+S(S(S(O))) * S(S(O)) = S(S(S(S(S(S(O))))))
 </pre>
+
+<hr />
+
+<p>If you've never heard of Peano arithmetic before, here's an informal introduction to what's going on.
+   To define natural numbers axiomatically, we postulate that there's
+   a thing called Zero (we'll render it as <em>O</em>) and it's a natural number.
+   Then we postulate that there's a <em>successor</em>
+   function <em>S(n)</em> (also called <em>succ(n)</em>) such that for any natural number <em>n</em>, <em>S(n)</em>
+   is also a natural number, and if two natural numbers are equal, then their
+   successors are also equal.</p>
+<p>Thus we can construct any number from Zero by using the <em>S</em> function.
+   0 = O, 1 = S(O), 2 = S(S(O)) and so on.</p>
+<p>We also assume that there is	a way to extract the <em>n</em>	from <em>S(n)</em>,
+   that	is, that there is a <em>predecessor</em> function <em>P</em> such that <em>P(S(n)) = n</em>.
+   We also assume that the predecessor of Zero is Zero,	although we don't really need this fact in the program above.</p>
+<p>Now we can define addition and multiplication. We'll use inductive definitions with Zero as the base case:</p>
+<pre>
+N + O = N            (1)
+N + S(M) = S(N) + M  (2)
+
+N * O =	O      	     (1')
+N * S(M) = N + N*M   (2')
+</pre>
+<p>Since every natural number if either Zero or can be represented as <em>S...(S(O))</em>,
+   we know that	for every number <em>M</em> this process will eventually hit the base case and
+   terminate.</p>
+
