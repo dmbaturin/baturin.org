@@ -1,7 +1,12 @@
-<p>Source code that doesn't deserve its own repository.</p>
+<p>Source code that doesn't deserve its own repositories.</p>
+
+<p>Unless otherwise specified, these files are distributed under the terms of
+   <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license, which is
+   equivalent to public domain.</p>
 
 <ul class="nav">
   <li class="nav"> <a href="/code/japh">JAPHs and other obfuscated programs</a> </li>
   <li class="nav"> <a href="/code/oo-peano">Object-oriented Peano arithmetics in Python</a> </li>
   <li class="nav"> <a href="/code/mlton-overload">Function overloading in MLton</a> </li>
+  <li class="nav"> <a href="/code/lwt-counter-server">Multi-client server example in OCaml with Lwt</a> </li>
 </ul>
