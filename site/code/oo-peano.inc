@@ -1,4 +1,4 @@
-{% set date 2015 July 28 %}
+{% set date 2015 Aug 13 %}
 
 <h1>Object-oriented Peano arithmetic in Python</h1>
 
@@ -11,6 +11,8 @@
    subclasses of its subclasses is S(S(O)) and so on.</p>
 <p><strong>Note:</strong> this only works in Python2, Python3 made a lot of changes
    to metaclasses and I haven't found a way to add pretty print to classes there yet.</p>
+
+<p>Download the file: <a href="/code/files/oo-peano.py">oo-peano.py</a> </p>
 
 <pre>
 #!/usr/bin/env python
