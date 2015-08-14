@@ -10,3 +10,14 @@
   <li class="nav"> <a href="/code/mlton-overload">Function overloading in MLton</a> </li>
   <li class="nav"> <a href="/code/lwt-counter-server">Multi-client server example in OCaml with Lwt</a> </li>
 </ul>
+
+<h2>Code from papers and other sources</h2>
+
+<p>These snippets are not original, they come from various papers and other sources. What I did is translation from
+   one language to another, or translation from pseudocode to real sytnax, or possibly some other transformation
+   that can make them easier to play with.</p>
+
+<ul class="nav">
+   <li class="nav"> Typed formatter from Olivier Danvy's &ldquo;Functional Unparsing&rdquo;, translated to OCaml: <a href="/code/files/unparsing.ml">unparsing.ml</a> </li>
+</ul>
+
