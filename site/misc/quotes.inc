@@ -44,6 +44,12 @@ some meaningless conclusion.
 </blockquote>
 <div class="quote-source">&mdash; S. Dehnadi and R. Bornat</div>
 
+<blockquote>
+Programming languages should be designed not by piling feature on top of feature, but by removing the
+weaknesses and restrictions that make additional features appear necessary.
+</blockquote>
+<div class="quote-source">&mdash; R5RS</div>
+
 <hr />
 
 <a name="infinite-loop"> </a>
