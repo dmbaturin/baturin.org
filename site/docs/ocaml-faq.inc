@@ -56,7 +56,7 @@ val add1 : int -&gt; int = &lt;fun&gt;
    to use it.</p>
 <p><strong>Note:</strong> this is also the reason OCaml never gives you
    &ldquo;too few arguments&rdquo; errors if you forgot an argument. Only when you try to use
-   that value, it just tells you that your value has type <em>foo &rarr; bar</em> but was expected
+   that value, it tells you that your value has type <em>foo &rarr; bar</em> but was expected
    to have type <em>bar</em>. If you see an error like that, check for
    missing arguments. Example:</p>
 <pre>
@@ -66,17 +66,17 @@ Error: This expression has type int -&gt; int but an expression was expected of 
 
 <h3>Type definitions</h3>
 
-<p>The ML term for a tuple is <em>product type</em>. A natural example of a sum type
+<p>The ML term for a tuple is <em>product type</em>. A natural example of a product type
    is a point on a plane that has X and Y coordinates.</p>
 <pre>
 type point = float * float
 </pre>
 <p>Product types are rarely named, and the compiler will not start calling everything that
    is float * float a point after you declare this type. They are usually implicit or
-   incorporated into definitions of sum types and record.</p>
+   incorporated into definitions of sum types and records.</p>
 <p>Another kind of types that has no direct analogy in most other languages is
    <em>sum type</em> (variant records in Pascal and Ada are pretty close). Easier to show than
-   to explain. An example: in color printing, a color of a dot is either the key color (usually black)
+   to explain. An example: in color printing, dot color is either the key color (usually black)
    or a combination of cyan, yellow, and magenta. We can represent colors with this type:</p>
 <pre>
 type color = Key | Color of int * int * int
