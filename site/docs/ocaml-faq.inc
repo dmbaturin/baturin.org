@@ -1,4 +1,4 @@
-{% set date 2015 June 16 %}
+{% set date 2015 August 22 %}
 
 <h1>What I wish I knew when learning OCaml</h1>
 
