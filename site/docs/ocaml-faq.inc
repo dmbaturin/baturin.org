@@ -31,6 +31,9 @@ let _ = exit 0
 <p><strong>Note:</strong> If you are running a program in the interpreter (i.e. <tt>ocaml /path/to/file.ml</tt>),
    you do need the ;; after directives, as in <tt>#use "topfind";;</tt>. But the directives are not part
    of the language either.</p>
+<p><strong>Historical note:</strong> In CAML Light, the predecessor of OCaml, double semicolons were mandatory.
+   For this reason they are quite common in old code originally written in CAML Light or written in the early days
+   of OCaml. These days they are considered a bad style.</p>
 
 <h3>Shadowing is not mutation</h3>
 
