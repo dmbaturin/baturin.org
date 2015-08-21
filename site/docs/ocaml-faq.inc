@@ -27,10 +27,35 @@ let _ = exit 0
 <p>If you know that your expression should evaluate to unit (like the print_endline call above),
    it's better to use <strong>let () =</strong> rather than <strong>let _ =</strong>,
    since it will throw a type error if you accidentally write something of different type
-  on the right hand side (e.g. forget the argument).</p>
+   on the right hand side (e.g. forget the argument).</p>
 <p><strong>Note:</strong> If you are running a program in the interpreter (i.e. <tt>ocaml /path/to/file.ml</tt>),
    you do need the ;; after directives, as in <tt>#use "topfind";;</tt>. But the directives are not part
    of the language either.</p>
+
+<h3>Shadowing is not mutation</h3>
+
+<p>Some uses of top level let bindings may look like mutation, but they actually aren't.</p>
+
+<pre>
+let x = 10
+let x = x + 10
+let () = Printf.printf "%d\n" x
+</pre>
+
+<p>In this example, the <em>x</em> in the printf expression is 20. Did we redefine <em>x</em> for the <em>whole program</em>?</p>
+<p>The answer is no. Every let binding opens a new scope. In case of top level bindings, the scope they open continues until the
+   end of the file. So &ldquo;let x = x + 10&rdquo; takes the value of <em>x</em> from the outer scope, adds 10 to it,
+   and opens a new scope where <em>x</em> is bound to 20.</p>
+<p>However, it has no effect on the outer scope. We can demonstrate it by creating some closures that use the old <em>x</em>.</p>
+
+<pre>
+let x = 10
+let print_old_x () = Printf.printf "%d\n" x
+
+let x = x + 10
+let () = Printf.printf "%d\n" x  (* prints 20 *)
+let () = print_old_x ()          (* prints 10 *)
+</pre>
 
 <h3>Functions and currying</h3>
 <p>The good thing about currying in OCaml and other ML-style languages is that you don't need to know what
