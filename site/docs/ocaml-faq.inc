@@ -89,6 +89,21 @@ val add1 : int -&gt; int = &lt;fun&gt;
 Error: This expression has type int -&gt; int but an expression was expected of type int 
 </pre>
 
+<h3>Mutable record fields vs. references</h3>
+
+<p>They are the same thing. A reference is a record with the sole mutable field called &ldquo;contents&rdquo;,
+   as you can see from the Pervasives source code.</p>
+
+<pre>
+type 'a ref = { mutable contents : 'a }
+
+let (:=) r v = r.contents &lt;- v
+let (!) r = r.contents
+</pre>
+
+<p>Therefore the choice between references and mutable fields is mostly aesthetic. However, if you store
+   references in record fields, converting them to mutable records may make the code slightly faster.</p>
+
 <h3>Type definitions</h3>
 
 <p>The ML term for a tuple is <em>product type</em>. A natural example of a product type
@@ -110,7 +125,7 @@ type color = Key | Color of int * int * int
 <br />
 <p>Some jargon you should know:</p>
 <img src="/images/caml-faq/ocaml_type_definition.png" alt="Type definition diagram"/>
-<p>A type is <em>polymorphic</em> if there are free <em>type variables</em>&mdash;
+<p>A type is <em>polymorphic</em> if there are free <em>type variables</em> &mdash;
    placeholders that can be substituted for any type. Type names are
    often referred to as <em>type constructors</em> (a polymorphic type <tt>'a list</tt>
    can produce <tt>int list</tt>, <tt>string list</tt> and so on).</p>
