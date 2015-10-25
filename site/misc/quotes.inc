@@ -1,7 +1,7 @@
 <blockquote>
 Our biggest mistake was using the scary term &ldquo;monad&rdquo; rather than &ldquo;warm fuzzy thing&rdquo;.
 </blockquote>
-<div class="quote-source">&mdash; Symon Peyton Jones</div>
+<div class="quote-source">&mdash; Simon Peyton Jones</div>
 
 <blockquote>
 I remember being impressed with Ada because you could write an
