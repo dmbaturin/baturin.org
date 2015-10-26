@@ -14,21 +14,23 @@
 <p>The answer to the question &ldquo;When do I need the <strong>;;</strong> within
    OCaml source code?&rdquo; is <strong>never</strong>.</p>
 <p>It's not a part of the language and is only used by the interpreter as an end of input mark.</p>
-<p>The right way to write top-level expressions called solely for their side effects is to wrap
-   them in a let-expression (the left hand side of a let-expression can be any pattern, including
-   nullary constructors and the wildcard).</p>
-<pre>
-let hello () = print_endline "hello world"
 
-let () = hello ()
+<p>If you want to execute something for its side effects and don't care about its return value,
+   you should wrap it in a let-expression and match it against the wildcard pattern:</p>
+<pre>
+let _ = print_endline "hello world"
 
 let _ = exit 0
 </pre>
-<p>If you know that your expression should evaluate to unit (like the print_endline call above),
-   it's better to use <strong>let () =</strong> rather than <strong>let _ =</strong>,
-   since it will throw a type error if you accidentally write something of different type
-   on the right hand side (e.g. forget the argument).</p>
-<p><strong>Note:</strong> If you are running a program in the interpreter (i.e. <tt>ocaml /path/to/file.ml</tt>),
+
+<p>If you call a function that returns unit, you can also match the result against the unit value, <tt>()</tt>.</p>
+<pre>
+let () = print_endline "hello world"
+</pre>
+<p>The advantage over wildcard is that if you accidentally write an expression that has type other than
+   unit (e.g. forget the argument), the compiler will throw a type error.</p>
+
+<p><strong>Note:</strong> If you use ocaml as a non-interactive script interpreter  (i.e. <tt>ocaml /path/to/file.ml</tt>),
    you do need the ;; after directives, as in <tt>#use "topfind";;</tt>. But the directives are not part
    of the language either.</p>
 <p><strong>Historical note:</strong> In CAML Light, the predecessor of OCaml, double semicolons were mandatory.
@@ -83,7 +85,7 @@ val add1 : int -&gt; int = &lt;fun&gt;
    where name <em>x</em> is bound to 1, but you don't need to think about it
    to use it.</p>
 <p><strong>Note:</strong> this is also the reason OCaml never gives you
-   &ldquo;too few arguments&rdquo; errors if you forgot an argument. Only when you try to use
+   &ldquo;too few arguments&rdquo; errors if you forget an argument. Only when you try to use
    that value, it tells you that your value has type <em>foo &rarr; bar</em> but was expected
    to have type <em>bar</em>. If you see an error like that, check for
    missing arguments. Example:</p>
