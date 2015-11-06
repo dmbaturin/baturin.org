@@ -1,12 +1,15 @@
-{% set date 2015 June 10 %}
+{% set date 2015 Nov 05 %}
 
 <p>
 I'm <strong> Daniil Baturin</strong>, also known as <strong>dmbaturin</strong>.
-I pronounce it as <em>Dah-n-i-i-l Bah-too-rin</em>, but it's up to you how
+I pronounce it <em>Dah-n-i-i-l Bah-too-rin</em>, but it's up to you how
 to pronounce it. It's nice to have a name with a simple ASCII representation anyway.
 </p>
 <p>I write programs and build networks. Sometimes those programs have something to do with networks,
    sometimes they don't.</p>
+
+<p>You may be interested in my <a href="/projects">projects</a> or the
+   <a href="/docs">documentation</a> I wrote. At least that's what I consider most important.</p>
 
 <p>You can also find me in other places:</p>
 <ul>
@@ -20,3 +23,6 @@ to pronounce it. It's nice to have a name with a simple ASCII representation any
 <p>You can contact me by email &lt;daniil (at) baturin (dot) org&gt;
 (use <a href="http://pool.sks-keyservers.net:11371/pks/lookup?op=vindex&amp;search=0x4726DF9511E0AF1F">PGP key</a>
 if you wish).</p>
+
+<p>Everything you see here is distributed under the terms of the
+   <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a> license, unless otherwise specified.</p>
