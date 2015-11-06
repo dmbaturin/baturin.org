@@ -54,7 +54,7 @@
 <a href="/images/uw714/SCO_scoadmin.png"> <img src="/images/uw714/preview/SCO_scoadmin.png"/> </a>
 
 <p>A number of applets is available, e.g. this one for IPfilter.</p>
-<a href="/images/uw714/SCO_ipfilter.png"> <img src="/images/uw714/preview/SCO_ipfilter.png"/> </a>
+<a href="/images/uw714/SCO_ipfilter_gui.png"> <img src="/images/uw714/preview/SCO_ipfilter_gui.png"/> </a>
 
 <p>Some of them fail to start. Maybe I did something wrong, not sure.</p>
 <a href="/images/uw714/SCO_scoadmin_applet_fail.png"> <img src="/images/uw714/preview/SCO_scoadmin_applet_fail.png"/> </a>
