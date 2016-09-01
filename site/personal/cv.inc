@@ -1,4 +1,4 @@
-{% set date 2015 July 28 %}
+{% set date 2016 April 08 %}
 
 <h1>Curriculum vitae</h1>
 
@@ -126,8 +126,15 @@
 
 <h2>Where I worked</h2>
 
-<h3>AVyS Telecom</h3>
-<p><em>From December 2013</em></p>
+<h3>Sentrium S.L., Spain (remotely)</h3>
+
+<p><em>From December 2015</em></p>
+<p>An IT consulting company</p>
+<p>Helping various companies design, build, and maintain their networks and
+   virtualization infrastructure.</p>
+
+<h3>AVyS Telecom S.L., Spain (remotely)</h3>
+<p><em>From December 2013 to November 2015</em></p>
 <p>A VoIP transit provider.</p>
 <p>Redesigned the company network. Set up a VPN between points of presence with BGP
    for internal routing (a mix of VyOS and EdgeOS routers).</p>
