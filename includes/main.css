@@ -96,3 +96,14 @@ th, td
 {
     padding: 0.5em;
 } 
+
+.table-caption
+{
+    text-align: center;
+}
+
+ul.plain
+{
+    list-style-type: none;
+}
+
