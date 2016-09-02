@@ -2,6 +2,9 @@
 
 <h1>Undocumented EdgeOS commands</h1>
 
+<p><strong>Note:</strong> I'm no longer actively involved with EdgeOS, since Ubiquiti essentially turned it
+   into yet another proprietary product. This was written back in 2013, and I have no idea if it's still relevant.</p>
+
 <p>There are some hidden utilities in Ubiquiti EdgeOS that are often used in its scripts but aren't documented anywhere.
    Here's a non-exhaustive (and probably even inaccurate) list of the hidden commands.</p>
 <p>There is probably no reason to use them.</p>
