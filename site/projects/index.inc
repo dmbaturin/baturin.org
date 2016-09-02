@@ -29,7 +29,7 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
 
 <h3>hvinfo</h3>
 <p>Yet another hypervisor detection utility, this time cross-platform (Linux and FreeBSD) and written in a
-   high level compiled language rather than a mix of C and shell.</p>
+   high level compiled language (Ada 2005) rather than a mix of C and shell.</p>
 <ul>
   <li>Source code: <a href="https://github.com/dmbaturin/hvinfo">github.com/dmbaturin/hvinfo</a> </li>
 </ul>
@@ -39,6 +39,10 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
    reinstall EdgeOS from scratch or mount the filesystem and do some recovery by hand.</p>
 <p>Made it to the Ubiquiti documentation and its <a href="http://community.ubnt.com/t5/EdgeMAX/EdgeMax-rescue-kit-now-you-can-reinstall-EdgeOS-from-scratch/td-p/514857">forum thread</a> was alive after
    over two years from the first post.</p>
+<p>Note that it doesn't work for the ER-8/ER-pro, for two reasons: 1. Cavium didn't release a freely available ready to use SDK for that platform,
+   and 2. ER-8 has its flash drive soldered to the board which is not very conductive to experimentation as it's a lot harder to unbreak.
+   Which is pretty ironic because ER-8 with its non-removable flash needs it more than ERL where you can just swap the USB stick.
+   If you feel like porting it to ER-8, I can possibly explain how I did this one.</p>
 <ul>
   <li>The image: <a href="http://packages.vyos.net/tools/emrk/">packages.vyos.net/tools/emrk/</a> </li>
   <li>Usage guide in the <a href="http://community.ubnt.com/t5/EdgeMAX-Knowledge-Base/EdgeMAX-Last-resort-recovery-of-failed-EdgeOS-device/ta-p/1103623">Ubiquiti knowledge base</a>.</li>
@@ -84,8 +88,16 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
 
 <h2>Misc</h2>
 <h3>FluxCDE</h3>
-<p>CDE/Motif-inspired theme for Fluxbox window manager.</p>
-<p>Download from <a href="http://box-look.org/content/show.php?content=115816">box-look</a>.</p>
+<p>CDE/Motif-inspired theme for the FluxBox window manager.</p>
+<p>Download from <a href="https://www.box-look.org/p/1016906/">box-look</a>.</p>
+<p>Local copy here: <a href="/files/fluxcde.tar.gz">fluxcde.tar.gz</a> </p>
 <p>Works best with Motif-like themes for GTK/Qt/whatever else widget toolkits you use.
    And no, this is not a joke, I actually like Motif look and feel and it's been my default
-   theme for a good while. Fluxbox is not very good at reproducing the feel though.</p>
+   theme for a good while. Fluxbox is not very good at reproducing the feel though.
+   Also, actual CDE allows changing the color of widgets, while FluxBox doesn't,
+   and it's fixed color, that of default theme on Solaris.</p>
+<p>I switched to OpenBox with a nice ClearLooks theme since then and haven't used FluxBox
+   for a good while, so it's kept here mostly for historical/sentimental reasons.
+   I'm not even sure if it works anymore, if it doesn't, let me know.</p>
+<p>Also, if you are a CDE fan, you should know that The Open Group finally released it
+   under LGPL in 2012 and you can have <a href="http://cdesktopenv.sourceforge.net/">the real thing</a> now.</p>
