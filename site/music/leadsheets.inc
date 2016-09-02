@@ -15,7 +15,7 @@
 <h3>Silly Dream</h3>
 
 <ul class="plain">
-  <li> <a href="/music/leadsheets/Silly_Dream.mcsz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/Silly_Dream.mscz">MuseScore file</a> </li>
   <li> <a href="/music/leadsheets/Silly_Dream.pdf">PDF</a> </li>
   <li>Date: August 2016</li>
   <li>Original key: B minor</li>
@@ -34,7 +34,7 @@
 <h3>Indirect Kiss</h3>
 
 <ul class="plain">
-  <li> <a href="/music/leadsheets/Indirect_Kiss.mcsz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/Indirect_Kiss.mscz">MuseScore file</a> </li>
   <li> <a href="/music/leadsheets/Indirect_Kiss.pdf">PDF</a> </li>
   <li>Date: August 2016</li>
   <li>Original key: C major</li>
@@ -51,7 +51,7 @@
 <h3>Hiding The Obvious</h3>
 
 <ul class="plain">
-  <li> <a href="/music/leadsheets/Hiding_The_Obvious.mcsz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/Hiding_The_Obvious.mscz">MuseScore file</a> </li>
   <li> <a href="/music/leadsheets/Hiding_The_Obvious.pdf">PDF</a> </li>
   <li>Date: May 2016</li>
   <li>Original key: C major</li>
@@ -63,7 +63,7 @@
 <h3>Mojito Bay</h3>
 
 <ul class="plain">
-  <li> <a href="/music/leadsheets/Mojito_Bay.mcsz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/Mojito_Bay.mscz">MuseScore file</a> </li>
   <li> <a href="/music/leadsheets/Mojito_Bay.pdf">PDF</a> </li>
   <li>Date: February 2016</li>
   <li>Original key: C minor</li>
