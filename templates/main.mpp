@@ -36,7 +36,7 @@
       <div id="content-wrapper">
         <div id="content">
           {{% input {% get page %} %}}
-          {{% ifdef date <div id="revision">Last modified: {% get date %}</div> %}}
+          {{% ifdef date <div id="revision">This page was last modified: {% get date %}</div> %}}
         </div>
       </div>
     </div>
