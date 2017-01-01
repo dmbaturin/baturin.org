@@ -2,6 +2,8 @@
 
 <h1>JAPHs and other fun with obfuscation</h1>
 
+<div id="generated-toc"></div>
+
 <p>
 I like recreational obfuscation. Not that I'm really good at it, but here's some examples of what I wrote during inspiration attacks.
 </p>

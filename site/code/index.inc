@@ -1,6 +1,10 @@
+<h1>Code snippets</h1>
+
+<h2>Original programs</h2>
+
 <p>Source code that doesn't deserve its own repositories.</p>
 
-<p>Unless otherwise specified, these files are distributed under the terms of
+<p>Unless otherwise specified, these files are distributed under the terms of the
    <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license, which is
    equivalent to public domain.</p>
 
@@ -18,6 +22,6 @@
    that can make them easier to play with.</p>
 
 <ul class="nav">
-   <li class="nav"> Typed formatter from Olivier Danvy's &ldquo;Functional Unparsing&rdquo;, translated to OCaml: <a href="/code/files/unparsing.ml">unparsing.ml</a> </li>
+   <li class="nav"> Typed formatter from Olivier Danvy's <a href="http://www.brics.dk/RS/98/12/">Functional Unparsing</a>, translated to OCaml: <a href="/code/files/unparsing.ml">unparsing.ml</a> </li>
 </ul>
 

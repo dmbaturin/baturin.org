@@ -1,4 +1,8 @@
-{% set date 2015 June 10 %}
+{% set date 2016 September 02 %}
+
+<h1>Projects</h1>
+
+<div id="generated-toc"></div>
 
 <h2>Standalone software</h2>
 
@@ -67,21 +71,21 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
 <p><strong>Note:</strong> this package is not related to the <a href="http://tlichtenberg.github.io/pytaf/">Python Test Automation Framework</a>,
    it's just an unfortunate three-letter acronym collision.</p>
 
-<h3>mw-confirmedit-subnet-captcha</h3>
-<p>MediaWiki ConfirmEdit CAPCTHA plugin that makes users do simple subnet calculations.</p>
-<p>MediaWiki is probably the only software I like enough to write anything in PHP.</p>
-<ul>
-  <li> Source code: <a href="https://github.com/dmbaturin/mw-confirmedit-subnet-captcha">github.com/dmbaturin/mw-confirmedit-subnet-captcha</a> </li>
-</ul>
-
 <h2>Web tools</h2>
 
 <h3>encapcalc</h3>
 <p>A protocol overhead and maximum transmission unit calculator.</p>
+<p>Allows you to easily calculate the MTU and TCP MSS for tunnels with
+   different combinations of encapsulating and encapsulated protocols.
+   Just select protocols from the drop-down list and see how header sizes add up.</p>
+<p>To my surprise, second most popular page on this website where people come by searching for
+   &ldquo;MTU calculator&rdquo; and similar.</p>
 <ul>
   <li>The tool: <a href="/tools/encapcalc">tools/encapcalc</a> </li>
   <li>The git repo: <a href="https://github.com/dmbaturin/encapcalc">github.com/dmbaturin/encapcalc</a> </li>
 </ul>
+<p>This is what it looks like:</p>
+<img src="/images/encapcalc.png" />
 
 <h2>All other software projects</h2>
 <p>Look here: <a href="https://github.com/dmbaturin">github.com/dmbaturin</a>. </p>

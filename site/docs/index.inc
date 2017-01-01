@@ -1,5 +1,9 @@
 {% set date to 2016 September 02 %}
 
+<h1>Documentation</h1>
+
+<div id="generated-toc"></div>
+
 <p>I can't say I'm fond of writing documentation, but someone has to.</p>
 
 <h3>iproute2 cheatsheet</h3>

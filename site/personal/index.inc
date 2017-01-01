@@ -1,5 +1,7 @@
 {% set date 2015 June 10 %}
 
+<h1>Personal information</h1>
+
 <p>You can read my <a href="/personal/cv">CV</a> if you want.</p>
 
 <p>If you want to let me login somewhere, here's my <a href="/files/dmbaturin_id_rsa_pub.txt">SSH public key</a>.</p>
