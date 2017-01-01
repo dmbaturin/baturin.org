@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Encapcalc
+mkdir build/tools/encapcalc
+wget https://raw.githubusercontent.com/dmbaturin/encapcalc/master/index.html -O build/tools/encapcalc/index.html
+
+# iproute2 cheat sheet
+mkdir build/docs/iproute2
+wget https://raw.githubusercontent.com/dmbaturin/iproute2-cheatsheet/master/index.html -O build/docs/iproute2/index.html
