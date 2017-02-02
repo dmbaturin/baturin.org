@@ -1,6 +1,6 @@
-{% set date 2016 April 08 %}
+{% set date 2017 February 02 %}
 
-<h1>Curriculum vitae</h1>
+<h1>Daniil Baturin's curriculum vitae</h1>
 
 <p>When you don't focus on just one field, your CV becomes a mess and needs more and more tailoring
    for particular offers. This is an attempt to write a generic CV that reflects both programming and
@@ -10,15 +10,17 @@
 
 <h3>Programming</h3>
 
-<p>Most of my public code is at <a href="http://github.com">github.com/dmbaturin</a>. VyOS, the biggest project
+<p>Most of my public code is on Github (<a href="http://github.com">github.com/dmbaturin</a>). VyOS, the biggest project
    I maintain, is at <a href="http://github.com/vyos">github.com/vyos</a>, although most of the code is
    inherited from Vyatta and is not indicative of my personal skills (maybe the size is indicative of my
    ability to work with large code bases).</p>
 
 <h4>General</h4>
-<p>Familiar with the basics of algorithmic complexity. At least I can tell O(n) from O(exp N) and know
-   how hard are lookups/updates in common datastructures.</p>
-<p>Familiar with concurrency primitives and problems they are supposed to solve (although I'm by no means
+<p>I'm familiar with the basics of algorithmic complexity. At least I can tell O(n) from O(exp N) and know
+   the complexity of lookups/updates in common datastructures. I can estimate the complexity of the code I write,
+   suggest algorithmic optimizations, and trade one resource for another (stack for heap through tail recustion,
+   CPU time for memory through memoization...).</p>
+<p>I'm familiar with concurrency primitives and problems they are supposed to solve (although I'm by no means
    a concurrency expert).</p>
 <p>What I have little or no experience with: parallel programming (used MPI in Fortran90 toy programs),
    programming for mobile devices, Windows programming.</p>
@@ -26,14 +28,17 @@
 <h4>Languages</h4>
 <p>Wrote useful programs in Python, OCaml, Perl, C, Ada.</p>
 <p>Wrote toy programs in Haskell, Scheme, StandardML, Fortran.</p>
-<p>JavaScript. I use it for DOM manipulation, but I'm not familiar with any of the
-   popular libraries, so it's safe to say that I don't know it.</p>
+<p>I use JavaScript it for DOM manipulation, but I'm not familiar with any of the
+   popular libraries, so it's safe to say that I don't know it. I'm not familiar with server side JS at all.</p>
 <p>Ah, yes, Bourne shell. I don't know if it counts, but I wrote a lot of it.</p>
-<p>I also wrote in PHP, but I don't want to do it anymore.</p>
+<p>I also used PHP, but I don't want to do it anymore, though I do contribute to projects written in it such as MediaWiki occasionally.</p>
 
 <h4>Web programming</h4>
 <p>I wrote websites/applications back then, but I haven't done it in a long time,
    and I know things changed. If I get into it again, I'll have a lot to catch up with.</p>
+<p>Nonetheless, I'm familiar with the structure of web frameworks (MVC model, request routing...),
+   can write valid XHTML 2.0 and HTML5 as well as CSS, and I'm using template engines such as jinja2
+   outside of web programming quite often.</p>
 
 <h4>Relational databases</h4>
 <p>Worked with SQLite, MySQL, and PostreSQL.</p>
@@ -43,14 +48,28 @@
    I also have very little experience with stored procedures and triggers.</p>
 
 <h4>Tools and processes</h3>
-<p>Active Git user. Used Subversion long time ago, also used Mercurial a little.</p>
-<p>Understand why unit tests can be a good idea, used Python unittest module, OUnit, check,
+<p>I'm using git for all my projects. I used Subversion long time ago, also used Mercurial a little.</p>
+<p>I understand why unit tests can be a good idea, used Python unittest module, OUnit, check,
    and some other unit test frameworks.</p>
-<p>Made DEB and RPM packages.</p>
-<p>Familiar with high level build tools such at GNU autotools and Oasis.</p>
+<p>I packaged my own and third party software into RPM and DEB packages.</p>
+<p>I'm familiar with high level build tools such at GNU autotools and Oasis, and I'm using them in my own projects.</p>
 <p>Used Jenkins for continuous integration.</p>
-<p>Used Bugzilla, Mantis, and JIRA issue trackers.</p>
-<p>Ran open source projects with more than one contributor.</p>
+<p>Used Bugzilla, Mantis, and JIRA issue trackers, and the Phabricator collaboration suite.</p>
+<p>I run open source projects with more than one contributor.</p>
+<p>I contributed packaged to PyPI (Python) and OPAM (OCaml) repositories.</p>
+
+<h4>Operating systems</h4>
+
+<p>I'm familiar with the POSIX API, and some of the non-standard functions from Linux and BSD systems.
+   I have a cursory understanding of the System V ABI on x86 and x86-64. I'm also familiar with the
+   filesystem hierarchy standard and I follow it in all my projects whenever I can.</p>
+
+<h4>Network programming</h4>
+
+<p>I'm familiar with the socket API on UNIX and different types of sockets. I'm also familiar with the message formats of
+   common protocols such as HTTP 1.1, SMTP, or SIP. I have written protobuf schemas and used protobuf compilers,
+   and I'm familiar with other message serialization libraries such as msgpack. I have some idea how to use message brokers
+   such as ZeroMQ too.</p>
 
 <h4>Courses</h4>
 
@@ -104,7 +123,7 @@
 <h4>UNIX</h4>
 <p>Worked with RHEL/CentOS, Debian, FreeBSD, Solaris (a little), SCO (a little).</p>
 <p>Can perform the usual tasks: install packages, configure services, add users and so on.</p>
-<p>Write shell scripts routinely.</p>
+<p>I write shell scripts routinely.</p>
 <p>What I have little or no experience with: mandatory access control, unattended installation
    (I have some idea how to setup cobbler/koan, but not much more than that).</p>
 
@@ -114,24 +133,27 @@
 <p>Worked with Amazon Web Services (mostly EC2) a little.</p>
 
 <h4>DNS</h4>
-<p>Maintained authoritative and caching name serves based on BIND, both masters and slaves.
-   Used split-horizon DNS. Have some idea how to setup autogenerated reverse zones.</p>
+<p>Maintained authoritative and caching name servers based on BIND, both masters and slaves.
+   Used split-horizon DNS. I have some idea how to setup autogenerated PTR records for subnets.</p>
 <p>What I have little or no experience with: DNSSEC.</p>
 
 <h4>VoIP</h4>
 <p>Configured FreeSWITCH for class4 and class5 deployments. Wrote FreeSWITCH scripts.</p>
 <p>Familiar with typical voice provider operations (although I have little experience with 
-   softswitch and billing systems integration).</p>
-<p>Can interpret SIP traffic dumps.</p>
+   softswitch and billing systems integration). I also have some experience with Asterisk and OpenSIPS.</p>
+<p>I've configured FreeSWITCH to work with billing suites through RADIUS too.</p>
+<p>I'm familiar with the SIP messages and can interpret SIP traffic dumps.</p>
 
 <h2>Where I worked</h2>
 
 <h3>Sentrium S.L., Spain (remotely)</h3>
 
 <p><em>From December 2015</em></p>
-<p>An IT consulting company</p>
+<p>Sentrium S.L., Spain (remotely)</p>
 <p>Helping various companies design, build, and maintain their networks and
    virtualization infrastructure.</p>
+<p>I'm one of the founders, but the company is very small so far so the founders are doing
+   all the actual work as well.</p>
 
 <h3>AVyS Telecom S.L., Spain (remotely)</h3>
 <p><em>From December 2013 to November 2015</em></p>
