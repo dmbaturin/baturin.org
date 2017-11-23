@@ -1,5 +1,3 @@
-{% set date 2017 January 28 %}
-
 <h1>Music</h1>
 
 <div id="generated-toc"></div>
@@ -10,6 +8,8 @@
 
 <ul>
   <li> <a href="/music/leadsheets">Jazz tunes (leadsheets)</a> </li>
+  <li> <a href="/music/fully-notated">Fully notated pieces</a> </li>
+  <li> <a href="/music/transcriptions">Transcriptions, adaptations, arrangements etc.</a> </li>
 </ul>
 
 <p>I don't keep recordings of those public because my skills are still seriously lacking

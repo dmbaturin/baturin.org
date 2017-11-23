@@ -1,4 +1,4 @@
-{% set date 2015 June 08 %}
+{% set date 2017 August 07 %}
 
 <h1>JAPHs and other fun with obfuscation</h1>
 
@@ -17,7 +17,13 @@ s65537:n("\n");$p=1;sub n{$p++; $w=2**(2**$p)+1;print@_;goto"s$w"
 unless grep/^1$/,map{1 if $w%$_==0}(2..int(sqrt($w)));exit;};n;1;
 </pre>
 
-<p>Should print &ldquo;Just another Perl hacker&rdquo;. Labels contain Fermat numbers, n() subroutine jumps to them as long as the next number is prime.</p>
+<p>
+Should print &ldquo;Just another Perl hacker&rdquo;. Labels contain <a href="https://en.wikipedia.org/wiki/Fermat_number">Fermat numbers</a>,
+the n() subroutine generates a Fermat number and jumps to its label as long as the next number after it is prime. Since only the first five
+are prime, it terminates as expected.
+</p>
+<p>The primality test is awfully inefficient but for very small numbers it doesn't matter.</p>
+<p>Date: some 2013 I guess.</p>
 
 <h3>Email is the key</h3>
 
@@ -29,9 +35,14 @@ chr((ord(@b[$i])-ord(@a[$i])+62)%94+32);$i++};print"$_\n"#
 </pre>
 
 <p>Should print traditional &ldquo;Just another Perl hacker&rdquo;.</p>
-<p>The idea was to make the email address not easily removable or replaceable to use it as a signature block.</p>
-<p>So the email address was used as a key for running key variant of Viginere cipher modified to work on the
-   whole range of printable ASCII characters instead of its traditional letter only form.</p>
+<p>
+The idea was to make the email address an essential part of the program that cannot be modified without understanding.
+</p>
+<p>
+So the email address was used as a key for the running key variant (that is, where the key length is equal to the plaintext length) of the Vigenere cipher
+that uses the entire printable ASCII range as its alphabet.
+</p>
+<p>Date: late 2012.</p>
 
 <h3>Three primes</h3>
 <pre>
@@ -43,6 +54,7 @@ use bigint;$i=
 
 <p>Should print traditional &ldquo;Just another Perl hacker&rdquo;.</p>
 <p>Simply obtains character codes from the string converted to number and then factorized.</p>
+<p>Date: September 2012</p>
 
 <h3>Seven points of Python</h3>
 
@@ -62,6 +74,7 @@ x:chr((int((round((29*exp
 <p>Should print &ldquo;Python&rdquo;. Last I checked, it works with either Python 2.7 or Python 3.</p>
 <p>The function that produces the ASCII codes of the &ldquo;Python\n&rdquo; string was constructed with 
    Lagrange polynomial interpolation.</p>
+<p>Date: October 2012</p>
 
 <h3>Perl is in my heart (or vice versa)</h3>
 
@@ -85,7 +98,8 @@ $_=join("\n",$_=~/.{11}/g);print;1
 <p>Obviously, written for Feb 14th. Specifically, for a valentines day contest my ISP once held
    where users submitted their postcards, videos, and the like. To their credit, they ran
    it in some test VM and posted a screenshot of the terminal.</p>
-<p>Spaces are encoded with zeroes and stars with 1's, packed into single hexadecimal number.</p>
+<p>Spaces are encoded with zeroes and stars with 1's, packed into a single hexadecimal number.</p>
+<p>Date: February 2012 perhaps?</p>
 
 <h3>Glider</h3>
 
@@ -112,6 +126,7 @@ sub mul(\@\@){@r=();for($i=0;$i&lt;3;$i++){for($j=0;$j&lt;3;$j++){;$r
 <p>I generally support Eric Raymond's idea to use the glider as technology neutral hacker subculture emblem.</p>
 <p> Here the glider is represented as a 3x3 matrix and the ASCII codes or the &ldquo;Hacker&rdquo; word characters are calculated
     as (squares of) euclidian norms of constructed vectors after applying the glider operator matrix to them.</p>
+<p>Date: November 2012</p>
 
 <h3>Christmas tree</h3>
 
@@ -123,4 +138,4 @@ $_*3-1)x$j.chr($_*($_&gt;&gt;1)-sqrt($_)).chr($_*6
 -sqrt($_))x$j.chr($_-6);$j++}$l=@a;print($r)
 </pre>
 
-<p>Early attempt, made for 2010 winter holidays.</p>
+<p>Early attempt, written in the late 2010 for the winter holidays.</p>

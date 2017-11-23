@@ -1,11 +1,19 @@
-{% set date 2016 Septermber 02 %}
+{% set date 2017 July 17 %}
 
 <p>
-I'm <strong> Daniil Baturin</strong>. On the Internet I usually go by <strong>dmbaturin</strong>,
-the &ldquo;m&rdquo; is from the middle name, of sorts.
-I pronounce it <em>Dah-n-i-i-l Bah-too-rin</em>, but it's up to you how
-to pronounce it. It's nice to have a name with a simple ASCII representation anyway.
+This is my home page. I know home pages is not a popular genre these days and it probably makes me
+look old fashioned.
 </p>
+
+<p>
+Wait, I guess it wasn't a proper introduction. My name is <strong>Daniil Baturin</strong>. On the Internet I usually go by <strong>dmbaturin</strong>,
+the &ldquo;m&rdquo; is from my middle name, <a href="https://en.wikipedia.org/wiki/Patronymic">of sorts</a>.
+The good thing about it is that it's easy to write in ASCII. The bad thing is that just about everyone asks how they should
+pronounce it and how many i's are there. I don't really care, you can call me Dan and avoid the issue altogether.
+<br/>
+If you really insist, there are two i's and it's pronounced [Danʲiʔil Baturʲin], with a glottal stop between the i's like in &ldquo;uh-oh&rdquo;.
+</p>
+
 <p>I write programs and build networks. Sometimes those programs have something to do with networks,
    sometimes they don't.</p>
 <p>You may know me as one of the maintainers of <a href="http://vyos.io">VyOS</a> network operating system,

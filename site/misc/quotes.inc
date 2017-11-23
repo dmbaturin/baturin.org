@@ -52,6 +52,11 @@ weaknesses and restrictions that make additional features appear necessary.
 </blockquote>
 <div class="quote-source">&mdash; R5RS</div>
 
+<blockquote>
+The future will be better tomorrow.
+</blockquote>
+<div class="quote-source">&mdash; Dan Quayle</div>
+
 <hr />
 
 <a name="infinite-loop"> </a>

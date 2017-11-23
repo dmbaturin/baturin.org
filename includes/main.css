@@ -29,6 +29,7 @@ body
     max-width: 60em;
     padding: 40px;
     overflow: hidden;
+    min-height: 20em;
     border-left: #87a7bf solid 1px;
     border-bottom: #87a7bf solid 1px;
 }
@@ -64,6 +65,11 @@ div.quote-source
 a
 {
     color: #567d9a;
+}
+
+a:visited
+{
+    color: #56589a;
 }
 
 hr
@@ -107,3 +113,7 @@ ul.plain
     list-style-type: none;
 }
 
+.centered
+{
+    text-align: center;
+}

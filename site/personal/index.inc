@@ -1,4 +1,4 @@
-{% set date 2015 June 10 %}
+{% set date 2017 July 31 %}
 
 <h1>Personal information</h1>
 
@@ -17,16 +17,17 @@
 <p>
   <strong>Text parsing with Python and PLY</strong>, in <em>proceedings of <a href="http://lvee.org">LVEE 2014</a></em>,
   August 22-24 2014, Minsk, Belarus.
-  <ul>
-    <li>Abstract: <a href="http://lvee.org/en/abstracts/122">lvee.org/en/abstracts/122</a> </li>
-    <li>Slides: <a href="http://www.slideshare.net/dmbaturin/dmbaturin-lvee2014?qid=9d925f33-b7d0-4d5e-9caf-0291307e4017&v=qf1&b=&from_search=10">
-        on slideshare</a>.</li>
-    <li>Example code: <a href="https://github.com/dmbaturin/ply-example">github.com/dmbaturin/ply-example</a> </li>
-  </ul>
-  Wanted to show people how to use a YACC outside of C.
 </p>
+<ul>
+  <li>Abstract: <a href="http://lvee.org/en/abstracts/122">lvee.org/en/abstracts/122</a> </li>
+  <li>Slides: <a href="http://www.slideshare.net/dmbaturin/dmbaturin-lvee2014?qid=9d925f33-b7d0-4d5e-9caf-0291307e4017&v=qf1&b=&from_search=10">
+      on slideshare</a>.</li>
+  <li>Example code: <a href="https://github.com/dmbaturin/ply-example">github.com/dmbaturin/ply-example</a> </li>
+</ul>
+<p>Wanted to show people how to use a YACC with a language other than C.</p>
 
 <h2>Less serious side</h2>
 <ul class="nav">
   <li> <a class="nav" href="/personal/facts/">Random facts and opinions</a> </li>
+  <li> <a class="nav" href="/personal/site-history">History of this home page</a> </li>
 </ul>

@@ -1,0 +1,73 @@
+body
+{
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#toc-wrapper
+{
+    display: none;
+}
+
+#nav
+{
+    display: none;
+}
+
+#content
+{
+    float: left;
+    width: 100%
+}
+
+#revision
+{
+    display: none;
+}
+
+a
+{
+    color: #567d9a;
+}
+
+hr
+{
+    height: 1px;
+    border: 0 none;
+    color: #87a7bf;
+    background-color: #87a7bf;
+    width: 40%;
+    margin-bottom: 2em;
+    margin-top: 2em;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+th
+{
+    text-align: left;
+}
+
+table, th, td
+{
+   border: 1px solid #87a7bf;
+}
+
+th, td
+{
+    padding: 0.5em;
+} 
+
+.table-caption
+{
+    text-align: center;
+}
+
+ul.plain
+{
+    list-style-type: none;
+}
+

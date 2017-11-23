@@ -1,4 +1,4 @@
-{% set date 2016 September 24 %}
+{% set date 2017 March 29 %}
 
 <h1>Jazz leadsheets</h1>
 
@@ -19,6 +19,22 @@
    For impro-visor leadsheets you'll need, well <a href="https://www.cs.hmc.edu/~keller/jazz/improvisor/">impro-visor</a>, which is also free software.
 </p>
 
+<h3> Last Sunny Day of the Autumn </h3>
+
+<ul class="plain">
+  <li> <a href="/music/leadsheets/Last_Sunny_Day_of_the_Autumn.pdf">PDF</a> </li>
+  <li> <a href="/music/leadsheets/Last_Sunny_Day_of_the_Autumn.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/last_sunny_day_of_the_autumn.ls">Impro-visor leadsheet file</a> </li>
+  <li>Date: October 2016</li>
+  <li>Original key: D major</li>
+</ul>
+
+<p>The idea was to make a sequence of major ii V I's where each I switches its quality to minor and
+   becomes the ii of the next ii V I. Like in Miles Davis' &ldquo;Tune Up&rdquo;, except I went for returning to
+   the original key through the subdominant of the last ii V I, which is a semitone below the original ii.</p>
+<p>Frankly, I have little experience with unprepared modulations, and I find improvising over this piece very
+   challenging.</p>
+
 <h3>Some More Blues</h3>
 
 <ul class="plain">
@@ -30,7 +46,7 @@
 
 <p>In a conversation with my friend we came to conclusion that the opposite of
    &ldquo;No More Blues&rdquo; (&ldquo;Chega de Saudade&rdquo;) should be a 12 bar blues
-   with latin timefeel, and should be called &ldquo;Some More Blues&rdquo;. Then the only thing
+   with latin timefeel, and that it should be named &ldquo;Some More Blues&rdquo;. Then the only thing
    left to do was to actually write it.</p>
 <p>The melodic idea didn't quite work with the &ldquo;normal&rdquo; (major) blues, but worked
    mostly fine with minor blues, so my old idea to make a minor blues unexpectedly came to life.<p>

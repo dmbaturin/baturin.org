@@ -8,89 +8,89 @@
 <p>Anyway, let's just look at screenshots from the past.</p>
 
 <p>Loading the CD takes us to the installer.</p>
-<a href="/images/rh73/rh73_install_00.png"> <img src="/images/rh73/preview/rh73_install_00.png"/> </a>
+<a href="/images/rh73/rh73_install_00.png"> <img src="/images/rh73/preview/rh73_install_00.png" alt="Installer splash screen" /> </a>
 
 <p>Hardware configuration and partitionining aren't all that interesting.
    What is more interesting is that back then installers usually didn't install a
    set of packages selected by the distro maintainers, but asked you what you want
    to install, up to individual packages.</p>
-<a href="/images/rh73/rh73_install_03.png"> <img src="/images/rh73/preview/rh73_install_03.png"/> </a>
+<a href="/images/rh73/rh73_install_03.png"> <img src="/images/rh73/preview/rh73_install_03.png" alt="Package group selection interface" /> </a>
 
 <p>Now just watch the progress bar.</p>
-<a href="/images/rh73/rh73_install_05.png"> <img src="/images/rh73/preview/rh73_install_05.png"/> </a>
+<a href="/images/rh73/rh73_install_05.png"> <img src="/images/rh73/preview/rh73_install_05.png" alt="Installation progress bar" /> </a>
 
 <p>Well, until the installer asks us to insert the next CD.</p>
-<a href="/images/rh73/rh73_install_06.png"> <img src="/images/rh73/preview/rh73_install_06.png"/> </a>
+<a href="/images/rh73/rh73_install_06.png"> <img src="/images/rh73/preview/rh73_install_06.png" alt="CD change request" /> </a>
 
 <p>The installer tries to keep us entertained.</p>
-<a href="/images/rh73/rh73_install_07.png"> <img src="/images/rh73/preview/rh73_install_07.png"/> </a>
+<a href="/images/rh73/rh73_install_07.png"> <img src="/images/rh73/preview/rh73_install_07.png" alt="RedHat history bit (Marc Ewing and his red hat)" /> </a>
 
-<p>Maybe it's not a very health concious advice, but they have a point.
+<p>Maybe it's not a very health conscious advice, but they have a point.
    At the time, OS installation could easily take a couple of hours
    on average hardware.</p>
-<a href="/images/rh73/rh73_install_09.png"> <img src="/images/rh73/preview/rh73_install_09.png"/> </a>
+<a href="/images/rh73/rh73_install_09.png"> <img src="/images/rh73/preview/rh73_install_09.png" alt="Let's all go to the kitchen and have ourselves a snack" /> </a>
 
 <p>With modern hardware, we don't have to wait so long of course.</p>
-<a href="/images/rh73/rh73_install_10.png"> <img src="/images/rh73/preview/rh73_install_10.png"/> </a>
+<a href="/images/rh73/rh73_install_10.png"> <img src="/images/rh73/preview/rh73_install_10.png" alt="Installation finished" /> </a>
 
 <p>When floppy drives are ubiquitous, a rescue floppy is quite a useful thing.</p>
-<a href="/images/rh73/rh73_install_11.png"> <img src="/images/rh73/preview/rh73_install_11.png"/> </a>
+<a href="/images/rh73/rh73_install_11.png"> <img src="/images/rh73/preview/rh73_install_11.png" alt="Rescue floppy creation" /> </a>
 
 <p>Time to reboot.</p>
-<a href="/images/rh73/rh73_grub_00.png"> <img src="/images/rh73/preview/rh73_grub_00.png"/> </a>
+<a href="/images/rh73/rh73_grub_00.png"> <img src="/images/rh73/preview/rh73_grub_00.png" alt="GRUB splash screen" /> </a>
 
 <p>Graphical boot didn't exist at the time.</p>
-<a href="/images/rh73/rh73_boot.png"> <img src="/images/rh73/preview/rh73_boot.png"/> </a>
+<a href="/images/rh73/rh73_boot.png"> <img src="/images/rh73/preview/rh73_boot.png" alt="Boot messages" /> </a>
 
 <p>Finally we are at the login screen.</p>
-<a href="/images/rh73/rh73_login_screen.png"> <img src="/images/rh73/preview/rh73_login_screen.png"/> </a>
+<a href="/images/rh73/rh73_login_screen.png"> <img src="/images/rh73/preview/rh73_login_screen.png" alt="GDM login screen" /> </a>
 
 <p>GNOME 1.4. Back then it would take some time to load and had a load progress screen,
    but now it loads too fast to easily make a screenshot of it.</p>
-<a href="/images/rh73/rh73_gnome_desktop.png"> <img src="/images/rh73/preview/rh73_gnome_desktop.png"/> </a>
+<a href="/images/rh73/rh73_gnome_desktop.png"> <img src="/images/rh73/preview/rh73_gnome_desktop.png" alt="Empty GNOME desktop" /> </a>
 
 <p>Those days I preferred KDE though. This is 3.0.0.</p>
-<a href="/images/rh73/rh73_kde_desktop.png"> <img src="/images/rh73/preview/rh73_kde_desktop.png"/> </a>
+<a href="/images/rh73/rh73_kde_desktop.png"> <img src="/images/rh73/preview/rh73_kde_desktop.png" alt="Empty KDE desktop" /> </a>
 
 <p>Lots of settings.</p>
-<a href="/images/rh73/rh73_kde_control_center.png"> <img src="/images/rh73/preview/rh73_kde_control_center.png"/> </a>
+<a href="/images/rh73/rh73_kde_control_center.png"> <img src="/images/rh73/preview/rh73_kde_control_center.png" alt="KDE control center" /> </a>
 
 <p>It could even cosplay CDE, in a rather convincing way.</p>
-<a href="/images/rh73/rh73_kde_cde_cosplay.png"> <img src="/images/rh73/preview/rh73_kde_cde_cosplay.png"/> </a>
+<a href="/images/rh73/rh73_kde_cde_cosplay.png"> <img src="/images/rh73/preview/rh73_kde_cde_cosplay.png" alt="KDE with CDE-like theme" /> </a>
 
 <p>Binary packages for distros that old are hard to find, and finding and building old source tarballs is hardly worth
    the time, but we can look at some of the software included in the installation CDs.</p>
 
 <p>AbiWord 0.99.5.</p>
-<a href="/images/rh73/rh73_abiword.png"> <img src="/images/rh73/preview/rh73_abiword.png"/> </a>
+<a href="/images/rh73/rh73_abiword.png"> <img src="/images/rh73/preview/rh73_abiword.png" alt="AbiWord version screen" /> </a>
 
 <p>Mostly works, not with ODF and post-2000 MS Word format of course. Also, default fonts look awful.</p>
-<a href="/images/rh73/rh73_abiword_file.png"> <img src="/images/rh73/preview/rh73_abiword_file.png"/> </a>
+<a href="/images/rh73/rh73_abiword_file.png"> <img src="/images/rh73/preview/rh73_abiword_file.png" alt="OASIS Word specification sample opened in AbiWord" /> </a>
 
 <p>Some things, like gnuplot default settings, never change.</p>
-<a href="/images/rh73/rh73_gnuplot.png"> <img src="/images/rh73/preview/rh73_gnuplot.png"/> </a>
+<a href="/images/rh73/rh73_gnuplot.png"> <img src="/images/rh73/preview/rh73_gnuplot.png" alt="Gnuplot displaying a sine plot in the X terminal" /> </a>
 
 <p>Ethereal before it was Wireshark.</p>
-<a href="/images/rh73/rh73_ethereal.png"> <img src="/images/rh73/preview/rh73_ethereal.png"/> </a>
+<a href="/images/rh73/rh73_ethereal.png"> <img src="/images/rh73/preview/rh73_ethereal.png" alt="Traffic dump of pinging redhat.com displayed in Ethereal" /> </a>
 
 <p>KGhostView still displays PDFs pretty much fine. There was Acrobat Reader too, I don't remember if it was any better.</p>
-<a href="/images/rh73/rh73_pdf_viewer.png"> <img src="/images/rh73/preview/rh73_pdf_viewer.png"/> </a>
+<a href="/images/rh73/rh73_pdf_viewer.png"> <img src="/images/rh73/preview/rh73_pdf_viewer.png" alt="A research paper from arxiv.org opened in KGhostView" /> </a>
 
 <p>Python 1.5.</p>
-<a href="/images/rh73/rh73_python_kde.png"> <img src="/images/rh73/preview/rh73_python_kde.png"/> </a>
+<a href="/images/rh73/rh73_python_kde.png"> <img src="/images/rh73/preview/rh73_python_kde.png" alt="A simple Python code example in the REPL" /> </a>
 
 <p>OCaml 3.06. The binary package somehow survived on an INRIA FTP site.</p>
-<a href="/images/rh73/rh73_ocaml.png"> <img src="/images/rh73/preview/rh73_ocaml.png"/> </a>
+<a href="/images/rh73/rh73_ocaml.png"> <img src="/images/rh73/preview/rh73_ocaml.png" alt="A simple OCaml code example in the REPL" /> </a>
 
 <p>Mozilla 0.9.9. Still renders some websites sort of correctly.</p>
-<a href="/images/rh73/rh73_mozilla099.png"> <img src="/images/rh73/preview/rh73_mozilla099.png"/> </a>
+<a href="/images/rh73/rh73_mozilla099.png"> <img src="/images/rh73/preview/rh73_mozilla099.png" alt="kernel.org website displayed in Mozilla" /> </a>
 
 <p>Well, only some of them. Most are beyond any recognition.</p>
-<a href="/images/rh73/rh73_mozilla_redhat.png"> <img src="/images/rh73/preview/rh73_mozilla_redhat.png"/> </a>
+<a href="/images/rh73/rh73_mozilla_redhat.png"> <img src="/images/rh73/preview/rh73_mozilla_redhat.png" alt="redhat.com website displayed in Mozilla, very incorrectly" /> </a>
 
 <p>Still it's better than Netscape. I couldn't find a single modern (not archived) website it would still
    be able to render.</p>
-<a href="/images/rh73/rh73_netscape.png"> <img src="/images/rh73/preview/rh73_netscape.png"/> </a>
+<a href="/images/rh73/rh73_netscape.png"> <img src="/images/rh73/preview/rh73_netscape.png" alt="arxiv.org website displayed in Netscape incorrectly" /> </a>
 
 <p>If you want to install it yourself, images are still available from a number of servers, e.g. from
    <a href="https://archive.org/details/redhat-7.3_release">archive.org/details/redhat-7.3_release</a>.
