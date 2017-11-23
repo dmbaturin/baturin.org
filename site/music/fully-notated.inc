@@ -1,4 +1,4 @@
-{% set date 2017 September 1 %}
+{% set date 2017 November 23 %}
 
 <h1>Fully notated pieces</h1>
 
@@ -22,7 +22,7 @@
   <li> Original key: C minor </li>
 </ul>
 
-<p>
+<p>More of an exercise in using the leading tone chord than anything.</p>
 
 <h3>The Ballad of an Epic Fail</h3>
 
