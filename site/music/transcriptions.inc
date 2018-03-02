@@ -1,8 +1,22 @@
-{% set date 2017 March 29 %}
+{% set date 2018 January 28 %}
 
 <h1>Transcriptions, arrangements etc.</h1>
 
 <div id="generated-toc"></div>
+
+<h3>Gigue by Jean-Mari Leclair (clarinet and piano)</h3>
+
+<p>
+It was typeset from an old handwritten copy and I have no idea which opus it may be from since I couldn't find the original violin version on IMSLP
+or elsewhere, or even if it's really Leclair (though the stye is consistent with his other works).
+Regardless, it's a pretty, even if challenging piece.
+</p>
+
+<ul class="plain">
+  <li> <a href="/music/transcriptions/leclair_gigue_clarinet.pdf">PDF (piano score and clarinet part)</a> </li>
+  <li> <a href="/music/transcriptions/leclair_gigue_clarinet.mscz">MuseScore file</a> </li>
+</ul>
+
 
 <h3>Weber's sonatina</h3>
 
@@ -18,7 +32,7 @@
 
 <ul class="plain">
   <li> <a href="/music/transcriptions/tico_tico_no_fuba_clarinet.pdf">PDF</a> </li>
-  <li> <a href="/music/transcriptions/tico_tico_no_fuba_clarinet.pdf.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/transcriptions/tico_tico_no_fuba_clarinet.mscz">MuseScore file</a> </li>
 </ul>
 
 <h3>Sunrise Song</h3>
