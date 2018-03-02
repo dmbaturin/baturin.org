@@ -1,4 +1,4 @@
-{% set date 2015 August 22 %}
+{% set date 2018 February 11 %}
 
 <h1>What I wish I knew when learning OCaml</h1>
 
@@ -36,6 +36,26 @@ let () = print_endline "hello world"
 <p><strong>Historical note:</strong> In CAML Light, the predecessor of OCaml, double semicolons were mandatory.
    For this reason they are quite common in old code originally written in CAML Light or written in the early days
    of OCaml. These days they are considered a bad style.</p>
+
+<h3>Semicolons and expression sequences</h3>
+<p>Semicolon is an expression separator, not a statement terminator.</p>
+<p>This code</p>
+<pre>
+let foo x y =
+    print_endline "Now I'll add up two numbers";
+    print_endline "Yes, seriously";
+    x + y
+</pre>
+<p>is semantically equivalent to</p>
+<pre>
+let foo x y =
+    let _ = print_endline "Now I'll add up two numbers" in
+    let _ = print_endline "Yes, seriously" in
+    x + y
+</pre>
+<p>Therefore, if you end a sequence of expressions with a semicolon, whatever comes next will
+   be treated as the last expression of the sequence, and will likely cause a syntax error
+   (e.g. if the next thing is a let binding) or, worse, incorrect behaviour.</p>
 
 <h3>Shadowing is not mutation</h3>
 
@@ -109,6 +129,24 @@ let (!) r = r.contents
 <p>Therefore the choice between references and mutable fields is mostly aesthetic. However, if you store
    references in record fields, converting them to mutable records may make the code slightly faster.</p>
 
+<h3>Is there any difference between begin/end and parentheses?</h3>
+
+<p>
+Not really. The real difference between begin/end in OCaml and identical looking construct in Pascal (or curly braces in C)
+is that in Pascal, they create a <em>compound statement</em>, while in OCaml they work as expression delimiters.
+In other words, it's just a more readable alternative to parentheses.
+</p>
+<p>Consider these examples:</p>
+<pre>
+let foo () =
+  (for i = 1 to 3 do
+     print_endline "I'll return 0, I tell you!"
+   done);
+  0
+
+let x = 3 + begin 2 end 
+</pre>
+
 <h3>Type definitions</h3>
 
 <p>The ML term for a tuple is <em>product type</em>. A natural example of a product type
@@ -161,33 +199,13 @@ type 'a list = 'a :: 'a list | []
    for type variables, e.g. <em>&alpha; list</em> rather than <tt>'a list</tt>.
    Likewise, the <tt>*</tt> in product types is often substituted for the &times; sign.</p>
 
-<h3>Semicolons and expression sequences</h3>
-<p>Semicolon is an expression separator, not a statement terminator.</p>
-<p>This code</p>
-<pre>
-let foo x y =
-    print_endline "Now I'll add up two numbers";
-    print_endline "Yes, seriously";
-    x + y
-</pre>
-<p>is semantically equivalent to</p>
-<pre>
-let foo x y =
-    let _ = print_endline "Now I'll add	up two numbers" in
-    let _ = print_endline "Yes,	seriously" in
-    x + y
-</pre>
-<p>Therefore, if you end a sequence of expressions with a semicolon, whatever comes next will
-   be treated as the last expression of the sequence, and will likely cause a syntax error
-   (e.g. if the next thing is a let binding) or, worse, incorrect behaviour.</p>
-
 <h3>let vs. let rec</h3>
 
 <p>At first the <strong>rec</strong> keyword may look like syntactic noise, but it isn't.</p>
 <p>If the name of your binding is unique within the scope, <strong>rec</strong> simply allows you
    to refer to its name within your expression, but if you are shadowing another binding,
    it allows you to choose whether that name will refer to the older binding or to the newly defined one.</p>
-<p>An example: suppose you want to redefine the <strong>incr</strong> function from Pervasives so it
+<p>An example: suppose you want to redefine the <strong>incr</strong> function from Pervasives so that it
    prints a debug message when called.</p>
 <p>Let's define it. Note the lack of <strong>rec</strong>.</p>
 <pre>
@@ -210,6 +228,61 @@ Counter was incremented
 <p>This works as expected, our new incr calls the old incr, and everything within our new scope refers to the new incr definition.</p>
 <p>However, if we use a definition with <strong>rec</strong>, <tt>incr i</tt> within our definition will refer to the <em>new definition</em>
    of <tt>incr</tt> rather than <tt>incr</tt> from Pervasives, thus creating a useless infinite loop.</p>
+
+<h3>let vs. let ... and (mutually recursive bindings)</h3>
+
+<p>
+At first the <tt>and</tt> keyword may look like syntactic sugar that allows one to avoid writing <tt>let</tt> second time.
+While it can be used this way (though arguably shouldn't), there's a deeper distinction between a sequence of <tt>let ... in</tt>
+bindings and <tt>let ... and ...</tt>
+</p>
+<p>The distinction is that the <tt>and</tt> keyword allows mutually recursive bindings.</p>
+<p>Consider this inefficient but illustrative example of functions that check if given number is even or odd:</p>
+<img src="/images/caml-faq/even.png" alt="even(x) = true if x = 0, odd(x-1) otherwise"/>
+<br />
+<img src="/images/caml-faq/odd.png" alt="odd(x) = false if x = 0, even(x-1) otherwise"/>
+
+<p>
+None of them refers to itself, but they refer to each other, which makes them <em>mutually recursive</em>. The naive attempt
+to translate that definition to OCaml:
+</p>
+<pre>
+let even x =
+    match x with
+    | 0	-> true
+    | _	-> odd (x - 1)
+
+let odd	x = 
+    mach x with
+    | 0	-> false
+    | _	-> even	(x - 1)
+</pre>
+<p>
+will fail with <tt>Error: Unbound value odd</tt> error. That's because in the scope where <tt>even</tt> is defined, 
+<tt>odd</tt> is not defined yet (remember that every let binding opens a new scope).</p>
+<p>
+This is where the <tt>and</tt> keyword comes into play: by using it, we can make OCaml treat multiple bindings
+in a single new scope. This version will work as expected:
+</p>
+<pre>
+let rec even x =
+    match x with
+    | 0	-> true
+    | _	-> odd (x - 1)
+
+and odd x =
+    match x with
+    | 0	-> false
+    | _	-> even	(x - 1)
+;;
+
+# odd 19 ;;
+- : bool = true
+
+# even 42 ;;
+- : bool = true
+
+</pre>
 
 <h3>Abstract types</h3>
 <p>Abstract types is a way to implement encapsulation. A type is treated as abstract if module interface doesn't
