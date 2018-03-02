@@ -1,4 +1,4 @@
-{% set date 2017 November 23 %}
+{% set date 2018 January 28 %}
 
 <h1>Fully notated pieces</h1>
 
@@ -13,16 +13,53 @@
    will give me very odd looks. I'll stick with &ldquo;fully notated&rdquo; which is vague enough to cover everything
    and not offensive to anyone.</p>
 
+<h3>Fake Folk Dance #2 (flute and piano)</h3>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.mscz">MuseScore file</a> </li>
+  <li> Date: January 2017 </li>
+  <li> Original key: A major </li>
+</ul>
+
+<p>From an imaginary fake dance suite.</p>
+
+<h3>Sarabande (violin and piano)</h3>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2017-07_sarabande.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-07_sarabande.mscz">MuseScore file</a> </li>
+  <li> Date: December 2017 </li>
+  <li> Original key: B minor </li>
+</ul>
+
+<p>
+By the romantic era, the word &ldquo;sarabande&rdquo; lost all connections to a particular baroque dance.
+Minor key, triple meter, let's call it a sarabande.
+</p>
+
 <h3>Fake Folk Dance</h3>
 
 <ul class="plain">
-  <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.mscz">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.mscz">MuseScore file</a> </li>
   <li> Date: August 2017 </li>
   <li> Original key: C minor </li>
 </ul>
 
 <p>More of an exercise in using the leading tone chord than anything.</p>
+
+<h3>Waltz for a double bass solo</h3>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2017-05_f_waltz.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-05_f_waltz.mscz">MuseScore file</a> </li>
+  <li> Date: June 2017 </li>
+  <li> Original key: F major </li>
+</ul>
+
+<p>I could not come up with any accompanying parts that I would really like, so I left it solo.</p>
+<p>There are quite a few up strokes if you read it as written, adjust the bowings to taste.</p>
 
 <h3>The Ballad of an Epic Fail</h3>
 
