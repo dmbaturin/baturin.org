@@ -1,4 +1,4 @@
-{% set date to 2016 September 02 %}
+{% set date to 2018 January 28 %}
 
 <h1>Documentation</h1>
 
@@ -47,3 +47,9 @@
 <p><strong>Note:</strong> I'm no longer actively involved with EdgeOS, since Ubiquiti essentially turned it
    into yet another proprietary product. This was written back in 2013, and I have no idea if it's still relevant.</p>
 <p>But if you are curios, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a> </p>
+
+<h3>Brief tutorials</h3>
+
+<ul>
+  <li> <a href="/docs/nice-pdfs">How to make nice and easy to navigate PDFs</a> </li>
+</ul>
