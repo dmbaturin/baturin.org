@@ -33,7 +33,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 <p>You can also find me in other places:</p>
 <ul>
   <li> Github: <a href="http://github.com/dmbaturin">github.com/dmbaturin</a> </li>
-  <li> Blog: <a href="http://stuff.baturin.org">stuff.baturin.org</a> </li>
+  <li> Blog: <a href="http://blog.baturin.org">blog.baturin.org</a> </li>
   <li> Twitter: <a href="http://twitter.com/dmbaturin">@dmbaturin</a> </li>
   <li> dmbaturin on <a href="http://freenode.net">Freenode</a> and <a href="http://esper.net">Esper</a>
        IRC networks.</li>
@@ -65,5 +65,5 @@ The usual problem with news sections on static websites is that no one ever upda
 for generating them from the git commit log.
 </p>
 <dl>
-{% cmd git log -n 5 --date=short --pretty="format:<dt>%ad</dt> <dd>%s</dd>" | perl -ne '$_=~s/\[(.*)\]/<a href="$1">$1<\/a>/;print' %}
+{% cmd git log -n 10 --date=short --pretty="format:<dt>%ad</dt> <dd>%s</dd>" | perl -ne '$_=~s/\[(.*)\]/<a href="$1">$1<\/a>/;print' %}
 </dl>
