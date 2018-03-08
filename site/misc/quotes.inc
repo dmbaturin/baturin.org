@@ -30,7 +30,7 @@ Given enough bugs, all eyes are shallow.
 <blockquote>
 A programming language is low level when its programs require attention to the irrelevant. 
 </blockquote>
-<div class="quote-source">&mdash; Alan Perlis</div>
+<div class="quote-source">&mdash; Alan Perlis, Epigrams on Programming</div>
 
 <blockquote>
 Under no circumstances confuse the mesh with the interleave operator, except under confusing circumstances.
@@ -38,19 +38,30 @@ Under no circumstances confuse the mesh with the interleave operator, except und
 <div class="quote-source">&mdash; D. Woods and J. Lyon, the INTERCAL reference manual</div>
 
 <blockquote>
-Formal logical proofs, and therefore programs&nbsp;&mdash;&nbsp;formal logical proofs that particular computations
-are possible, expressed in a formal system called a programming language&nbsp;&mdash;&nbsp;are utterly meaningless.
-To write a computer program you have to come to terms with this, to accept that whatever you
-might want the program to mean, the machine will blindly follow its meaningless rules and come to
-some meaningless conclusion.
-</blockquote>
-<div class="quote-source">&mdash; S. Dehnadi and R. Bornat</div>
-
-<blockquote>
 Programming languages should be designed not by piling feature on top of feature, but by removing the
 weaknesses and restrictions that make additional features appear necessary.
 </blockquote>
 <div class="quote-source">&mdash; R5RS</div>
+
+<blockquote>
+Software tends to live too long: just good enough to discourage replacement, but slowly rotting away with more and more problems that are hard to fix.
+</blockquote>
+<div class="quote-source">&mdash; John Ousterhout</div>
+
+<blockquote>
+Within the Oceans of Great Risk were many Sun Worshippers, and they had wanted to excel, and make their words perfect, and do their jobs as easy as one-two-three.
+</blockquote>
+<div class=quote-source">&mdash; unknown<a href="#peasea"><sup>3</sup></a></div>
+
+<blockquote>
+If it hurts, do it more often.
+</blockquote>
+<div class="quote-source">&mdash; Martin Fowler</div>
+
+<blockquote>
+Live in the future, then build what's missing. 
+</blockquote>
+<div class="quote-source">&mdash; Paul Graham</div>
 
 <blockquote>
 The future will be better tomorrow.
@@ -77,3 +88,9 @@ which suggests that he had little idea what a programming language is. Neither h
 Ada was used in the USSR too.
 </p>
 
+<a name="peasea"> </a>
+<p> <sup>3</sup>
+It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
+still can be found on many websites often without attribution, and I really would like to know who the original
+author is.
+</p>
