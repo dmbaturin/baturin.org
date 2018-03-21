@@ -2,7 +2,7 @@
 
 <div id="generated-toc"></div>
 
-<h2>Music I wrote and/or recorded</h2>
+<h2>Compositions, transcriptions, arrangements</h2>
 
 <h3>Scores</h3>
 
@@ -12,12 +12,16 @@
   <li> <a href="/music/transcriptions">Transcriptions, adaptations, arrangements etc.</a> </li>
 </ul>
 
-<p>I don't keep recordings of those public because my skills are still seriously lacking
-   and I can't make anything worthy of public release. Believe me, you can play or imagine them
-   better than I possibly could.</p>
+<h2>Notes and tutorials</h2>
 
-<h3> Notes and tutorials </h3>
+<h3>Music theory</h3>
 
 <ul>
   <li> <a href="/music/chord-substitutions">Chords with common tones</a> </li>
 </ul>
+
+<h3>Woodwind instrument maintenance and repair</h3>
+<ul>
+  <li> <a href="/music/clarinet-reassembly">Reassembling the clarinet keywork</a> </li>
+</ul>
+
