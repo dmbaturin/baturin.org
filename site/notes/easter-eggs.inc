@@ -86,8 +86,10 @@ during winter holiday season &mdash; that's fine since there's simply no way any
 changes its look for the April fools day in a way that doesn't affect the DOM, Selenium tests and the like will not get upset.
 </p>
 
+<hr />
+
 <a name="sl"> </a>
-<p>
+<p> <sup>1</sup>
 If you are not familiar with <a href="https://github.com/mtoyoda/sl">sl</a>, it displays an animated ASCII train.
 There's also one for <a href="http://r-wos.org/hacks/gti">git</a>.
 </p>
