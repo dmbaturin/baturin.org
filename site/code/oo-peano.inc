@@ -1,4 +1,4 @@
-{% set date 2015 Aug 13 %}
+{% set date 2018 April 02 %}
 
 <h1>Object-oriented Peano arithmetic in Python</h1>
 
@@ -9,13 +9,16 @@
    It can also create classes on the fly and attach string representation functions to classes.
    So we can assume that some base class is zero, its subclasses are S(O),
    subclasses of its subclasses is S(S(O)) and so on.</p>
-<p><strong>Note:</strong> this only works in Python2, Python3 made a lot of changes
-   to metaclasses and I haven't found a way to add pretty print to classes there yet.</p>
 
 <p>Download the file: <a href="/code/files/oo-peano.py">oo-peano.py</a> </p>
+<p>
+The code on this page and in that file only works with Python3. There are
+differences in metaclass implementation in 2 and 3, for a legacy version that works with
+Python 2.7 see <a href="/code/files/oo-peano.py">oo-peano2.py</a>
+</p>
 
 <pre>
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import uuid
 
@@ -30,9 +33,7 @@ class Nat(type):
             return "S({0})".format(repr(self.__bases__[0]))
 
 # Axiom 1: Zero is a natural number
-class Zero(object):
-    __metaclass__ = Nat
-
+class Zero(object, metaclass=Nat):
     # Axiom 2: for every natural number N,
     # succ(N) is a natural number
     @classmethod
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     print("{0} + {1} = {2}".format(Zero, one, Zero.add(one)))
     print("{0} + {1} = {2}".format(two, three, two.add(three)))
     print("{0} + {1} = {2}".format(three, two, three.add(two)))
-    print ""
+    print()
     print("{0} * {1} = {2}".format(Zero, Zero, Zero.mul(Zero)))
     print("{0} * {1} = {2}".format(Zero, one, Zero.mul(one)))
     print("{0} * {1} = {2}".format(two, one, two.mul(one)))
@@ -79,7 +80,7 @@ if __name__ == '__main__':
 <p>The output demonstrates that zero and one are indeed the additive and multiplicative identity elements
    respectively, and that addition and multiplication as we defined them are commutative.</p>
 <pre>
-$ python peano.py
+$ python3 peano.py
 O + O = O
 O + S(O) = S(O)
 S(S(O)) + S(S(S(O))) = S(S(S(S(S(O)))))
@@ -111,7 +112,7 @@ S(S(S(O))) * S(S(O)) = S(S(S(S(S(S(O))))))
 N + O = N            (1)
 N + S(M) = S(N) + M  (2)
 
-N * O =	O      	     (1')
+N * O =	O            (1')
 N * S(M) = N + N*M   (2')
 </pre>
 <p>Since every natural number if either Zero or can be represented as <em>S...(S(O))</em>,

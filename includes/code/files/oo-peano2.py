@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
+# Run with python2
 
 import uuid
 
@@ -13,7 +15,9 @@ class Nat(type):
             return "S({0})".format(repr(self.__bases__[0]))
 
 # Axiom 1: Zero is a natural number
-class Zero(object, metaclass=Nat):
+class Zero(object):
+    __metaclass__ = Nat
+
     # Axiom 2: for every natural number N,
     # succ(N) is a natural number
     @classmethod
@@ -49,10 +53,9 @@ if __name__ == '__main__':
     print("{0} + {1} = {2}".format(Zero, one, Zero.add(one)))
     print("{0} + {1} = {2}".format(two, three, two.add(three)))
     print("{0} + {1} = {2}".format(three, two, three.add(two)))
-    print()
+    print ""
     print("{0} * {1} = {2}".format(Zero, Zero, Zero.mul(Zero)))
     print("{0} * {1} = {2}".format(Zero, one, Zero.mul(one)))
     print("{0} * {1} = {2}".format(two, one, two.mul(one)))
     print("{0} * {1} = {2}".format(two, three, two.mul(three)))
     print("{0} * {1} = {2}".format(three, two, three.mul(two)))
-
