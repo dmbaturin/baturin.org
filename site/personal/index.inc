@@ -1,4 +1,4 @@
-{% set date 2018 March 21 %}
+{% set date 2018 April 09 %}
 
 <h1>Personal information</h1>
 
@@ -32,4 +32,5 @@
 <ul class="nav">
   <li> <a class="nav" href="/personal/facts/">Random facts and opinions</a> </li>
   <li> <a class="nav" href="/personal/site-history">History of this home page</a> </li>
+  <li> <a class="nav" href="/personal/screenshots">Desktop screenshots</a> </li>
 </ul>
