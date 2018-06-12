@@ -1,6 +1,6 @@
-{% set date 2017 February 02 %}
+{% set date 2018 June 12 %}
 
-<h1>Daniil Baturin's curriculum vitae</h1>
+<h1>Daniil Baturin's CV</h1>
 
 <p>When you don't focus on just one field, your CV becomes a mess and needs more and more tailoring
    for particular offers. This is an attempt to write a generic CV that reflects both programming and
@@ -28,7 +28,7 @@
 <h4>Languages</h4>
 <p>Wrote useful programs in Python, OCaml, Perl, C, Ada.</p>
 <p>Wrote toy programs in Haskell, Scheme, StandardML, Fortran.</p>
-<p>I use JavaScript it for DOM manipulation, but I'm not familiar with any of the
+<p>I use JavaScript for DOM manipulation, but I'm not familiar with any of the
    popular libraries, so it's safe to say that I don't know it. I'm not familiar with server side JS at all.</p>
 <p>Ah, yes, Bourne shell. I don't know if it counts, but I wrote a lot of it.</p>
 <p>I also used PHP, but I don't want to do it anymore, though I do contribute to projects written in it such as MediaWiki occasionally.</p>
@@ -151,9 +151,10 @@
 <p><em>From December 2015</em></p>
 <p>Sentrium S.L., Spain (remotely)</p>
 <p>Helping various companies design, build, and maintain their networks and
-   virtualization infrastructure.</p>
-<p>I'm one of the founders, but the company is very small so far so the founders are doing
-   all the actual work as well.</p>
+   virtualization infrastructure. Working of the VyOS project and providing consulting services for it.
+</p>
+<p>I'm one of the founders so I also participate in hiring and project management,
+   but I prefer to remain in a technical rather than administrative role for the most part.</p>
 
 <h3>AVyS Telecom S.L., Spain (remotely)</h3>
 <p><em>From December 2013 to November 2015</em></p>
@@ -165,7 +166,7 @@
 
 <h3>Vyatta inc., later acquired by Brocade, USA (remotely)</h3>
 <p><em>December 2010 to September 2013</em></p>
-<p>Vyatta is a Linux distro for routers/firewalls where all network functions are controlled from
+<p>Vyatta was a Linux distro for routers/firewalls where all network functions are controlled from
    a single CLI in the same fashion as in hardware routers.</p>
 <p>First time I was a full time programmer without systems/network admin responsibilities.</p>
 <p>When I discovered Vyatta in 2008, I instantly became a huge fan and contributed to the community
@@ -179,7 +180,7 @@
 <h3>Soyuz-T, Tomsk, Russia</h3>
 <p><em>From September 2008 to March 2009</em></p>
 <p>A furniture store chain.</p>
-<p>I turned out to be the sole Linux and VoIP admin there (even though I had no VoIP experience
+<p>I ended up being the sole Linux and VoIP admin there (even though I had no VoIP experience
    before and had to learn it myself), and one of the two network admins.</p>
 <p>Configured Active Directory integration for Linux machines, class5 FreeSWITCH installation
    and VoIP phones, SIP to PSTN gateways. Managed a Cisco-based DMVPN setup that connected stores in multiple cities
@@ -187,7 +188,7 @@
 <p>Developed company's web store and websites for some of its subsidiaries in PHP (based on Drupal).
    Managed to fix some bugs in obfuscated PHP code (the company who made their original website
    used their own proprietary CMS, and when they went defunct, there was no one to fix it).</p>
-<p>Occasionally provided support to users, fixed cabling and, performed hardware installations/repairs.</p>
+<p>Occasionally provided support to users, fixed cabling, and performed hardware installations/repairs.</p>
 
 <h3>Promstroyneftegazproyekt, Tomsk. Russia</h3>
 <p><em>From May 2008 to August 2008</em></p>
@@ -201,7 +202,7 @@
 
 <h3>Tomsk Polytechnic University, Center for Technological Innovations, Tomsk, Russia</h3>
 <p><em>From Septermber 2007 to May 2008</em></p>
-<p>A department responsible for communication between researchers and industry representatives
+<p>A small department responsible for communication between researchers and industry representatives
    interested in commercializing their work.</p>
 <p>A small office with just five workstations and one server/router. Reconfigured the network
    to use a public subnet provided by the university rather than a NATed private subnet.
