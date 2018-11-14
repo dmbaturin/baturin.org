@@ -54,11 +54,11 @@ A side effect of this rule is that it makes overly elaborate easter eggs such as
 impractical, which I believe is a good thing.
 </p>
 
-<h3>It should be impossible to trigger during normal program operation</h3>
+<h3>It should be impossible to trigger an easter egg during normal program operation</h3>
 <p>
 The bad thing about accidentally triggered anything is that it's not always humans who operate programs.
 Command line tools are especially prone to this because they are often used from scripts, but GUI programs are not immune
-since they can also be operated by other programs &mdash; for example, automated testing tools.
+since they can also be operated by other programs&mdash;for example, automated testing tools.
 </p>
 <p>
 If your script breaks, or you spend hours debugging an intermittent fault in acceptance tests and track it down to
@@ -71,18 +71,18 @@ key combinations, or action sequences that trigger an easter egg should not be v
 </p>
 <p>
 For example, the &ldquo;sl&rdquo; command is a lot of fun<a href="#sl"><sup>1</sup></a>, but if mistyped &ldquo;ls&rdquo; is in a script, it will neither
-fail with command not found, nor produce a correct result. Same with &ldquo;ddata&rdquo;. I have both installed on my workstation
+fail with command not found, nor produce a correct result. Same with &ldquo;ddate&rdquo;. I have both installed on my workstation
 and some other machines that I'm solely responsible for, but I'm dead set against having them installed on production servers.
 </p>
 <p>
-Likewise, if while trying to debug a server issue late at night and type something like &ldquo;foo --verbose --quiet&rdquo; or a similar
+Likewise, if while trying to debug a server issue late at night I type something like &ldquo;foo --verbose --quiet&rdquo; or a similar
 &ldquo;impossible&rdquo; option combination, I would like to see at least an error message saying they are mutually exclusive
 rather than an easter egg.
 </p>
 <p>
 Perhaps there's an exception when time-based easter eggs are fine: when it's in the part of the program interface that cannot be
 accessed programatically, or has no effect for programmatic access. OpenSuSE used to have a special GRUB theme that was only active
-during winter holiday season &mdash; that's fine since there's simply no way any other program can access its interface. Likewise, if a web interface
+during winter holiday season&mdash;that's fine since there's simply no way any other program can access its interface. Likewise, if a web interface
 changes its look for the April fools day in a way that doesn't affect the DOM, Selenium tests and the like will not get upset.
 </p>
 

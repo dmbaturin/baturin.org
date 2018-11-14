@@ -4,9 +4,12 @@
 
 <p>
 I was rather surprised to find that the Wayback Machine has copies of the home page I set up when I was 14. I'm not sure how it could even find it,
-something must have had a link to it for this to happen, and I have no idea who might want to link to it. Regardless, it made me realize that it's been
-over a decade of online presence for me.
+something must have had a link to it for this to happen, and I have no idea who might want to link to it. 
+Sadly, little of the actual content was archived, so the things from my youth that I might have wanted to revisit are permanently lost, but the HTML layout
+is preserved in all its embarassing glory.
 </p>
+
+<p>Regardless, it made me realize that it's been over a decade of online presence for me.</p>
 <p>
 It's an interesting and still largely unexplored social implication of the Internet, the digital trail you leave behind you that is public and undeniable.
 I'm quite lucky that really stupid things I've done online when I was in my teens didn't leave a permanent evidence, not least because they
@@ -66,7 +69,7 @@ friends with free hosting and support, so it came to a full circle in a sense.
 <a href="/images/screenshots/website_screenshot_2006.png"> <img src="/images/screenshots/website_screenshot_2006_preview.png" alt="Website screenshot from 2006" /> </a>
 
 <p>
-The second incarnation had a bit more educational content. From the technical point of view, it was a curious mix of the old and the new approach:
+The second incarnation had a bit more educational content. From the technical point of view, it was a curious mix of the old and the new approaches:
 it still used tables for layout, but all visual style was defined in CSS. I believe it was due to browser compatibility concerns (IE6 was still common!),
 and I seem to recall I took pride in good cross-browser compatibility, and standards-compliant HTML and CSS for that matter. That said, it was the last table-based
 website I ever made, in the mid-2000's web browsers without proper CSS support pretty much went extinct and it became a non-issue.

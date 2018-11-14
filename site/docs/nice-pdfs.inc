@@ -3,13 +3,13 @@
 <h1>Making nice and easy to navigate PDFs</h1>
 
 <p>
-For some reason many people make PDFs that are nearly impossible to navigate. PDF is a format that is best of both worlds:
+For some reason many people make PDFs that are nearly impossible to navigate. The PDF format provides the best of both worlds:
 it's a paged medium with fixed page geometry and thus allows traditional typesetting, but it's also a digital medium that
 allows full text search and uniquely digital navigation methods such as clickable hyperlinks and document outline menus.
 </p>
 <p>
 While typesetting quality is somewhat subjective, and I don't mind reading poorly typeset documents if their content is worth it,
-I find lack of digital navigation aids very irritating, especially because they are so easy to produce automatically with
+I find lack of digital navigation aids very irritating, not least because they are so easy to produce automatically in
 almost any decent publishing system or office suite.
 </p>
 <p>
@@ -21,12 +21,12 @@ It's simple, I'll show you how.
 <h2>Document title</h2>
 
 <p>
-A minor issue with PDFs exported from editors I still find annoying is that they often have the original file name in their
-title, or, worse, have it prefixed with the name of the editor. It's absolutely not informative, it makes it hard to find
+A minor issue with PDFs exported from text processors I always find annoying is that they often have the original file name in their
+title, or, worse, have it prefixed with the name of the text processor. It's absolutely not informative, it makes it hard to find
 the window you want if you have too many windows open (is there anyone this doesn't happen to?) and it just looks sloppy.
 </p>
 <p>
-A real title of a document in the window title simply looks a lot better &ldquo;Microsoft Word - my document.docx&rdquo;.
+A real title of a document in the window title simply looks a lot better than &ldquo;Microsoft Word - my document.docx&rdquo;.
 </p>
 
 <h3>Open/Libre Office Writer</h3>
@@ -65,7 +65,7 @@ PDF viewer.
 <p>
 In different PDF software it's variously named &ldquo;outline&rdquo;, &ldquo;index&rdquo;,
 or &ldquo;bookmarks&rdquo;. I'll use the term &ldquo;outline&rdquo; because it doesn't conflict with anything else, both index
-and bookmarks have additional meanings. This is what is looks like in Atril (which calls it index):
+and bookmarks have additional meanings in the PDF context. This is what is looks like in Atril (which calls it index):
 </p>
 
 <img src="/images/nice-pdfs/pdf_index.png" alt="PDF outline side pane in Atril" />
@@ -86,7 +86,7 @@ In the Export as PDF dialog, check the Export Bookmarks checkbox.
 <h3>Google Docs</h3>
 
 <p>
-Hyperlinked ToC remains hyperlinked in the exported PDF. However, there's no way to produce indexed PDFs.
+Hyperlinked ToC remains hyperlinked in the exported PDF. However, there's no way to produce an outline.
 Looks like the only solution is to import into something else and export to PDF from there.
 </p>
 

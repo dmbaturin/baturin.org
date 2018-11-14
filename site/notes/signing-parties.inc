@@ -152,7 +152,7 @@ is there any point in tying one with the other? Where governments use public key
 use their own certificate authorities anyway.
 </p>
 <p>
-Since in most jurisdictions you can change your legal name (and you choose which name to use when you get your &ldquo;adult&rdquo; id),
+Since in most jurisdictions you can change your legal name, and you often get to choose the name when you receive your first id,
 what the government id document really certifies in general case is that you are the one who initiated the creation of that authentication device.
 </p>
 Could the PGP infrastructure instead be an alternative to that system that is backed by actual trust of individual people for authenticity and
@@ -171,7 +171,7 @@ verification, and if they have a strong uniqueness requirement, will not trust a
 <p>
 If we take this further, there seems to be a valid use case for intentionally anonymous but signed keys. Suppose a whistleblower communicates
 with a reporter from the Foo Daily using an anonymous mail service.
-A reporter from the Quux Herald Tribune wants to communicate to them as well, but wants to make sure it's the same person. The reporter from the Foo Daily,
+A reporter from the Quux Herald Tribune wants to communicate with them as well, but wants to make sure it's the same person. The reporter from the Foo Daily,
 who has seen the key used for sending the original message can sign the whistleblower's key to let all other reporters know they can trust that it belongs
 to the person in question.
 </p>
@@ -179,7 +179,7 @@ to the person in question.
 <h2>Conclusion</h2>
 
 <p>
-A PGP key that is tied to a government id is not inherently more trustworthy for the purposes of &ldquo;casual trust&rd; and doesn't make the owner
+A PGP key that is tied to a government id is not inherently more trustworthy for the purposes of &ldquo;casual trust&rdquo; and doesn't make the owner
 automatically more trustworthy for higher trust levels. Most people are acting in good faith, and for those who aren't, a pseudonymous key is unlikely
 to be a good attack vector.
 </p>

@@ -132,7 +132,7 @@ autonomous systems.
 
 <p>
 So I asked my friend who's an AS operator to dump the tables, converted them to 
-Graphviz source files with a few lines of Perl, and ran them through the spdf program
+<a href="http://www.graphviz.org/">Graphviz</a> source files with a few lines of Perl, and ran them through the spdf program
 from Graphviz. Due to large numbers of routes, the process was quite resource-intensive,
 and I ran into difficulties producing PNG files of the IPv4 maps, since the default PNG
 library couldn't handle it, and I had to convert through SVG and some alternative tool.
@@ -160,3 +160,15 @@ Here they are: <a href="/pictures/as_maps/ipv4_as_map.png">ipv4_as_map.png</a>,
 <a href="/pictures/as_maps/ipv6_as_map.png">ipv6_as_map.png</a>,
 <a href="/pictures/as_maps/ipv6_as_map_2015.png">ipv4_as_map_2015.png</a>
 </p>
+
+<h2>Misc</h2>
+
+<h3>OCaml</h3>
+<p>
+A promotional picture for the <a href="http://ocaml.org">OCaml</a> programming language.
+The different kinds of camels here are used as <a href="https://en.wikipedia.org/wiki/Type_variable">type variables</a>
+in the type of the reverse application operator (|&gt;).
+</p>
+
+<img alt="reverve application function type with dromedary and bactrian camels as type variables" src="/pictures/ocaml.png"/>
+

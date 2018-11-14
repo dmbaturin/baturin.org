@@ -1,5 +1,3 @@
-{% set date 2018 March 02 %}
-
 <p>
 This is my home page. I know home pages is not a popular genre these days and it probably makes me
 look old fashioned.
@@ -13,7 +11,7 @@ the &ldquo;m&rdquo; is from my middle name, <a href="https://en.wikipedia.org/wi
 The good thing about it is that it's easy to write in ASCII. The bad thing is that just about everyone asks how they should
 pronounce it and how many i's are there. I don't really care, you can call me Dan and avoid the issue altogether.
 <br/>
-If you really insist, there are two i's and it's pronounced [Danʲiʔil Baturʲin] (Dah-nee-ee-l Bah-too-ree-n, , with a glottal stop between the i's like in &ldquo;uh-oh&rdquo;.
+If you really insist, there are two i's and it's pronounced [Danʲiʔil Baturʲin] (Dah-nee-ee-l Bah-too-ree-n, with a glottal stop between the i's like in &ldquo;uh-oh&rdquo;.
 </p>
 
 <p>
@@ -43,13 +41,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 (use <a href="http://pool.sks-keyservers.net:11371/pks/lookup?op=vindex&amp;search=0x4726DF9511E0AF1F">PGP key</a>
 if you wish).</p>
 
-<h2>Privacy notice</h2
-
-<p>
-I use self-hosted <a href="http://piwik.org">Piwik</a> for statistics to satisfy my
-curiosity regarding the visitors. It doesn't store complete IP addresses and respects the Do Not Track header,
-so if you have a problem with it, just enable DNT and you should be fine.</p>
-
+<h2>Privacy notice</h2>
 <p>This website does not use cookies (should I have made this a popup message?).</p>
 
 <h2>Copyrights</h2>

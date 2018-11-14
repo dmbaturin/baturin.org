@@ -1,4 +1,4 @@
-{% set date 2016 September 02 %}
+{% set date 2018 October 28 %}
 
 <h1>Projects</h1>
 
@@ -12,11 +12,11 @@
 <p>Unlike GUI-oriented projects like pfSense or IPcop, we belive in the
 power of the command line interface, so VyOS provides access to all
 system functions through a unified CLI somewhat similar to that of JunOS.</p>
-<p>Forked from now-abandoned Vyatta Core.</p>
+<p>It was forked from the abandoned Vyatta Core project..</p>
 <ul>
-  <li> Website: <a href="http://www.vyos.net">vyos.net</a> </li>
+  <li> Website: <a href="https://www.vyos.io">vyos.io</a> </li>
   <li> Source code: it's a bit complicated, in a nutshell,
-       <a href="http://github.com/vyos/build-iso/">github.com/vyos/build-iso</a>
+       <a href="http://github.com/vyos/build-iso/">github.com/vyos/vyos-build</a>
        and all its submodules.</li>
   <li>Distrowatch: <a href="http://distrowatch.com/table.php?distribution=vyos">distrowatch.com/table.php?distribution=vyos</a> </li>
 </ul>
@@ -77,7 +77,7 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
 <p>A protocol overhead and maximum transmission unit calculator.</p>
 <p>Allows you to easily calculate the MTU and TCP MSS for tunnels with
    different combinations of encapsulating and encapsulated protocols.
-   Just select protocols from the drop-down list and see how header sizes add up.</p>
+   Just select protocols by clicking on their buttons and see how header sizes add up.</p>
 <p>To my surprise, second most popular page on this website where people come by searching for
    &ldquo;MTU calculator&rdquo; and similar.</p>
 <ul>
@@ -105,3 +105,21 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
    I'm not even sure if it works anymore, if it doesn't, let me know.</p>
 <p>Also, if you are a CDE fan, you should know that The Open Group finally released it
    under LGPL in 2012 and you can have <a href="http://cdesktopenv.sourceforge.net/">the real thing</a> now.</p>
+
+<h2>Obsolete projects</h2>
+
+<h3>EMRK</h3>
+<p>EMRK was the EdgeMax Rescue Kit, a TFTP-bootable rescue image for the Ubiquiti EdgeRouter Lite, allowed the user to
+   reinstall EdgeOS from scratch or mount the filesystem and do some recovery by hand.</p>
+<p>Made it to the Ubiquiti documentation and its <a href="http://community.ubnt.com/t5/EdgeMAX/EdgeMax-rescue-kit-now-you-can-reinstall-EdgeOS-from-scratch/td-p/514857">forum thread</a> was alive after
+   over two years from the first post.</p>
+<p>
+I'm no longer involved in the Ubiquiti community and don't even use their hardware myself anymore, so I have no idea if it still works.
+It also never supported any hardware but the original EdgeRouterLite (er100) because Cavium never made freely available SDKs for those.
+You may still try it at your own risk, or take up its maintenance.
+</p>
+<ul>
+  <li>The image: <a href="http://packages.vyos.net/tools/emrk/">packages.vyos.net/tools/emrk/</a> </li>
+  <li>Usage guide in the <a href="http://community.ubnt.com/t5/EdgeMAX-Knowledge-Base/EdgeMAX-Last-resort-recovery-of-failed-EdgeOS-device/ta-p/1103623">Ubiquiti knowledge base</a>.</li>
+  <li>Source code (scripts only, the rest is from the Cavium SDK and EdgeOS itself): <a href="https://github.com/vyos/emrk">github.com/vyos/emrk</a> </li>
+</ul>

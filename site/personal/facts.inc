@@ -1,4 +1,10 @@
-{% set date 2017 August 02 %}
+{% set date 2018 November 13 %}
+
+<h1>Random facts about me</h1>
+
+<p>If anyone is actually interested...</p>
+
+<hr />
 
 <p>I like learning programming languages for fun. So far I've written or modified anything practical in (random order) C, Ada,
    Python, Perl, Java, OCaml, JavaScript, and Bourne shell.
@@ -56,17 +62,24 @@ and a 33600 bit/s modem. It ran DOS, as you can guess. Well, I was happy to have
 <p>
 By 2005 I scraped up enough money to put together a Socket7 machine that initially had a Pentium 166 CPU but eventually ended up
 with a 450Mhz AMD K6-2 and 128M RAM (I believe). That was good enough for Windows and Linux in a dual boot setup, even if still
-very outdated even for that time. What I miss about the machines of that time is how much hardware you could keep when you upgrade.
+very outdated even for that time. What I miss about the machines of that time is how much hardware you could keep between upgrades.
+</p>
+<p>
 Oh yes, it also had a <em>color</em> display, even if it was 15" and only supported 800x600 resolution. Whatever you think of the
 knowledge argument, I'm pretty sure <a href="https://en.wikipedia.org/wiki/Knowledge_argument">Mary</a> was happy to leave her room
 with a black and white display.
 </p>
 <p>
-In 2006 I've finally got an Athlon 64 machine. You can imagine how fast it felt. I've also got DSL Internet access later,
+In 2006 I finally got an Athlon 64 machine. You can imagine how fast it felt. I also got a DSL Internet connection later,
 and it made me even happier. The last bit of legacy technology I got rid of was the 17" CRT monitor, that I replaced with a 19" LCD
-one in 2008, just before the Great Recession.
+in 2008, just before the Great Recession.
 </p>
-<p>A funny bit of my subsequent hardware history is that a lot of time it's been Apple hardware running Linux.</p>
+<p>
+A funny bit of my subsequent hardware history is that a lot of time it's been Apple hardware running Linux.
+It was fun while it lasted, as long as I could find Apple boxes for a reasonable price, but their latest hardware is increasingly
+disappointing, especially when it comes to upgrade and repairability. In 2018 I got an Intel NUC as a long overdue replacement for
+my old Mac Mini 2011, and I hope it will serve me for a few years.
+</p>
 <p>
 Funnily enough, my experience with old hardware came in handy quite a few times, when I was asked to repair computers that
 could not be upgraded because they were used with unusual peripherals such as medical equipment and measurement instruments.
@@ -83,3 +96,4 @@ a class4 VoIP provider from scratch. All while I never thought of myself as a Vo
 </p>
 
 <hr />
+

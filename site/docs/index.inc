@@ -1,17 +1,19 @@
-{% set date to 2018 January 28 %}
+{% set date 2018 January 28 %}
+{% set title Documentation %}
 
-<h1>Documentation</h1>
+<h1>{% get title %}</h1>
 
 <div id="generated-toc"></div>
 
 <p>I can't say I'm fond of writing documentation, but someone has to.</p>
 
-<h3>iproute2 cheatsheet</h3>
+<h3>Task-centered iproute2 manual</h3>
+<p>Formerly &ldquo;iproute2 cheatsheet&rdquo;. It was really more of a cheatsheet initially, but it grew out control.</p>
 <p>Probably the most complete guide to the &ldquo;ip&rdquo; part of iproute2 (the Linux network configuration tool)
    on the Internet.</p>
 <p>The most visited page of this whole website, one of the first hits for &ldquo;iproute2 cheat sheet&rdquo;,
    &ldquo;iproute2 documentation&rdquo; and even just &ldquo;iproute2&rdquo; in many search engines,
-   my formal justification for keeping a personal website in the age of Facebook and Instagram.</p>
+   once mentioned in an LWN article. My formal justification for keeping a personal website in the age of Facebook and Instagram.</p>
 <p>Through multiple small additions over a long time it grew to the size when it can make a good
    bedsheet print, and covers almost all iproute2 features (XFRM framework is a notable exception,
    though I hope I'll document it too eventually).</p>
@@ -28,10 +30,16 @@
 </ul>
 <p>Maybe it will get its own repo some day, for now it's embedded in the website.</p>
 
+<ul>
+  <li> <a href="/docs/nice-pdfs">How to make nice and easy to navigate PDFs</a> </li>
+</ul>
+
+<h2>Obsolete</h2>
+
 <h3>Vyatta Bootcamp</h3>
 <p>Vyatta quickstart guide in Russian, written back in 2011 for the russian community.</p>
-<p>Kept for historical reasons, substantial part of it is not applicable to any of the extant
-   Vyatta successors (Brocade vRouter, EdgeOS, and VyOS).
+<p>Kept for historical reasons, substantial part of it is no longer applicable to any of the extant
+   Vyatta successors, either EdgeOS or VyOS.
 </p>
 <p>On a side note, the term bootcamp plays pretty much the same role in Russian as
    Foo 101 in English. I'm not sure if it's because russian colleges don't use uniform course numbering
@@ -46,10 +54,4 @@
 
 <p><strong>Note:</strong> I'm no longer actively involved with EdgeOS, since Ubiquiti essentially turned it
    into yet another proprietary product. This was written back in 2013, and I have no idea if it's still relevant.</p>
-<p>But if you are curios, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a> </p>
-
-<h3>Brief tutorials</h3>
-
-<ul>
-  <li> <a href="/docs/nice-pdfs">How to make nice and easy to navigate PDFs</a> </li>
-</ul>
+<p>But if you are curios, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a>.</p>

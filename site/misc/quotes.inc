@@ -51,7 +51,7 @@ Software tends to live too long: just good enough to discourage replacement, but
 <blockquote>
 Within the Oceans of Great Risk were many Sun Worshippers, and they had wanted to excel, and make their words perfect, and do their jobs as easy as one-two-three.
 </blockquote>
-<div class=quote-source">&mdash; unknown<a href="#peasea"><sup>3</sup></a></div>
+<br/><div class="quote-source">&mdash; unknown<a href="#peasea"><sup>3</sup></a></div>
 
 <blockquote>
 If it hurts, do it more often.
@@ -91,6 +91,6 @@ Ada was used in the USSR too.
 <a name="peasea"> </a>
 <p> <sup>3</sup>
 It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
-still can be found on many websites often without attribution, and I really would like to know who the original
+which can be found on many websites often without attribution, and I really would like to know who the original
 author is.
 </p>

@@ -1,11 +1,13 @@
+{% set date 2018 August 06 %}
+
 <h1>Desktop screenshots</h1>
 
 <p>
 Some people post photos of their cats, some post photos of their food. One might think they will eventually
-combine the two and start posting photos of their cat's food, but I'm still see it happen.
+combine the two and start posting photos of their cat's food, but I'm still to see it happen.
 </p>
 Meanwhile, I'll rather post my desktop screenshots. Desktop environment is something you normally don't think much
-about, once it's setup anyway, but finding an old screenshot while trying to clean up the drive can be oddly nostalgic.
+about, once it's setup anyway, but finding an old screenshot while trying to clean up the disk can be oddly nostalgic.
 </p>
 
 
@@ -43,7 +45,7 @@ I got tired of FluxBox for a reason I can't remember and switched to Gnome 2 at 
 </a>
 
 <p>
-Messing up with <a href="https://en.wikipedia.org/wiki/MVS">MVS</a> in <a href="http://www.hercules-390.org/">Hercules</a>.
+Messing up with <a href="https://en.wikipedia.org/wiki/MVS">MVS</a> in <a href="http://www.hercules-390.org/">Hercules</a> in 2012.
 The system is still Debian Squeeze.
 </p>
 
@@ -61,13 +63,27 @@ an RPM-based distro (Fedora) from the aging Squeeze, and to OpenBox from the no 
 <hr />
 
 <a href="/images/screenshots/desktop/clean_desktop_2017.png">
-  <img src="/images/screenshots/desktop/clean_desktop_2017.png" width="600px" alt="Screenshot of OpenBox and Coq">
+  <img src="/images/screenshots/desktop/clean_desktop_2017.png" width="600px" alt="Screenshot of OpenBox">
 </a>
 
 <p>
 Working on a tune in 2017.
 </p>
 <p>
-That's my standard setup since 2016, a Frankenstein desktop environment made from OpenBox, dmenu, and lxpanel without any other part
+That's my standard setup from 2016 to 2018, a Frankenstein desktop environment made from OpenBox, dmenu, and lxpanel without any other part
 of LXDE. 
+</p>
+
+<hr />
+
+<a href="/images/screenshots/desktop/clean_desktop_2018.png">
+  <img src="/images/screenshots/desktop/clean_desktop_2018.png" width="600px" alt="Screenshot of Mate Desktop">
+</a>
+
+<p>
+Debugging an IPsec issue in VyOS in 2018.</p>
+<p>
+ The OS is Fedora 28, and the franken-DE is no more, I got tired of maintaining it,
+decided to give Mate Desktop another try after years, and found that its maintainers have done a great work making it even better
+than GNOME2 used to be.
 </p>
