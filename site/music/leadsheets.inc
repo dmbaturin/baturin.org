@@ -1,4 +1,4 @@
-{% set date 2017 March 29 %}
+{% set date 2018 November 14 %}
 
 <h1>Jazz leadsheets</h1>
 
@@ -17,6 +17,20 @@
 <p>The original files were created in MuseScore. MuseScore it free software, you can install it from your distro's repositories
    (sometimes the package is called mscore rather than musescore) or download Windows/OS X installers from <a href="http://musescore.org">musescore.org</a>.
    For impro-visor leadsheets you'll need, well <a href="https://www.cs.hmc.edu/~keller/jazz/improvisor/">impro-visor</a>, which is also free software.
+</p>
+
+<h3>Innocence</h3>
+
+<ul class="plain">
+  <li> <a href="/music/leadsheets/innocence.pdf">PDF</a> </li>
+  <li> <a href="/music/leadsheets/innocence.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/leadsheets/innocence.ls">Impro-visor leadsheet file</a> </li>
+  <li>Date: November 2018</li>
+  <li>Original key: C major</li>
+</ul>
+
+<p>
+Written for a certain saxophonist, the tune name is a pun on her name... and her age, for that matter.
 </p>
 
 <h3> Last Sunny Day of the Autumn </h3>

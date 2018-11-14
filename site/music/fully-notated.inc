@@ -13,12 +13,15 @@
    will give me very odd looks. I'll stick with &ldquo;fully notated&rdquo; which is vague enough to cover everything
    and not offensive to anyone.</p>
 
+<p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
+
 <h3>Fake Folk Dance #2 (flute and piano)</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.mscz">MuseScore file</a> </li>
-  <li> Date: January 2017 </li>
+  <li> Date: January 2018 </li>
   <li> Original key: A major </li>
 </ul>
 
@@ -28,6 +31,7 @@
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-07_sarabande.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-07_sarabande.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-07_sarabande.mscz">MuseScore file</a> </li>
   <li> Date: December 2017 </li>
   <li> Original key: B minor </li>
@@ -42,6 +46,7 @@ Minor key, triple meter, let's call it a sarabande.
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.mscz">MuseScore file</a> </li>
   <li> Date: August 2017 </li>
   <li> Original key: C minor </li>
@@ -53,6 +58,7 @@ Minor key, triple meter, let's call it a sarabande.
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-05_f_waltz.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-05_f_waltz.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-05_f_waltz.mscz">MuseScore file</a> </li>
   <li> Date: June 2017 </li>
   <li> Original key: F major </li>
@@ -65,6 +71,7 @@ Minor key, triple meter, let's call it a sarabande.
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-04_ballad_of_an_epic_fail.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-04_ballad_of_an_epic_fail.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-04_ballad_of_an_epic_fail.mscz">MuseScore file</a> </li>
   <li>Date: May 2017</li>
   <li>Original key: A minor</li>
@@ -77,6 +84,7 @@ Minor key, triple meter, let's call it a sarabande.
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-03_rhythm_changes_prelude.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-03_rhythm_changes_prelude.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-03_rhythm_changes_prelude.mscz">MuseScore file</a> </li>
   <li>Date: April 2017</li>
   <li>Original key: C major</li>
@@ -96,6 +104,7 @@ smoothly as it consists entirely of secondary dominants (ragtime progression) an
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-02_awkward_waltz_for_ann.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2017-02_awkward_waltz_for_ann.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2017-02_awkward_waltz_for_ann.mscz">MuseScore file</a> </li>
   <li>Date: March 2017</li>
   <li>Original key: E minor</li>
