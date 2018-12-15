@@ -1,12 +1,41 @@
-{% set date 2017 August 07 %}
+{% set date 2018 December 16 %}
 
 <h1>JAPHs and other fun with obfuscation</h1>
 
 <div id="generated-toc"></div>
 
 <p>
-I like recreational obfuscation. Not that I'm really good at it, but here's some examples of what I wrote during inspiration attacks.
+I like recreational obfuscation. Not that I'm really good at it, but here are some examples of what I wrote during inspiration attacks.
 </p>
+
+<h3>Christmas tree 2.0</h3>
+
+<pre>
+#!/usr/bin/env python3
+m = ['\0', '\0', '\\', '/', '|', '\n', '*', ' ']
+n=1427204133903092885193970416731911941327299733
+Y =  lambda f : lambda x, y : f( Y( f ) ) (x, y)
+s = Y( lambda f : lambda  x, y : y if not x else
+f(x >> 3, y + m[x & 7]))(n, "") ; print(s[::-1])
+</pre>
+
+<p>Should print an ASCII christmas tree:</p>
+<pre>
+    *    
+   /|\   
+  //|\\  
+ ///|\\\ 
+////|\\\\
+</pre>
+
+<p>
+...eight years later. Another take on the custom ASCII art encoding theme, this time
+every character is encoded by three bits. Since we only need six characters, while
+three bits can encode 2<sup>3</sup>=8 distinct values, two unused values are mapped
+to the null character. A loop would be too obvious, so I used recursion with accumulator,
+implemented using the Y combinator instead of a direct recursive definition.
+</p>
+<p>Date: December 2018</p>
 
 <h3>Fermat numbers</h3>
 
@@ -49,7 +78,7 @@ that uses the entire printable ASCII range as its alphabet.
 #!/usr/bin/env perl
 use bigint;$i=
 8311 * 11506699 * 5456897772732206286791603681159406921396401
-;while($i){$_.=chr($i&amp;0x7f);$i*gt;&gt;=7;}print
+;while($i){$_.=chr($i&amp;0x7f);$i&gt;&gt;=7;}print
 </pre>
 
 <p>Should print traditional &ldquo;Just another Perl hacker&rdquo;.</p>
@@ -104,29 +133,38 @@ $_=join("\n",$_=~/.{11}/g);print;1
 <h3>Glider</h3>
 
 <pre>
-#!/usr/bin/env perl
-@glider= ([  0, 1, 0  ],
+#!/usr/bin/env python
+glider = [[  0, 1, 0  ],
           [  0, 0, 1  ],
-          [  1, 1, 1  ]);
+          [  1, 1, 1  ]]
 
-@hacker= ([ 3.00, 3.00, 2.45 ],
-          [ 4.00, 2.90, 2.85 ],
-          [ 4.00, 2.90, 2.88 ],
-          [ 3.90, 3.80, 2.95 ],
-          [ 3.90, 3.60, 2.85 ],
-          [ 4.00, 3.95, 3.04 ],
-          [ 1.00, 1.00, 0.95 ]);
+hacker = [[ 300, 300, 175 ],
+          [ 390, 270, 255 ],
+          [ 400, 265, 260 ],
+          [ 365, 325, 260 ],
+          [ 350, 345, 225 ],
+          [ 400, 320, 265 ]]
 
-sub mul(\@\@){@r=();for($i=0;$i&lt;3;$i++){for($j=0;$j&lt;3;$j++){;$r
-[$i]+=$_[0][$i][$j]*$_[1][$i]}}return\@r}sub ip(\@){$w=0;for($k
-=0;$k&lt;3;$k++){$w+=$_[0][$k]*$_[0][$k];}return chr(int($w));}for
-($n=0;$n&lt;=6;$n++){$_.=ip(@{mul(@glider,@{$hacker[$n]})});}print
+from functools import reduce; nsqr = lambda x: sp(x, x)
+sp=lambda u,v: reduce(lambda x,y:x+y,list(map(lambda z:z[0]*z[1],zip(u,v))),0)
+transform = lambda m,v:list(map(lambda mr: sp(mr,v),m))
+print("".join(map(chr,map(lambda x:nsqr(transform(glider,x))//10**4,hacker))))
 </pre>
 
-<p>I generally support Eric Raymond's idea to use the glider as technology neutral hacker subculture emblem.</p>
-<p> Here the glider is represented as a 3x3 matrix and the ASCII codes or the &ldquo;Hacker&rdquo; word characters are calculated
-    as (squares of) euclidian norms of constructed vectors after applying the glider operator matrix to them.</p>
-<p>Date: November 2012</p>
+<p>Should print the word &ldquo;Hacker&rdquo;.</p>
+<p>
+I generally support Eric Raymond's idea to use the glider as a technology neutral hacker subculture emblem
+(even if I don't agree with a lot of his opinions).
+</p>
+<p>
+Here the glider is used as a linear transformation matrix that is applied to a bunch of vectors
+constructed so that the squares of their euclidian norms are equal to the ASCII character codes of the word &ldquo;Hacker&rdquo;
+(rather, their first two or three decimal digits are).
+The original version used floating point numbers, but I multiplied everything by 100 to avoid it
+and use only precise and portable integer arithmetics. Works in both Python 3 and Python 2.7.
+</p>
+<p>This is an updated version that uses Python and integer arithmetics.</p>
+<p>Date: November 2012, Python rewrite in December 2018</p>
 
 <h3>Christmas tree</h3>
 
