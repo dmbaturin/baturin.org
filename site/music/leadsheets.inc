@@ -14,7 +14,7 @@
    &ldquo;<a href="http://www.wmich.edu/mus-theo/courses/keys.html">Eb major is the key of love and devotion</a>&rdquo; kind of importance),
    usually it's just where my fingers fall.</p>
 
-<p>The original files were created in MuseScore. MuseScore it free software, you can install it from your distro's repositories
+<p>The original files were created in MuseScore. MuseScore is free software, you can install it from your distro's repositories
    (sometimes the package is called mscore rather than musescore) or download Windows/OS X installers from <a href="http://musescore.org">musescore.org</a>.
    For impro-visor leadsheets you'll need, well <a href="https://www.cs.hmc.edu/~keller/jazz/improvisor/">impro-visor</a>, which is also free software.
 </p>
