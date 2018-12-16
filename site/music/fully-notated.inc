@@ -1,4 +1,4 @@
-{% set date 2018 January 28 %}
+{% set date 2018 December 17 %}
 
 <h1>Fully notated pieces</h1>
 
@@ -14,6 +14,42 @@
    and not offensive to anyone.</p>
 
 <p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
+
+<h3>Album leaf 2018.12 (piano solo)</h3>
+
+<p>
+A winter holidays present for our music theory professor. Originally, &ldquo;album leaf&rdquo;
+meant a short piece written as a gift for someone, in the era when handwritten poetry albums
+were popular, and this piece is exactly that.
+</p>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op_2018-02_album_leaf.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op_2018-02_album_leaf.mid">MIDI</a> </li>
+  <li> <a href="/music/fully-notated/op_2018-02_album_leaf.mscz">MuseScore file</a> </li>
+  <li> Date: December 2018 </li>
+  <li> Original key: B-flat major </li>
+</ul>
+
+<h3>When I died, there was no one who could disprove it</h3>
+
+<p>
+An minimalist piece for a wind quartet and vibraphone that I wrote for Antonio Agostini during a contemporary music festival
+where he offered a master class in composition, and I decided to give his methods a try.
+Its title and intended program are taken from a single line poem by a psychedelic rock and punk
+musician Egor Letov.
+</p>
+<p>
+Somehow I lost the musescore file, but if anyone is willing to actually perform it and needs different
+instrumentation, I can come up with something.
+</p>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/when_i_died.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/when_i_died.mid">MIDI</a> </li>
+  <li> Date: November 2018 </li>
+</ul>
+
 
 <h3>Fake Folk Dance #2 (flute and piano)</h3>
 
