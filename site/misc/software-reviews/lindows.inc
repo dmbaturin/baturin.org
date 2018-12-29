@@ -1,0 +1,254 @@
+{% set date 2018 December 09 %}
+
+<h1>Lindows 4.0 (2003)</h1>
+
+<p>
+There once was a time when desktop adoption was seen as the most important goal
+for Linux. Since then, Linux has come to dominate the market of supercomputers,
+web servers, mobile devices, network devices, and IoT, but most desktop computers
+are still running Windows. While there are millions of Linux desktops, it's still a minority.
+Sure, Linux has succeeded, but not in a way people in the early 2000's had anticipated.
+</p>
+
+<p>
+A certain category of people thought the best way to gain desktop adoption was
+to make Linux mimic Microsoft Windows as much as possible. Sometimes it took benign
+forms, such as making Windows-like themes for window managers, but some took it
+to the exreme.
+</p>
+
+<p>
+And then there was Lindows... The distribution that failed to gain any popularity
+with either Windows users or free software advocates. For Windows users, it was
+not a drop-in replacement because not one OS in the world can be a drop-in replacement
+for another. For free software advocates, it was a blatant disregard of free software
+ideals because it mixed free and proprietary software arbitrarily.
+</p>
+
+<p>
+Its name was an obvious lawsuit magnet, and it sure <a href="https://en.wikipedia.org/wiki/Microsoft_Corp._v._Lindows.com,_Inc.">happened</a>,
+but the lawsuit was settled out of court and apparently got the project developers $20M, which didn't seem to
+help it much. It was since then renamed to Linspire/Freespire, sold to different companies multiple times,
+and is now owned by PC/OpenSystems LLC. Freespire looks like yet enother Ubuntu derivative to me,
+though I haven't looked deep. Linspire costs at least $80 and I'm not $80 interested in it.
+In any case, that distro has little if anything in common with the original Lindows, and should not be judged
+by this review! 
+</p>
+
+<p>
+In this review we are going to take a look at the last release actually named &ldquo;Lindows&rdquo;,
+version 4.0 from 2003.
+I've heard of it at the time, but never tried because I thought it was ridiculous. Let's see if my
+judgement was correct.
+</p>
+
+<p>
+Installation images are available from <a href="https://winworldpc.com/product/lindows/40x">WinWorldPC</a>
+(thanks to its team for doing it!). It boots in VirtualBox with standard Linux 2.4 setup just fine
+(PIIX3 chipset, IDE drives, PCNet NIC). We are met with a custom graphical bootloader:
+</p>
+
+<img src="/images/lindows/00_lindows_cd_loading.png" width="800px" alt="Lindows CD loading"/>
+
+<p>
+The installer loads and offers two options, to usethe entire drive, or to setup partitions by hand.
+</p>
+
+<img src="/images/lindows/01_lindows_install_method.png" width="800px" alt="Lindows install method choice"/>
+
+<p>
+Naturally, I picked the latter option, but the first surprise was lurking there:
+</p>
+
+<img src="/images/lindows/02_lindows_partitioning.png" width="800px" alt="Lindows partition choice"/>
+
+<p>
+That's right, you can only pick a drive or a partition from a list.
+There is no functionality for creating or editing partitions, unlike in most other distros from any era,
+so the only way one could possibly install it alongside another OS would be to create partitions beforehand.
+I didn't check if it was capable of detecting Windows installations and setting up the bootloader accordingly.
+</p>
+
+<p>Another surprise awaits at the next screen:</p>
+
+<img src="/images/lindows/03_lindows_computer_name.png" width="800px" alt="Lindows computer name setup"/>
+
+<p>
+The hostname option is fine. The password though... which user's password are we asked for? 
+The root password? Will we have an option to add a non-root user?
+</p>
+
+<img src="/images/lindows/04_lindows_install_confirmation.png" width="800px" alt="Lindows setup confirmation"/>
+
+<p>
+Uhm, no. The next screen just asks to confirm the settings.
+</p>
+
+<img src="/images/lindows/05_lindows_install_confirmation_final.png" width="800px" alt="Lindows setup confirmation, final"/>
+
+<p>
+All we can do is to click &ldquo;Yes&rdquo; and watch the progress bar.
+</p>
+
+<img src="/images/lindows/06_lindows_install_progress.png" width="800px" alt="Lindows setup progress"/>
+
+<p>
+It looks like an obvious Windows XP installer clone with a different layout. At least it's not saying
+&ldquo;Try the easiest Lindows&reg; yet&rdquo;
+</p>
+
+<p>
+The next screen is advertising Click'n'Run, the package manager. Frankly, at the time the idea of installing packages
+from a remote server was still relatively new, though graphical frontends for package managers already existed.
+Lindows Click'n'Run promised a one stop shop for everything including proprietary software.
+</p>
+
+<img src="/images/lindows/07_lindows_install_progress_02.png" width="800px" alt="Lindows setup progress, next screen"/>
+
+<p>Installation is now complete and we can reboot the machine.</p>
+
+<img src="/images/lindows/08_lindows_install_complete.png" width="800px" alt="Lindows setup complete"/>
+
+<img src="/images/lindows/09_lindows_remove_cd.png" width="800px" alt="Lindows remove CD"/>
+
+<p>
+By the time installation was complete, I also realized that it didn't offer to choose the interface language,
+even though many other distros already had that option by the time.
+</p>
+
+<p>The machine reboots, and we are met by the same graphical bootloader as in the live CD:</p>
+
+<img src="/images/lindows/10_lindows_boot_screen.png" width="800px" alt="Lindows boot screen"/>
+
+<p>
+Hitting the Escape key does nothing. There's no way to see the boot messages during normal boot.
+Then again, Plymouth didn't exist at the time, there was no standard graphical boot program yet,
+and everyone who wanted one had to invent their own.
+</p>
+
+<img src="/images/lindows/11_lindows_boot_progress.png" width="800px" alt="Lindows boot progress"/>
+
+<p>All we can do is to watch the progress bar. When it boots, we are at the login screen... with no username field!</p>
+
+<img src="/images/lindows/12_lindows_login_screen.png" width="800px" alt="Lindows login screen"/>
+
+<p>You mean, seriously? What user are we going to login as? Let's type the password in and see.</p>
+<p>Looking at the splash screen, we already know that it's using KDE:</p>
+<img src="/images/lindows/13_lindows_kde_loading.png" width="800px" alt="Lindows KDE splash screen"/>
+
+<p>The first thing we see when it loads is the EULA dialog:</p>
+
+<img src="/images/lindows/14_lindows_eula.png" width="800px" alt="Lindows EULA dialog"/>
+
+<p>
+I would have expected to have an option to review the EULA before I let the installer wipe out my hard drive.
+At least in some jurisdictions, installing software may be considered equal to accepting its EULA!
+The EULA mentioned that Lindows is not affiliated with or endorsed by Microsoft, as if there could be
+any confusion.
+</p>
+
+<p>Before we can start doing anything, we are made to watch a tutorial. Windows style again.</p>
+
+<img src="/images/lindows/15_lindows_tutorial_01.png" width="800px" alt="Lindows tutorial"/>
+<img src="/images/lindows/16_lindows_tutorial_02.png" width="800px" alt="Lindows tutorial"/>
+<img src="/images/lindows/17_lindows_tutorial_03.png" width="800px" alt="Lindows tutorial"/>
+
+<p>Exiting the fullscreen mode reveals an ugly truth: the tutorial is Flash-based.</p>
+<img src="/images/lindows/27_lindows_tutorial_flash.png" width="800px" alt="Lindows tutorial windows"/>
+
+<p>
+There isn't much software installed by default. In fact, almost nothing installed by default,
+the assumption was that everything will be installed via Click'n'Run. All dial-up users were
+sure grateful (that was 2003, remember!). Click'n'Run package repository servers are no longer
+available, and clearly wouldn't have packages for a 2003 version in 2018, but let's start
+Click'n'Run just to see it's UI:
+</p>
+
+<img src="/images/lindows/18_lindows_clicknrun_01.png" width="800px" alt="Lindows Click'n'Run"/>
+
+<p>
+Apparently Click'n'Run wasn't mean to handle the situation with inaccessible repository gracefully
+because a minute later it segfaults:
+</p>
+
+<img src="/images/lindows/19_lindows_clicknrun_crash.png" width="800px" alt="Lindows Click'n'Run crash"/>
+
+<p>
+The menu is made to look as Windows-like as possible. In every section, there's a link to Click'n'Run,
+how many programs in each category it could actually offer is impossible to find out by now.
+</p>
+
+<img src="/images/lindows/29_lindows_menu.png" width="800px" alt="Lindows menu"/>
+
+<p>
+Well, now let's check if our worst fears were true. And let's do it Windows... I mean, Lindows way,
+and open the Lindows Control Panel (which may be renamed KDE Control Center I think).
+</p>
+
+<img src="/images/lindows/20_lindows_control_panel.png" width="800px" alt="Lindows control panel"/>
+
+<p>
+Oh yes! The user is root! It uses root login by default, without an option not to do it, without
+any warning message about possible consequences!
+</p>
+
+<p>
+So, what about i18n? There's a country option in the control panel, but it has no effect.
+There are no locales other than en_US in the system.
+</p>
+
+<p>
+If you create a user, the login manager does offer to pick a different account, though it also renames
+root to Administrator for some reason. There's also no option to create a user in the control panel,
+though a graphical user manager from KDE is installed.
+</p>
+
+<img src="/images/lindows/26_login_screen_multiuser.png" width="800px" alt="Lindows login screen, multi-user"/>
+
+<p>Some Windows-like directories such as &ldquo;My Documents&rdquo; are created inside the home dir:</p>
+
+<img src="/images/lindows/23_lindows_file_browser.png" width="800px" alt="Lindows file browser"/>
+
+<p>Inside the &ldquo;My Documents&rdquo; directory, there are some bonus files. Some music samples and a letter:</p>
+
+<img src="/images/lindows/28_lindows_helpful_hints.png" width="800px" alt="Lindows bonus files"/>
+
+<p>This is what's inside the Music directory:</p>
+
+<img src="/images/lindows/28_lindows_music_samples.png" width="800px" alt="Lindows music samples"/>
+
+<p>
+The Thankyou.mp3 simply says &ldquo;Thanks you for choosing Lindows OS&rdquo;. The second file is more interesting.
+It contains the Meet Me song from the <a href="https://store.cdbaby.com/cd/emilyrichards2">Can't Take It With You</a>
+album by Emily Richards.
+Turns out <a href="http://www.emilyrichards.com/">Emily Richards</a> releases her music under CC-BY-NC license (non-free, but still).
+There's no indication that the song in question is under a free license however, so I wonder if they had a special agreement with her.
+</p>
+
+<p>And then we find what seems to be a rather personal touch, a letter from Jack Donaldson, an assistant coordinator:</p>
+
+<img src="/images/lindows/28_lindows_helpful_hints_text.png" width="800px" alt="Lindows helpful hints text"/>
+
+<p>There's Mozilla renamed to &ldquo;Lindows Internet Suite&rdquo;:</p>
+
+<img src="/images/lindows/21_lindows_mozilla_01.png" width="800px" alt="Lindows Internet Suite"/>
+
+<p>Of course, the change is very superficial:</p>
+
+<img src="/images/lindows/22_lindows_mozilla_02.png" width="800px" alt="Lindows Internet Suite, Book of Mozilla"/>
+
+<p>
+One relic from the past that many people may not even remember: it was <em>Macromedia</em> Flash Player back then,
+not yet <em>Adobe</em> Flash Player.
+</p>
+
+<img src="/images/lindows/24_lindows_flash_player.png" width="800px" alt="Macromedia Flash Player"/>
+
+<p>
+Other than that, there's not much software to talk about. Out of the box, without working Click'n'Run
+it doesn't make a complete working environment. Wine isn't installed by default and there's no out of the box
+integration with Windows binaries, though I think they might have done it in later versions.
+But, I guess we have see enough. As we shutdown the machine, we see a custom splash again:
+</p>
+
+<img src="/images/lindows/25_lindows_shutdown_complete.png" width="800px" alt="Lindows shutdown screen"/>
