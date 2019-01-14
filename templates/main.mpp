@@ -2,32 +2,33 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="/main.css" />
     <link rel="stylesheet" media="print" href="/print.css">
     <link rel="icon" type="image/png" href="/images/favicon.png" />
     <script type="text/javascript" src="/scripts/generated_toc.js"> </script>
-    {{% ifdef title <title>{% get title %} - Daniil Baturin</title> %}}
-    {{% ifndef title <title>Daniil Baturin</title> %}}
+    <title></title>
   </head>
 
   <body>
 
     <div id="page-wrapper">
-      <div id="toc-wrapper">
-        <div id="nav">
-          <ul class="nav">
+        <div id="nav-wrapper">
+          <div id="nav">
           {{% input {% get toc %} %}}
-          </ul>
-        </div>
+          </div>
       </div>
       <div id="content-wrapper">
         <div id="content">
+          <div id="breadcrumbs">
+          </div>
           {{% input {% get page %} %}}
           {{% ifdef date <div id="revision">This page was last modified: {% get date %}</div> %}}
         </div>
       </div>
     </div>
   </body>
-
 </html>
 

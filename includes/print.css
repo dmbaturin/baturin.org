@@ -4,11 +4,6 @@ body
     font-family: sans-serif;
 }
 
-#toc-wrapper
-{
-    display: none;
-}
-
 #nav
 {
     display: none;
@@ -20,22 +15,22 @@ body
     width: 100%
 }
 
-#revision
+#breadcrumbs
 {
     display: none;
 }
 
 a
 {
-    color: #567d9a;
+    color: #dadada;
 }
 
 hr
 {
     height: 1px;
     border: 0 none;
-    color: #87a7bf;
-    background-color: #87a7bf;
+    color: black;
+    background-color: black;
     width: 40%;
     margin-bottom: 2em;
     margin-top: 2em;
@@ -53,7 +48,7 @@ th
 
 table, th, td
 {
-   border: 1px solid #87a7bf;
+   border: 1px solid black;
 }
 
 th, td
@@ -70,4 +65,3 @@ ul.plain
 {
     list-style-type: none;
 }
-

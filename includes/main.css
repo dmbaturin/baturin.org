@@ -6,32 +6,51 @@ body
 
 #page-wrapper
 {
-    float: left;
-    padding-bottom: 40px;
-    width: 100%;
+    max-width: 1000px;
+
+    padding-top: 2%;
+    padding-bottom: 4%;
+    
+    margin-left:  auto; 
+    margin-right: auto;
+
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
-#toc-wrapper
+#nav-wrapper
 {
-    float: left;
+    width: 100%;
+    border-top: #355670 solid 1px;
+    border-bottom: #355670 solid 1px;
 }
 
 #nav
 {
-    float: left;
-    padding-top: 40px;
-    min-width: 12em;
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    margin-left: 2%;
+    margin-right: 2%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#breadcrumbs
+{
+    margin-bottom: 1em;
 }
 
 #content
 {
-    max-width: 60em;
-    padding: 40px;
-    overflow: hidden;
+    padding: 2%; 
     min-height: 20em;
-    border-left: #87a7bf solid 1px;
-    border-bottom: #87a7bf solid 1px;
+    border-bottom: #355670 solid 1px;
 }
 
 #revision
@@ -42,42 +61,27 @@ body
     text-align: right;
 }
 
-ul.nav
-{
-    list-style-type: none;
-}
-
-li.nav
-{
-    margin: 0.5em 0;
-}
-
-a.nav
-{
-    color: #567d9a;
-}
-
 div.quote-source
 {
     text-align: right;
 }
 
-a
+a, a.nav:visited
 {
-    color: #567d9a;
+    color: #355670;
 }
 
 a:visited
 {
-    color: #56589a;
+    color: #355670;
 }
 
 hr
 {
     height: 1px;
     border: 0 none;
-    color: #87a7bf;
-    background-color: #87a7bf;
+    color: #355670;
+    background-color: #355670;
     width: 40%;
     margin-bottom: 2em;
     margin-top: 2em;
@@ -85,6 +89,7 @@ hr
 
 table
 {
+    max-width: 100%;
     border-collapse: collapse;
 }
 
@@ -95,12 +100,12 @@ th
 
 table, th, td
 {
-   border: 1px solid #87a7bf;
+   border: 1px solid #355670;
 }
 
 th, td
 {
-    padding: 0.5em;
+    padding: 0.5em; 
 } 
 
 .table-caption
@@ -116,4 +121,10 @@ ul.plain
 .centered
 {
     text-align: center;
+}
+
+img
+{
+    display: inline-block;
+    max-width: 100%;
 }
