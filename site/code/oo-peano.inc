@@ -14,7 +14,7 @@
 <p>
 The code on this page and in that file only works with Python3. There are
 differences in metaclass implementation in 2 and 3, for a legacy version that works with
-Python 2.7 see <a href="/code/files/oo-peano.py">oo-peano2.py</a>
+Python 2.7 see <a href="/code/files/oo-peano2.py">oo-peano2.py</a>
 </p>
 
 <pre>
@@ -95,7 +95,7 @@ S(S(S(O))) * S(S(O)) = S(S(S(S(S(S(O))))))
 
 <hr />
 
-<p>If you've never heard of Peano arithmetic before, here's an informal introduction to what's going on.
+<p>If you've never heard of the Peano axioms before, here's an informal introduction to what's going on.
    To define natural numbers axiomatically, we postulate that there's
    a thing called Zero (we'll render it as <em>O</em>) and it's a natural number.
    Then we postulate that there's a <em>successor</em>
@@ -103,7 +103,7 @@ S(S(S(O))) * S(S(O)) = S(S(S(S(S(S(O))))))
    is also a natural number, and if two natural numbers are equal, then their
    successors are also equal.</p>
 <p>Thus we can construct any number from Zero by using the <em>S</em> function.
-   0 = O, 1 = S(O), 2 = S(S(O)) and so on.</p>
+   So, <em>0 = O</em>, <em>1 = S(O)</em>, <em>2 = S(S(O))</em> and so on.</p>
 <p>We also assume that there is	a way to extract the <em>n</em>	from <em>S(n)</em>,
    that	is, that there is a <em>predecessor</em> function <em>P</em> such that <em>P(S(n)) = n</em>.
    We also assume that the predecessor of Zero is Zero,	although we don't really need this fact in the program above.</p>

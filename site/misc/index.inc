@@ -1,12 +1,10 @@
-{% set date 2017 July 31 %}
-
 <h1>Misc</h1>
 
 <p>Various things that don't fit anywhere else.</p>
 
 <ul class="nav">
   <li class="nav"> <a href="/misc/quotes">Quotes</a> </li>
-  <li class="nav"> <a href="/misc/software-reviews">Software reviews</a> </li>
+  <li class="nav"> <a href="/misc/software-reviews">&ldquo;Reviews&rdquo;</a> of historical operating systems and other software </li>
   <li class="nav"> <a href="/misc/wishlist">Wishlist</a> </li>
 </ul>
 

@@ -1,10 +1,15 @@
+<h1>UnixWare 7.14 (2015)</h1>
+
 <p>SCO (now Xinuos) is widely known for its attemtps to sue IBM over intellectual property
    allegedly transferred to Linux authors.</p>
 <p>So, why not look at their own offerings? They have two seemingly distinct OS products,
    UnixWare and OpenServer. This time we'll look at UnixWare, which is apparently older and has
    distinctive old proprietary UNIX feel.</p>
 <p>Installation image is available from their website, a 14 day trial license included.</p>
-<p>UnixWare 7.1.4 is the latest release which is still sold by Xinuos, not a historical version.</p>
+<p>UnixWare 7.1 is the latest release which is still sold by Xinuos, not a historical version.
+   The 7.1.4+ release was made in 2013, and a 7.1.4 Definitive release followed it in 2015,
+   but generally it hasn't changed much since 2004.
+</p>
 
 <p>Booting from the installation CD.</p>
 <a href="/images/uw714/03_SCO_install_start.png"> <img src="/images/uw714/preview/03_SCO_install_start.png"/> </a>
