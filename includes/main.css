@@ -46,7 +46,7 @@ body
     margin-bottom: 1em;
 }
 
-@supports(hyphens: auto)
+@supports (hyphens: auto) or (-ms-hyphens: auto)
 {
     #content
     {

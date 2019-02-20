@@ -9,7 +9,7 @@ body
     display: none;
 }
 
-@supports(hyphens: auto)
+@supports (hyphens: auto) or (-ms-hyphens: auto)
 {
     #content
     {
