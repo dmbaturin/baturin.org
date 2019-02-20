@@ -16,6 +16,8 @@ let (+/) left right =
 
 let exec str = ignore @@ Sys.command str
 
+let doctype = "<!DOCTYPE html>"
+
 let default_title = "Daniil Baturin"
 
 let build_dir = "build"
@@ -90,7 +92,7 @@ let process_template main toc target_dir nav_path page =
         let soup = Soup.read_file target_file |> Soup.parse in
         let () = if page_name <> "index" then add_breadcrumbs nav_path soup else add_breadcrumbs [] soup in
         let () = set_title soup in
-        Soup.to_string soup |> Soup.write_file target_file
+        Soup.to_string soup |> Printf.sprintf "%s\n%s" doctype |> Soup.write_file target_file
     end
 
 let rec process_dir src_dir dst_dir nav_path dirname =

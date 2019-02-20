@@ -9,6 +9,15 @@ body
     display: none;
 }
 
+@supports(hyphens: auto)
+{
+    #content
+    {
+        text-align: justify;
+        hyphens: auto;
+    }
+}
+
 #content
 {
     float: left;

@@ -46,6 +46,15 @@ body
     margin-bottom: 1em;
 }
 
+@supports(hyphens: auto)
+{
+    #content
+    {
+        text-align: justify;
+        hyphens: auto;
+    }
+}
+
 #content
 {
     padding: 2%; 
