@@ -137,3 +137,9 @@ img
     display: inline-block;
     max-width: 100%;
 }
+
+pre, code, sample
+{
+    white-space: pre-wrap;
+    hyphens: none;
+}
