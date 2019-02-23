@@ -1,4 +1,4 @@
-{% set date 2015 Aug 13 %}
+{% set date 2019 February 23 %}
 
 <h1>Simple multi-client server in OCaml with Lwt</h1>
 
@@ -12,14 +12,18 @@
 
 <p>Download the file: <a href="/code/files/counter-server.ml">counter-server.ml</a>. </p>
 
+<h3>Prerequisites</h3>
+
+<p>We will need the Lwt package and also the Logs package for logging.</p>
+<pre>
+opam install lwt logs
+</pre>
+
 <h3>Code walkthrough</h3>
 
 <p>We start with opening the Lwt module so we have easy access to bind, return, and other essential functions.</p>
-<p>Then we do some magic to enable logging up to the INFO level.</p>
 <pre>
 open Lwt
-
-let () = Lwt_log.add_rule "*" Lwt_log.Info
 </pre>
 
 <p>The server will keep a shared mutable counter. Clients will be able to read or increment it.</p>
@@ -57,13 +61,13 @@ let handle_message msg =
 <p>Then we can terminate the thread  if it returns <tt>None</tt>, and proceed otherwise.</p>
 <pre>
 let rec handle_connection ic oc () =
-    Lwt_io.read_line_opt ic &gt;&gt;=
-    (fun msg -&gt;
+    Lwt_io.read_line_opt ic >>=
+    (fun msg ->
         match msg with
-        | Some msg -&gt;
+        | Some msg -> 
             let reply = handle_message msg in
-            Lwt_io.write_line oc reply &gt;&gt;= handle_connection ic oc
-        | None -&gt; Lwt_log.info "Connection closed" &gt;&gt;= return)
+            Lwt_io.write_line oc reply >>= handle_connection ic oc
+        | None -> Logs_lwt.info (fun m -> m "Connection closed") >>= return)
 </pre>
 
 <p>When a connection comes in, we need to start a <tt>handle_connection</tt> thread.
@@ -75,8 +79,8 @@ let accept_connection conn =
     let fd, _ = conn in
     let ic = Lwt_io.of_fd Lwt_io.Input fd in
     let oc = Lwt_io.of_fd Lwt_io.Output fd in
-    Lwt.on_failure (handle_connection ic oc ()) (fun e -&gt; Lwt_log.ign_error (Printexc.to_string e));
-    Lwt_log.info "New connection" &gt;&gt;= return
+    Lwt.on_failure (handle_connection ic oc ()) (fun e -> Logs.err (fun m -> m "%s" (Printexc.to_string e) ));
+    Logs_lwt.info (fun m -> m "New connection") >>= return
 </pre>
 
 <p>We also need a thread that accepts connections in a loop. We'll store the socket
@@ -98,6 +102,10 @@ let create_socket () =
     listen sock backlog;
     sock
 </pre>
+<p>
+Note: <code>Lwt_unix.bind</code> return type is <code>unit Lwt.t</code> rather than <code>unit</code>,
+so this is a bit sloppy and will cause a compiler warning.
+</p>
 
 <p>Now we have everything we need. All we need to start working is to start the server thread with
    <tt>Lwt_main.run</tt>.</p>
@@ -108,7 +116,7 @@ let () =
     Lwt_main.run @@ serve ()
 </pre>
 
-<p>Now we can build it with <tt>ocamlfind ocamlopt -package lwt,lwt.unix -linkpkg -o counter-server ./counter-server.ml</tt>,
+<p>Now we can build it with <kbd>ocamlfind ocamlopt -package lwt,lwt.unix,logs,logs.lwt -linkpkg -o counter-server ./counter-server.ml</kbd>,
    start the executable, and start a few telnet sessions to 127.0.0.1:9000 to test it.</p>
 <p>Example of a telnet session:</p>
 <pre>
