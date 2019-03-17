@@ -1,4 +1,4 @@
-{% set date 2018 December 30 %}
+{% set date 2019 March 17 %}
 
 <h1>&ldquo;Powered by...&rdquo;, or the phenomenon of web software buttons</h1>
 
@@ -17,7 +17,7 @@ First, people would always use them voluntarily just because they liked and used
 in return.
 Second, they are relics of the era when the World Wide Web was a medium of its own with visible inner workings, rather than
 the luminiferous aether permeating the entire Internet it is now. Last but not least, buttons promoting web server software
-developed a recognizeable format, often using the titular &ldquo;powered by...&rdquo; phrase, and become a visible part of the
+developed a recognizeable format, often using the titular &ldquo;powered by...&rdquo; phrase, and became a visible part of the
 geek culture for some time.
 </p>
 
@@ -30,7 +30,8 @@ the 80x31 pixel format.
 </p>
 
 <img src="/images/powered-by/netscape_now.gif" alt="Netscape Now button"/>
-<img src="/images/powered-by/ie.gif" alt="Internet Explorer button"/>
+<img src="/images/powered-by/ie.gif" alt="Internet Explorer button, variant 1"/>
+<img src="/images/powered-by/ie_01.png" alt="Internet Explorer button, variant 2"/>
 
 <p>
 A lot of time people put them on their pages not just to tell everyone about their favorite web browser,
@@ -42,9 +43,17 @@ In this light, what's more interesting to me is spoofs and parodies created by p
 
 <img src="/images/powered-by/anybrowser.gif" alt="Any browser button" />
 <img src="/images/powered-by/any_browser_01.png" alt="Any browser button, variant 2" />
+<img src="/images/powered-by/any_browser_05.gif" alt="Any browser button, variant 3" />
 <img src="/images/powered-by/any_browser_any_os.png" alt="Any browser, any OS button" /> 
 <img src="/images/powered-by/nogluck.gif" alt="No markup glitches in any browser" title="No [markup] glitches in any browser" />
 <img src="/images/powered-by/best_viewed_with_eyes.jpg" alt="Best viewed with eyes button" />
+<img src="/images/powered-by/best_viewed_with_open_eyes.jpg" alt="Best viewed with open eyes button" />
+
+<p>
+&ldquo;<a href="https://lynx.invisible-island.net/">Lynx</a>-friendly&rdquo; (occasionally, links or w3m) buttons deserve a special mention.
+Lynx is a text-only, console browser. Such buttons do not promote Lynx as they state that the website has a clean, accessible markup.
+</p>
+<img src="/images/powered-by/lynx_friendly.gif" alt="Lynx friendly" />
 
 <p>
 Later web browser buttons have still seen some benign use for browser advocacy.
@@ -103,7 +112,13 @@ People who could do it (myself included) would hardly miss a chance to show off.
 
 <p>
 I believe open source advocacy was another, maybe even bigger reason. Those buttons almost invariably promote open source software.
-I don't think I've ever seen a &ldquo;Powered by Microsoft IIS&rdquo; button. Absense of &ldquo;Powered by Solaris&rdquo; or 
+I don't think I've ever seen a &ldquo;Powered by Microsoft IIS&rdquo; button. Anti-Microsoft buttons were occasionally seen though:
+</p>
+<img src="/images/powered-by/burn_ms_products.gif" alt="Burn Microsoft products" />
+<img src="/images/powered-by/microsoft_free.gif" alt="100% Microsoft free" />
+
+<p>
+Absense of &ldquo;Powered by Solaris&rdquo; or 
 &ldquo;Powered by OpenVMS&rdquo; buttons may be explained by the price of the hardware and licenses, which only companies that would never
 put any such buttons on their website could afford. People happily promoted proprietary web browsers, but somehow promoting web server
 software mostly happened in the realm of open source.
@@ -169,7 +184,7 @@ While most of OSes promoted with web buttons I've seen are open source, there
 are a few examples of proprietary OS buttons:
 </p>
 
-<img src="/images/powered-by/darwin_powered.png" alt="Darwin Powered" />
+<img src="/images/powered-by/darwin_powered.gif" alt="Darwin Powered" />
 <img src="/images/powered-by/ecomstation_powered.png" alt="eComStation Powered" />
 
 <h3>Programming languages and databases</h3>
@@ -234,9 +249,13 @@ are some examples.
 Using visual HTML editors such a Microsoft Frontpage, or worse, exporting
 HTML from word processors, was common, but it wasn't something to be proud of,
 and the unreadable tag soup they created was shunned by professionals and
-amateurs who cared about maintainability alike. There does exist
-a Frontpage button, but who in their right mind would put in on their page?
+amateurs who cared about maintainability alike. FrontPage buttons did exist,
+but few people in their right mind would put in on their pages.
 </p>
+
+<img src="/images/powered-by/frontpage.gif" alt="Frontpage" />
+<img src="/images/powered-by/frontpage_2000.png" alt="Frontpage 2000" />
+
 <p>
 As a protest against visual editors, many people did use a button of their
 favorite editor. One odd example is relatively common &ldquo;made with notepad&rdquo;
@@ -246,7 +265,6 @@ Emacs buttons are much less common, and I've found a possibly unique example
 of a GNU nano button.
 </p>
 
-<img src="/images/powered-by/frontpage.gif" alt="Frontpage" />
 <img src="/images/powered-by/notepad.gif" alt="Notepad" />
 <img src="/images/powered-by/vi.png" alt="Vim powered, variant 1" />
 <img src="/images/powered-by/vim_powered.gif" alt="Vim powered, variant 2" />
@@ -261,7 +279,6 @@ Static website generators are older than one may think, and Jekyll wasn't the fi
 I found two buttons, one for the <a href="http://template-toolkit.org/">Template Toolkit</a>,
 another one for the now defunct Website Meta Language that used to be hosted at thewml.org
 </p>
-
 
 <img src="/images/powered-by/wml_powered.png" alt="WML powered" />
 <img src="/images/powered-by/template_toolkit_powered.gif" alt="Template toolkit powered" />
