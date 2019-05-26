@@ -4,6 +4,8 @@ body
     font-family: sans-serif;
 }
 
+/** Structural blocks */
+
 #page-wrapper
 {
     max-width: 1000px;
@@ -41,9 +43,56 @@ body
     justify-content: space-between;
 }
 
-#breadcrumbs
+/* Make auxilliary "Site menu" and "Top of the page" link invisible on desktop */
+#menu-link, #top-link
 {
-    margin-bottom: 1em;
+    display: none;
+}
+
+/* Mobile device only */
+@media (pointer: coarse)
+{
+
+     /*
+       Swap the blocks so that the navigation menu is at the bottom,
+       this simplistic solution works because there are only two
+       top level blocks
+     */
+    #page-wrapper
+    {
+        flex-direction: column-reverse;
+    }
+
+    /* Avoid double border when the nav menu is at the bottom */
+    #nav-wrapper
+    {
+        border-top: none;
+    }
+
+    /* Make nav links larger and place them vertically */
+    #nav
+    {
+        flex-direction: column;
+        font-size: 120%;
+    }
+
+    #breadcrumbs
+    {
+        font-size: 120%;
+    }
+
+    /*
+      The mobile-exclusive "Site menu" and "Top of the page" links
+      for getting to the menu and back quickly
+    */
+    #menu-link, #top-link
+    {
+        width: 100%;
+        display: block;
+        text-align: right;
+        font-size: 120%;
+        padding-bottom: 0.5em;
+    }
 }
 
 @supports (hyphens: auto) or (-ms-hyphens: auto)

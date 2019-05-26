@@ -15,15 +15,22 @@
   <body>
 
     <div id="page-wrapper">
-        <div id="nav-wrapper">
+      <nav id="nav-wrapper">
+          <a name="menu" />
+          <div id="top-link">
+              <a href="#top">↑ Top of the page </a>
+          </div>
           <div id="nav">
           {{% input {% get toc %} %}}
           </div>
-      </div>
+      </nav>
       <div id="content-wrapper">
+        <a name="top" />
         <div id="content">
-          <div id="breadcrumbs">
+          <div id="menu-link">
+            <a href="#menu">Site menu ↓</a>
           </div>
+          <div id="breadcrumbs"> </div>
           {{% input {% get page %} %}}
           {{% ifdef date <div id="revision">This page was last modified: {% get date %}</div> %}}
         </div>
