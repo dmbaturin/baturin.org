@@ -1,4 +1,4 @@
-{% set date 2018 October 28 %}
+{% set date 2019 May 06 %}
 
 <h1>Projects</h1>
 
@@ -36,21 +36,6 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
    high level compiled language (Ada 2005) rather than a mix of C and shell.</p>
 <ul>
   <li>Source code: <a href="https://github.com/dmbaturin/hvinfo">github.com/dmbaturin/hvinfo</a> </li>
-</ul>
-
-<h3>EMRK</h3>
-<p>EdgeMax Rescue Kit. A TFTP-bootable rescue image for the Ubiquiti EdgeRouter Lite, allows the user to
-   reinstall EdgeOS from scratch or mount the filesystem and do some recovery by hand.</p>
-<p>Made it to the Ubiquiti documentation and its <a href="http://community.ubnt.com/t5/EdgeMAX/EdgeMax-rescue-kit-now-you-can-reinstall-EdgeOS-from-scratch/td-p/514857">forum thread</a> was alive after
-   over two years from the first post.</p>
-<p>Note that it doesn't work for the ER-8/ER-pro, for two reasons: 1. Cavium didn't release a freely available ready to use SDK for that platform,
-   and 2. ER-8 has its flash drive soldered to the board which is not very conductive to experimentation as it's a lot harder to unbreak.
-   Which is pretty ironic because ER-8 with its non-removable flash needs it more than ERL where you can just swap the USB stick.
-   If you feel like porting it to ER-8, I can possibly explain how I did this one.</p>
-<ul>
-  <li>The image: <a href="http://packages.vyos.net/tools/emrk/">packages.vyos.net/tools/emrk/</a> </li>
-  <li>Usage guide in the <a href="http://community.ubnt.com/t5/EdgeMAX-Knowledge-Base/EdgeMAX-Last-resort-recovery-of-failed-EdgeOS-device/ta-p/1103623">Ubiquiti knowledge base</a>.</li>
-  <li>Source code (scripts only, the rest is from the Cavium SDK and EdgeOS itself): <a href="https://github.com/vyos/emrk">github.com/vyos/emrk</a> </li>
 </ul>
 
 <h2>Libraries and plugins</h2>
