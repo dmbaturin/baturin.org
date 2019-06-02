@@ -3,7 +3,7 @@
 <p>SCO (now Xinuos) is widely known for its attemtps to sue IBM over intellectual property
    allegedly transferred to Linux authors.</p>
 <p>So, why not look at their own offerings? They have two seemingly distinct OS products,
-   UnixWare and OpenServer. This time we'll look at UnixWare, which is apparently older and has
+   UnixWare and OpenServer. This time we'll look at UnixWare, which is apparently older and has a
    distinctive old proprietary UNIX feel.</p>
 <p>Installation image is available from their website, a 14 day trial license included.</p>
 <p>UnixWare 7.1 is the latest release which is still sold by Xinuos, not a historical version.

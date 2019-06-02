@@ -30,6 +30,7 @@
 </ul>
 <p>Maybe it will get its own repo some day, for now it's embedded in the website.</p>
 
+<h3>Various tips and tricks</h3>
 <ul>
   <li> <a href="/docs/nice-pdfs">How to make nice and easy to navigate PDFs</a> </li>
 </ul>
@@ -54,4 +55,4 @@
 
 <p><strong>Note:</strong> I'm no longer actively involved with EdgeOS, since Ubiquiti essentially turned it
    into yet another proprietary product. This was written back in 2013, and I have no idea if it's still relevant.</p>
-<p>But if you are curios, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a>.</p>
+<p>But if you are curious, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a>.</p>

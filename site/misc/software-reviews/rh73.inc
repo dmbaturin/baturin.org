@@ -3,7 +3,7 @@
 <p>RedHat Linux 7.3 was released in 2002. Internet access in most places was still slow,
    so it was easier and cheaper to buy a CD or copy it from a friend than download it.</p>
 <p>Package repositories as we know them today didn't exist yet, although there was an update
-   utility and RedHat Network already, installing a package from remote
+   utility and RedHat Network existed already, installing a package from a remote
    source in one command was not possible.</p>
 <p>Anyway, let's just look at screenshots from the past.</p>
 
@@ -67,7 +67,7 @@
 <p>Mostly works, not with ODF and post-2000 MS Word format of course. Also, default fonts look awful.</p>
 <a href="/images/rh73/rh73_abiword_file.png"> <img src="/images/rh73/preview/rh73_abiword_file.png" alt="OASIS Word specification sample opened in AbiWord" /> </a>
 
-<p>Some things, like gnuplot default settings, never change.</p>
+<p>Some things, like gnuplot's default colors, stayed the same for many years.</p>
 <a href="/images/rh73/rh73_gnuplot.png"> <img src="/images/rh73/preview/rh73_gnuplot.png" alt="Gnuplot displaying a sine plot in the X terminal" /> </a>
 
 <p>Ethereal before it was Wireshark.</p>

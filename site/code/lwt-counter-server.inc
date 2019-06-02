@@ -2,7 +2,7 @@
 
 <h1>Simple multi-client server in OCaml with Lwt</h1>
 
-<p>Lwt is a popular cooperative multitasking library for OCaml.</p>
+<p><a href="https://ocsigen.org/lwt">Lwt</a> is a popular cooperative multitasking library for OCaml.</p>
 <p>There are a number of Lwt tutorials and examples around, but for some reason I couldn't find any that would explain
    how to write a server that serves multiple connections concurrently (as opposed to sending a reply and terminating
    the connection, like HTTP servers do).</p>
@@ -14,7 +14,7 @@
 
 <h3>Prerequisites</h3>
 
-<p>We will need the Lwt package and also the Logs package for logging.</p>
+<p>We will need the Lwt package and also the <a href="https://erratique.ch/software/logs">Logs</a> package for logging.</p>
 <pre>
 opam install lwt logs
 </pre>
@@ -121,7 +121,7 @@ let () =
 <p>Example of a telnet session:</p>
 <pre>
 $ telnet localhost 9000
-Trying 127.0.0.1...                                                                                                                                                                                                Connected to localhost.                                                                                                                                                                                            
+Trying 127.0.0.1... Connected to localhost.
 Escape character is '^]'.
 read
 0

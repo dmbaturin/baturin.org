@@ -3,8 +3,8 @@
 <h1>Writing your own OCaml toplevel directives</h1>
 
 <p>
-The OCaml directives that we all know and love (#use, #load and so on) are literally not a part of the language.
-They never even get to the OCaml parser and are processed by the toplevel binary (bin/ocaml) itself. This is why trying to use them in source code that
+The OCaml directives that we all know and love (<code>#use</code>, <code>#load</code> and so on) are literally not a part of the language.
+They never even get to the OCaml parser and are processed by the toplevel binary (<kbd>bin/ocaml</kbd>) itself. This is why trying to use them in source code that
 is to be compiled with ocamlc or ocamlopt will cause compilation errors.
 </p>
 <p>
@@ -13,17 +13,17 @@ starting ocaml as a REPL and pasting the code into it.
 </p>
 <p>
 Anyway, the most interesting thing about the directives is that they are not hardcoded and it's possible to make your own.
-In fact, some of the most widely used directives such as #require are provided by separate modules, which is why #require doesn't work until you
+In fact, some of the most widely used directives such as <code>#require</code> are provided by separate modules, which is why <code>#require</code> doesn't work until you
 load the findlib module.
 </p>
 <p>
 There is one secret you need to know though: the libraries that provide that functions are not in the default search path
-and you need to add the path explicitly with <em>#directory "+compiler-libs";;</em>.
+and you need to add the path explicitly with <code>#directory "+compiler-libs";;</code>.
 </p>
 <p>
-The directives are simply functions that are stored in a hash table called <em>Toploop.directive_table</em> along with their help data.
-You can add them directly with <em>Hashtbl.add Toploop.directive_table</em> but this is deprecated and you should better use the
-<em>Toploop.add_directive</em> function.
+The directives are simply functions that are stored in a hash table called <code>Toploop.directive_table</code> along with their help data.
+You can add them directly with <code>Hashtbl.add Toploop.directive_table</code> but this is deprecated and you should better use the
+<code>Toploop.add_directive</code> function.
 </p>
 <p>That function and the types it uses are defined as follows:</p>
 <pre>

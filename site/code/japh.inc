@@ -12,6 +12,7 @@ I like recreational obfuscation. Not that I'm really good at it, but here are so
 
 <pre>
 #!/usr/bin/env python3
+# Happy winter holidays!
 m = ['\0', '\0', '\\', '/', '|', '\n', '*', ' ']
 n=1427204133903092885193970416731911941327299733
 Y =  lambda f : lambda x, y : f( Y( f ) ) (x, y)
@@ -88,7 +89,7 @@ use bigint;$i=
 <h3>Seven points of Python</h3>
 
 <pre>
-#!/usr/bin/python
+#!/usr/bin/env python3
 from math import log, exp
 print ("".join(map(lambda
 x:chr((int((round((29*exp
@@ -101,7 +102,7 @@ x:chr((int((round((29*exp
 </pre>
 
 <p>Should print &ldquo;Python&rdquo;. Last I checked, it works with either Python 2.7 or Python 3.</p>
-<p>The function that produces the ASCII codes of the &ldquo;Python\n&rdquo; string was constructed with 
+<p>The function that produces the ASCII codes of the &ldquo;Python\n&rdquo; string was constructed with
    Lagrange polynomial interpolation.</p>
 <p>Date: October 2012</p>
 
@@ -124,7 +125,7 @@ $_=join("\n",$_=~/.{11}/g);print;1
      *     
 </pre>
 
-<p>Obviously, written for Feb 14th. Specifically, for a valentines day contest my ISP once held
+<p>Obviously, written for the Valentine's day. Specifically, for a Valentine's day contest my ISP once held
    where users submitted their postcards, videos, and the like. To their credit, they ran
    it in some test VM and posted a screenshot of the terminal.</p>
 <p>Spaces are encoded with zeroes and stars with 1's, packed into a single hexadecimal number.</p>

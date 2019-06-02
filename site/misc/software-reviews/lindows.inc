@@ -12,7 +12,7 @@ Sure, Linux has succeeded, but not in a way people in the early 2000's had antic
 
 <p>
 A certain category of people thought the best way to gain desktop adoption was
-to make Linux mimic Microsoft Windows as much as possible. Sometimes it took benign
+to mimic Microsoft Windows as much as possible. Sometimes it took benign
 forms, such as making Windows-like themes for window managers, but some took it
 to the exreme.
 </p>
@@ -38,20 +38,20 @@ by this review!
 <p>
 In this review we are going to take a look at the last release actually named &ldquo;Lindows&rdquo;,
 version 4.0 from 2003.
-I've heard of it at the time, but never tried because I thought it was ridiculous. Let's see if my
+I've heard of it at the time, but never tried it because I thought it was ridiculous. Let's see if my
 judgement was correct.
 </p>
 
 <p>
 Installation images are available from <a href="https://winworldpc.com/product/lindows/40x">WinWorldPC</a>
-(thanks to its team for doing it!). It boots in VirtualBox with standard Linux 2.4 setup just fine
+(its team is doing a great work keeping old OSes available!). It boots in VirtualBox with standard Linux 2.4 setup just fine
 (PIIX3 chipset, IDE drives, PCNet NIC). We are met with a custom graphical bootloader:
 </p>
 
 <img src="/images/lindows/00_lindows_cd_loading.png" width="800px" alt="Lindows CD loading"/>
 
 <p>
-The installer loads and offers two options, to usethe entire drive, or to setup partitions by hand.
+The installer loads and offers two options, to use the entire drive, or to setup partitions by hand.
 </p>
 
 <img src="/images/lindows/01_lindows_install_method.png" width="800px" alt="Lindows install method choice"/>
@@ -157,7 +157,7 @@ any confusion.
 <img src="/images/lindows/27_lindows_tutorial_flash.png" width="800px" alt="Lindows tutorial windows"/>
 
 <p>
-There isn't much software installed by default. In fact, almost nothing installed by default,
+There isn't much software installed by default. In fact, almost nothing is installed by default,
 the assumption was that everything will be installed via Click'n'Run. All dial-up users were
 sure grateful (that was 2003, remember!). Click'n'Run package repository servers are no longer
 available, and clearly wouldn't have packages for a 2003 version in 2018, but let's start
@@ -174,15 +174,15 @@ because a minute later it segfaults:
 <img src="/images/lindows/19_lindows_clicknrun_crash.png" width="800px" alt="Lindows Click'n'Run crash"/>
 
 <p>
-The menu is made to look as Windows-like as possible. In every section, there's a link to Click'n'Run,
-how many programs in each category it could actually offer is impossible to find out by now.
+The menu is made to look as Windows-like as possible. In every section, there's a link to Click'n'Run.
+How many programs in each category it could actually offer is impossible to find out by now.
 </p>
 
 <img src="/images/lindows/29_lindows_menu.png" width="800px" alt="Lindows menu"/>
 
 <p>
-Well, now let's check if our worst fears were true. And let's do it Windows... I mean, Lindows way,
-and open the Lindows Control Panel (which may be renamed KDE Control Center I think).
+Well, now let's check if our worst fears were true. And let's do it the Windows... I mean, Lindows way,
+and open the Lindows Control Panel (which I think is just a renamed KDE Control Center).
 </p>
 
 <img src="/images/lindows/20_lindows_control_panel.png" width="800px" alt="Lindows control panel"/>
@@ -198,9 +198,9 @@ There are no locales other than en_US in the system.
 </p>
 
 <p>
-If you create a user, the login manager does offer to pick a different account, though it also renames
+If you create a user, the login manager starts displaying other accounts, though it also renames
 root to Administrator for some reason. There's also no option to create a user in the control panel,
-though a graphical user manager from KDE is installed.
+even though a graphical user manager from KDE is installed.
 </p>
 
 <img src="/images/lindows/26_login_screen_multiuser.png" width="800px" alt="Lindows login screen, multi-user"/>
@@ -218,8 +218,8 @@ though a graphical user manager from KDE is installed.
 <img src="/images/lindows/28_lindows_music_samples.png" width="800px" alt="Lindows music samples"/>
 
 <p>
-The Thankyou.mp3 simply says &ldquo;Thanks you for choosing Lindows OS&rdquo;. The second file is more interesting.
-It contains the Meet Me song from the <a href="https://store.cdbaby.com/cd/emilyrichards2">Can't Take It With You</a>
+The <code>Thankyou.mp3</code> simply says &ldquo;Thanks you for choosing Lindows OS&rdquo;. The second file is more interesting.
+It contains the &ldquo;Meet Me&rdquo; song from the &ldquo;<a href="https://store.cdbaby.com/cd/emilyrichards2">Can't Take It With You</a>&rdquo;
 album by Emily Richards.
 Turns out <a href="http://www.emilyrichards.com/">Emily Richards</a> releases her music under CC-BY-NC license (non-free, but still).
 There's no indication that the song in question is under a free license however, so I wonder if they had a special agreement with her.
@@ -248,7 +248,7 @@ not yet <em>Adobe</em> Flash Player.
 Other than that, there's not much software to talk about. Out of the box, without working Click'n'Run
 it doesn't make a complete working environment. Wine isn't installed by default and there's no out of the box
 integration with Windows binaries, though I think they might have done it in later versions.
-But, I guess we have see enough. As we shutdown the machine, we see a custom splash again:
+But, I guess we have seen enough. As we shutdown the machine, we see a custom splash screen again:
 </p>
 
 <img src="/images/lindows/25_lindows_shutdown_complete.png" width="800px" alt="Lindows shutdown screen"/>
