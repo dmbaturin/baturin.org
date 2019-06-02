@@ -23,5 +23,6 @@
 <h3>Woodwind instrument maintenance and repair</h3>
 <ul>
   <li> <a href="/music/clarinet-reassembly">Reassembling the clarinet keywork</a> </li>
+  <li> <a href="/music/choosing-woodwind-instruments">Choosing woodwind instruments</a> </li>
 </ul>
 
