@@ -74,6 +74,11 @@ let set_title soup =
 
 (* Functions for processing section dirs *)
 
+let safe_tl xs =
+    match xs with
+    | [] -> []
+    | _ :: xs' -> xs'
+
 let process_template main toc target_dir nav_path page =
     let page_name = FP.chop_extension (FP.basename page) in
     let target_dir =
@@ -83,14 +88,14 @@ let process_template main toc target_dir nav_path page =
     in
     let target_file = target_dir +/ index_file in
     let mpp_command =
-        Printf.sprintf "$MPP -its -so {%% -sc %%} -son {{%% -scn %%}} -set page=\"%s\" -set toc=\"%s\" %s > %s"
+        Printf.sprintf "$MPP -its -soc {--- -scc ---}  -so {%% -sc %%} -son {{%% -scn %%}} -set page=\"%s\" -set toc=\"%s\" %s > %s"
             page toc main target_file
     in begin
         exec @@ "mkdir -p " ^ target_dir;
         exec mpp_command;
 
         let soup = Soup.read_file target_file |> Soup.parse in
-        let () = if page_name <> "index" then add_breadcrumbs nav_path soup else add_breadcrumbs [] soup in
+        let () = if page_name <> "index" then add_breadcrumbs nav_path soup else add_breadcrumbs (safe_tl nav_path) soup in
         let () = set_title soup in
         Soup.to_string soup |> Printf.sprintf "%s\n%s" doctype |> Soup.write_file target_file
     end
