@@ -1,4 +1,4 @@
-{% set date 2018 December 17 %}
+{% set date 2019 May 20 %}
 
 <h1>Fully notated pieces</h1>
 
@@ -14,6 +14,23 @@
    and not offensive to anyone.</p>
 
 <p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
+
+<h3>Partita for a monophonic instrument solo no. 1 (A major)</h3>
+
+<p>
+A set of unaccompanied pieces in the baroque style. Two other movements are coming soon.
+</p>
+<p>
+The range is chosen to be comfortably playable on the violin or any
+of the common woodwinds as well as the trumpet.
+</p>
+
+<h4>Gavotte</h4>
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2019.1-1_gavotte.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mid">MIDI</a> </li>
+  <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mscz">MuseScore file</a> </li>
+</ul>
 
 <h3>Album leaf 2018.12 (piano solo)</h3>
 
@@ -34,7 +51,7 @@ were popular, and this piece is exactly that.
 <h3>When I died, there was no one who could disprove it</h3>
 
 <p>
-An minimalist piece for a wind quartet and vibraphone that I wrote for Antonio Agostini during a contemporary music festival
+A minimalist piece for a wind quartet and vibraphone that I wrote for Antonio Agostini during a contemporary music festival
 where he offered a master class in composition, and I decided to give his methods a try.
 Its title and intended program are taken from a single line poem by a psychedelic rock and punk
 musician Egor Letov.
