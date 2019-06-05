@@ -51,7 +51,7 @@ let make_breadcrumbs nav_path =
         | x :: xs ->
            if x = "" then aux xs acc_html acc_href else
            let acc_href = Printf.sprintf "%s/%s" acc_href x in
-           let link_html = Printf.sprintf "<a href=\"%s\">%s</a>" acc_href x in
+           let link_html = Printf.sprintf "<a class=\"nav\" href=\"%s\">%s</a>" acc_href x in
            let acc_html = Printf.sprintf "%s / %s" acc_html link_html in
            aux xs acc_html acc_href
     in aux (List.rev nav_path) "" "" |> Printf.sprintf "<span>..%s /</span>"

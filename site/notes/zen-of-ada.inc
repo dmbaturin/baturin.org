@@ -4,11 +4,10 @@
 
 <p>This observation was first published in my old blog back in 2014.</p>
 <p>
-When I got interested in the <a href="http://www.adaic.org/">Ada language</a>, I inevitably learnt of the
-<a href="https://www.dwheeler.com/steelman/steelman.htm">Steelman document</a> &mdash;
-a set of requirements for the new programming language for mission critical applications.
-Ada was designed specifically to meet those requirements, and its designers did an excellent
-work.
+When I got interested in the <a href="http://www.adaic.org/">Ada language</a>, I've inevitably learnt of the
+<a href="https://www.dwheeler.com/steelman/steelman.htm">Steelman document</a>&mdash;a set of requirements
+for the new programming language for mission critical applications.
+Ada was designed specifically to meet those requirements, and its designers did an excellent work.
 </p>
 <p>
 When I started learning Ada, I already knew Python, and of course I also knew of the

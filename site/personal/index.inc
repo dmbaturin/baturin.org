@@ -10,7 +10,7 @@
 
 <h2>Less serious side</h2>
 <ul class="nav">
-  <li> <a class="nav" href="/personal/facts/">Random facts and opinions</a> </li>
-  <li> <a class="nav" href="/personal/site-history">History of this home page</a> </li>
-  <li> <a class="nav" href="/personal/screenshots">Desktop screenshots</a> </li>
+  <li> <a href="/personal/facts/">Random facts and opinions</a> </li>
+  <li> <a href="/personal/site-history">History of this home page</a> </li>
+  <li> <a href="/personal/screenshots">Desktop screenshots</a> </li>
 </ul>

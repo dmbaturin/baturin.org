@@ -1,7 +1,27 @@
+/** Fixups */
+
+/* Avoid elements wider than screen on mobile */
+img
+{
+    display: inline-block;
+    max-width: 100%;
+}
+
+pre, code, sample
+{
+    white-space: pre-wrap;
+    hyphens: none;
+}
+
+table
+{
+    max-width: 100%;
+}
+
+
 body
 {
     margin: 0;
-    font-family: sans-serif;
 }
 
 /** Structural blocks */
@@ -25,8 +45,8 @@ body
 #nav-wrapper
 {
     width: 100%;
-    border-top: #355670 solid 1px;
-    border-bottom: #355670 solid 1px;
+    border-top: #006699 solid 1px;
+    border-bottom: #006699 solid 1px;
 }
 
 #nav
@@ -95,6 +115,15 @@ body
     }
 }
 
+#content
+{
+    padding: 2%;
+    min-height: 20em;
+    border-bottom: #006699 solid 1px;
+}
+
+/** Typography */
+
 @supports (hyphens: auto) or (-ms-hyphens: auto)
 {
     #content
@@ -104,29 +133,17 @@ body
     }
 }
 
-#content
+body
 {
-    padding: 2%; 
-    min-height: 20em;
-    border-bottom: #355670 solid 1px;
+    font-family: sans-serif;
 }
 
-#revision
-{
-    color: #999999;
-    padding-top: 1em;
-    font-size: 80%;
-    text-align: right;
-}
+/** Misc visual styles */
 
-div.quote-source
-{
-    text-align: right;
-}
-
+/* Links */
 a, a.nav:visited
 {
-    color: #355670;
+    color: #006699;
 }
 
 a:visited
@@ -138,16 +155,16 @@ hr
 {
     height: 1px;
     border: 0 none;
-    color: #355670;
-    background-color: #355670;
+    color: #006699;
+    background-color: #006699;
     width: 40%;
     margin-bottom: 2em;
     margin-top: 2em;
 }
 
+/* Tables */
 table
 {
-    max-width: 100%;
     border-collapse: collapse;
 }
 
@@ -158,7 +175,7 @@ th
 
 table, th, td
 {
-   border: 1px solid #355670;
+   border: 1px solid #006699;
 }
 
 th, td
@@ -171,6 +188,8 @@ th, td
     text-align: center;
 }
 
+/* Special styles */
+
 ul.plain
 {
     list-style-type: none;
@@ -181,14 +200,15 @@ ul.plain
     text-align: center;
 }
 
-img
+div#revision
 {
-    display: inline-block;
-    max-width: 100%;
+    color: #999999;
+    padding-top: 1em;
+    font-size: 80%;
+    text-align: right;
 }
 
-pre, code, sample
+div.quote-source
 {
-    white-space: pre-wrap;
-    hyphens: none;
+    text-align: right;
 }
