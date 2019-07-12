@@ -1,5 +1,3 @@
-{% set date 2018 March 07 %}
-
 <h1>On &ldquo;easter eggs&rdquo;</h1>
 
 <p>
@@ -93,3 +91,5 @@ changes its look for the April fools day in a way that doesn't affect the DOM, S
 If you are not familiar with <a href="https://github.com/mtoyoda/sl">sl</a>, it displays an animated ASCII train.
 There's also one for <a href="http://r-wos.org/hacks/gti">git</a>.
 </p>
+
+<div id="revision">This page was last modified: 2018-03-07</div>

@@ -1,5 +1,3 @@
-{% set date 2019 February 23 %}
-
 <h1>Simple multi-client server in OCaml with Lwt</h1>
 
 <p><a href="https://ocsigen.org/lwt">Lwt</a> is a popular cooperative multitasking library for OCaml.</p>
@@ -130,3 +128,5 @@ Counter has been incremented
 read
 1
 </pre>
+
+<div id="revision">This page was last modified: 2019-02-23</div>

@@ -1,7 +1,17 @@
+BUILD_DIR := build/
+
+SOUPAULT := soupault
+
+.PHONY: site
+site:
+	$(SOUPAULT)
+
+.PHONY: assets
+assets:
+	cp -r assets/* $(BUILD_DIR)
+
 .PHONY: all
-all: clean
-	MPP=mpp scripts/mksite.ml
-	scripts/fetch-external-files
+all: site assets
 
 .PHONY: clean
 clean:

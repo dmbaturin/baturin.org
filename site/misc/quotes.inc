@@ -10,12 +10,28 @@ I remember being impressed with Ada because you could write an
 infinite loop without a faked up condition.  The idea being that in Ada
 the typical infinite loop would be normally be terminated by detonation.
 </blockquote>
-<div class="quote-source"> &mdash; Larry Wall<a href="#infinite-loop"><sup>1</sup></a> </div>
+<div class="quote-source"> &mdash; Larry Wall
+<span class="footnote">
+This can give a wrong impression that you can't escape a loop in Ada.
+You can, either with &ldquo;exit [when &lt;condition&gt;]&rdquo; statement
+or by raising an exception. Otherwise it's true, &ldquo;loop ... end loop;&rdquo;
+creates an infinite loop, finite loops are created by adding a condition before the
+&ldquo;loop&rdquo; keyword.
+</span>
+</div>
 
 <blockquote>
 Ada language is a voice from thermonuclear hell, a curse to the humankind.
 </blockquote>
-<div class="quote-source"> &mdash; Melor Sturua<a href="#izvestia"><sup>2</sup></a> </div>
+<div class="quote-source"> &mdash; Melor Sturua
+<span class="footnote">
+This is from an <a href="http://www.orwell.ru/a_life/Melor_Sturua/russian/ms_01">article</a>
+in a soviet newspaper that described the USA as an antiutopia.
+The author compared it to Orwell's Newspeak as if it was a constructed language,
+which suggests that he had little idea what a programming language is. Neither he knew that
+Ada was used in the USSR too.
+</span>
+</div>
 
 <blockquote>
 Objects are state data with attached behavior; closures are behaviors with attached state data and without the overhead of classes.
@@ -51,7 +67,13 @@ Software tends to live too long: just good enough to discourage replacement, but
 <blockquote>
 Within the Oceans of Great Risk were many Sun Worshippers, and they had wanted to excel, and make their words perfect, and do their jobs as easy as one-two-three.
 </blockquote>
-<br/><div class="quote-source">&mdash; unknown<a href="#peasea"><sup>3</sup></a></div>
+<div class="quote-source">&mdash; unknown
+<span class="footnote">
+It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
+which can be found on many websites often without attribution, and I really would like to know who the original
+author is.
+</span>
+</div>
 
 <blockquote>
 If it hurts, do it more often.
@@ -70,27 +92,6 @@ The future will be better tomorrow.
 
 <hr />
 
-<a name="infinite-loop"> </a>
-<p><sup>1</sup>
-This can give a wrong impression that you can't escape a loop in Ada.
-You can, either with &ldquo;exit [when &lt;condition&gt;]&rdquo; statement
-or by raising an exception. Otherwise it's true, &ldquo;loop ... end loop;&rdquo;
-creates an infinite loop, finite loops are created by adding a condition before the
-&ldquo;loop&rdquo; keyword.
-</p>
 
-<a name="izvestia"> </a>
-<p> <sup>2</sup>
-This is from an <a href="http://www.orwell.ru/a_life/Melor_Sturua/russian/ms_01">article</a>
-in a soviet newspaper that described the USA as an antiutopia.
-The author compared it to Orwell's Newspeak as if it was a constructed language,
-which suggests that he had little idea what a programming language is. Neither he knew that
-Ada was used in the USSR too.
-</p>
-
-<a name="peasea"> </a>
-<p> <sup>3</sup>
-It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
-which can be found on many websites often without attribution, and I really would like to know who the original
-author is.
-</p>
+<div id="footnotes">
+</div>

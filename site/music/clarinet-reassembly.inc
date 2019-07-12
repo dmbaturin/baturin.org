@@ -1,5 +1,3 @@
-{% set date 2017 January 28 %}
-
 <h1>Clarinet reassembly</h1>
 
 <p>
@@ -87,3 +85,5 @@ the register key.
 Put the keys back on in reverse order. Remember that some of the springs will be obscured by their own keys or some
 other keys so they need to be engaged before you install the key.
 </p>
+
+<div id="revision">This page was last modified: 2017-01-28</div>

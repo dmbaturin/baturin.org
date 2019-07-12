@@ -1,5 +1,3 @@
-{% set date 2018 December 16 %}
-
 <h1>JAPHs and other fun with obfuscation</h1>
 
 <div id="generated-toc"></div>
@@ -178,3 +176,5 @@ $_*3-1)x$j.chr($_*($_&gt;&gt;1)-sqrt($_)).chr($_*6
 </pre>
 
 <p>Early attempt, written in the late 2010 for the winter holidays.</p>
+
+<div id="revision">This page was last modified: 2018-12-16</div>

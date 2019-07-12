@@ -1,5 +1,3 @@
-{% set date 2018 November 13 %}
-
 <h1>Random facts about me</h1>
 
 <p>If anyone is actually interested...</p>
@@ -97,3 +95,4 @@ a class4 VoIP provider from scratch. All while I never thought of myself as a Vo
 
 <hr />
 
+<div id="revision">This page was last modified: 2018-11-13</div>

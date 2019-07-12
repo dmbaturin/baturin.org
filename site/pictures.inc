@@ -170,5 +170,5 @@ The different kinds of camels here are used as <a href="https://en.wikipedia.org
 in the type of the reverse application operator (|&gt;).
 </p>
 
-<img alt="reverve application function type with dromedary and bactrian camels as type variables" src="/pictures/ocaml.png"/>
+<img alt="reverse application combinator type with dromedary and bactrian camels as type variables" src="/pictures/ocaml.png"/>
 

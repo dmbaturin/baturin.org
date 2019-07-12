@@ -1,5 +1,3 @@
-{% set date 2018 January 28 %}
-
 <h1>Transcriptions, arrangements etc.</h1>
 
 <div id="generated-toc"></div>
@@ -46,3 +44,5 @@ Regardless, it's a pretty, even if challenging piece.
   <li> <a href="/music/transcriptions/vasilenko_sunrise_song.pdf">PDF</a> </li>
   <li> <a href="/music/transcriptions/vasilenko_sunrise_song.mscz">MuseScore file</a> </li>
 </ul>
+
+<div id="revision">This page was last modified: 2018-01-28</div>

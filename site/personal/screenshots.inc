@@ -1,5 +1,3 @@
-{% set date 2018 August 06 %}
-
 <h1>Desktop screenshots</h1>
 
 <p>
@@ -87,3 +85,5 @@ Debugging an IPsec issue in VyOS in 2018.</p>
 decided to give Mate Desktop another try after years, and found that its maintainers have done a great work making it even better
 than GNOME2 used to be.
 </p>
+
+<div id="revision">This page was last modified: 2018-08-06</div>

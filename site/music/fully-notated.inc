@@ -1,5 +1,3 @@
-{% set date 2019 May 20 %}
-
 <h1>Fully notated pieces</h1>
 
 <div id="generated-toc"></div>
@@ -15,7 +13,7 @@
 
 <p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
 
-<h3>Partita for a monophonic instrument solo no. 1 (A major)</h3>
+<h3 id="partita-1">Partita for a monophonic instrument solo no. 1 (A major)</h3>
 
 <p>
 A set of unaccompanied pieces in the baroque style. Two other movements are coming soon.
@@ -25,14 +23,14 @@ The range is chosen to be comfortably playable on the violin or any
 of the common woodwinds as well as the trumpet.
 </p>
 
-<h4>Gavotte</h4>
+<h4 id="partita-1-gavotte">Gavotte</h4>
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mscz">MuseScore file</a> </li>
 </ul>
 
-<h3>Album leaf 2018.12 (piano solo)</h3>
+<h3 id="album-leaf-iyn-2018">Album leaf 2018.12 (piano solo)</h3>
 
 <p>
 A winter holidays present for our music theory professor. Originally, &ldquo;album leaf&rdquo;
@@ -48,7 +46,7 @@ were popular, and this piece is exactly that.
   <li> Original key: B-flat major </li>
 </ul>
 
-<h3>When I died, there was no one who could disprove it</h3>
+<h3 id="when-i-died">When I died, there was no one who could disprove it</h3>
 
 <p>
 A minimalist piece for a wind quartet and vibraphone that I wrote for Antonio Agostini during a contemporary music festival
@@ -184,3 +182,5 @@ smoothly as it consists entirely of secondary dominants (ragtime progression) an
    as a nod to early personal computer magazines and type-in BASIC programs they published. He ultimately scrapped the plan though.</p>
 <p>It was a fun project nonetheless. Due to the limitations of the medium, it had to be short and rhythmically trivial.
    I tried to convey the sense of emptiness and uncertainty, in line with the mood of the stories.</p>
+
+<div id="revision">This page was last modified: 2019-05-20</div>

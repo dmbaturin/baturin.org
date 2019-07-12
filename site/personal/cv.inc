@@ -1,5 +1,3 @@
-{% set date 2018 June 12 %}
-
 <h1>Daniil Baturin's CV</h1>
 
 <p>When you don't focus on just one field, your CV becomes a mess and needs more and more tailoring
@@ -209,3 +207,4 @@
    Configured a web proxy (Squid) to conserve bandwidth and block NSFW websites. Kept the network and the workstations running,
    provided technical support to users.</p>
 
+<div id="revision">This page was last modified: 2018-06-12</div>

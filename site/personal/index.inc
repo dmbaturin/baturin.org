@@ -1,5 +1,3 @@
-{% set date 2019 February 21 %}
-
 <h1>Personal information</h1>
 
 <p>You can read my <a href="/personal/cv">CV</a> if you want.</p>

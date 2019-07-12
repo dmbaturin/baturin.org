@@ -1,5 +1,3 @@
-{% set date 2019 February 21 %}
-
 <h1>Publications and talks</h1>
 
 <h2>Computer magazine articles</h2>

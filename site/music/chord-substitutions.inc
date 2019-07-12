@@ -1,5 +1,3 @@
-{% set date 2016 August 14 %}
-
 <h1>Chords with common tones</h1>
 
 <p>For those who love to substitute and reharmonize by numbers.</p>
@@ -60,3 +58,5 @@
     <td> Cmaj7 &rarr; Em7 (C E G B &rarr; E G B D) </td>
   </tr>
 </table>
+
+<div id="revision">This page was last modified: 2016-08-14</div>

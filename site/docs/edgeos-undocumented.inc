@@ -1,5 +1,3 @@
-{{% set date 2013 Aug 11 %}}
-
 <h1>Undocumented EdgeOS commands</h1>
 
 <p><strong>Note:</strong> I'm no longer actively involved with EdgeOS, since Ubiquiti essentially turned it
@@ -147,3 +145,5 @@
     <td>?</td>
   </tr>
 </table>
+
+<div id="revision">This page was last modified: 2013-08-11</div>

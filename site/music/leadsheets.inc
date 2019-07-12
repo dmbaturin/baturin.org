@@ -1,5 +1,3 @@
-{% set date 2018 November 14 %}
-
 <h1>Jazz leadsheets</h1>
 
 <div id="generated-toc"></div>
@@ -19,7 +17,7 @@
    For impro-visor leadsheets you'll need, well <a href="https://www.cs.hmc.edu/~keller/jazz/improvisor/">impro-visor</a>, which is also free software.
 </p>
 
-<h3>Innocence</h3>
+<h3 id="innocence">Innocence</h3>
 
 <ul class="plain">
   <li> <a href="/music/leadsheets/innocence.pdf">PDF</a> </li>
@@ -33,7 +31,7 @@
 Written for a certain saxophonist, the tune name is a pun on her name... and her age, for that matter.
 </p>
 
-<h3> Last Sunny Day of the Autumn </h3>
+<h3 id="last-sunny-day"> Last Sunny Day of the Autumn </h3>
 
 <ul class="plain">
   <li> <a href="/music/leadsheets/Last_Sunny_Day_of_the_Autumn.pdf">PDF</a> </li>
@@ -160,3 +158,5 @@ Written for a certain saxophonist, the tune name is a pun on her name... and her
 <p>If you are curious what my handwriting is like, here's <a href="/music/leadsheets/silly_dream.jpg">one example</a>,
    <a href="/music/leadsheets/indirect_kiss.jpg">or another</a>.
    I warn you it's pretty horrible.</p>
+
+<div id="revision">This page was last modified: 2018-11-14</div>

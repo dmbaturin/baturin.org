@@ -1,4 +1,4 @@
-{% set date 2015 June 10 %}
+<h1>Function overloading in MLton</h1>
 
 <p>StandardML doesn't allow function overloading, and for a good reason (it makes type inference
    decidable and allows you to never write any type annotations).
@@ -61,3 +61,4 @@ hello world
 7
 </pre>
 
+<div id="revision">This page was last modified: 2015-06-10</div>

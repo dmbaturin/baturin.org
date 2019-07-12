@@ -1,5 +1,3 @@
-{% set date 2018 April 02 %}
-
 <h1>Object-oriented Peano arithmetic in Python</h1>
 
 <p>I'm not sure what would be the best way to implement Peano arithmetics in Python
@@ -119,3 +117,4 @@ N * S(M) = N + N*M   (2')
    we know that	for every number <em>M</em> this process will eventually hit the base case and
    terminate.</p>
 
+<div id="revision">This page was last modified: 2018-04-02</div>

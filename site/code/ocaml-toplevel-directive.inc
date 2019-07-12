@@ -1,5 +1,3 @@
-{% set date 2017 Nov 23 %}
-
 <h1>Writing your own OCaml toplevel directives</h1>
 
 <p>
@@ -71,3 +69,5 @@ let () =
 
 #help;; (* You'll see your section and commands there *)
 </pre>
+
+<div id="revision">This page was last modified: 2017-11-23</div>

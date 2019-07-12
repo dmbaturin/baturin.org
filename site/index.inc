@@ -71,6 +71,6 @@ though anything released after 2013 should work.
 The usual problem with news sections on static websites is that no one ever updates them. For this reason I made a dirty hack
 for generating them from the git commit log.
 </p>
-<dl>
-{% cmd git log -n 10 --date=short --pretty="format:<dt>%ad</dt> <dd>%s</dd>" | sort -r | perl -ne '$_=~s/\[(.*)\]/<a href="$1">$1<\/a>/;print' %}
-</dl>
+
+<div id="site-news">
+</div>

@@ -1,5 +1,3 @@
-{% set date 2018 April 08 %}
-
 <h1>Making nice and easy to navigate PDFs</h1>
 
 <p>
@@ -112,3 +110,5 @@ the &ldquo;unicode&rdquo; option.
 <pre>
 \usepackage[unicode, pdftex, bookmarks=true]{hyperref}
 </pre>
+
+<div id="revision">This page was last modified: 2018-04-08</div>

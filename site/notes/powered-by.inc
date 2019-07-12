@@ -1,5 +1,3 @@
-{% set date 2019 March 17 %}
-
 <h1>&ldquo;Powered by...&rdquo;, or the phenomenon of web software buttons</h1>
 
 <p>
@@ -322,3 +320,5 @@ without hesitation.
 <img src="/images/powered-by/fedora_powered_03.png" alt="Fedora Powered, variant 3" />
 <img src="/images/powered-by/apache_powered_03.gif" alt="Powered by Apache, variant 3" />
 <img src="/images/powered-by/ocaml.png" alt="OCaml" width="150px" />
+
+<div id="revision">This page was last modified: 2019-03-17</div>

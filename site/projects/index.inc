@@ -1,5 +1,3 @@
-{% set date 2019 May 06 %}
-
 <h1>Projects</h1>
 
 <div id="generated-toc"></div>

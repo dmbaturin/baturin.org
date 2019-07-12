@@ -1,5 +1,3 @@
-{% set date 2018 March 21 %}
-
 <h1>Key signing parties considered useless</h1>
 
 <h2>Overview</h2>
@@ -186,3 +184,5 @@ to be a good attack vector.
 <p>
 Rather than try to emulate the governments, we can value the keys for what they are and what they are actually good for.
 </p>
+
+<div id="revision">This page was last modified: 2018-03-21</div>

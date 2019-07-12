@@ -63,6 +63,11 @@ body
     justify-content: space-between;
 }
 
+#breadcrumbs
+{
+    padding-top: 20px;
+}
+
 /* Make auxilliary "Site menu" and "Top of the page" link invisible on desktop */
 #menu-link, #top-link
 {
@@ -200,7 +205,7 @@ ul.plain
     text-align: center;
 }
 
-div#revision
+div#revision, div#last-modified
 {
     color: #999999;
     padding-top: 1em;
@@ -211,4 +216,9 @@ div#revision
 div.quote-source
 {
     text-align: right;
+}
+
+a.footnote
+{
+    text-decoration: none;
 }

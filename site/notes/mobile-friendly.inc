@@ -1,5 +1,3 @@
-{{% set date 2019 March 16 %}}
-
 <h1>Old webmaster's guide to mobile-friendly websites</h1>
 
 <div id="generated-toc"></div>
@@ -244,3 +242,5 @@ for people who have it worst: those using smartphones in portrait mode.
 I hope the suggestions I collected will be useful for making old websites accessible to the mobile audience
 without hurting desktop users. If you have more suggestions, please share them with me.
 </p>
+
+<div id="revision">This page was last modified: 2019-03-16</div>
