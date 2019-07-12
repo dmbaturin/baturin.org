@@ -36,6 +36,15 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
   <li>Source code: <a href="https://github.com/dmbaturin/hvinfo">github.com/dmbaturin/hvinfo</a> </li>
 </ul>
 
+<h3>soupault</h3>
+<p>
+A static website generator based on HTML rewriting. Think DOM manipulation, but without a browser.
+</p>
+<ul>
+  <li>Docs: <a href="/projects/soupault"/>projects/soupault</a></li>
+  <li>Git: <a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></li>
+</ul>
+
 <h2>Libraries and plugins</h2>
 
 <h3>pytaf</h3>
