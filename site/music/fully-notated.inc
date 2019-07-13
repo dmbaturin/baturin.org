@@ -66,7 +66,7 @@ instrumentation, I can come up with something.
 </ul>
 
 
-<h3>Fake Folk Dance #2 (flute and piano)</h3>
+<h3 id="op2018-01">Fake Folk Dance #2 (flute and piano)</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op_2018-01_fake_folk_dance_2.pdf">PDF</a> </li>
@@ -78,7 +78,7 @@ instrumentation, I can come up with something.
 
 <p>From an imaginary fake dance suite.</p>
 
-<h3>Sarabande (violin and piano)</h3>
+<h3 id="op2017-07">Sarabande (violin and piano)</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-07_sarabande.pdf">PDF</a> </li>
@@ -93,7 +93,7 @@ By the romantic era, the word &ldquo;sarabande&rdquo; lost all connections to a 
 Minor key, triple meter, let's call it a sarabande.
 </p>
 
-<h3>Fake Folk Dance</h3>
+<h3 id="op2017-06">Fake Folk Dance</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-06_fake_folk_dance.pdf">PDF</a> </li>
@@ -118,7 +118,7 @@ Minor key, triple meter, let's call it a sarabande.
 <p>I could not come up with any accompanying parts that I would really like, so I left it solo.</p>
 <p>There are quite a few up strokes if you read it as written, adjust the bowings to taste.</p>
 
-<h3>The Ballad of an Epic Fail</h3>
+<h3 id="op2017-04">The Ballad of an Epic Fail</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-04_ballad_of_an_epic_fail.pdf">PDF</a> </li>
@@ -131,7 +131,7 @@ Minor key, triple meter, let's call it a sarabande.
 <p>It would make a good fantasy RPG theme I suppose, even though I didn't set out to make one.</p>
 
 
-<h3>Rhythm Changes Prelude</h3>
+<h3 id="op2017-03">Rhythm Changes Prelude</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-03_rhythm_changes_prelude.pdf">PDF</a> </li>
@@ -151,7 +151,7 @@ for me it was also an exercise in writing Alberti bass. The main challenge for m
 smoothly as it consists entirely of secondary dominants (ragtime progression) and doesn't have obvious resolutions.
 </p>
 
-<h3>Awkward Waltz for Ann</h3>
+<h3 id="op2017-02">Awkward Waltz for Ann</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2017-02_awkward_waltz_for_ann.pdf">PDF</a> </li>
@@ -168,7 +168,7 @@ smoothly as it consists entirely of secondary dominants (ragtime progression) an
 <p>The dedication was added after writing, to make it a last moment gift. Ann is cool, she plays double bass.</p>
 
 
-<h3>Trivial Prelude</h3>
+<h3 id="op2017-01">Trivial Prelude</h3>
 
 <ul class="plain">
   <li> <a href="/music/fully-notated/op_2017-01_trivial_prelude.pdf">PDF</a> </li>

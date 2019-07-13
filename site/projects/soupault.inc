@@ -104,6 +104,7 @@ Soupalt comes with a bunch of built-in widgets that can:
   <li>Set the page title from text in some element.</li>
   <li>Generate breadcrumbs.</li>
   <li>Move footnotes out of the text.</li>
+  <li>Insert a table of contents</li>
   <li>Delete unwanted elements</li>
   <li>...more to come.</li>
 </ul>
@@ -493,7 +494,7 @@ page is not deep enough, the <code>div</code> may be left empty, and that's not
 <h2>Built-in widgets</h2>
 <h3>File and output inclusion widgets</h3>
 <p>These widgets include something into your page: a file, a snippet, or putput of an external program.</p>
-<h4>include</h4>
+<h4 id="widgets-include">include</h4>
 <p>
 The <code>include</code> widget simply reads a file and inserts its content
 into some element.
@@ -520,7 +521,7 @@ or included as a text node. Use <code>parse = false</code> if you want to includ
 with HTML special characters escaped.
 </p>
 
-<h4>insert_html</h4>
+<h4 id="widgets-insert_html">insert_html</h4>
 <p>For a small HTML snippet, a separate file may be too much. The <code>insert_html</code> widget </p>
 <pre>
 [widgets.tracking-script]
@@ -529,7 +530,7 @@ with HTML special characters escaped.
   selector = "head"
 </pre>
 
-<h4>exec</h4>
+<h4 id="widgets-exec">exec</h4>
 <p>
 The <code>exec</code> widget executes an external program and includes its output into
 an element. The program is executed in shell, so you can write a complete command
@@ -577,7 +578,7 @@ from a revision control system like git or mercurial.
 </p>
 
 <h3>Content widgets</h3>
-<h4>title</h4>
+<h4 id="widgets-title">title</h4>
 <p>
 The <code>title</code> widget sets the page title, that is, the <code>&lt;title&gt;</code>
 from an element with a certain selector. If there is no <code>&lt;title&gt;</code> element
@@ -609,7 +610,7 @@ and <code>append</code> options are ignored.
 If the title source element is absent and default title is not set, the title is left empty.
 </p>
 
-<h4>footnotes</h4>
+<h4 id="widgets-footnotes">footnotes</h4>
 <p>
 The <code>footnotes</code> widgets finds all elements matching a selector,
 moves them to another element, and replaces them with numbered links.
@@ -649,7 +650,96 @@ As usual, the container element can be anywhere in the page.
 &lt;/div&gt;
 </pre>
 
-<h4>breadcrumbs</h4>
+<h4 id="widgets-toc">toc</h4>
+<p>The <code>toc</code> widget generates a table of contents for your page.</p>
+<p>
+Table of contents is generated from the heading tags from <code>&lt;h1&gt;</code>
+to <code>&lt;h6&gt;</code>. 
+</p>
+<p>Here is the ToC configuration from this website:</p>
+<pre>
+[widgets.table-of-contents]
+  widget = "toc"
+
+  # Required: where to insert the ToC
+  selector = "#generated-toc"
+
+  # Optional: minimum and maximum levels, defaults are 1 and 6 respectively
+  min_level = 2
+  max_level = 6
+
+  # Optional: use &lt;ol&gt; instead of &lt;ul&gt; for ToC lists
+  # Default is false
+  numbered_list = false
+
+  # Optional: Class for the ToC list element, default is none
+  toc_list_class = "toc"
+
+  # Optional: append the heading level to the ToC list class
+  # In this example list for level 2 would be "toc-2"
+  toc_class_levels = false
+
+  # Optional: Insert "link to this section" links next to headings
+  heading_links = true
+
+  # Optional: text for the section links
+  # Default is "#"
+  heading_link_text = "→ " 
+
+  # Optional: class for the section links
+  # Default is none
+  heading_link_class = "here"
+
+  # Optional: insert the section link after the header text rather than before
+  # Default is false
+  heading_links_append = false
+
+  # Optional: use header text slugs for anchors
+  # Default is false
+  use_header_slug = true
+
+  # Optional: use unchanged header text for anchors
+  # Default is false
+  use_header_text = false
+</pre>
+<h5>Choosing the heading anchor options</h5>
+<p>
+By default, if a heading has no <code>id</code>, soupault will generate
+a unique numeric identifier for each heading. This is safe, but not very
+good for readers (links are non-indicative) and people who want to share
+direct links to sections (they will change if page structure changes).
+</p>
+<p>
+If a heading has an <code>id</code> attribute, it will be used for the anchor.
+It's fine to mix this with any other option: anchors for the remaining headings with no <code>id</code>
+will be generated automatically.
+</p>
+<p>
+If you want to find a balance between readability, permanence, and ease of maintenance
+there are a few ways to do that and the choice is yours.
+</p>
+<p>
+The <code>use_header_slug = true</code> option converts the heading text
+to a valid HTML identifier. Right now, however, it's very aggressive
+and replaces everything other than ASCII letters and digits with hyphens.
+This is obviously a no go for non-ASCII languages, that is, pretty much
+all languages in the world. It may be implemented more sensibly in the future.
+</p>
+<p>
+The <code>use_header_text</code> option uses unmodified header text
+for anchors, with whitespace and all. This is against the rules of HTML,
+but seems to work well in practice.
+</p>
+<p>
+Note that <code>use_header_slug</code> and <code>use_header_text</code>
+do not enforce uniqueness.
+</p>
+<p>
+All in all, for best link permanence you should give every heading a unique id
+by hand, and for best readability you may want to do with <code>use_header_text = true</code>.
+</p>
+
+<h4 id="widgets-breadcrumbs">breadcrumbs</h4>
 <p>The <code>breadcrumbs</code> widget generates breadcrumbs for the page.</p>
 <p>The only required parameter is <code>selector</code>, the rest is optional.</p>
 <pre>

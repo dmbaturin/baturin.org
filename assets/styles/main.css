@@ -156,6 +156,8 @@ a:visited
     color: #355670;
 }
 
+a.here { text-decoration: none; }
+
 hr
 {
     height: 1px;
@@ -196,6 +198,11 @@ th, td
 /* Special styles */
 
 ul.plain
+{
+    list-style-type: none;
+}
+
+ul.toc, ol.toc
 {
     list-style-type: none;
 }
