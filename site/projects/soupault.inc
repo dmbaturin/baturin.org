@@ -7,24 +7,32 @@
 <h3>Background</h3>
 <p>Soupault (<em>soup-oh</em>) is a static website generator based on HTML rewriting.</p>
 <p>
-Pretty much like client-side JS scripts for generating a table of contents from <code>&lt;h1&gt;</code>,
-<code>&lt;h2&gt;</code>, ... tags and similar tasks, just without the browser or interactivity.
+Pretty much like client-side DOM manipulation, just without the browser or interactivity.
+You can tell it to do things like &ldquo;insert contents of <code>footer.html</code> file into
+<code>&lt;div id="footer"&gt;</code> no matter where that div is in the page&rdquo;.
 </p>
+<p>Here's the elevator pitch:</p>
+<ul>
+  <li>It can extract metadata from existing pages using CSS selectors and produce a section index from it.</li>
+  <li>Supports tables of contents, footnotes, and breadcrumbs out of the box.</li>
+  <li>Preserves existing website structure if required.</li>
+  <li>Single executable with no dependencies.</li>
+</ul>
 <p>
 It's named after the French dadaist and surrealist writer Philippe Soupault
 because it's based on the <a href="https://github.com/aantron/lambdasoup">Lambda Soup</a>
 library, which is a reference to the <a href="https://www.crummy.com/software/BeautifulSoup">Beautiful Soup</a>
 library, which is a reference to the Mock Turtle chapter from Alice in Wonderland,
-which is a reference an actual turtle soup imitation recipe, and also a reference
+which is a reference to an actual turtle soup imitation recipe, and also a reference
 to <a href="https://en.wikipedia.org/wiki/Tag_soup">tag soup</a>, a derogatory term
 for malformed HTML, which is a reference to... in any case, soupault is not the French
 for a stick horse, for better or worse.
 </p>
-<p>Soupault is not like other website generators:</p>
+<p>Soupault is quite different from other website generators:</p>
 <ol>
   <li>No special syntax inside pages, only plain old semantic HTML.</li>
   <li>No templates or themes. Any HTML page can be a soupault theme.</li>
-  <li>No front matter. You tell soupault where to find metadata in your page using CSS selectors.</li>
+  <li>No front matter.</li>
 </ol>
 <p>
 People have written lots of static website generators, but most of them are variations
@@ -35,7 +43,7 @@ markup format such as Markdown and feed it to a template processor.
 This approach works well in many cases, but has its limitations. A template processor is only aware of its
 own tags, but not of the full page structure. The front matter metadata is the only part of the
 page source it can use, and it can only insert it into fixed locations in the template.
-The part below the front matter is considered opaque, and formats like Markdown simply don't allow you to
+The part below the front matter is effectively opaque, and formats like Markdown simply don't allow you to
 add machine-readable annotations anyway.
 </p>
 <p>
@@ -45,6 +53,15 @@ unlike front matter metadata, HTML metadata is multi-purpose: for example, you c
 attribute for CSS styling and as a page anchor, as well as a unique element identifier for data extraction
 or HTML manipulation programs.
 </p>
+<p>
+With soupault, it's possible to take advantage of the full HTML markup and even make every page on your website
+look different rather than built from the same template, and still have an automated workflow.
+</p>
+<p>
+You can also use Markdown/reStructuredText/whatever if you specify preprocessors. Soupault will
+automatically run a preprocessor before parsing your page, though you'll miss some finer points like footnotes
+if you go that way.
+</p>
 <h3>How soupault works</h3>
 <p>
 Soupault takes a page &ldquo;template&rdquo;&mdash; an HTML file devoid of content,
@@ -52,11 +69,11 @@ parses it into an element tree, and locates the <em>content container</em> eleme
 </p>
 <p>
 By default the content container is <code>&lt;body&gt;</code>, but you can use any selector:
-<code>div#content</code> (a <code>&lt;div id="content"&gt;</code> element), <code>article</code> (the HTML5 article element),
+<code>div#content</code> (a <code>&lt;div id="content"&gt;</code> element), <code>article</code> (an HTML5 article element),
 <code>#post</code> (any element with <code>id="post"</code>) or any other valid CSS selector.
 </p>
 <p>
-Then it traverses your site directory where page source files are stored, takes a page file, parses it into an HTML element tree too,
+Then it traverses your <em>site directory</em> where page source files are stored, takes a page file, parses it into an HTML element tree too,
 and inserts it into the <em>content container</em> element of the template.
 </p>
 <p>
@@ -68,17 +85,29 @@ they may delete unwanted elements too.
 Processed pages are then written to disk, into a directory structure that mirrors your source
 directory structure.
 </p>
+<p>
+For an example of a soupault-based website source, you can visit
+<a href="https://github.com/dmbaturin/baturin.org">github.com/dmbaturin/baturin.org</a>.
+</p>
+
+<h3>Performance</h3>
+<p>
+Despite its heavy-handed approach, soupault is reasonably fast. With a config that includes ToC, footnotes, file inclusion,
+breadcrumbs, and built-in section index generator, it can process 1000 copies of its own documentation page
+in about 14 seconds<span class="footnote">On my desktop with an i5-7260U CPU and a magnetic drive.</span>.
+Small websites take less than a second to build.
+</p>
 
 <h3>Why use soupault?</h3>
 
 <h4>If you are starting a website</h4>
 <p>
 All website generators provide a default theme, but making new themes can be tricky.
-With soupault, there are no additional steps between writing your page layout and building
+With soupault, there are no intermediate steps between writing your page layout and building
 your website from it.
 </p>
 <p>
-In the simplest case you can just create a page skeleton in <code>templates/main.html</code>,
+In the simplest case you can just create a page skeleton in <code>templates/main.html</code> with an empty <code>&lt;body&gt;</code>,
 add a bunch of pages to <code>site/</code> (<code>site/about.html</code>, <code>site/cv.html</code>, ...)
 and run the <code>soupault</code> command in that directory.
 </p>
@@ -106,7 +135,6 @@ Soupalt comes with a bunch of built-in widgets that can:
   <li>Move footnotes out of the text.</li>
   <li>Insert a table of contents</li>
   <li>Delete unwanted elements</li>
-  <li>...more to come.</li>
 </ul>
 <p>For example, here's a config for the <code>title</code> widget that sets the page title.</p>
 <pre>
@@ -147,26 +175,36 @@ the <code>&lt;nav&gt;</code> element, you can put this into your <code>soupault.
   <dd>Same reason, there are lots of tools for it.</dd>
 </dl>
 
-<p>Because it's not implemented yet:</p>
+<p>Because I don't need it and I'm not sure if anyone wants it or how it will fit:</p>
 <dl>
-  <dt>Section indices</dt>
-  <dd>Will be there soon</dd>
-  <dt>Running external preprocessors on a page file before parsing</dt>
-  <dd>Will be there soon</dd>
   <dt>Asset management</dt>
-  <dd>May or may not be added, feels out of scope</dd>
   <dt>Incremental builds</dt>
-  <dd>May or may not be added</dd>
+  <dt>Multilingual sites</dt>
 </dl>
 
 <h2>Installation</h2>
-<p>Soupault is under development. Right now you can only install it from <a href="https://github.com/dmbaturin/soupault">source</a>.</p>
+<p>
+Soupault is a single self-contained executable file. You can download the latest release
+from <a href="https://github.com/dmbaturin/soupault/releases/latest">github.com/dmbaturin/soupault/releases/latest</a>.
+Prebuilt executables are available for GNU/Linux on amd64 (glibc &gt;=2.19) and Microsoft Windows (32-bit, Windows 7 and newer).
+</p>
+<p>
+If you are familiar with the <a href="https://ocaml.org">OCaml</a> programming language, you may want to install
+from source.<span class="footnote">Building for POSIX platforms just works, but building for Windows requires
+unreleased fixes to <a href="https://github.com/gildor478/ocaml-fileutils">file-utils</a> as of 0.5.3, so you will need
+to build fileutils first.</span>
+</p>
 <pre>
 git clone https://github.com/dmbaturin/soupault.git
 cd soupault
 opam pin add soupault .
 </pre>
-<p>When it stabilizes, static binaries for GNU/Linux and Microsoft Windows will be available.</p>
+<p>
+Soupault is now stable enough to build this website, but it's still beta. Prebuilt binaries are compiled
+with debug symbols, which makes them a few megabytes larger than they could be, but you can get better
+error messages if something goes wrong. If you encounter an internal error, you can get an exception trace
+by running it with <code>OCAMLRUNPARAM=b</code> environment variable.
+</p>
 
 <h2>Getting started</h2>
 <h3>Create your first website</h3>
@@ -382,6 +420,174 @@ In this document, whenever a specific site or build dir has to be mentioned,
 we'll use default values.
 </p>
 
+<h2>Page preprocessors</h2>
+<p>
+Soupault has no built-in support for formats other than HTML, but you can use
+any format with it if you specify an appropriate page preprocessor.
+</p>
+<p>
+Any preprocessor that takes page file as its argument and outputs the result to
+<code>stdout</code> can be used.
+</p>
+<p>
+For example, this configuration will make soupault call a program called
+<code>markdown</code> on the page file if its extension is <code>.md</code>.
+<pre>
+[preprocessors]
+  md = "markdown"
+</pre>
+<p>
+The table key can be any extension (without the dot), and the value is a command.
+You can specify as many extensions as you want.
+</p>
+
+<h2>Automatic section indices</h2>
+<p>
+Having to add links to all pages by hand can be a tedious task. Nothing beats
+a carefully written and annotated section index, but it's not always practical.
+</p>
+<p>
+Soupault can automatically generate a section index for you. While it's not a blog
+generator and doesn't have built-in features for getting all pages by date etc.,
+it can save you time making section index pages by hand.
+</p>
+<p>
+Metadata is extracted directly from pages using selectors you specify in the
+config. It's more than possible to use a different element for excerpt in every page,
+not just the first paragraph, without having to duplicate it in the &ldquo;front matter&rdquo;.
+It doesn't even have to be text either. Same goes for other fields.
+</p>
+<p>
+To use automatic indices, you still need an index page in your section.
+It can be empty, but it must be there. Default index page name is <code>index</code>,
+so you should make a page like <code>site/articles/index.html</code> first.
+</p>
+<p>Then enable indexing in the config. All indexing options are in tne <code>[index]</code> table.</p>
+<pre>
+[index]
+  index = true
+</pre>
+<p>
+By default, soupault will append the index to the <code>&lt;body&gt;</code> element.
+You can tell it to insert it anywhere you want with the <code>index_selector</code>
+option, e.g. <code>index_selector = "div#index"</code>.
+</p>
+<p>
+There are a few configurable options. You can specify element selectors for page title,
+excerpt, date, and author.
+</p>
+<p>These are all available options:</p>
+<pre>
+[index]
+  # Whether to generate indices or not
+  # Default is false, set to true to enable
+  index = false
+
+  # Where to insert the index
+  index_selector = "body"
+
+  # Page title selector
+  index_title_selector = "h1"
+
+  # Page excerpt selector
+  index_excerpt_selector = "p"
+
+  # Page date selector
+  index_date_selector = "time"
+
+  # Date format for sorting
+  # Default %F means YYYY-MM-DD
+  # For other formats, see http://calendar.forge.ocamlcore.org/doc/Printer.html
+  index_date_format = "%F"
+
+  # Page author selector
+  index_author_selector = "#author"
+
+  # Wrapper element for index entries
+  index_item_template = "&lt;div&gt; &lt;/div&gt;"
+
+  # External index generator
+  # There is no default
+  index_processor =
+</pre>
+<h3>Using external index generators</h3>
+<p>
+The built-in index generator simply copies elements from the page to the index.
+You can easily end up with a rather odd-looking index, especially if you are
+using different elements on every page and identify them by <code>id</code>
+rather than element name.
+</p>
+<p>
+Generating indices and blog feeds is where template processors really shine.
+Everyone has different preferences though, so instead of having a built-in
+template processor, soupault supports exporting the index to JSON and
+feeding it to an external program.
+</p>
+<p>
+JSON-encoded index is written to program's standard input, as a single line<span class="footnote">
+Newline as end of message is a horrible protocol, but since there's no universally
+agreed upon alternative for sending structured data to stdin, that's what we've got.
+</span>. It's a list of objects with following fields:
+</p>
+<dl>
+  <dt><code>url</code></dt>
+  <dd>Absolute page URL path, like <code>/papers/simple-imperative-polymorphism</code></dd>
+  <dt><code>nav_path</code><dt>
+  <dd>A list of strings that represents the logical section path, e.g. for <code>/pictures/cats/grumpy</code>
+  it will be <code>["pictures", "cats"]</code>.</dd>
+  <dt><code>title, date, excerpt, author</code><dt>
+  <dd>Metadata extracted from the page. Any of them can be <code>null</code>.</dd>
+</dl>
+<p>
+Here's an example of very simple indexing setup that will take the first <code>h1</code>
+of every page in a section and make an unordered list of links to them. The external
+processor will use Python and <a href="https://mustache.github.io/">Mustache</a>
+templates.
+</p>
+<p>
+First, create an <code>index.html</code> page in every section and include a
+<code>&lt;div id="index"&gt;</code> element in it.
+</p>
+<p>Then write this to your config file:</p>
+<pre>
+[index]
+  index = true
+  index_selector = "#index"
+  index_processor = "scripts/index.py"
+  index_title_selector = "h1"
+</pre>
+<p>
+Then install the <code>pystache</code> library and save this script to <code>scripts/index.py</code>:
+</p>
+<pre>
+#!/usr/bin/env python3
+
+import sys
+import json
+
+import pystache
+
+template = """
+&lt;li&gt;&lt;a href="{{url}}"&gt;{{title}}&lt;/a&gt;&lt;/li&gt;
+"""
+
+renderer = pystache.Renderer()
+
+input = sys.stdin.readline()
+index_entries = json.loads(input)
+
+print("&lt;ul class=\"nav\"&gt;")
+for entry in index_entries:
+    print(renderer.render(template, entry))
+print("&lt;/ul&gt;")
+</pre>
+<p>
+Index processors are not required to output anything. You can as well use
+them to save the index data somewhere and create taxonomies and custom indices from it with
+another script, then re-run soupault to have them included in the pages
+<span class="footnote">TeX users are familiar with this approach.</span>.
+</p>
+
 <h2>Widgets</h2>
 
 <p>
@@ -457,9 +663,8 @@ If it comes from the template, you can explicitly limit a widget to a certain se
 <p>
 If in your <code>soupault.conf</code> one config for widget A is before widget B,
 it doesn't guarantee that widget A will be processed first. By default, soupault
-assumed widgets are independent and can be processed in arbitrary order.
-You can think that they are processed in parallel (even though they actually aren't
-as of now).
+assumes that widgets are independent and can be processed in arbitrary order.
+In future versions they may even be processed in parallel, who knows.
 </p>
 <p>
 This can be an issue if one widget relies on putput from another. In that case,
@@ -575,6 +780,10 @@ histories):
 The <code>PAGE_FILE</code> variable can be used in many different ways,
 for example, you can use it to fetch the page author and modification date
 from a revision control system like git or mercurial.
+</p>
+<p>
+In the current version you cannot uses an external program as a filter&mdash;
+only as a producer, but it can be implemented in future versions.
 </p>
 
 <h3>Content widgets</h3>
@@ -706,7 +915,7 @@ to <code>&lt;h6&gt;</code>.
 <p>
 By default, if a heading has no <code>id</code>, soupault will generate
 a unique numeric identifier for each heading. This is safe, but not very
-good for readers (links are non-indicative) and people who want to share
+good for readers (links are non-indicative) and for people who want to share
 direct links to sections (they will change if page structure changes).
 </p>
 <p>
@@ -715,8 +924,8 @@ It's fine to mix this with any other option: anchors for the remaining headings 
 will be generated automatically.
 </p>
 <p>
-If you want to find a balance between readability, permanence, and ease of maintenance
-there are a few ways to do that and the choice is yours.
+If you want to find a balance between readability, permanence, and ease of maintenance,
+there are a few ways you can do it and the choice is yours.
 </p>
 <p>
 The <code>use_header_slug = true</code> option converts the heading text
@@ -736,7 +945,7 @@ do not enforce uniqueness.
 </p>
 <p>
 All in all, for best link permanence you should give every heading a unique id
-by hand, and for best readability you may want to do with <code>use_header_text = true</code>.
+by hand, and for best readability you may want to go with <code>use_header_text = true</code>.
 </p>
 
 <h4 id="widgets-breadcrumbs">breadcrumbs</h4>
@@ -799,8 +1008,7 @@ Element is considered empty if there's nothing but whitespace inside it.
 <ul>
   <li>Per-section and per-page template overrides</li>
   <li>Lists as page/section options</li>
-  <li>Table of contents widget</li>
-  <li>Footnotes widget</li>
+  <li>Custom metadata queries for section indices.</li>
   <li>Forced widget processing</li>
 </ul>
 
@@ -815,5 +1023,9 @@ variables is extended.
   <li>Dynlinking plugins. Full access to internal datastructures, but plugins are not easy to distribute (need to be compiled).</p>
   <li>Embedded Scheme/Lua/a DSL. Heavyweight option, but plugins are easy to distribute.</li>
 </ul>
+
+<hr />
+
+<div id="footnotes"> </div>
 
 <div id="last-modified">This page was last modified: <span id="git-timestamp"> </span> </div>
