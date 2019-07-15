@@ -145,6 +145,15 @@ body
 
 /** Misc visual styles */
 
+pre
+{
+    background-color: #eaeaea;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+
+code { background-color: #eaeaea }
+
 /* Links */
 a, a.nav:visited
 {
