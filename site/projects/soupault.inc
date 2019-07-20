@@ -1,15 +1,11 @@
 <h1>soupault</h1>
 
-<div id="generated-toc"> </div>
-
-<h2>Overview</h2>
-
-<h3>Background</h3>
 <p>Soupault (<em>soup-oh</em>) is a static website generator based on HTML rewriting.</p>
 <p>
 Pretty much like client-side DOM manipulation, just without the browser or interactivity.
 You can tell it to do things like &ldquo;insert contents of <code>footer.html</code> file into
-<code>&lt;div id="footer"&gt;</code> no matter where that div is in the page&rdquo;.
+<code>&lt;div id="footer"&gt;</code> no matter where that div is in the page&rdquo;,
+or &ldquo;use the first <code>&lt;h1&gt;</code> element in the page for the page title&rdquo;.
 </p>
 <p>Here's the elevator pitch:</p>
 <ul>
@@ -18,17 +14,44 @@ You can tell it to do things like &ldquo;insert contents of <code>footer.html</c
   <li>Preserves existing website structure if required.</li>
   <li>Single executable with no dependencies.</li>
 </ul>
+
+<p>Quick links:</p>
+<dl>
+  <dt>Download latest release:</dt>
+  <dd><a href="https://github.com/dmbaturin/soupault/releases/latest">github.com/dmbaturin/soupault/releases/latest</a></dd>
+  <dt>Git repo:</dt>
+  <dd><a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></dd>
+</dl>
+<p>Soupault is free software published under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>
-It's named after the French dadaist and surrealist writer Philippe Soupault
+Prebuilt executables are available for Linux (statically linked) and Microsoft Windows (7 and later, 32-bit).
+If anyone wants it, macOS builds can be arranged.
+</p>
+
+<p>
+This website is made with soupault and you can use its source as an example:
+<a href="https://github.com/dmbaturin/baturin.org">github.com/dmbaturin/baturin.org</a>.
+</p>
+
+<hr />
+<h2>Contents</h2>
+<div id="generated-toc"> </div>
+<hr />
+
+<h2>Overview</h2>
+<p>
+Soupault is named after the French dadaist and surrealist writer Philippe Soupault
 because it's based on the <a href="https://github.com/aantron/lambdasoup">Lambda Soup</a>
 library, which is a reference to the <a href="https://www.crummy.com/software/BeautifulSoup">Beautiful Soup</a>
-library, which is a reference to the Mock Turtle chapter from Alice in Wonderland,
+library, which is a reference to the Mock Turtle chapter from Alice in Wonderland
+(the best book on programming for the layman according to Alan Perlis),
 which is a reference to an actual turtle soup imitation recipe, and also a reference
 to <a href="https://en.wikipedia.org/wiki/Tag_soup">tag soup</a>, a derogatory term
 for malformed HTML, which is a reference to... in any case, soupault is not the French
-for a stick horse, for better or worse.
+for a stick horse, for better or worse, and this paragraph is the only nod to dadaism
+in this document.
 </p>
-<p>Soupault is quite different from other website generators:</p>
+<p>Soupault is quite different from other website generators. Its design goals are:</p>
 <ol>
   <li>No special syntax inside pages, only plain old semantic HTML.</li>
   <li>No templates or themes. Any HTML page can be a soupault theme.</li>
@@ -47,7 +70,7 @@ The part below the front matter is effectively opaque, and formats like Markdown
 add machine-readable annotations anyway.
 </p>
 <p>
-Valid HTML, however, is a machine-readable format, and the libraries that can handle it existed for a long time.
+Well-formed HTML, however, is a machine-readable format, and the libraries that can handle it existed for a long time.
 As shown by <a href="http://microformats.org/">microformats</a>, you can embed a lot of information in it. More importantly,
 unlike front matter metadata, HTML metadata is multi-purpose: for example, you can use the <code>id</code>
 attribute for CSS styling and as a page anchor, as well as a unique element identifier for data extraction
@@ -85,10 +108,6 @@ they may delete unwanted elements too.
 Processed pages are then written to disk, into a directory structure that mirrors your source
 directory structure.
 </p>
-<p>
-For an example of a soupault-based website source, you can visit
-<a href="https://github.com/dmbaturin/baturin.org">github.com/dmbaturin/baturin.org</a>.
-</p>
 
 <h3>Performance</h3>
 <p>
@@ -96,6 +115,10 @@ Despite its heavy-handed approach, soupault is reasonably fast. With a config th
 breadcrumbs, and built-in section index generator, it can process 1000 copies of its own documentation page
 in about 14 seconds<span class="footnote">On my desktop with an i5-7260U CPU and a magnetic drive.</span>.
 Small websites take less than a second to build.
+</p>
+<p>
+For comparison, in a simplified &ldquo;read-parse-prettify-write&rdquo; test with 1000 copies of this document, 
+CPython/BeautifulSoup takes about 20 seconds to complete.
 </p>
 
 <h3>Why use soupault?</h3>
@@ -186,11 +209,12 @@ the <code>&lt;nav&gt;</code> element, you can put this into your <code>soupault.
 <p>
 Soupault is a single self-contained executable file. You can download the latest release
 from <a href="https://github.com/dmbaturin/soupault/releases/latest">github.com/dmbaturin/soupault/releases/latest</a>.
-Prebuilt executables are available for GNU/Linux on amd64 (glibc &gt;=2.19) and Microsoft Windows (32-bit, Windows 7 and newer).
+Prebuilt executables are available for Linux on amd64 and Microsoft Windows (32-bit, Windows 7 and newer).
+Executables for macOS can be made if anyone requests it.
 </p>
 <p>
 If you are familiar with the <a href="https://ocaml.org">OCaml</a> programming language, you may want to install
-from source.<span class="footnote">Building for POSIX platforms just works, but building for Windows requires
+from source.<span class="footnote"> Building for POSIX platforms just works, but building for Windows requires
 unreleased fixes to <a href="https://github.com/gildor478/ocaml-fileutils">file-utils</a> as of 0.5.3, so you will need
 to build fileutils first.</span>
 </p>
@@ -200,8 +224,8 @@ cd soupault
 opam pin add soupault .
 </pre>
 <p>
-Soupault is now stable enough to build this website, but it's still beta. Prebuilt binaries are compiled
-with debug symbols, which makes them a few megabytes larger than they could be, but you can get better
+Soupault is now stable enough to build this website, but hasn't received much testing from other people yet.
+Prebuilt binaries are compiled with debug symbols, which makes them a couple of megabytes larger than they could be, but you can get better
 error messages if something goes wrong. If you encounter an internal error, you can get an exception trace
 by running it with <code>OCAMLRUNPARAM=b</code> environment variable.
 </p>
@@ -272,33 +296,36 @@ to <code>content_selector = "div#content"</code>.
 
 <h3>Page files</h3>
 <p>
-Everything in the site directory is assumed to be an HTML page. Extensions don't matter,
-it can be <code>.html</code>, <code>.htm</code>, or something else entirely.
-Soupault simply reads them, parses them, and insers into the element defined by the
-<code>content_selector</code> option.
+Soupault assumes that with extensions <code>.html, .htm, .md, .rst</code> are pages
+and processes them. All other files are simply copied to the build directory.
 </p>
-<ul>
-  <li>If you put a picture in there, you'll get a page with a chunk of binary data in it.
-      Store your assets elsewhere.</li>
-  <li>Two pages with the same name but different extensions is undefined behaviour
-      and anything can happen. Make sure file names are unique.</li>
-</ul>
+<p>
+If you want to use other extensions, you can change it in <code>soupault.conf</code>.
+For example, to add <code>.txt</code> to the page extension list, use this option:
+</p>
+<pre>
+[settings]
+  page_file_extensions = ["htm", "html", "md", "rst", "txt"]
+</pre>
 
 <h3>Clean URLs</h3>
 <p>
 Soupault uses clean URLs by default. If you add another page to <code>site/</code>,
 for example, <code>site/about.html</code>, it will turn into <code>build/about/index.html</code>
 so that it can be accessed as <code>https://mysite.example.com/about</code>.
-Only pages not named <code>index</code> trigger subdirectory creation.
 </p>
 <p>
 Index files, by default files whose name is <code>index</code> are simply copied to the target
-directory. Note that right now soupault doesn't create any indices automatically,
-you need to make one yourself.
+directory.
 </p>
+<pre>
+site/index.html → build/index.html
+site/about.html → build/about/index.html
+site/papers/theorems-for-free.html → build/papers/theorems-for-free/index.html
+</pre>
 <div class="info">
 <p>
-Note: a page named <code>foo.html</code> and a section directory named <code>foo/</code> is also
+Note: a page named <code>foo.html</code> and a section directory named <code>foo/</code> is
 undefined behaviour when clean URLs are used. Don't do that to avoid unpredictable results.
 </p>
 </div>
@@ -365,7 +392,12 @@ build/
 │   └── index.html
 └── index.html
 </pre>
-
+<div class="info">
+<p>
+Note that if your section does not have an index page, soupault will not create it automatically.
+If you want a page to exist, you need to make it.
+</p>
+</div>
 
 <h2>Configuration</h2>
 <p>
@@ -394,8 +426,8 @@ the <code>soupault.conf</code> file.
   # Output file name for section indices (always)
   # and page directories (when clean URLs are used)
   # As in:
-  # site/foo/index.inc -&gt; build/foo/index.html
-  # site/foo.inc -&gt; build/foo/index.html
+  # site/foo/index.inc → build/foo/index.html
+  # site/foo.inc → build/foo/index.html
   index_file = "index.html"
 
   doctype = "&lt;!DOCTYPE html&gt;"
@@ -406,8 +438,11 @@ the <code>soupault.conf</code> file.
   # Don't fail on page processing errors
   strict = false
 
-  # Create a directory per page, site/foo.html -&gt; build/foo/$index_file
+  # Create a directory per page, site/foo.html → build/foo/$index_file
   clean_urls = true
+
+  # What files are considered pages and processed
+  page_extensions = ["htm", "html", "md", "rst"]
 </pre>
 
 <p>
@@ -419,6 +454,19 @@ of default settings.
 In this document, whenever a specific site or build dir has to be mentioned,
 we'll use default values.
 </p>
+<div class="info">
+<p>
+Note that there is no check for invalid fields. Soupault will simply ignore
+fields it doesn't know about. A downside is that it doesn't detect misspellt
+options, so check your spelling carefully.
+</p>
+<p>
+The config is also typed and wrong value type has the same effect as a missing
+option. All boolean values must be <code>true</code> or <code>false</code>
+(without quotes), all integer values must not have quotes around numbers,
+and all strings must be in single or double quotes.
+</p>
+</div>
 
 <h2>Page preprocessors</h2>
 <p>
@@ -431,14 +479,18 @@ Any preprocessor that takes page file as its argument and outputs the result to
 </p>
 <p>
 For example, this configuration will make soupault call a program called
-<code>markdown</code> on the page file if its extension is <code>.md</code>.
+<code>cmark</code> on the page file if its extension is <code>.md</code>.
 <pre>
 [preprocessors]
-  md = "markdown"
+  md = "cmark"
 </pre>
 <p>
 The table key can be any extension (without the dot), and the value is a command.
 You can specify as many extensions as you want.
+</p>
+<p>
+Preprocessor commands are executed in shell, so it's fine to use relative
+paths and add arguments. Page file name will be appended to the command string.
 </p>
 
 <h2>Automatic section indices</h2>
@@ -448,8 +500,8 @@ a carefully written and annotated section index, but it's not always practical.
 </p>
 <p>
 Soupault can automatically generate a section index for you. While it's not a blog
-generator and doesn't have built-in features for getting all pages by date etc.,
-it can save you time making section index pages by hand.
+generator and doesn't have built-in features for generateing indices of pages by date, category etc.,
+it can save you time writing a section index pages by hand.
 </p>
 <p>
 Metadata is extracted directly from pages using selectors you specify in the
@@ -458,7 +510,7 @@ not just the first paragraph, without having to duplicate it in the &ldquo;front
 It doesn't even have to be text either. Same goes for other fields.
 </p>
 <p>
-To use automatic indices, you still need an index page in your section.
+To use automatic indexing, you still need an index page in your section.
 It can be empty, but it must be there. Default index page name is <code>index</code>,
 so you should make a page like <code>site/articles/index.html</code> first.
 </p>
@@ -588,6 +640,54 @@ another script, then re-run soupault to have them included in the pages
 <span class="footnote">TeX users are familiar with this approach.</span>.
 </p>
 
+<h3>Custom fields</h3>
+<p>
+Built-in fields should be enough for a typical blog taxonomy, but it's possible
+to add custom fields to your JSON index data.
+</p>
+<p>
+Custom field queries are defined in the <code>[index.custom_fields]</code> table.
+Table keys are field names as they will appear in the exported JSON.
+Their values are inline tables with required <code>selector</code> field
+and optional <code>select_all</code> parameters.
+</p>
+<pre>
+[index.custom_fields]
+  category = { selector = "span#category" }
+
+  tags = { selector = ".tag", select_all = true }
+</pre>
+<p>
+In this example, the <code>category</code> field will contain the inner HTML
+of the first <code>&lt;span id="category"&gt;</code> element even if there's
+more than one in the page. The <code>tags</code> field will contain a list
+of contents of all elements with <code>class="tag"</code>.
+</p>
+
+<h3>Exporting global site index to a file</h3>
+<p>
+The index processor invoked with the <code>index_processor</code> option
+receives the index of the current section. It doesn't include subsections.
+Since the site directory is processed top to bottom, the <code>site/index.html</code>
+page would not get the global site index either.
+</p>
+<p>
+If you want to create your own taxonomies from the metadata imported from pages,
+create a global site index, or an index of a section and all its subsections,
+you can export the aggregated index data to a file for further processing.
+Add this option to your index config:
+</p>
+<pre>
+[index]
+  dump_json = "path/to/file.json"
+</pre>
+<p>This way you can use a TeX-like workflow:</p>
+<ol>
+  <li>Run soupault so that index file is created.</li>
+  <li>Run your custom index generator and save generated taxonomy pages to <code>site/</code>.</li>
+  <li>Run soupault one more time to have them included in the build.</li>
+</ol>
+
 <h2>Widgets</h2>
 
 <p>
@@ -643,8 +743,8 @@ If it comes from the template, you can explicitly limit a widget to a certain se
 </p>
 <pre>
 [widgets.site-news]
-  # only on site/index.html
-  page = "index.html"
+  # only on site/index.html and site/news.html
+  page = ["index.html", "news.html"]
 
   widget = "include"
   file = "includes/site-news.html"
@@ -658,6 +758,11 @@ If it comes from the template, you can explicitly limit a widget to a certain se
   html = "&lt;img src=\"/images/lolcat_cookie.gif\" /&gt;"
   selector = "#catpic"
 </pre>
+<p>
+You can specify either a single value or a list of values in those options.
+If both options are present in a single widget config, the <code>page</code>
+option is checked first.
+</p>
 
 <h3>Widget processing order</h3>
 <p>
@@ -731,7 +836,7 @@ with HTML special characters escaped.
 <pre>
 [widgets.tracking-script]
   widget = "insert_html"
-  html = "&lt;script src=\"/scripts/evil-analytics.js\"&gt; &lt;/script&gt;"
+  html = '&lt;script src="/scripts/evil-analytics.js"&gt; &lt;/script&gt;'
   selector = "head"
 </pre>
 
@@ -807,6 +912,11 @@ If <code>selector</code> is not specified, it uses the first <code>&lt;h1&gt;</c
 as the title source element by default.
 </p>
 <p>
+The <code>selector</code> option can be a list. For example, <code>selector = ["h1", "h2", "#title"]</code>
+means &ldquo;use the first <code>&lt;h1&gt;</code> if the page has it, else use <code>&lt;h2&gt;</code>,
+else use anything with <code>id="title"</code>, else use default&rdquo;.
+</p>
+<p>
 Optional <code>prepend</code> and <code>append</code> parameters allow you to insert some text
 before and after the title.
 </p>
@@ -823,7 +933,8 @@ If the title source element is absent and default title is not set, the title is
 <p>
 The <code>footnotes</code> widgets finds all elements matching a selector,
 moves them to another element, and replaces them with numbered links.
-As usual, the container element can be anywhere in the page.
+As usual, the container element can be anywhere in the page—you can have footnotes
+at the top if you feel like it.
 </p>
 <pre>
 [widgets.footnotes]
@@ -842,22 +953,10 @@ As usual, the container element can be anywhere in the page.
   # Optional: Class for footnote links, default is none
   footnote_link_class = "footnote"
 </pre>
-<p>Suppose you have this page:</p>
-<pre>
-&lt;div id=&quot;content&quot;&gt;
-  &lt;p&gt;The footnotes widget is easy to use.&lt;span class=&quot;footnote&quot;&gt;According to its author.&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
-</pre>
-<p>Using configuration from this example, this is what the footnotes widet will make from it:</p>
-<pre>
-&lt;div id=&quot;content&quot;&gt;
-  &lt;p&gt;The footnotes widget is easy to use.&lt;a href=&quot;#footnote-1&quot; class=&quot;footnote&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&quot;content&quot;&gt;
-  &lt;p id=&quot;footnote-1&quot;&gt;According to its author.&lt;/p&gt;
-&lt;/div&gt;
-</pre>
+<p>
+The <code>footnote_selector</code> option can be a list, in that case all elements
+matching any of those selectors will be considered footnotes.
+</p>
 
 <h4 id="widgets-toc">toc</h4>
 <p>The <code>toc</code> widget generates a table of contents for your page.</p>
@@ -905,47 +1004,50 @@ to <code>&lt;h6&gt;</code>.
 
   # Optional: use header text slugs for anchors
   # Default is false
-  use_header_slug = true
+  use_heading_slug = true
 
   # Optional: use unchanged header text for anchors
   # Default is false
-  use_header_text = false
+  use_heading_text = false
 </pre>
 <h5>Choosing the heading anchor options</h5>
 <p>
-By default, if a heading has no <code>id</code>, soupault will generate
-a unique numeric identifier for each heading. This is safe, but not very
-good for readers (links are non-indicative) and for people who want to share
-direct links to sections (they will change if page structure changes).
+For the table of contents to work, every heading needs a unique <code>id</code>
+attribute that can be used as an anchor.
 </p>
 <p>
 If a heading has an <code>id</code> attribute, it will be used for the anchor.
-It's fine to mix this with any other option: anchors for the remaining headings with no <code>id</code>
-will be generated automatically.
+If it doesn't, soupault has to generate one.
+</p>
+<p>
+By default, if a heading has no <code>id</code>, soupault will generate
+a unique numeric identifier for it. This is safe, but not very
+good for readers (links are non-indicative) and for people who want to share
+direct links to sections (they will change if you add more sections).
 </p>
 <p>
 If you want to find a balance between readability, permanence, and ease of maintenance,
 there are a few ways you can do it and the choice is yours.
 </p>
 <p>
-The <code>use_header_slug = true</code> option converts the heading text
+The <code>use_heading_slug = true</code> option converts the heading text
 to a valid HTML identifier. Right now, however, it's very aggressive
 and replaces everything other than ASCII letters and digits with hyphens.
 This is obviously a no go for non-ASCII languages, that is, pretty much
 all languages in the world. It may be implemented more sensibly in the future.
 </p>
 <p>
-The <code>use_header_text</code> option uses unmodified header text
-for anchors, with whitespace and all. This is against the rules of HTML,
+The <code>use_heading_text = true</code> option uses unmodified heading text
+for the <code>id</code>, with whitespace and all. This is against the rules of HTML,
 but seems to work well in practice.
 </p>
 <p>
-Note that <code>use_header_slug</code> and <code>use_header_text</code>
+Note that <code>use_heading_slug</code> and <code>use_heading_text</code>
 do not enforce uniqueness.
 </p>
 <p>
 All in all, for best link permanence you should give every heading a unique id
-by hand, and for best readability you may want to go with <code>use_header_text = true</code>.
+by hand, and for best readability you may want to go with <code>use_heading_text = true</code>.
 </p>
 
 <h4 id="widgets-breadcrumbs">breadcrumbs</h4>
@@ -1007,9 +1109,6 @@ Element is considered empty if there's nothing but whitespace inside it.
 <h2>Future plans</h2>
 <ul>
   <li>Per-section and per-page template overrides</li>
-  <li>Lists as page/section options</li>
-  <li>Custom metadata queries for section indices.</li>
-  <li>Forced widget processing</li>
 </ul>
 
 <h3>Extensibility</h3>
@@ -1028,4 +1127,5 @@ variables is extended.
 
 <div id="footnotes"> </div>
 
-<div id="last-modified">This page was last modified: <span id="git-timestamp"> </span> </div>
+<div id="last-modified">This page was last modified: <time id="git-timestamp"> </time> </div>
+

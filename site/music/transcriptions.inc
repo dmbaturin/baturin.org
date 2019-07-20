@@ -6,7 +6,7 @@
 
 <p>
 It was typeset from an old handwritten copy and I have no idea which opus it may be from since I couldn't find the original violin version on IMSLP
-or elsewhere, or even if it's really Leclair (though the stye is consistent with his other works).
+or elsewhere, or even if it's really Leclair (though the style is consistent with his other works).
 Regardless, it's a pretty, even if challenging piece.
 </p>
 
@@ -32,6 +32,12 @@ Regardless, it's a pretty, even if challenging piece.
   <li> <a href="/music/transcriptions/tico_tico_no_fuba_clarinet.pdf">PDF</a> </li>
   <li> <a href="/music/transcriptions/tico_tico_no_fuba_clarinet.mscz">MuseScore file</a> </li>
 </ul>
+
+<p>
+<strong>Note:</strong> if you are studying for the ABRSM exam, please be aware that this arrange is <strong>not</strong>
+approved by the board. Get an arrange by Florent Héau (2014, Gérard Billaudot's edition), or check with the
+your school.
+</p>
 
 <h3>Sunrise Song</h3>
 

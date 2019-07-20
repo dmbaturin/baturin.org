@@ -1,5 +1,7 @@
 <h1>Making nice and easy to navigate PDFs</h1>
 
+<div id="generated-toc"> </div>
+
 <p>
 For some reason many people make PDFs that are nearly impossible to navigate. The PDF format provides the best of both worlds:
 it's a paged medium with fixed page geometry and thus allows traditional typesetting, but it's also a digital medium that

@@ -4,7 +4,8 @@
 
 <p>I can't say I'm fond of writing documentation, but someone has to.</p>
 
-<a href="/docs/iproute2"><h3>Task-centered iproute2 manual</h3></a>
+<h3>Task-centered iproute2 manual</h3>
+<p>Find it here: <a href="/docs/iproute2">/docs/iproute2</a></p>
 <p>Formerly &ldquo;iproute2 cheatsheet&rdquo;. It was really more of a cheatsheet initially, but it grew out control.</p>
 <p>Probably the most complete guide to the &ldquo;ip&rdquo; part of iproute2 (the Linux network configuration tool)
    on the Internet.</p>
@@ -19,8 +20,9 @@
   <li>The git repo: <a href="https://github.com/dmbaturin/iproute2-cheatsheet">github.com/dmbaturin/iproute2-cheatsheet</a></li>
 </ul>
 
-<a href="/docs/ocaml-faq"><h3>What I wish I knew when learning OCaml</h3></a>
+<h3>What I wish I knew when learning OCaml</h3>
 <p>A collection of common OCaml questions and answers. Updated occasionally.</p>
+<p>You can find it at <a href="/docs/ocaml-faq">/docs/ocaml-faq</a>.</p>
 
 <h3>Various tips and tricks</h3>
 <ul>
@@ -49,4 +51,4 @@
    into yet another proprietary product. This was written back in 2013, and I have no idea if it's still relevant.</p>
 <p>But if you are curious, here it is: <a href="/docs/edgeos-undocumented">undocumented EdgeOS commands</a>.</p>
 
-<div id="last-modified">This page was last modified: <span id="modification-date"></span></div>
+<div id="last-modified">This page was last modified: <time id="git-timestamp"></time></div>
