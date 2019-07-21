@@ -28,6 +28,7 @@ If not, there's a formal grammar <a href="#tutorial">tutorial</a> below the inpu
 <form action="">
   <textarea id="grammar" style="width: 100%; min-height: 20em">
 # A trivial subset of English.
+# Generates one or more sentences.
 
 &lt;start&gt; ::= 10 &lt;sentence&gt; &lt;line_break&gt; &lt;start&gt; | &lt;sentence&gt; ;
 
@@ -68,14 +69,14 @@ and now you are curious, here's a quick and informal introduction that I hope wi
 you interested in the subject. Don't worry, I'm not an expert myself.
 </p>
 <p>
-All too people are introduced to formal languages from the recognition rather than generation
-side due to its greater practical importance. That's much less illustrative, and, let's admit it,
+Recognizing languages is much more important than generating them, so most of the time people
+get introduced to formal languages by writing lexers and parsers. That's much less illustrative, and, let's admit it,
 much less fun, and many of them give up or limit themselves to someone else's recipes without
 learning the underlying concepts. It doesn't have to be that way&mdash;formal languages <em>are</em> fun.
 </p>
 <p>
-While the intended purpose of BNFGen is generating test data for other programs, the same technique
-can be used for producing <a href="http://www.theproofistrivial.com/">amusing texts</a>
+BNFGen's primary purpose is to produce test data for other programs, but the same technique
+can be used for generating <a href="http://www.theproofistrivial.com/">amusing texts</a>
 or <a href="https://pdos.csail.mit.edu/archive/scigen/">fake research papers</a> that look plausible
 enough to be accepted by unscrupulous conference committees.
 </p>
@@ -84,7 +85,7 @@ enough to be accepted by unscrupulous conference committees.
 A formal language is a language whose grammar is defined precisely. In natural languages we can have
 endless arguments whether singular they or double negatives are grammatical, but in a formal language
 it's known exactly what's grammatical and what isn't. All computer languages including programming languages
-and file formats are examples of formal languages of varying complexity.
+and file formats are examples of formal languages.
 </p>
 <h3>Symbols</h3>
 <p>
@@ -94,12 +95,11 @@ it can be a letter, a word, or a larger language unit such as a noun phrase or a
 <p>
 Symbols that, from a particular grammar's point of view, do not consist of anything, are called
 <em>terminal symbols</em>. Compound symbols that can refer to other symbols are called <em>non-terminal</em>.
-For example, in English, infinitives always include the preposition &ldquo;to&rdquo; and a verb.
-The verb is a non-terminal symbol since it can be any verb, while the preposition must stay the same, so
-&ldquo;to&rdquo; is a terminal symbol.
-Infinitive itself can be seen as a non-terminal symbol if viewed as a part of a sentence grammar,
-such as &ldquo;&lt;infinitive&gt; or not &lt;infinitive&gt;&rdquo; (&ldquo;to be or not to be&rdquo;,
-&ldquo;to do or not to do&rdquo;, &ldquo;to compute or not to compute&rdquo;...).
+<p>
+<p>
+For example, in English, any infinitive looks like &ldquo;to VERB&rdquo;. &ldquo;To&rdquo; is a terminal
+symbol—it always stays the same. The VERB part is a non-terminal because you can put any verb there
+and it's still a valid infinitive.
 </p>
 <h3>Production (rewrite) rules</h3>
 <p>
@@ -134,7 +134,7 @@ and you can paste them into the form.
 &lt;start&gt; ::= "Yes" | "No" ;
 </pre>
 <p>
-Now let's try to define the grammar of &ldquo;to be or not to be&rdquo; sentences.
+Now let's try to define a grammar for &ldquo;to be or not to be&rdquo; sentences.
 </p>
 <pre>
 &lt;start&gt; ::= &lt;infinitive&gt; "or not" &lt;infinitive&gt; ;
@@ -150,7 +150,7 @@ interested in the letters that &ldquo;yes&rdquo; and &ldquo;no&rdquo; consist of
 in our previous example.
 </p>
 <p>
-A few hits of the &ldquo;generate&rdquo; buttons prove that it's not following
+Hitting the &ldquo;generate&rdquo; button a few times proves that it's not following
 the Hamlet's pattern&mdash;the verbs can be different.
 </p>
 <h3>Language complexity</h3>
@@ -159,9 +159,12 @@ This demonstrates the idea of different language complexity classes. The yes/no 
 is <em>finite</em>&mdash;there are only two valid sentences in it.
 </p>
 <p>
-The language of sentences like &ldquo;to be or not to be&rdquo; where any word can be in place
-of &ldquo;be&rdquo; but it must be the same word would be <em>context-sensitive</em>.
-It seems very simple to humans, but its grammar would be quite tricky to define in terms
+The language of sentences like &ldquo;to be or not to be&rdquo; is <em>context-sensitive</em>—if
+we require that the verb is the same. &ldquo;To be or not to do&rdquo; would not be valid.
+When we pick the first verb, we create a context that limits what may come next.
+</p>
+<p>
+It seems very simple to humans, but that grammar would be quite tricky to define in terms
 of production rules, and it would take a lot more computational effort to check if a sentence
 is valid or not since you need to remember what the previous symbols were.
 </p>
@@ -171,7 +174,7 @@ not limiting what may come after it. This is why there can be only one symbol on
 side of a rule and it must be a non-terminal. A rule like <code>"a" &lt;A&gt; ::= ...</code>
 would only apply to symbol A when it follows &ldquo;a&rdquo;. BNFGen doesn't remember what
 came before a symbol, so it cannot do that. While it seems limiting, most computer languages
-are in fact context-free&mdash;it's a bit of a complexity sweet spot where you can express
+are in fact context-free&mdash;it's a complexity sweet spot where you can express
 a lot, but don't run into serious trouble reading or producing it automatically.
 </p>
 <h3>Infinite languages and recursive rules</h3>
@@ -183,7 +186,7 @@ Some BNF extensions include special syntax for &ldquo;one or more&rdquo; and &ld
 but they are really just shortcuts for recursive rules.
 </p>
 <p>
-This is how we can define a language whose sentences consist as one or more letters <code>a</code>:
+This is how we can define a language whose sentences consist of one or more letters <code>a</code>:
 </p>
 <pre>
 &lt;start&gt; ::= "a" &lt;start&gt; | "a" ;
