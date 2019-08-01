@@ -9,11 +9,23 @@ or &ldquo;use the first <code>&lt;h1&gt;</code> element in the page for the page
 </p>
 <p>Here's the elevator pitch:</p>
 <ul>
-  <li>It can extract metadata from existing pages using CSS selectors and produce a section index from it.</li>
+  <li>Works directly on HTML, no other intermediate format is required..</li>
   <li>Supports tables of contents, footnotes, and breadcrumbs out of the box.</li>
   <li>Preserves existing website structure if required.</li>
   <li>Single executable with no dependencies.</li>
 </ul>
+
+<p>
+Ability to look inside HTML enables some useful features. For example, if you have
+<code>&lt;h2 id="second-section"&gt;</code>, the <a href="#widgets-toc">table of contents</a>
+widget will use <code>href="#second-section"</code>
+for the link, so you can have eternal section links that will stay the same
+even if you change the heading text.
+</p>
+<p>
+Another example: the <a href="#indexing">indexing feature</a> allows you to use <em>anything</em>
+identifiable by a CSS selector as an &ldquo;excerpt&rdquo;—it doesn't have to be a paragraph. 
+</p>
 
 <p>Quick links:</p>
 <dl>
@@ -24,14 +36,26 @@ or &ldquo;use the first <code>&lt;h1&gt;</code> element in the page for the page
 </dl>
 <p>Soupault is free software published under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>
-Prebuilt executables are available for Linux (statically linked) and Microsoft Windows (7 and later, 32-bit).
-If anyone wants it, macOS builds can be arranged.
+Prebuilt executables are available for Linux (statically linked), macOS, and Microsoft Windows (7 and later, 32-bit).
 </p>
 
 <p>
 This website is made with soupault and you can use its source as an example:
 <a href="https://github.com/dmbaturin/baturin.org">github.com/dmbaturin/baturin.org</a>.
 </p>
+
+<p>
+For a <em>very</em> quick start:
+</p>
+<ol>
+  <li>Create a directory for your site.</li>
+  <li>Create a page layout with empty <code>&lt;body&gt;</code> in <code>templates/main.html</code></li>
+  <li>Create some files with content to insert inside <code>&lt;body&gt;</code> and drop them to <code>site/</code></li>
+  <li>Run <code>soupault</code> in that directory.</li>
+  <li>Look in <code>build/</code>.</li>
+</ol>
+
+<p>For details, read the documentation below.</p>
 
 <hr />
 <h2>Contents</h2>
@@ -113,7 +137,7 @@ directory structure.
 <p>
 Despite its heavy-handed approach, soupault is reasonably fast. With a config that includes ToC, footnotes, file inclusion,
 breadcrumbs, and built-in section index generator, it can process 1000 copies of its own documentation page
-in about 14 seconds<span class="footnote">On my desktop with an i5-7260U CPU and a magnetic drive.</span>.
+in about 14 seconds<span class="footnote" id="benchmark-machine">On my desktop with an i5-7260U CPU and a magnetic drive.</span>.
 Small websites take less than a second to build.
 </p>
 <p>
@@ -209,8 +233,7 @@ the <code>&lt;nav&gt;</code> element, you can put this into your <code>soupault.
 <p>
 Soupault is a single self-contained executable file. You can download the latest release
 from <a href="https://github.com/dmbaturin/soupault/releases/latest">github.com/dmbaturin/soupault/releases/latest</a>.
-Prebuilt executables are available for Linux on amd64 and Microsoft Windows (32-bit, Windows 7 and newer).
-Executables for macOS can be made if anyone requests it.
+Prebuilt executables are available for Linux (x86-64, statically linked), macOS (x86-64), and Microsoft Windows (32-bit, Windows 7 and newer).
 </p>
 <p>
 If you are familiar with the <a href="https://ocaml.org">OCaml</a> programming language, you may want to install
@@ -423,11 +446,8 @@ the <code>soupault.conf</code> file.
   # without extension
   index_page = "index"
 
-  # Output file name for section indices (always)
-  # and page directories (when clean URLs are used)
-  # As in:
-  # site/foo/index.inc → build/foo/index.html
-  # site/foo.inc → build/foo/index.html
+  # Output file name for the "clean URLs" page files
+  # site/foo.html → build/foo/index.html
   index_file = "index.html"
 
   doctype = "&lt;!DOCTYPE html&gt;"
@@ -493,7 +513,7 @@ Preprocessor commands are executed in shell, so it's fine to use relative
 paths and add arguments. Page file name will be appended to the command string.
 </p>
 
-<h2>Automatic section indices</h2>
+<h2 id="indexing">Automatic section and site index</h2>
 <p>
 Having to add links to all pages by hand can be a tedious task. Nothing beats
 a carefully written and annotated section index, but it's not always practical.
@@ -739,7 +759,24 @@ you can simply not include any elements matching its <code>selector</code>
 option.
 </p>
 <p>
-If it comes from the template, you can explicitly limit a widget to a certain section or page.
+Otherwise, you can explicitly set a widget to run or not run on specific
+pages or sections.
+</p>
+<p>
+All options from this section can take either a single string, or a list
+of strings.
+</p>
+
+<h4>Limiting to pages or sections</h4>
+<p>
+There are <code>page</code> and <code>section</code> options that 
+allow you to specify exact paths to specific pages or sections.
+Paths are relative to your site directory.
+</p>
+<p>
+The <code>page</code> option limits a widget to an exact page file,
+while the <code>section</code> option applies a widget to all
+files in a subdirectory.
 </p>
 <pre>
 [widgets.site-news]
@@ -758,11 +795,38 @@ If it comes from the template, you can explicitly limit a widget to a certain se
   html = "&lt;img src=\"/images/lolcat_cookie.gif\" /&gt;"
   selector = "#catpic"
 </pre>
+
+<h4>Excluding sections or pages</h4>
 <p>
-You can specify either a single value or a list of values in those options.
-If both options are present in a single widget config, the <code>page</code>
-option is checked first.
+It's also possible to explicitly exclude pages or sections.
 </p>
+<pre>
+[widgets.toc]
+  # Don't add a TOC to the main page
+  exlude_page = "index.html"
+  ...
+
+[widgets.evil-analytics]
+  exclude_section = "privacy"
+  ...
+</pre>
+
+<h4>Using regular expressions</h4>
+
+<p>
+When nothing else helps, <code>path_regex</code> and <code>exclude_path_regex</code> options
+may solve your problem. They take a Perl-compatible regular expression (not a glob).
+</p>
+
+<pre>
+[widgets.toc]
+  # Don't add a TOC to any section index page
+  exclude_path_regex = '^(.*)/index\.html$'
+  ...
+
+[widgets.cat-picture]
+  path_regex = 'cats/'
+</pre>
 
 <h3>Widget processing order</h3>
 <p>
@@ -952,10 +1016,17 @@ at the top if you feel like it.
 
   # Optional: Class for footnote links, default is none
   footnote_link_class = "footnote"
+
+  # Optional: do not create links back to original locations
+  back_links = true
 </pre>
 <p>
 The <code>footnote_selector</code> option can be a list, in that case all elements
 matching any of those selectors will be considered footnotes.
+</p>
+<p>
+By default, the number in front of a footnote is a hyperlink back to the original
+location. You can disable it and make footnotes one way links with <code>back_links = false</code>.
 </p>
 
 <h4 id="widgets-toc">toc</h4>
