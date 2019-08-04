@@ -11,6 +11,7 @@ while editing a blog post seems somewhat wrong. I'll keep them in this section.
   <dd>A note on the once common buttons that promoted web server or client software</dd>
   <dt><a href="/notes/mobile-friendly">Old webmaster's guide to mobile-friendly websites</a></dt>
   <dd>A passive-aggressive guide to adapting old websites for mobile audience.</dd>
+  <dt>An introduction to <a href="/notes/ssg">static website generators</a>.</dt>
 </dl>
 
 <h2>On programming languages</h2>
