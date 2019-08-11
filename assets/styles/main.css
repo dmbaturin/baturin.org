@@ -160,6 +160,11 @@ a, a.nav:visited
     color: #006699;
 }
 
+a.nav-active, a.nav-active:visited
+{
+    font-weight: bold;
+}
+
 a:visited
 {
     color: #355670;
@@ -184,7 +189,7 @@ table
     border-collapse: collapse;
 }
 
-th
+th, td
 {
     text-align: left;
 }

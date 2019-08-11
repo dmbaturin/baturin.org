@@ -213,5 +213,3 @@ layout. Centering the content block worked like a charm. Automatic layout of lin
 to me since on small screens in landscape orientation it often creates huge gaps, but so far it seems like
 an acceptable compromise. I'm sure I can make quite a few improvements, if I find time for it.
 </p>
-
-<div id="last-modified">This page was last modified: <span id="git-timestamp"> </span> </div>

@@ -26,6 +26,9 @@ even if you change the heading text.
 Another example: the <a href="#indexing">indexing feature</a> allows you to use <em>anything</em>
 identifiable by a CSS selector as an &ldquo;excerpt&rdquo;—it doesn't have to be a paragraph. 
 </p>
+<p>
+If built-in functionality is not enough, you can add your own with <a href="#plugins">Lua plugins</a>.
+</p>
 
 <p>Quick links:</p>
 <dl>
@@ -230,27 +233,43 @@ the <code>&lt;nav&gt;</code> element, you can put this into your <code>soupault.
 </dl>
 
 <h2>Installation</h2>
+<h3>Binary release packages</h3>
 <p>
-Soupault is a single self-contained executable file. You can download the latest release
+Soupault is distributed as a single, self-contained executable, so installing it from a binary release package
+it trivial.
+</p>
+<p>
+You can download the latest release
 from <a href="https://github.com/dmbaturin/soupault/releases/latest">github.com/dmbaturin/soupault/releases/latest</a>.
 Prebuilt executables are available for Linux (x86-64, statically linked), macOS (x86-64), and Microsoft Windows (32-bit, Windows 7 and newer).
 </p>
+<p>
+Just unpack the archive and copy the executable wherever you want.
+</p>
+<p>
+Soupault is now stable enough to build this website, but hasn't received much testing from other people yet.
+Prebuilt binaries are compiled with debug symbols, which makes them a couple of megabytes larger than they could be, but you can get better
+error messages if something goes wrong. If you encounter an internal error, you can get an exception trace
+by running it with <code>OCAMLRUNPARAM=b</code> environment variable.
+</p>
+
+<h3>Building from source</h3>
 <p>
 If you are familiar with the <a href="https://ocaml.org">OCaml</a> programming language, you may want to install
 from source.<span class="footnote"> Building for POSIX platforms just works, but building for Windows requires
 unreleased fixes to <a href="https://github.com/gildor478/ocaml-fileutils">file-utils</a> as of 0.5.3, so you will need
 to build fileutils first.</span>
 </p>
+<p>
+Since Lua-ML, the Lua interpreter that soupault uses for executing plugins, it not in the OPAM repository yet,
+you need to install it first.
 <pre>
-git clone https://github.com/dmbaturin/soupault.git
-cd soupault
-opam pin add soupault .
+opam pin add lua-ml git+https://github.com/lindig/lua-ml
+opam pin add soupault git+https://github.com/dmbaturin/soupault
 </pre>
 <p>
-Soupault is now stable enough to build this website, but hasn't received much testing from other people yet.
-Prebuilt binaries are compiled with debug symbols, which makes them a couple of megabytes larger than they could be, but you can get better
-error messages if something goes wrong. If you encounter an internal error, you can get an exception trace
-by running it with <code>OCAMLRUNPARAM=b</code> environment variable.
+Due to library dependencies, at the time of writing soupault doesn't build with OCaml 4.08 yet.
+You should build it with 4.07 until the libraries catch up.
 </p>
 
 <h2>Getting started</h2>
@@ -1177,26 +1196,202 @@ You can limit it to deleting only empty elements with <code>only_if_empty = true
 Element is considered empty if there's nothing but whitespace inside it.
 </p>
 
-<h2>Future plans</h2>
-<ul>
-  <li>Per-section and per-page template overrides</li>
-</ul>
+<h2>Plugins</h2>
 
-<h3>Extensibility</h3>
 <p>
-Right now the only way to extend soupault is to make it run external programs.
-You can do quite a lot with it, especially when the set of passed environment
-variables is extended.
+Since version 1.2, soupault can be extended with Lua plugins. Currently there are following limitations:
 </p>
-<p>Possible future methods may be:</p>
 <ul>
-  <li>Dynlinking plugins. Full access to internal datastructures, but plugins are not easy to distribute (need to be compiled).</p>
-  <li>Embedded Scheme/Lua/a DSL. Heavyweight option, but plugins are easy to distribute.</li>
+  <li>The supported language is Lua 2.5, not modern Lua 5.x. That means no closures and no <code>for</code> loops in particular.</li>
+  <li>Lua execution errors are logged to <code>stderr</code>, but don't stop processing even in strict mode.</li>
+  <li>Only string options can be passed to plugins via widget options from <code>soupault.conf</code></li>
 </ul>
+<p>
+Plugins are treated like widgets and are configured the same way.
+</p>
+
+<h3>Plugin example</h3>
+<p>
+Here is an example of a plugin that converts relative links to absolute URLs by prepending a site URL to them:
+</p>
+
+<pre>
+-- Converts relative links to absolute URLs
+-- e.g. "/about" -> "https://www.example.com/about"
+
+-- Get the URL from the widget config
+site_url = config["site_url"]
+
+if not Regex.match(site_url, "(.*)/$") then
+  site_url = site_url .. "/"
+end
+
+links = HTML.select(page, "a")
+
+-- That's Lua 2.5, hand-cranked iteration...
+index, link = next(links)
+
+while index do
+  href = HTML.get_attribute(link, "href")
+  if href then
+    -- Check if URL schema is present
+    if not Regex.match(href, "^([a-zA-Z0-9]+):") then
+      -- Remove leading slashes
+      href = Regex.replace(href, "^/*", "")
+      href = site_url .. href
+      HTML.set_attribute(link, "href", href)
+    end
+  end
+  index, link = next(links, index)
+end
+</pre>
+<h3>Configuring plugins</h3>
+<p>
+Plugin files can be placed in any directory. By convention, we'll use <code>plugins/</code>.
+So, to use that plugin, first save it to <code>plugins/site-url.lua</code>
+</p>
+<p>Then you need to configure soupault to load the plugin. Add this snippet to <code>soupault.conf</code>:</p>
+<pre>
+[plugins.site-url]
+  file = "plugins/site-url.lua"
+</pre>
+<p>It will register the plugin as a widget named <code>site-url</code>.</p>
+<p>
+Then you can use it like any other widget. Plugin subtable name becomes the name of the widget,
+in our case <code>site-url</code>. The <code>site_url</code> option from the widget config
+will be accessible to the plugin as <code>config["site_url"]</code>.
+</p>
+<pre>
+[widgets.absolute-urls]
+  widget = "site-url"
+  site_url = "https://www.example.com"
+</pre>
+
+<h3>Plugin environment</h3>
+<p>Plugins have access to the following global variables:</p>
+<dl>
+  <dt><code>page</code></dt>
+  <dd>The page element tree that can be manipulated with functions from the <code>HTML</code> module.</dd>
+  <dt><code>page_file</code></dt>
+  <dd>String containing page file path, e.g. <code>site/index.html</code></dd>
+  <dt><code>nav_path</code></dt>
+  <dd>List of strings representing the logical nativation path. For example, for <code>site/foo/bar/quux.html</code>
+      it's <code>["foo", "bar"]</code>.
+  <dt><code>config</code></dt>
+  <dd>A table with widget config options.</dd>
+</dl>
+
+<p>
+<strong>Note:</strong> only string options can be passed to plugins through the <code>config</code> table.
+As in, they must be TOML strings like <code>"foo"</code> or <code>"42.0"</code>. Lua will convert strings
+to numbers when appropriate, so you can pass numbers by writing them as strings. You <em>cannot</em> pass TOML lists
+or inline tables to plugins in the current soupault version.
+</p>
+
+<h3>Plugin API</h3>
+<p>
+Apart from the standard Lua 2.5 functions, soupault provides two additional modules: <code>HTML</code>
+for HTML element tree manipulation and <code>Regex</code> for simple regex operations.</p>
+<h4>The HTML module</h4>
+<table>
+  <tr>
+    <th>Function</th>
+    <th>Example</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>HTML.parse(string)</code></td>
+    <td><code>h = HTML.parse("&lt;p&gt;hello world&lt;p&gt;")</code></td>
+    <td>Parses a string into an HTML element tree</td>
+  </tr>
+  <tr>
+    <td><code>HTML.create_element(tag, text)</code></td>
+    <td><code>h = HTML.create_element("p", "hello world")</code></td>
+    <td>Creates an HTML element node.</td>
+  </tr>
+  <tr>
+    <td><code>HTML.inner_html(html)</code></td>
+    <td><code>h = HTML.inner_html(HTML.create_element("<p>hello world</p>"))</code></td>
+    <td>Returns element content as a string.</td>
+  </tr>
+  <tr>
+    <td><code>HTML.select(html, selector)</code></td>
+    <td><code>links = HTML.select(page, "a")</code></td>
+    <td>Returns a list of elements matching specified selector</td>
+  </tr>
+  <tr>
+    <td><code>HTML.select_one(html, selector)</code></td>
+    <td><code>content_div = HTML.select(page, "div#content")</code></td>
+    <td>Returns	the first element matching specified selector, or <code>nil</code> if none are found.</td>
+  </tr>
+  <tr>
+    <td><code>HTML.get_attribute(html_element, attribute)</code></td>
+    <td><code>href = HTML.get_attribute(link, "href")</code></td>
+    <td>Returns the value of an element attribute, or nil if the attribute is absent. The first argument must be an element reference
+        produced by <code>HTML.select/HTML.select_one/HTML.select_element</code></td>
+  </tr>
+  <tr>
+    <td><code>HTML.set_attribute(html_element, attribute)</code></td>
+    <td><code>HTML.set_attribute(content_div, "id", "content")</code></td>
+    <td>Sets an attribute value. The first argument must be an element reference
+        produced by <code>HTML.select/HTML.select_one/HTML.select_element</code></td>
+  </tr>
+  <tr>
+    <td><code>HTML.add_class(html_element, class_name)</code></td>
+    <td><code>HTML.add_class(p, "centered")</code></td>
+    <td>Adds a <code>class="class_name"</code> attribute. The first argument must be an element reference
+        produced by <code>HTML.select/HTML.select_one/HTML.select_element</code></td>
+  </tr>
+  <tr>
+    <td><code>HTML.remove_class(html_element, class_name)</code></td>
+    <td><code>HTML.remove_class(p, "centered")</code></td>
+    <td>Adds a <code>class="class_name"</code> attribute. The first argument must be an element reference
+        produced by <code>HTML.select/HTML.select_one/HTML.select_element</code></td>
+  </tr>
+  <tr>
+    <td><code>HTML.append_child(parent, child)</code></td>
+    <td><code>HTML.append_child(page, HTML.create_element("br"))</code></td>
+    <td>Appends a child element to the parent.</td>
+  </tr>
+  <tr>
+    <td><code>HTML.delete(html_element)</code></td>
+    <td><code>HTML.delete(HTML.select_one(page, "h1"))</code></td>
+    <td>Deletes an element from the page. The second argument must be an element reference returns by a select function.</td>
+  </tr>
+</table>
+
+<h4>The Regex module</h4>
+<p>
+Regular expressions used by this module are mostly Perl-compatible. Capturing groups and back references are not supported.
+</p>
+<table>
+  <tr>
+    <th>Function</th>
+    <th>Example</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>Regex.match(string, regex)</code></td>
+    <td><code>Regex.match("/foo/bar", "^/")</code></td>
+    <td>Checks if a string matches a regex.</td>
+  </tr>
+    <tr>
+    <td><code>Regex.find_all(string, regex)</code></td>
+    <td><code>matches = Regex.find_all("/foo/bar", "([a-z]+)")</code></td>
+    <td>Returns a list of substrings matching a regex.</td>
+  </tr>
+  <tr>
+    <td><code>Regex.replace(string, regex, string)</code></td>
+    <td><code>s = Regex.replace("/foo/bar", "^/", "")</code></td>
+    <td>Replaces the first occurence of a matching strings. It returns a new string and doesn't modify the argument.</td>
+  </tr>
+  <tr>
+    <td><code>Regex.replace_all(string, regex, string)</code></td>
+    <td><code>Regex.replace("/foo/bar", "/", "")</code></td>
+    <td>Replaces every matching substring. It returns a new string and doesn't modify the argument.</td>
+  </tr>
+</table>
 
 <hr />
 
 <div id="footnotes"> </div>
-
-<div id="last-modified">This page was last modified: <time id="git-timestamp"> </time> </div>
-

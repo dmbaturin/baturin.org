@@ -99,5 +99,3 @@ Everything that a CMS can do, except interaction with visitors.
 The hardest part is to choose which one to use because there are so many of them.
 I've just made my own.
 </p>
-
-<div id="last-modified">This page was last modified: <time id="git-timestamp"> </time> </div>
