@@ -7,28 +7,36 @@ You can tell it to do things like &ldquo;insert contents of <code>footer.html</c
 <code>&lt;div id="footer"&gt;</code> no matter where that div is in the page&rdquo;,
 or &ldquo;use the first <code>&lt;h1&gt;</code> element in the page for the page title&rdquo;.
 </p>
-<p>Here's the elevator pitch:</p>
-<ul>
-  <li>Works directly on HTML, no other intermediate format is required..</li>
-  <li>Supports tables of contents, footnotes, and breadcrumbs out of the box.</li>
-  <li>Preserves existing website structure if required.</li>
-  <li>Single executable with no dependencies.</li>
-</ul>
 
-<p>
-Ability to look inside HTML enables some useful features. For example, if you have
-<code>&lt;h2 id="second-section"&gt;</code>, the <a href="#widgets-toc">table of contents</a>
-widget will use <code>href="#second-section"</code>
-for the link, so you can have eternal section links that will stay the same
-even if you change the heading text.
-</p>
-<p>
-Another example: the <a href="#indexing">indexing feature</a> allows you to use <em>anything</em>
-identifiable by a CSS selector as an &ldquo;excerpt&rdquo;—it doesn't have to be a paragraph. 
-</p>
-<p>
-If built-in functionality is not enough, you can add your own with <a href="#plugins">Lua plugins</a>.
-</p>
+<dl>
+  <dt><strong>Full HTML awareness</strong></dt>
+  <dd>Soupault is aware of the full page structure. It can find and manipulate any element using
+  CSS3 selectors like <code>p</code>, <code>div#content</code>, or <code>a.nav</code>,
+  no matter where it is in the page. There is no need &ldquo;front matter&rdquo;&mdash; all metadata
+  can be extracted from HTML itself.</dd>
+  <dt><strong>No themes</strong></dt>
+  <dd>Any page can be a soupault theme, you just tell it where to insert the content.
+      By default it inserts page content into the <code>&lt;body&gt;</code> element,
+      but it can be anything identifiable with a CSS selector. You decide how much is the &ldquo;theme&rdquo;
+      and how much is the content.</dd>
+  <dt><strong>Built for text-heavy, nested websites</strong></dt>
+  <dd>Tables of contents, footnotes, and breadcrumbs are supported out of the box.
+      Existing element id's are respected, so you can make table of contents and footenote links
+      permanent and immune to link rot, even if you change the heading text or page structure.</dd>
+  <dt><strong>Preserves your content structure</strong></dt>
+  <dd>Soupault can mirror your directory structure exactly, down to file extensions.
+      You can migrate from an old handcrafted website without breaking any links.</dd>
+  <dt><strong>Any input format</strong></dt>
+  <dd>HTML is the primary format, but you can use anything that can be converted to HTML. Just specify
+      preprocessors for files with certain extensions.</dd>
+  <dt><strong>Easy to install</strong></dt>
+  <dd>Soupault is a single executable file with no dependencies. Just unpack the archive and it's ready to use.</dd>
+  <dt><strong>Fast</strong></dt>
+  <dd>Soupault is written in <a href="https://ocaml.org">OCaml</a> and compiled to native code on all platforms.
+      This website takes less than 0.5 second to build.</dd>
+  <dt><strong>Extensible</strong></dt>
+  <dd>You can add your own HTML rewriting logic with Lua scripts.</dd>
+</dl>
 
 <p>Quick links:</p>
 <dl>
@@ -39,7 +47,7 @@ If built-in functionality is not enough, you can add your own with <a href="#plu
 </dl>
 <p>Soupault is free software published under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
 <p>
-Prebuilt executables are available for Linux (statically linked), macOS, and Microsoft Windows (7 and later, 32-bit).
+Prebuilt executables are available for Linux (x86-64, statically linked), macOS, and Microsoft Windows (7 and later, 32-bit).
 </p>
 
 <p>
