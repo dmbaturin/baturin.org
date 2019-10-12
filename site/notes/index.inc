@@ -30,4 +30,6 @@ while editing a blog post seems somewhat wrong. I'll keep them in this section.
 <dl>
   <dt><a href="/notes/easter-eggs">On “easter eggs”</a></dt>
   <dd>A proposal for a sensible easter egg policy without the extremes of either &ldquo;trustworthy computing&rdquo; or flight simulators inside spreadsheet programs.</dd>
+  <dt><a href="/notes/intuitive">Intuitive and revolutionary</a><dt>
+  <dd>Still much ignored fact that nothing is inherently intuitive.</dd>
 </dl>
