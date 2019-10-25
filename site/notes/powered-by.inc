@@ -317,8 +317,9 @@ without hesitation.
 
 <p>This page would not be complete without buttons for this very website:</p>
 
-<img src="/images/powered-by/fedora_powered_03.png" alt="Fedora Powered, variant 3" />
-<img src="/images/powered-by/apache_powered_03.gif" alt="Powered by Apache, variant 3" />
-<img src="/images/powered-by/ocaml.png" alt="OCaml" width="150px" />
+<a href="https://fedoraproject.org/"> <img src="/images/powered-by/fedora_powered_03.png" alt="Fedora Powered, variant 3" /> </a>
+<a href="https://httpd.apache.org/"> <img src="/images/powered-by/apache_powered_03.gif" alt="Powered by Apache, variant 3" /> </a>
+<a href="https://ocaml.org"> <img src="/images/powered-by/ocaml.png" alt="OCaml" width="150px" /> </a>
+<a href="https://soupault.neocities.org"> <img src="/images/powered-by/powered_by_soupault.png" alt="Powered by soupault" width="150px" /> </a>
 
-<div id="revision">This page was last modified: 2019-03-17</div>
+<div id="revision">This page was last modified: 2019-10-14</div>

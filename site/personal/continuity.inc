@@ -2,15 +2,15 @@
 
 <p>
 We've all seen the classic example from introductory logic courses: all humans are mortal, Socrates is a human, therefore, Socrates is mortal.
-It sounds like a trivial exercise until you insert yourself into that predicate. &ldquo;I am mortal&rdquo; is 
+It sounds like a trivial exercise until you insert yourself into that predicate. &ldquo;I am mortal&rdquo; is some serious motivation to think how
+this fact affects your life and the lives of people around you.
 </p>
 <p>
 While I hope that I will be able to maintain my own stuff for quite a while, I'm well aware of my own mortality and of the fact that death of
 one person always affects others in complex ways. They need to dispose of the corpse at the very least (while we are at it, I would like to
 donate mine to a research or educational institution&mdash;better make it an asset than a liability). There are also many ways to become permanently unable
-to maintain anything while still being technically alive, for various definitions of &ldquo;alive&rdquo;
+to maintain anything while still being technically alive, for various definitions of &ldquo;alive&rdquo;.
 </p>
-
 <p>
 Of course, it's not me who gets to decide which of the things I made in my life remain relevant in one, five, or a hundred years after my death.
 I would like my projects including websites to outlive me, both because one of my main reasons for building them is to share the tools

@@ -33,6 +33,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 <ul>
   <li> Github: <a href="https://github.com/dmbaturin">github.com/dmbaturin</a> </li>
   <li> Blog: <a href="https://blog.baturin.org">blog.baturin.org</a> </li>
+  <li> Mastodon: <a rel="me" href="https://mastodon.social/@dmbaturin">@dmbaturin@mastodon.social</a> </li>
   <li> Twitter: <a href="https://twitter.com/dmbaturin">@dmbaturin</a> </li>
   <li> dmbaturin on the <a href="https://freenode.net">Freenode</a> IRC network</li>
 </ul>

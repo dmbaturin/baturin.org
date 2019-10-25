@@ -39,11 +39,17 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
 <h3>soupault</h3>
 <p>
 A static website generator based on HTML rewriting. Think DOM manipulation, but without a browser.
+Perfect for Web 1.0 enthusiasts since you can make all pages look different and still have an automated workflow.
 </p>
 <ul>
-  <li>Docs: <a href="/projects/soupault"/>projects/soupault</a></li>
+  <li>Website: <a href="https://soupault.neocities.org">soupault.neocities.org</a></li>
   <li>Git: <a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></li>
 </ul>
+<p>
+If you are wondering why I put it on <a href="https://neocities.org">NeoCities</a> if I have my own server,
+it's to bring soupault closer to the community that can benefit from it most, and to support an independent
+and open source hosting provider.
+</p>
 
 <h2>Libraries and plugins</h2>
 

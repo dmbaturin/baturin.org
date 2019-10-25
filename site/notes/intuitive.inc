@@ -28,8 +28,8 @@ There are categories of people for whom traffic dumps or Pastebin are not quite 
 of your existing experience.
 </p>
 <p>
-This brings us to the point that if something is intuitive and revolutionary are often contradictory properties. A good invention allows people to do
-previously things they couldn't do before. It may require revolutionary internals, like wireless phones, but in the end, &ldquo;I wish I could talk with anyone
+This brings us to the point that intuitive and revolutionary are often contradictory properties. A good invention allows people to do
+things they couldn't do before. It may require revolutionary internals, like wireless phones, but in the end, &ldquo;I wish I could talk with anyone
 at any distance&rdquo; was a common idea long before it was possible. The best ones allow people to do things no one thought of before.
 </p>
 <p>

@@ -2,7 +2,7 @@
 
 <p>You can read my <a href="/personal/cv">CV</a> if you want.</p>
 
-<p>If you want to let me login somewhere, here's my <a href="/files/dmbaturin_id_rsa_pub.txt">SSH public key</a>.</p>
+<p>If you want to let me login somewhere, here's my <a href="/files/dmbaturin_ssh_key.txt">SSH public key</a>.</p>
 
 <p>If you have a good reason to believe that I'm dead or something, read the <a href="/personal/continuity">continuity</a> page.</p>
 
