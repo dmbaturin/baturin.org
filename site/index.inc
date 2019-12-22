@@ -4,7 +4,6 @@ look old fashioned.
 </p>
 
 <h2>Whose home page?</h2>
-
 <p>
 My name is <strong>Daniil Baturin</strong>. On the Internet I usually go by <strong>dmbaturin</strong>,
 the &ldquo;m&rdquo; is from my middle name, <a href="https://en.wikipedia.org/wiki/Patronymic">of sorts</a>.
@@ -65,6 +64,10 @@ issue, let me know.
 Accessibility and support for outdated software are different issues though.
 Despite its visual simplicity, this website is not made with outdated web browsers in mind,
 though anything released after 2013 should work.
+</p>
+<p>
+This site is powered by <a href="https://soupault.neocities.org">soupault</a>, a static site generator
+based on HTML rewriting.
 </p>
 
 <h2>News</h2>

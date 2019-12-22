@@ -7,8 +7,8 @@
 <h3>Scores</h3>
 
 <ul>
+  <li> <a href="/music/fully-notated">Fully notated (&ldquo;classical&rdquo;) pieces</a> </li>
   <li> <a href="/music/leadsheets">Jazz tunes (leadsheets)</a> </li>
-  <li> <a href="/music/fully-notated">Fully notated pieces</a> </li>
   <li> <a href="/music/transcriptions">Transcriptions, adaptations, arrangements etc.</a> </li>
 </ul>
 

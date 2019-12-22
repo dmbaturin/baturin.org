@@ -5,13 +5,52 @@
 <p>It's tempting to call it &ldquo;classical&rdquo;. I don't feel like it though. Simply being fully notated
    doesn't make it classical. &ldquo;Classical&rdquo; implies at least conformance with the common practice period
    traditions, or certain artistic merit, or both. Then again, a lot of contemporary classical music ignores
-   the common practice period rules or breaks them on purpose. A lot of contemporary classical music isn't very good,
+   the common practice period rules or breaks them on purpose. A lot of contemporary classical music also isn't very good,
    to put it politely. On the other hand, a lot of common practice period music wasn't all that good either.</p>
 <p>Still, I'm pretty sure if I call these exercises in composition &ldquo;classical music&rdquo;, real academic musicians
    will give me very odd looks. I'll stick with &ldquo;fully notated&rdquo; which is vague enough to cover everything
    and not offensive to anyone.</p>
 
 <p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
+
+<h3 id="album-leaf-2019-mm">Album Leaf for MM</h3>
+
+<p>
+A somewhat Satie'esque piece for one more strings player (there are so many of them around, nowhere to hide from them).
+</p>
+<p>
+The funny bits are voice leading using the seventh of a chord as a common tone and modulation to relative minor
+using the <em>vii</em> of the major key as the <em>ii</em> of the minor key.
+</p>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.mid">MIDI</a> </li>
+  <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.mscz">MuseScore file</a> </li>
+  <li> Date: November 2019 </li>
+  <li> Key: D major </li>
+</ul>
+
+<h3 id="winter-waltz">Winter Waltz</h3>
+
+<p>
+A sad waltz for the piano solo. Something of a nod to the tradition of minor key waltzes
+in russian classical music.
+</p>
+<p>
+That tune sat half-written for like half a year, and I might have never completed its accompanying part
+if it wasn't for the birthday of a certain violinist who doubles as a harmony expert. I picked this
+one from the pile of drafts because it had modulations to the dominant key—at least something
+to make a decent gift for someone who knows much more about harmony than I do.
+</p>
+
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2019-02_winter_waltz.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2019-02_winter_waltz.mid">MIDI</a> </li>
+  <li> <a href="/music/fully-notated/op2019-02_winter_waltz.mscz">MuseScore file</a> </li>
+  <li> Date: October 2019 </li>
+  <li> Key: C minor </li>
+</ul>
 
 <h3 id="partita-1">Partita for a monophonic instrument solo no. 1 (A major)</h3>
 

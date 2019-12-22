@@ -68,7 +68,9 @@ From this perspective, time-based easter eggs should be prohibited under any cir
 key combinations, or action sequences that trigger an easter egg should not be variations of valid options.
 </p>
 <p>
-For example, the &ldquo;sl&rdquo; command is a lot of fun<a href="#sl"><sup>1</sup></a>, but if mistyped &ldquo;ls&rdquo; is in a script, it will neither
+For example, the &ldquo;sl&rdquo; command is a lot of fun<span class="footnote" id="sl">If you are not familiar with <a href="https://github.com/mtoyoda/sl">sl</a>,
+it displays an animated ASCII train. There's also one for <a href="http://r-wos.org/hacks/gti">git</a>.</span>,
+but if mistyped &ldquo;ls&rdquo; is in a script, it will neither
 fail with command not found, nor produce a correct result. Same with &ldquo;ddate&rdquo;. I have both installed on my workstation
 and some other machines that I'm solely responsible for, but I'm dead set against having them installed on production servers.
 </p>
@@ -86,10 +88,6 @@ changes its look for the April fools day in a way that doesn't affect the DOM, S
 
 <hr />
 
-<a name="sl"> </a>
-<p> <sup>1</sup>
-If you are not familiar with <a href="https://github.com/mtoyoda/sl">sl</a>, it displays an animated ASCII train.
-There's also one for <a href="http://r-wos.org/hacks/gti">git</a>.
-</p>
+<div id="footnotes"> </div>
 
 <div id="revision">This page was last modified: 2018-03-07</div>

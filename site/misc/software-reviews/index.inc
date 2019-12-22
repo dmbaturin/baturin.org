@@ -3,7 +3,9 @@
 <p>Software reviews, so to speak. Except the software is historical or uncommon.
    In other words, software you are unlikely to have seen, and probably unlikely to want to see.</p>
 
-<div id="index"> </div>
+<div id="index">
+  <ul> </ul>
+</div>
 
 <h3>A note on copyrights</h3>
 

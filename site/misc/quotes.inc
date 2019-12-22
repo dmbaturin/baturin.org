@@ -11,7 +11,7 @@ infinite loop without a faked up condition.  The idea being that in Ada
 the typical infinite loop would be normally be terminated by detonation.
 </blockquote>
 <div class="quote-source"> &mdash; Larry Wall
-<span class="footnote">
+<span class="footnote" id="ada-loops">
 This can give a wrong impression that you can't escape a loop in Ada.
 You can, either with &ldquo;exit [when &lt;condition&gt;]&rdquo; statement
 or by raising an exception. Otherwise it's true, &ldquo;loop ... end loop;&rdquo;
@@ -24,7 +24,7 @@ creates an infinite loop, finite loops are created by adding a condition before 
 Ada language is a voice from thermonuclear hell, a curse to the humankind.
 </blockquote>
 <div class="quote-source"> &mdash; Melor Sturua
-<span class="footnote">
+<span class="footnote" id="ada-izvestia">
 This is from an <a href="http://www.orwell.ru/a_life/Melor_Sturua/russian/ms_01">article</a>
 in a soviet newspaper that described the USA as an antiutopia.
 The author compared it to Orwell's Newspeak as if it was a constructed language,
@@ -68,7 +68,7 @@ Software tends to live too long: just good enough to discourage replacement, but
 Within the Oceans of Great Risk were many Sun Worshippers, and they had wanted to excel, and make their words perfect, and do their jobs as easy as one-two-three.
 </blockquote>
 <div class="quote-source">&mdash; unknown
-<span class="footnote">
+<span class="footnote" id="dosfish">
 It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
 which can be found on many websites often without attribution, and I really would like to know who the original
 author is.

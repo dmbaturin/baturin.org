@@ -8,14 +8,7 @@
    <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license, which is
    equivalent to public domain.</p>
 
-<ul class="nav">
-  <li class="nav"> <a href="/code/japh">JAPHs and other obfuscated programs</a> </li>
-  <li class="nav"> <a href="/code/oo-peano">Object-oriented Peano arithmetics in Python</a> </li>
-  <li class="nav"> <a href="/code/mlton-overload">Function overloading in MLton</a> </li>
-  <li class="nav"> <a href="/code/lwt-counter-server">Multi-client server example in OCaml with Lwt</a> </li>
-  <li class="nav"> <a href="/code/ocaml-toplevel-directive">How to write your own REPL directives in OCaml</a> </li>
-  <li class="nav"> <a href="/code/ocaml-tsort">User-friendly topological sort in OCaml</a> </li>
-</ul>
+<ul id="index" class="nav"> </ul>
 
 <h2>Code from papers and other sources</h2>
 
