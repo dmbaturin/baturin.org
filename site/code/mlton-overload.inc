@@ -15,7 +15,7 @@
 
 <p>Download the file: <a href="/code/files/mlton-overload.sml">mlton-overload.sml</a>. </p>
 
-<pre>
+<pre class="language-sml">
 signature BIZZAREOP_INT = sig
     val ^+ : int * int -&gt; int
 end

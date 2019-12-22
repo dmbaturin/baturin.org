@@ -24,7 +24,7 @@ You can add them directly with <code>Hashtbl.add Toploop.directive_table</code> 
 <code>Toploop.add_directive</code> function.
 </p>
 <p>That function and the types it uses are defined as follows:</p>
-<pre>
+<pre class="language-ocaml">
 type directive_fun =
    | Directive_none of (unit -> unit)
    | Directive_string of (string -> unit)
@@ -45,7 +45,7 @@ The first argument is the directive name. This is enough knowledge to create som
 you can paste into the REPL and play with:
 </p> 
 
-<pre>
+<pre class="language-ocaml">
 (* Important! *)
 #directory "+compiler-libs";;
 

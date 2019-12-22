@@ -8,7 +8,7 @@ I like recreational obfuscation. Not that I'm really good at it, but here are so
 
 <h3>Christmas tree 2.0</h3>
 
-<pre>
+<pre class="language-python">
 #!/usr/bin/env python3
 # Happy winter holidays!
 m = ['\0', '\0', '\\', '/', '|', '\n', '*', ' ']
@@ -38,7 +38,7 @@ implemented using the Y combinator instead of a direct recursive definition.
 
 <h3>Fermat numbers</h3>
 
-<pre>
+<pre class="language-perl">
 #!/usr/bin/env perl
 s3:n(q{Just });s5:n("another ");s17:n(q{Perl });s257:n("hacker");
 s65537:n("\n");$p=1;sub n{$p++; $w=2**(2**$p)+1;print@_;goto"s$w"
@@ -55,7 +55,7 @@ are prime, it terminates as expected.
 
 <h3>Email is the key</h3>
 
-<pre>
+<pre class="language-perl">
 #!/usr/bin/env perl
 @a=split(//, "daniil @ baturin  . org" ); # Daniil Baturin
 @b=split(//,q/Px%!+o0Q6lh*7dp$.@8#t!nr/);while($i&lt;24){$_.=
@@ -73,7 +73,7 @@ that uses the entire printable ASCII range as its alphabet.
 <p>Date: late 2012.</p>
 
 <h3>Three primes</h3>
-<pre>
+<pre class="language-perl">
 #!/usr/bin/env perl
 use bigint;$i=
 8311 * 11506699 * 5456897772732206286791603681159406921396401
@@ -86,7 +86,7 @@ use bigint;$i=
 
 <h3>Seven points of Python</h3>
 
-<pre>
+<pre class="language-python">
 #!/usr/bin/env python3
 from math import log, exp
 print ("".join(map(lambda
@@ -106,7 +106,7 @@ x:chr((int((round((29*exp
 
 <h3>Perl is in my heart (or vice versa)</h3>
 
-<pre>
+<pre class="language-perl">
 #!/usr/bin/env perl
 use bigint;$h=0x3eff8fe0f0047c5fd;
 while($h){$_.=$h&amp;1?' ':'*';$h/=2};
@@ -131,7 +131,7 @@ $_=join("\n",$_=~/.{11}/g);print;1
 
 <h3>Glider</h3>
 
-<pre>
+<pre class="language-python">
 #!/usr/bin/env python
 glider = [[  0, 1, 0  ],
           [  0, 0, 1  ],
@@ -167,7 +167,7 @@ and use only precise and portable integer arithmetics. Works in both Python 3 an
 
 <h3>Christmas tree</h3>
 
-<pre>
+<pre class="language-perl">
 #!/usr/bin/perl
 $_=16;$j=1;$r.=chr($_*2)x($_+1)."*"."\n";for
 ($i=$_;$i&gt;$_&gt;&gt;1;$i--){;$r.=chr(2*$_)x$i.chr(

@@ -1,40 +1,44 @@
 # User-friendly topological sort in OCaml
 
-Topological sorting is a relatively common task, but it's also relatively hard to generalize to for everyone's needs
-_and_ keep it user-friendly. Wherever there are dependencies between tasks, whether it's a build automation tool like Make
-or something else, you need to sort them, and you also need to tell users what they are doing wrong.
+Topological sorting is a relatively common task, but it's also relatively hard to generalize to match everyone's needs
+_and_ keep it user-friendly at the same time. Wherever there are dependencies between tasks, whether it's a build automation tool like Make
+or something else, you need to sort them, and you also need to tell users what they are doing wrong if an error occurs.
 
-We have many libraries that are great at generic graph manipulation but require developers
-to convert their data to a format that is designed to be able to be usable with any possible graph algorithm.
+We have many libraries that are great at generic graph manipulation but want you
+to convert the data to a format that is designed to be usable with any possible graph algorithm.
 At the same time they may be unable to represent data with non-existent dependencies, or produce an easily printable
 cyclic dependency error.
 
-We also have programs that either produce nondescript error messages or just resolve cycles as they please, like systemd.
+It may be the reason we have many programs that either produce nondescript dependency error messages or just resolve dependency cycles as they please, like systemd.
 
-Which is why I made a module that you can easily steal and adapt for your project. It's licensed under Creative Commons Zero
-(i.e. public domain equivalent), you can get it from here: [tsort.ml](/code/files/tsort.ml).
+That is why I wrote a topological module that can work with raw user input and detect both missing dependencies
+and dependency cycles. You can install it from the [OPAM](https://opam.ocaml.org/packages/tsort/) repository
+or get the source from [github.com/dmbaturin/ocaml-tsort](https://github.com/dmbaturin/ocaml-tsort).
 
-I tried to make it as easy to use as the classic UNIX `tsort(1)`. Here's a usage example:
+I intentionally sacrificed both generality and efficiency for ease of use. It does exactly one thing, and hopefully does it well.
 
-```
-utop # sort [("foundation", []); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
-- : (string list, string) result = Ok ["foundation"; "walls"; "roof"]
-```
-
-It also produces distinct errors for non-existent and circular dependencies:
+I tried to make it as easy to use as the classic UNIX [`tsort(1)`](http://man7.org/linux/man-pages/man1/tsort.1.html). The main function is `Tsort.sort : ('a * 'a list) list -> 'a Tsort.sort_result`.
+Here's a usage example:
 
 ```
-utop # sort [("foundation", ["roof"]); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
-- : (string list, string) result =
-Error "Found a circular dependency between nodes: roof foundation walls"
-
-
-utop # sort [("foundation", ["construction permit"]); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
-- : (string list, string) result =
-Error "Found dependencies on non-existent nodes: construction permit"
+utop # Tsort.sort [("foundation", []); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
+- : string Tsort.sort_result = Tsort.Sorted ["foundation"; "walls"; "roof"]
 ```
 
-It uses the classic Kahn's algorithm from 1962. The input is a `(string * string list) list`, but internally
+It also produces distinct errors for non-existent and circular dependencies. I went for a custom tri-state type
+so that it can work with any types, not just strings. The type is `type 'a sort_result = Sorted of 'a list | ErrorNonexistent of 'a list | ErrorCycle of 'a list`.
+
+```
+utop # Tsort.sort [("foundation", ["roof"]); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
+- : string Tsort.sort_result = Tsort.ErrorCycle ["roof"; "foundation"; "walls"]
+
+utop # Tsort.sort [("foundation", ["construction permit"]); ("walls", ["foundation"]); ("roof", ["walls"])] ;;
+- : string Tsort.sort_result = Tsort.ErrorNonexistent ["construction permit"]
+```
+
+## Discussion
+
+It uses the classic Kahn's algorithm from 1962. The input is a `('a * 'a list) list`, but internally
 I convert it to a `Hashtbl` for ease of manipulation.
 
 The idea is simple:
@@ -49,7 +53,7 @@ And there's no guarantee that `foo.service` or `bar.c` actually actually exists 
 
 However, If we sacrifice efficiency, we can work with that format directly. First make a helper that find nodes whose dependency lists are empty:
 
-```
+```ocaml
 let find_isolated_nodes hash =
   let aux id deps acc =
     match deps with
@@ -60,14 +64,14 @@ let find_isolated_nodes hash =
 
 Then a helper for removing all nodes with given names from the hash (those names are later moved to the list of sorted nodes):
 
-```
+```ocaml
 let remove_nodes nodes hash =
   List.iter (Hashtbl.remove hash) nodes
 ```
 
 And then we also need a way to delete a node name from every dependency list:
 
-```
+```ocaml
 let remove_dependency hash dep =
   let aux dep hash id =
     let deps = Hashtbl.find hash id in
@@ -89,7 +93,7 @@ We make an assumption that every node mentioned in dependency lists exists in th
 but if the graph turns out to be unsortable, we need to consider that possibility and have a function
 for checking it ready:
 
-```
+```ocaml
 let find_nonexistent_nodes nodes =
   let keys = List.fold_left (fun acc (k, _) -> k :: acc) [] nodes in
   let rec find_aux ns nonexistent =
@@ -115,10 +119,10 @@ be removed at the next step. If everything is fine, then eventually both the lis
 and the hash itself become empty.
 
 If the list of nodes that are safe to remove becomes empty but the hash still has items, then there are two possibilities:
-something depends on a node that is not in the hash key set, or two nodes become on each other. Two tell those conditions
+something depends on a node that is not in the hash key set, or two nodes depend on each other. To tell these conditions
 apart, we run the check for non-existent nodes on the original data. If none are found, then there's actually a cycle.
 
-```
+```ocaml
 let sort nodes =
   let rec sorting_loop deps hash acc =
     match deps with
@@ -130,19 +134,18 @@ let sort nodes =
       sorting_loop (List.append deps isolated_nodes) hash (List.append acc isolated_nodes)
   in
   let nodes_hash = CCHashtbl.of_list nodes in
-  (* Find and remove nodes that have no dependencies *)
   let base_nodes = find_isolated_nodes nodes_hash in 
   let () = remove_nodes base_nodes nodes_hash in
   let sorted_node_ids = sorting_loop base_nodes nodes_hash [] in
   let sorted_node_ids = List.append base_nodes sorted_node_ids in
   let remaining_ids = CCHashtbl.keys_list nodes_hash in
   match remaining_ids with
-  | [] -> Ok sorted_node_ids
+  | [] -> Sorted sorted_node_ids
   | _  ->
     let nonexistent_nodes = find_nonexistent_nodes nodes in
     begin
       match nonexistent_nodes with
-      | [] -> Error (Printf.sprintf "Found a circular dependency between nodes: %s" (String.concat " " remaining_ids))
-      | _  -> Error (Printf.sprintf "Found dependencies on non-existent nodes: %s" (String.concat " " nonexistent_nodes))
+      | [] -> ErrorCycle remaining_ids
+      | _  -> ErrorNonexistent nonexistent_nodes
     end
 ```

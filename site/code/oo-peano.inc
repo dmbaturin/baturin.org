@@ -15,7 +15,7 @@ differences in metaclass implementation in 2 and 3, for a legacy version that wo
 Python 2.7 see <a href="/code/files/oo-peano2.py">oo-peano2.py</a>
 </p>
 
-<pre>
+<pre class="language-python">
 #!/usr/bin/env python3
 
 import uuid
