@@ -1,5 +1,7 @@
 <h1>JAPHs and other fun with obfuscation</h1>
 
+<p>Category: <span id="category">Fun</span></p>
+
 <div id="generated-toc"></div>
 
 <p>

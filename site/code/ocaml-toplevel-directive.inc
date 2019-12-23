@@ -1,5 +1,7 @@
 <h1>Writing your own OCaml toplevel directives</h1>
 
+<p>Category: <span id="category">OCaml</span></p>
+
 <p>
 The OCaml directives that we all know and love (<code>#use</code>, <code>#load</code> and so on) are literally not a part of the language.
 They never even get to the OCaml parser and are processed by the toplevel binary (<kbd>bin/ocaml</kbd>) itself. This is why trying to use them in source code that

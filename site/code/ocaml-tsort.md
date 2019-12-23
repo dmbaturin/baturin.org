@@ -1,5 +1,7 @@
 # User-friendly topological sort in OCaml
 
+Category: <span id="category">OCaml</span>
+
 Topological sorting is a relatively common task, but it's also relatively hard to generalize to match everyone's needs
 _and_ keep it user-friendly at the same time. Wherever there are dependencies between tasks, whether it's a build automation tool like Make
 or something else, you need to sort them, and you also need to tell users what they are doing wrong if an error occurs.

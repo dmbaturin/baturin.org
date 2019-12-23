@@ -2,13 +2,13 @@
 
 <h2>Original programs</h2>
 
-<p>Source code that doesn't deserve its own repositories.</p>
+<p>Source code that doesn't deserve its own repositories (and discussion of code that does).</p>
 
 <p>Unless otherwise specified, these files are distributed under the terms of the
    <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license, which is
    equivalent to public domain.</p>
 
-<ul id="index" class="nav"> </ul>
+<div id="topical-index"> </div>
 
 <h2>Code from papers and other sources</h2>
 

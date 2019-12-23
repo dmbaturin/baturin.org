@@ -1,5 +1,7 @@
 <h1>Object-oriented Peano arithmetic in Python</h1>
 
+<p>Category: <span id="category">Fun</span></p>
+
 <p>I'm not sure what would be the best way to implement Peano arithmetics in Python
    or another language without algebraic data types, but I think I've found the
    <em>worst</em> (and the funniest) way to do it.</p>

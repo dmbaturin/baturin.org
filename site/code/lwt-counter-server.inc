@@ -1,5 +1,7 @@
 <h1>Simple multi-client server in OCaml with Lwt</h1>
 
+<p>Category: <span id="category">OCaml</span></p>
+
 <p><a href="https://ocsigen.org/lwt">Lwt</a> is a popular cooperative multitasking library for OCaml.</p>
 <p>There are a number of Lwt tutorials and examples around, but for some reason I couldn't find any that would explain
    how to write a server that serves multiple connections concurrently (as opposed to sending a reply and terminating
