@@ -18,6 +18,28 @@ Every archive includes a more or less detailed readme with a walkthrough, when a
 If you find a bug, feel free to contact me about it, though I can't promise prompt fixes.
 </p>
 
+<h2 id="persistent-corpse-disposal">Persistent Corpse Disposal</h2>
+<p>
+In Morrowind, corpses are normally removed after three days. That's bad for "solve a murder"
+and "recover an item" quests, which is why some corpses are marked as persistent.
+Otherwise they might disappear before you can discover them.
+</p>
+<p>
+Unfortunately, there's no way to modify the "corpses persist" flag at run time and let them
+decay naturally when they are no longer needed. This means those bodies are left in place forever,
+so you can't claim the house of a murder victim after bringing their murdered to justice...
+not without having a macabre decoration you cannot remove. Not so good for suspension of disbelief.
+</p>
+<p>
+This mod attempts to solve that immersion issue by forcibly removing those bodies
+when they are no longer needed for a quest. That is done through dialog entries to avoid running a global script at every frame.
+</p>
+<p>
+The mod is fully supported in OpenMW, but the vanilla engine may have issues with modifying
+objects not currently loaded in the game. See the README for details.
+</p>
+<p>Download: <a href="/files/mwmods/persistent_corpse_disposal.zip">persistent_corpse_disposal.zip</a></p>
+
 <h2 id="fetchers-of-morrowind">Fetchers of Morrowind</h2>
 <p>
 &ldquo;Fetchers of Morrowind&rdquo; is a company that finds items and

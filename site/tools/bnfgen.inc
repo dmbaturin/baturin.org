@@ -1,3 +1,32 @@
+<script>
+function generate()
+{
+    var grammarBNF = document.getElementById("grammar").value;
+    var startSymbol = document.getElementById("start-symbol").value;
+    var separator = document.getElementById("separator").value;
+
+    var output_container = document.getElementById("output");
+
+    var output = "";
+
+    try
+    {
+        var grammar = bnfgen.loadGrammar(grammarBNF);
+        output = bnfgen.generate(grammar, startSymbol, separator);
+    }
+    catch(err)
+    {
+        output = err[1];
+    }
+
+    var output_text = document.createTextNode(output);
+    output_container.innerHTML = '';
+    output_container.appendChild(output_text);
+}
+
+</script>
+
+
 <h1>BNFGen</h1>
 <p>
 This is an online version of <a href="https://github.com/dmbaturin/bnfgen">BNFGen</a>,
@@ -23,6 +52,7 @@ If not, there's a formal grammar <a href="#tutorial">tutorial</a> below the inpu
   <li>Empty alternatives (<code>&lt;foo&gt; ::= | "a" | "b";</code> are not allowed.</li>
   <li>The default starting symbol is <code>&lt;start&gt;</code>, but that's configurable.</li>
   <li>You can specify the symbol separator if you don't want to insert all spaces by hand.</li>
+  <li>Recursion depth is not limited. You can hang your browser with infinite recursion.</li>
 </ul>
 
 <form action="">
@@ -55,7 +85,7 @@ If not, there's a formal grammar <a href="#tutorial">tutorial</a> below the inpu
   </textarea>
   <span>Start symbol: </span> <input id="start-symbol" type="text" value="start" />
   <span>Symbol separator: </span> <input id="separator" type="text" value="" />
-  <input type="button" id="generate" value="Generate" />
+  <input type="button" value="Generate" onclick="generate()" />
 </form>
 <span>Output:</span>
 <div class="cfgen-output">

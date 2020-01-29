@@ -1,5 +1,6 @@
 <h1>Intuitive and revolutionary</h1>
 
+
 <p>
 There's a notion that intuitive is good and unintuitive is bad. For some definitions of good and bad, that is true.
 Things that are intuitive for their target audience are easier to explain and market and have a better chance to catch on.
