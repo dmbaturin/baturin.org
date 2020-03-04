@@ -40,5 +40,3 @@ Since the content of the websites is published under free culture licenses, ther
 If you want to maintain any of the self-contained parts such as the <a href="/docs/iproute2">iproute2 manual</a>, it's perfectly
 ok to make a fork of it and keep the updated version at a new location.
 </p>
-
-<div id="revision">This page was last modified: 2019-06-02</div>

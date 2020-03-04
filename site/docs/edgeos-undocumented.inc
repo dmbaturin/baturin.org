@@ -146,4 +146,4 @@
   </tr>
 </table>
 
-<div id="revision">This page was last modified: 2013-08-11</div>
+<time id="last-modified">2013-08-11</time>

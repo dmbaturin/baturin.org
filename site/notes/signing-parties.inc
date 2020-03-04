@@ -185,4 +185,4 @@ to be a good attack vector.
 Rather than try to emulate the governments, we can value the keys for what they are and what they are actually good for.
 </p>
 
-<div id="revision">This page was last modified: 2018-03-21</div>
+<time id="last-modified">2018-03-21</time>

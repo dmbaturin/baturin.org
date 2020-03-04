@@ -86,4 +86,4 @@ Put the keys back on in reverse order. Remember that some of the springs will be
 other keys so they need to be engaged before you install the key.
 </p>
 
-<div id="revision">This page was last modified: 2017-01-28</div>
+<time id="last-modified">2017-01-28</time>

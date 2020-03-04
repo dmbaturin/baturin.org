@@ -131,4 +131,4 @@ read
 1
 </pre>
 
-<div id="revision">This page was last modified: 2019-02-23</div>
+<time id="last-modified">2019-02-23</time>

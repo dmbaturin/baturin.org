@@ -243,4 +243,4 @@ I hope the suggestions I collected will be useful for making old websites access
 without hurting desktop users. If you have more suggestions, please share them with me.
 </p>
 
-<div id="revision">This page was last modified: 2019-03-16</div>
+<time id="last-modified">2019-03-16</time>

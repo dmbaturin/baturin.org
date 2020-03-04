@@ -90,4 +90,4 @@ changes its look for the April fools day in a way that doesn't affect the DOM, S
 
 <div id="footnotes"> </div>
 
-<div id="revision">This page was last modified: 2018-03-07</div>
+<time id="last-modified">2018-03-07</time>

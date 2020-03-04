@@ -221,5 +221,3 @@ smoothly as it consists entirely of secondary dominants (ragtime progression) an
    as a nod to early personal computer magazines and type-in BASIC programs they published. He ultimately scrapped the plan though.</p>
 <p>It was a fun project nonetheless. Due to the limitations of the medium, it had to be short and rhythmically trivial.
    I tried to convey the sense of emptiness and uncertainty, in line with the mood of the stories.</p>
-
-<div id="revision">This page was last modified: 2019-05-20</div>

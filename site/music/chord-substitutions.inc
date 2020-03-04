@@ -59,4 +59,4 @@
   </tr>
 </table>
 
-<div id="revision">This page was last modified: 2016-08-14</div>
+<time id="last-modified">2016-08-14</time>

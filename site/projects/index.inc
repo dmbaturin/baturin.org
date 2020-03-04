@@ -6,18 +6,37 @@
 
 <h3>VyOS</h3>
 
-<p>A Linux distribution for routers/firewalls/VPN concentrators.</p>
+<p>A GNU/Linux distribution for routers/firewalls/VPN concentrators.</p>
 <p>Unlike GUI-oriented projects like pfSense or IPcop, we belive in the
 power of the command line interface, so VyOS provides access to all
 system functions through a unified CLI somewhat similar to that of JunOS.</p>
-<p>It was forked from the abandoned Vyatta Core project..</p>
+<p>It was forked from the abandoned Vyatta Core project in 2013.</p>
 <ul>
   <li> Website: <a href="https://www.vyos.io">vyos.io</a> </li>
   <li> Source code: it's a bit complicated, in a nutshell,
-       <a href="http://github.com/vyos/build-iso/">github.com/vyos/vyos-build</a>
-       and all its submodules.</li>
+       <a href="http://github.com/vyos/vyos-build/">github.com/vyos/vyos-build</a>
+       and <a href="http://github.com/vyos/vyos-1x/">github.com/vyos/vyos-1x</a>
+       is where active development is going on.</li>
   <li>Distrowatch: <a href="http://distrowatch.com/table.php?distribution=vyos">distrowatch.com/table.php?distribution=vyos</a> </li>
 </ul>
+
+<h3>soupault</h3>
+<p>
+A static website generator based on HTML rewriting. Think DOM manipulation, but without a browser.
+Instead of inserting template processor directives inside pages, you write a set of HTML manipulation
+rules using CSS selectors (e.g. &ldquo;insert <code>includes/menu.html</code> in the element that matches <code>div#menu</code>&rdquo;).
+Extensible with Lua plugins and external helper programs.
+Perfect for Web 1.0 enthusiasts since you can make all pages look different and still have an automated workflow.
+</p>
+<ul>
+  <li>Website: <a href="https://soupault.neocities.org">soupault.neocities.org</a></li>
+  <li>Git: <a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></li>
+</ul>
+<p>
+If you are wondering why I put it on <a href="https://neocities.org">NeoCities</a> if I have my own server,
+it's to bring soupault closer to the community that can benefit from it most, and to support an independent
+and open source hosting provider.
+</p>
 
 <h3>ipaddrcheck</h3>
 <p>An ipcalc for use in scripts. Allows you to do things like <tt>ipaddrcheck --is-ipv4-net 192.0.2.0/25</tt>
@@ -36,22 +55,17 @@ system functions through a unified CLI somewhat similar to that of JunOS.</p>
   <li>Source code: <a href="https://github.com/dmbaturin/hvinfo">github.com/dmbaturin/hvinfo</a> </li>
 </ul>
 
-<h3>soupault</h3>
-<p>
-A static website generator based on HTML rewriting. Think DOM manipulation, but without a browser.
-Perfect for Web 1.0 enthusiasts since you can make all pages look different and still have an automated workflow.
-</p>
-<ul>
-  <li>Website: <a href="https://soupault.neocities.org">soupault.neocities.org</a></li>
-  <li>Git: <a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></li>
-</ul>
-<p>
-If you are wondering why I put it on <a href="https://neocities.org">NeoCities</a> if I have my own server,
-it's to bring soupault closer to the community that can benefit from it most, and to support an independent
-and open source hosting provider.
-</p>
-
 <h2>Libraries and plugins</h2>
+
+<h3>ocaml-tsort</h3>
+<p>
+A topological sort library that isn't annoying to use and gives clear errors about missing
+dependencies and dependency cycles. See <a href="/code/ocaml-tsort">/code/ocaml-tsort</a>
+for discussion.
+</p>
+<p>
+OPAM page: <a href="https://opam.ocaml.org/packages/tsort/">opam.ocaml.org/packages/tsort</a>.
+</p>
 
 <h3>pytaf</h3>
 <p>Aviation weather forecast parser and decoder. TAF stands for Terminal Aerodome Forecast.</p>
@@ -68,6 +82,10 @@ and open source hosting provider.
 </ul>
 <p><strong>Note:</strong> this package is not related to the <a href="http://tlichtenberg.github.io/pytaf/">Python Test Automation Framework</a>,
    it's just an unfortunate three-letter acronym collision.</p>
+<p>
+It's not very actively maintained these days, so if you are interested in it and want to be
+a maintainer, let me know.
+</p>
 
 <h2>Web tools</h2>
 
@@ -75,7 +93,7 @@ and open source hosting provider.
 <p>A protocol overhead and maximum transmission unit calculator.</p>
 <p>Allows you to easily calculate the MTU and TCP MSS for tunnels with
    different combinations of encapsulating and encapsulated protocols.
-   Just select protocols by clicking on their buttons and see how header sizes add up.</p>
+   Just select protocols by clicking on their buttons and see the header size and structure.</p>
 <p>To my surprise, second most popular page on this website where people come by searching for
    &ldquo;MTU calculator&rdquo; and similar.</p>
 <ul>
@@ -94,12 +112,11 @@ and open source hosting provider.
 <p>Download from <a href="https://www.box-look.org/p/1016906/">box-look</a>.</p>
 <p>Local copy here: <a href="/files/fluxcde.tar.gz">fluxcde.tar.gz</a> </p>
 <p>Works best with Motif-like themes for GTK/Qt/whatever else widget toolkits you use.
-   And no, this is not a joke, I actually like Motif look and feel and it's been my default
+   And no, this is not a joke, I actually like Motif's look and feel and it had been my default
    theme for a good while. Fluxbox is not very good at reproducing the feel though.
-   Also, actual CDE allows changing the color of widgets, while FluxBox doesn't,
-   and it's fixed color, that of default theme on Solaris.</p>
-<p>I switched to OpenBox with a nice ClearLooks theme since then and haven't used FluxBox
-   for a good while, so it's kept here mostly for historical/sentimental reasons.
+   Also, actual CDE allows changing the color of window decorations, while FluxBox doesn't,
+   this theme only exist in the Solaris color scheme.</p>
+<p>I  haven't used FluxBox in a long time, so it's kept here mostly for historical/sentimental reasons.
    I'm not even sure if it works anymore, if it doesn't, let me know.</p>
 <p>Also, if you are a CDE fan, you should know that The Open Group finally released it
    under LGPL in 2012 and you can have <a href="http://cdesktopenv.sourceforge.net/">the real thing</a> now.</p>

@@ -25,17 +25,17 @@ To explain new things, we turn to metaphors. A typical description of a new prog
 of the last one perhaps) because everyone already knows what Pastebin or Instagram are.
 </p>
 <p>
-There are categories of people for whom traffic dumps or Pastebin are not quite intuitive though. Something is intuitive if it's <em>just</em> outside
+There are categories of people for whom traffic dumps or Pastebin are not quite intuitive though. Something can be both new and intuitive if it's <em>just</em> outside
 of your existing experience.
 </p>
 <p>
 This brings us to the point that intuitive and revolutionary are often contradictory properties. A good invention allows people to do
 things they couldn't do before. It may require revolutionary internals, like wireless phones, but in the end, &ldquo;I wish I could talk with anyone
-at any distance&rdquo; was a common idea long before it was possible. The best ones allow people to do things no one thought of before.
+at any distance&rdquo; was a common idea long before it was possible. However, best inventions allow people to do things no one thought of before.
 </p>
 <p>
 An old joke goes &ldquo;computers can solve all problems that didn't exist before computers were invented&rdquo;. A fun thing is that Charles Babbage himself
-only thought of a narrow class of problems and he thought programming would be simply translating formulas to punched card. It was Ada Lovelace who realized
+only thought of a narrow class of problems and he thought programming would be simply translating formulas to punched cards. It was Ada Lovelace who realized
 that you can encode any information in digital form and use a programmable computer for tasks far beyond numerical computations. No one before thought
 that automatically searching and analyzing textual information was a possibility, for example.
 </p>
@@ -51,3 +51,5 @@ Dismissing those ideas just for that reason would be counteproductive.
 <p>
 And regarding &ldquo;if you can't explain it to a six year old...&rdquo;, try to explain birth control to them.
 </p>
+
+<time id="last-modified">2019-10-12</time>

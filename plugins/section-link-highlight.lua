@@ -7,10 +7,9 @@
 --   active_link_class = "active"
 --   nav_menu_selector = "nav"
 --
--- Minimal soupault version: 1.6
+-- Minimum soupault version: 1.6
 -- Author: Daniil Baturin
 -- License: MIT
-
 
 active_link_class = config["active_link_class"]
 nav_menu_selector = config["selector"]
@@ -27,31 +26,40 @@ if (not nav_menu_selector) then
 end
 
 menu = HTML.select_one(page, nav_menu_selector)
-if not menu then
-  Plugin.exit("Could not find an element matching the navigation menu selector")
+if (not menu) then
+  Plugin.exit("No element matched selector " .. nav_menu_selector .. ", nothing to do")
 end
+
 
 links = HTML.select(menu, "a")
 
-index, link = next(links)
-while index do
-  href = strlower(HTML.get_attribute(link, "href"))
+local index = 1
+while links[index] do
+  link = links[index]
 
-  -- Remove leading and trailing slashes
-  href = Regex.replace_all(href, "(\\/?$|^\\/)", "")
-  page_url = Regex.replace_all(page_url, "(\\/?$|^\\/)", "")
+  href = HTML.get_attribute(link, "href")
 
-  -- Normalize slashes
-  href = Regex.replace_all(href, "\\/+", "\\/")
+  if not href then
+    -- Link has no href attribute, ignore
+  else
+    href = strlower(href)
 
-  -- Edge case: the / link that becomes "" after normalization
-  -- Anything would match the empty string and higlight all links,
-  -- so we handle this case explicitly
-  if ((page_url == "") and (href == ""))
-    or ((href ~= "") and Regex.match(page_url, "^" .. href))
-  then
-    HTML.add_class(link, active_link_class)
+    -- Remove leading and trailing slashes
+    href = Regex.replace_all(href, "(\\/?$|^\\/)", "")
+    page_url = Regex.replace_all(page_url, "(\\/?$|^\\/)", "")
+
+    -- Normalize slashes
+    href = Regex.replace_all(href, "\\/+", "\\/")
+
+    -- Edge case: the / link that becomes "" after normalization
+    -- Anything would match the empty string and higlight all links,
+    -- so we handle this case explicitly
+    if ((page_url == "") and (href == ""))
+      or ((href ~= "") and Regex.match(page_url, "^" .. href))
+    then
+      HTML.add_class(link, active_link_class)
+    end
   end
 
-  index, link = next(links, index)
+  index = index + 1
 end

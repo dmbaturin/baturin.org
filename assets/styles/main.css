@@ -158,6 +158,7 @@ code { background-color: #eaeaea }
 a, a.nav:visited
 {
     color: #006699;
+    text-decoration: none;
 }
 
 a.nav-active, a.nav-active:visited

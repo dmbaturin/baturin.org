@@ -95,4 +95,4 @@ a class4 VoIP provider from scratch. All while I never thought of myself as a Vo
 
 <hr />
 
-<div id="revision">This page was last modified: 2018-11-13</div>
+<time id="last-modified">2018-11-13</time>

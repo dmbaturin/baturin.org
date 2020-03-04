@@ -251,4 +251,4 @@ But, I guess we have seen enough. As we shutdown the machine, we see a custom sp
 
 <img src="/images/lindows/25_lindows_shutdown_complete.png" width="800px" alt="Lindows shutdown screen"/>
 
-<div id="revision">This page was last modified: 2018-12-09</div>
+<time id="last-modified">2018-12-09</time>

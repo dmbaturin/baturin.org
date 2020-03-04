@@ -159,4 +159,4 @@ Written for a certain saxophonist, the tune name is a pun on her name... and her
    <a href="/music/leadsheets/indirect_kiss.jpg">or another</a>.
    I warn you it's pretty horrible.</p>
 
-<div id="revision">This page was last modified: 2018-11-14</div>
+<time id="last-modified">2018-11-14</time>

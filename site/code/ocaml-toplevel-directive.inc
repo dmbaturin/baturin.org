@@ -72,4 +72,4 @@ let () =
 #help;; (* You'll see your section and commands there *)
 </pre>
 
-<div id="revision">This page was last modified: 2017-11-23</div>
+<time id="last-modified">2017-11-23</time>

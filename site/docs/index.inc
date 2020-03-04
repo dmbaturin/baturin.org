@@ -1,7 +1,5 @@
 <h1>Documentation</h1>
 
-<div id="generated-toc"></div>
-
 <p>I can't say I'm fond of writing documentation, but someone has to.</p>
 
 <h3>Task-centered iproute2 manual</h3>

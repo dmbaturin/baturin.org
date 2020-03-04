@@ -51,4 +51,4 @@ your school.
   <li> <a href="/music/transcriptions/vasilenko_sunrise_song.mscz">MuseScore file</a> </li>
 </ul>
 
-<div id="revision">This page was last modified: 2018-01-28</div>
+<time id="last-modified">2018-01-28</time>

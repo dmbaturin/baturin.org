@@ -8,7 +8,7 @@
 
 <h3>Programming</h3>
 
-<p>Most of my public code is on Github (<a href="http://github.com">github.com/dmbaturin</a>). VyOS, the biggest project
+<p>Most of my public code is on Github (<a href="http://github.com/dmbaturin">github.com/dmbaturin</a>). VyOS, the biggest project
    I maintain, is at <a href="http://github.com/vyos">github.com/vyos</a>, although most of the code is
    inherited from Vyatta and is not indicative of my personal skills (maybe the size is indicative of my
    ability to work with large code bases).</p>
@@ -207,4 +207,4 @@
    Configured a web proxy (Squid) to conserve bandwidth and block NSFW websites. Kept the network and the workstations running,
    provided technical support to users.</p>
 
-<div id="revision">This page was last modified: 2018-06-12</div>
+<time id="last-modified">2018-06-12</time>

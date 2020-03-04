@@ -119,4 +119,4 @@ N * S(M) = N + N*M   (2')
    we know that	for every number <em>M</em> this process will eventually hit the base case and
    terminate.</p>
 
-<div id="revision">This page was last modified: 2018-04-02</div>
+<time id="last-modified">2018-04-02</time>

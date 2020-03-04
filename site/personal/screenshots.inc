@@ -86,4 +86,4 @@ decided to give Mate Desktop another try after years, and found that its maintai
 than GNOME2 used to be.
 </p>
 
-<div id="revision">This page was last modified: 2018-08-06</div>
+<time id="last-modified">2018-08-06</time>

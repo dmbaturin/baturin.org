@@ -61,4 +61,4 @@ hello world
 7
 </pre>
 
-<div id="revision">This page was last modified: 2015-06-10</div>
+<time id="last-modified">2015-06-10</time>

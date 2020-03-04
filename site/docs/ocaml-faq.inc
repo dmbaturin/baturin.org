@@ -448,4 +448,4 @@ ocamlc -i mymodule.ml > mymodule.mli
 
 </div>
 
-<div id="revision">This page was last modified: 2018-02-11</div>
+<time id="last-modified">2018-02-11</time>

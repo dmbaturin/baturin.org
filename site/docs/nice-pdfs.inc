@@ -113,4 +113,4 @@ the &ldquo;unicode&rdquo; option.
 \usepackage[unicode, pdftex, bookmarks=true]{hyperref}
 </pre>
 
-<div id="revision">This page was last modified: 2018-04-08</div>
+<time id="last-modified">2018-04-08</time>

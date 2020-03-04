@@ -179,4 +179,4 @@ $_*3-1)x$j.chr($_*($_&gt;&gt;1)-sqrt($_)).chr($_*6
 
 <p>Early attempt, written in the late 2010 for the winter holidays.</p>
 
-<div id="revision">This page was last modified: 2018-12-16</div>
+<time id="last-modified">2018-12-16</time>

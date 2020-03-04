@@ -1,4 +1,4 @@
-<h1>The Zen of Ada</h1>
+<h1>Zen of Ada</h1>
 
 <p>This observation was first published in my old blog back in 2014.</p>
 <p>
@@ -105,4 +105,4 @@ Bodies of functions, procedures, and processes shall be closed scopes. Bodies of
 </tr>
 </table>
 
-<div id="revision">This page was last modified: 2018-08-06</div>
+<time id="last-modified">2018-08-06</time>

@@ -322,4 +322,4 @@ without hesitation.
 <a href="https://ocaml.org"> <img src="/images/powered-by/ocaml.png" alt="OCaml" width="150px" /> </a>
 <a href="https://soupault.neocities.org"> <img src="/images/powered-by/powered_by_soupault.png" alt="Powered by soupault" width="150px" /> </a>
 
-<div id="revision">This page was last modified: 2019-10-14</div>
+<time id="last-modified">2019-10-14</time>
