@@ -52,10 +52,10 @@ to make a decent gift for someone who knows much more about harmony than I do.
   <li> Key: C minor </li>
 </ul>
 
-<h3 id="partita-1">Partita for a monophonic instrument solo no. 1 (A major)</h3>
+<h3 id="partita-1">Partita for a monophonic instrument</h3>
 
 <p>
-A set of unaccompanied pieces in the baroque style. Two other movements are coming soon.
+A set of pieces in the baroque style. Two other movements are coming soon.
 </p>
 <p>
 The range is chosen to be comfortably playable on the violin or any
@@ -63,10 +63,19 @@ of the common woodwinds as well as the trumpet.
 </p>
 
 <h4 id="partita-1-gavotte">Gavotte</h4>
+<p>Still needs the piano part...</p>
 <ul class="plain">
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mscz">MuseScore file</a> </li>
+</ul>
+
+<h4 id="partita-1-gigue">Gigue</h4>
+<p>Has a piano part.</p>
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2019.1-2_gigue.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2019.1-2_gigue.mid">MIDI</a> </li>
+  <li> <a href="/music/fully-notated/op2019.1-2_gigue.mscz">MuseScore file</a> </li>
 </ul>
 
 <h3 id="album-leaf-iyn-2018">Album leaf 2018.12 (piano solo)</h3>
