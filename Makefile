@@ -1,11 +1,16 @@
 BUILD_DIR := build
+SITE_DIR := site
+INDEX_FILE := index.json
 
 # In practice it's in my ~/.local/bin
 SOUPAULT := soupault
 
 .PHONY: site
 site:
+	$(SOUPAULT) --index-only
+	scripts/blog-archive.py $(SITE_DIR)/blog/tag $(INDEX_FILE)
 	$(SOUPAULT)
+	scripts/json2feed.py index.json > $(BUILD_DIR)/blog/atom.xml
 
 .PHONY: assets
 assets:

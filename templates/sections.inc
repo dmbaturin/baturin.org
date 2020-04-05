@@ -1,4 +1,5 @@
 <a class="nav" href="/">Main page</a>
+<a class="nav" href="/blog">Blog</a>
 <a class="nav" href="/projects">Projects</a>
 <a class="nav" href="/docs">Documentation</a>
 <a class="nav" href="/tools">Web apps</a>

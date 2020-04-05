@@ -1,1 +1,3 @@
 build/*
+site/blog/tag/*
+index.json

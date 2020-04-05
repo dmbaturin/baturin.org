@@ -155,7 +155,9 @@ pre
 code { background-color: #eaeaea }
 
 /* Links */
-a, a.nav:visited
+a { color: #006699; }
+
+a.nav, a.nav:visited
 {
     color: #006699;
     text-decoration: none;
@@ -227,7 +229,7 @@ ul.toc, ol.toc
     text-align: center;
 }
 
-div#revision, div#last-modified
+div#page-timestamp, div#last-modified
 {
     color: #999999;
     padding-top: 1em;

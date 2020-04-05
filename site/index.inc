@@ -6,7 +6,7 @@ look old fashioned.
 <h2>Whose home page?</h2>
 <p>
 My name is <strong>Daniil Baturin</strong>. On the Internet I usually go by <strong>dmbaturin</strong>,
-the &ldquo;m&rdquo; is from my middle name, <a href="https://en.wikipedia.org/wiki/Patronymic">of sorts</a>.
+the &ldquo;m&rdquo; is from my middle name, <wikipedia page="patronymic">of sorts</wikipedia>.
 The good thing about it is that it's easy to write in ASCII. The bad thing is that just about everyone asks how they should
 pronounce it and how many i's are there. Myself I don't care, you can call me Dan and avoid the issue altogether.
 <br/>
@@ -30,10 +30,9 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 
 <p>You can also find me in other places:</p>
 <ul>
-  <li> Github: <a href="https://github.com/dmbaturin">github.com/dmbaturin</a> </li>
-  <li> Blog: <a href="https://blog.baturin.org">blog.baturin.org</a> </li>
-  <li> Mastodon: <a rel="me" href="https://mastodon.social/@dmbaturin">@dmbaturin@mastodon.social</a> </li>
-  <li> Twitter: <a href="https://twitter.com/dmbaturin">@dmbaturin</a> </li>
+  <li> Github: <github>dmbaturin</github> </li>
+  <li> Mastodon: <mastodon me>@dmbaturin@mastodon.social</mastodon> </li>
+  <li> Twitter: <twitter>@dmbaturin</twitter> </li>
   <li> dmbaturin on the <a href="https://freenode.net">Freenode</a> IRC network</li>
 </ul>
 
