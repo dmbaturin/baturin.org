@@ -86,10 +86,19 @@
 
 <h4>Certifications</h4>
 
+<h5>Hurricane Electric IPv6 Sage</h5>
+<img src="//ipv6.he.net/certification/create_badge.php?pass_name=dmbaturin&amp;badge=3" style="border: 0; width: 229px; height: 137px" alt="IPv6 Certification Badge for dmbaturin"></img>
+<p>They even sent me a t-shirt.</p>
+
+<dl>
+  <dt><a href="https://www.youracclaim.com/badges/63a59134-5cc3-4c35-b69d-fbfc8bc90f8f">VyOS Certified Network Engineer</a> #1</dt>
+  <dd>It's not honorary! I've actually passed the exam designed by other core team members.</dd>
+</dl>
+
+<h5>Expired</h5>
 <ul>
-  <li> Hurricane Electric <a href="https://ipv6.he.net/certification/scoresheet.php?pass_name=dmbaturin">IPv6 Sage</a> </li>
   <li> <a href="https://www.certmetrics.com/brocade/public/verification.aspx?code=PKFQ5FECCMV428P2">Brocade Certified vRouter Engineer 2013</a>. </li>
-  <li> CCNA R&S 419440597336JSXM. <a href="http://www.ciscocertificates.com/verify.cfm">Verify.</a>. </li>
+  <li> CCNA R&S 419440597336JSXM. <a href="https://www.youracclaim.com/badges/56003ccc-7239-4d2a-91c5-0824d94c550f">Verify</a>. </li>
 </ul>
 
 <h4>Switched networks</h4>
