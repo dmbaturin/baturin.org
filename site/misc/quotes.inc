@@ -76,6 +76,11 @@ author is.
 </div>
 
 <blockquote>
+I need privacy, not because my actions are questionable, but because your judgement and intentions are.
+</blockquote>
+<div class="quote-source">&mdash; unknown</div>
+
+<blockquote>
 If it hurts, do it more often.
 </blockquote>
 <div class="quote-source">&mdash; Martin Fowler</div>
