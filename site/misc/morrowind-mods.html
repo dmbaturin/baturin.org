@@ -32,7 +32,10 @@ not without having a macabre decoration you cannot remove. Not so good for suspe
 </p>
 <p>
 This mod attempts to solve that immersion issue by forcibly removing those bodies
-when they are no longer needed for a quest. That is done through dialog entries to avoid running a global script at every frame.
+when they are no longer needed for a quest. It's done via dialog entries: when you turn in a quest,
+the body associated with it is removed. This way there's no performance impact of an always running global script,
+and there's no chance a visible body disappears into thin air when you enter a location
+(unless a quest gives and a body in the same location, which doesn't happen in the vanilla game and most mods).
 </p>
 <p>
 The mod is fully supported in OpenMW, but the vanilla engine may have issues with modifying
@@ -71,18 +74,22 @@ between to leveled creature spawn points. It gets worse from there.
 <h2 id="gondoliers-license">Gondolier's License</h2>
 <p>
 In the original game, the unique shirt and helm of Vivec gondoliers cannot be acquired at all.
-Some mods fix it by just placing them in some crate, without explaining how they got in there.
+Some mods fix it by placing them in some crate, without explaining how they got in there.
 </p>
 <p>
-This mods allows you to acquire them in an immersive way. Ask gondoliers for &ldquo;little advice&rdquo;
+This mods allows you to acquire them in an immersive way. Ask gondoliers for a &ldquo;little advice&rdquo;
 and they will direct you to Odres Uvaren in the Justice Offices. There you can take a Vivec geography
-test, prove that you <em>could</em> be a gondolier and acquire a license and the uniform.
+test, prove that you <em>could</em> be a gondolier and get the uniform.
+</p>
+<p>
+This mod doesn't implement an actual gondola and a way to carry passengers, you become a gondolier
+in the name only.
 </p>
 <p>Download: <a href="/files/mwmods/gondoliers_license.zip">gondoliers_license.zip</a></p>
 
 <h2 id="tavern-of-broken-dreams">Tavern of Broken Dreams</h2>
 <p>
-There are lots of unused NPCs and objects in the Morrowind data files. It's as if the developers
+There are lots of unused NPCs and objects in the Morrowind data files. It looks like the developers
 never made any attempts to clean up anything, you can even find their notes to themselves.
 That prompted me to make a mod inspired by the &ldquo;Cafe of Broken Dreams&rdquo;
 special encounter from Fallout 2.
@@ -94,3 +101,5 @@ All those characters retain their original ids and inventory, I only gave them c
 with their background as I imagine it.
 </p>
 <p>Download: <a href="/files/mwmods/tavern_of_broken_dreams.zip">tavern_of_broken_dreams.zip</a></p>
+
+<time id="last-modified">2020-01-29</time>
