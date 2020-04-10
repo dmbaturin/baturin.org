@@ -1,0 +1,9 @@
+# Balanced parens/brackets
+
+<start> ::= <expr> ;
+
+<expr> ::= <parens> | <square> | <curly> | "()" ;
+
+<parens> ::= "(" <expr> ")" ;
+<square> ::= "[" <expr> "]" ;
+<curly> ::=  "{" <expr> "}" 

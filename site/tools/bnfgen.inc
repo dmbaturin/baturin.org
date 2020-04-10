@@ -24,6 +24,21 @@ function generate()
     output_container.appendChild(output_text);
 }
 
+function download_grammar(name)
+{
+    var url = window.location.protocol + '//' + window.location.host + window.location.pathname + name;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           // Typical action to be performed when the document is ready:
+           document.getElementById("grammar").value = xhttp.responseText;
+           document.getElementById("output").innerHTML = "";
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
 </script>
 
 
@@ -55,7 +70,14 @@ If not, there's a formal grammar <a href="#tutorial">tutorial</a> below the inpu
   <li>Recursion depth is not limited. You can hang your browser with infinite recursion.</li>
 </ul>
 
+
 <form action="">
+  <div>
+    <span>Sample grammars:</span>
+    <input type="button" value="English" onclick='download_grammar("english.bnf")' />
+    <input type="button" value="Balanced parentheses" onclick='download_grammar("parens.bnf")' />
+    <input type="button" value="Serial numbers" onclick='download_grammar("serial.bnf")' />
+  </div>
   <textarea id="grammar" style="width: 100%; min-height: 20em">
 # A trivial subset of English.
 # Generates one or more sentences.

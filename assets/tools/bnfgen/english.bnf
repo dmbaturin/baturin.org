@@ -1,0 +1,25 @@
+# A trivial subset of English.
+# Generates one or more sentences.
+
+<start> ::= 10 <sentence> <line_break> <start> | <sentence> ;
+
+<sentence> ::= <NP> <VP> "." ;
+
+<NP> ::= <capitalized_article> " " <subject> " " ;
+
+<VP> ::= <verb> " " <article> " " <object>;
+
+<article> ::= "a" | "the";
+<capitalized_article> ::= "A" | "The" ;
+
+<subject> ::=
+    "customer" 
+  | "system administrator"
+  | "programmer"
+;
+
+<object> ::= "system" | "compiler" | "program";
+
+<verb> ::= "used" | "installed" | "developed" ;
+
+<line_break> ::= "\n"
