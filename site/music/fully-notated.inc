@@ -13,6 +13,20 @@
 
 <p>I notate all my music using MuseScore, which is free and open source. You can download it from <a href="https://musescore.org/">musescore.org</a>.</p>
 
+<h3 id="a-doubt-if-it-be-us">A doubt if it be Us</h3>
+
+<p>
+A vibraphone solo piece sort of inspired by Emily Dickinson's poem. An experiment with tonality, and a potential soundtrack
+for friend's project.
+</p>
+<ul class="plain">
+  <li> <a href="/music/fully-notated/op2020.01_a_doubt_if_it_be_us.pdf">PDF</a> </li>
+  <li> <a href="/music/fully-notated/op2020.01_a_doubt_if_it_be_us.mscz">MuseScore file</a> </li>
+  <li> Date: April 2020</li>
+</ul>
+
+<audio src="/music/fully-notated/op2020.01_a_doubt_if_it_be_us.mp3" controls> </audio>
+
 <h3 id="album-leaf-2019-mm">Album Leaf for MM</h3>
 
 <p>
@@ -27,6 +41,7 @@ using the <em>vii</em> of the major key as the <em>ii</em> of the minor key.
   <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/fully-notated/op2019-03_album_leaf_mm.mxl">MusicXML</a> </li>
   <li> Date: November 2019 </li>
   <li> Key: D major </li>
 </ul>
@@ -48,6 +63,7 @@ to make a decent gift for someone who knows much more about harmony than I do.
   <li> <a href="/music/fully-notated/op2019-02_winter_waltz.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2019-02_winter_waltz.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2019-02_winter_waltz.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/fully-notated/op2019-02_winter_waltz.mxl">MusicXML</a> </li>
   <li> Date: October 2019 </li>
   <li> Key: C minor </li>
 </ul>
@@ -76,6 +92,7 @@ of the common woodwinds as well as the trumpet.
   <li> <a href="/music/fully-notated/op2019.1-2_gigue.pdf">PDF</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-2_gigue.mid">MIDI</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-2_gigue.mscz">MuseScore file</a> </li>
+  <li> <a href="/music/fully-notated/op2019.1-2_gigue.mxl">MusicXML</a> </li>
 </ul>
 
 <h3 id="album-leaf-iyn-2018">Album leaf 2018.12 (piano solo)</h3>
