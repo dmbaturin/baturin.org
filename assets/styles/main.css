@@ -22,6 +22,7 @@ table
 body
 {
     margin: 0;
+    line-height: 1.4;
 }
 
 /** Structural blocks */
@@ -162,6 +163,8 @@ a.nav, a.nav:visited
     color: #006699;
     text-decoration: none;
 }
+
+a.nav:hover { text-decoration: underline }
 
 a.nav-active, a.nav-active:visited
 {
