@@ -1,4 +1,4 @@
-Plugin.require_version("1.9")
+Plugin.require_version("1.11")
 
 base_path = config["base_path"]
 if not base_path then
@@ -17,7 +17,6 @@ function make_tag_links(tags_elem)
   -- Generate <a href="/tag/$tag">$tag</a> elements for each tag
   local count = size(tags)
   local index = 1
-  prev_elem = nil
   tag_links = {}
   while (index <= count) do
     tag = String.trim(tags[index])
@@ -30,19 +29,7 @@ function make_tag_links(tags_elem)
     index = index + 1
   end
 
-  -- Home-made join(", ", list)...
-  -- I should add it to the plugin API
-  index = 1
-  links_html = ""
-  while (index <= count) do
-    links_html = links_html .. tag_links[index]
-
-    if (index < count) then
-      links_html = links_html .. ", "
-    end
-
-    index = index + 1
-  end
+  links_html = String.join(", ", tag_links)
 
   links_html = format("<p><strong>Tags:</strong> <span id=\"tags\">%s</span></p>", links_html)
 
