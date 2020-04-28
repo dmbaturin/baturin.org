@@ -40,6 +40,8 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 (here's my <a href="https://pgp.key-server.io/pks/lookup?search=0x4726DF9511E0AF1F&fingerprint=on&op=vindex">PGP key</a>
 if you want secure communication).</p>
 
+<h2 id="news-heading">Recent updates</h2>
+
 <h2>Privacy notice</h2>
 <p>This website does not use cookies (should I have made this a popup message?).</p>
 
@@ -74,6 +76,3 @@ based on HTML rewriting.
 The usual problem with news sections on static websites is that no one ever updates them. For this reason I made a dirty hack
 for generating them from the git commit log.
 </p>
-
-<div id="site-news">
-</div>
