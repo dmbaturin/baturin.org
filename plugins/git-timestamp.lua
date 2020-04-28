@@ -23,6 +23,7 @@
 --   timestamp_container_selector = "div#content"
 --   manual_timestamp_selector = "time#last-modified"
 --   timestamp_format = "<p>Last modified on %s</p>"
+--   git_date_format = "format:%Y-%m-%d"
 --
 -- Author: Daniil Baturin
 -- License: MIT
@@ -32,6 +33,7 @@ Plugin.require_version("1.9")
 manual_timestamp_selector = config["manual_timestamp_selector"]
 timestamp_container_selector = config["timestamp_container_selector"]
 timestamp_format = config["timestamp_format"]
+git_date_format = config["git_date_format"]
 
 
 if not timestamp_format then
@@ -40,6 +42,10 @@ end
 
 if not timestamp_container_selector then
   timestamp_container_selector = "body"
+end
+
+if not git_date_format then
+  git_date_format = "short"
 end
 
 if manual_timestamp_selector then
@@ -57,7 +63,7 @@ if manual_timestamp_selector then
 end
 
 if not timestamp then
-  git_command = "git log -n 1 --pretty=format:%ad --date=format:%Y-%m-%d -- " .. page_file
+  git_command = format("git log -n 1 --pretty=format:%%ad --date=%s -- %s", git_date_format, page_file)
   timestamp = Sys.get_program_output(git_command)
 end
 
