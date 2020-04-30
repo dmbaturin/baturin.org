@@ -70,9 +70,3 @@ though anything released after 2013 should work.
 This site is powered by <a href="https://soupault.neocities.org">soupault</a>, a static site generator
 based on HTML rewriting.
 </p>
-
-<h2>News</h2>
-<p>
-The usual problem with news sections on static websites is that no one ever updates them. For this reason I made a dirty hack
-for generating them from the git commit log.
-</p>
