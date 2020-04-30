@@ -13,7 +13,13 @@ def get_output(cmd, file):
 
 
 template = """
-<dt>{{date}} <a href="{{url}}">{{title}}</a></dt>
+<div class="site-news-entry">
+  <div class="site-news-date"><time>{{date}}</time></div>
+  <div class="site-news-content">
+    <h3><a href="{{url}}">{{title}}</a></h3>
+    {{{description}}}
+  </div>
+</div>
 """
 
 renderer = pystache.Renderer()
@@ -23,14 +29,14 @@ with open('index.json') as f:
 
 entries = entries[:10]
 
-print("""<dl>""")
+print("""<div id="site-news">""")
 for e in entries:
-    print(renderer.render(template, e))
-
+    commit_msg = ""
     git_date = get_output('git log -n 1 --pretty=format:%ad --date=format:%Y-%m-%d', e['page_file'])
     if git_date == e['date']:
         commit_msg = get_output('git log -1 --pretty=%B', e['page_file'])
-        commit_msg = re.sub(r'\[(.*)\]', r'<a href="\1">\1</a>',  commit_msg)
-        print("""<dd>{0}</dd>""".format(commit_msg))
+    e["description"] = "<p>{0}</p>".format(commit_msg)
 
-print("</dl>")
+    print(renderer.render(template, e))
+
+print("</div>")
