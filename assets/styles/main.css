@@ -267,6 +267,7 @@ a.footnote
 .site-news-date
 {
     margin-right: 10px;
+    min-width: max-content;
 }
 
 @media (pointer: coarse)
