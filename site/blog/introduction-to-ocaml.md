@@ -91,7 +91,7 @@ Another ML descendant called CAML remained under active development, and eventua
 ML in production use now.
 
 <div style="overflow: scroll">
-<img src="images/fp_genealogy.png" width="650px"/>
+<img src="/images/fp_genealogy.png" width="650px"/>
 </div>
 
 
