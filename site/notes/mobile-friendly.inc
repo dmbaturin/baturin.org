@@ -67,7 +67,7 @@ browser would be expected to do by default&rdquo; are:
 
 <p>
 To me, it seems absurd that not even pure markup, <a href="http://contemporary-home-computing.org/prof-dr-style/">Prof. Dr.</a>
-style websites render in a readable way on mobile devices withut it. I see no valid reason to set the initial to anything else
+style websites render in a readable way on mobile devices without it. I see no valid reason to set the initial to anything else
 than the device width on systems that have no resizable windows, and I haven't seen anyone do it. Moreover, the additional
 options such as <code>maximum-scale</code> and <code>user-scalable</code> that prevent users from zooming in are outright accessibility nightmares.
 But that's the way it is. We've got what we've got.
@@ -86,7 +86,7 @@ will limit their width to the parent element. For images, you also need to set <
 Other elements may also be suspectible, for example form inputs, HTML5 video, and object/embed tags.
 </p>
 
-<pre>
+<pre class="language-css">
 table {
     max-width: 100%;
 }
@@ -106,7 +106,7 @@ but preserve whitespace otherwise, using the <code>white-space: pre-wrap</code> 
 For code in whitespace-sensitive languages such as Haskell and Python this can be a visual nuisance, but copying and pasting
 line-wrapped text works as expected, so the problem is purely visual at least.
 </p>
-<pre>
+<pre class="language-css">
 pre, code, sample {
     white-space: pre-wrap;
     hyphens: none;
@@ -145,6 +145,8 @@ While the <code>handheld</code> media type is not supported by anyone, there's s
 <p>
 The mantra of responsive design has always been to test for capabilities, not specific devices. The defining characteristic of modern mobile devices is lack
 of a pointing device other than a touchscreen, which is their biggest limitation due to low input resolution of capacitive touchscreens.
+</p>
+<p>
 The irony is that there was no media query for a high precision pointing device capability.
 Now there is, it's called &ldquo;<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#Media_features">media features</a>&rdquo;
 and provides two queries with slightly different semantics: <code>pointer</code> and <code>any-pointer</code>. Possible values are <code>coarse</code> and <code>fine</code>.
@@ -152,7 +154,7 @@ The difference is that the <code>pointer</code> checks capabilities of the <em>p
 <code>any-pointer</code> checks if <em>any</em> device with given capability is available.
 </p>
 
-<pre>
+<pre class="language-css">
 @media (pointer: fine) {
   /* Desktop browser layout rules */
 }
@@ -167,7 +169,7 @@ If you want to make it work in browsers that don't support that media query, you
 and the last ones take effect, for example:
 </p>
 
-<pre>
+<pre class="language-css">
 /* Red background in all desktop browsers */
 body { background-color: red; }
 
@@ -199,8 +201,8 @@ or <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout">gr
 re-flow.
 </p>
 <p>
-Re-flowing without fixed breakpoints is the cleanest solution imposes visual design limitations, since some kids of decorations
-like borders and per-element backgrounds can look ugly if what supposed to be a narrow column expands to the full screen width.
+Re-flowing without fixed breakpoints is the cleanest solution. However, it imposes visual design limitations, since some kinds of decorations
+like borders and per-element backgrounds can look ugly if a narrow column expands to the full screen width.
 Depending on your visual design preferences, you may be able to get away with it. Otherwise you will need to decide how it should
 look on smal screens and what screen size will be considered small.
 </p>
@@ -228,13 +230,32 @@ Using a completely different style for mobile devices is the most radical option
 for people who have it worst: those using smartphones in portrait mode.
 </p>
 
-<pre>
+<pre class="language-css">
 /* Rules for desktop and mobile in landscape mode */
 
 @media (orientation: portrait) {
   /* Rules for portrait mode */
 }
 </pre>
+
+<h2>Misc workarounds</h2>
+
+<h3>Abbreviations</h3>
+<p>
+In desktop browsers, the <code>&lt;abbr&gt;</code> element can be used to add a tooltip with an
+explanation on mouse over, like this: <abbr title="HyperText Markup Language">HTML</abbr>.
+</p>
+<p>
+Since there's no mouse on mobile devices, it does nothing there. You can use the CSS <code>::after</code>
+pseudo-element to display the explanation after the text, like &ldquo;HTML (HyperText Markup Language)&rdquo;
+Add something like this to your mobile-specific style:
+</p>
+<pre class="language-css">
+abbr[title]::after {
+    content: " ("attr(title)")";
+}
+</pre>
+<p>I stole this idea from <a href="https://animesh.blog">Animesh Bulusu</a>.</p>
 
 <h2>Conclusion</h2>
 
