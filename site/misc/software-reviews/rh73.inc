@@ -97,3 +97,5 @@
    Works fine in VirtualBox, just don't use a SATA controller (SATA didn't exist at the time), IDE or SCSI
    should be fine. Mouse integration and the like obviously don't work, VirtualBox itself also didn't
    exist at the time.</p>
+
+<time id="last-modified">2015-06-16</time>
