@@ -1,6 +1,6 @@
 Plugin.require_version("2.0")
 
-function process_entry(container, entry)
+function process_entry(container, template, entry)
   git_date = Sys.get_program_output(format("git log -n 1 --pretty=format:%%ad --date=format:%%Y-%%m-%%d %s", entry["page_file"]))
   commit_msg = ""
   if (git_date == entry["date"]) then
@@ -10,23 +10,14 @@ function process_entry(container, entry)
     entry["description"] = ""
   end
 
-  news_content = HTML.create_element("div")
-  HTML.add_class(news_content, "site-news-content")
-  HTML.append_child(news_content,
-    HTML.parse(format("<h3><a href=\"%s\">%s</a></h3> %s",
-      entry["url"], entry["title"], entry["description"])))
-  news_date = HTML.parse(format("<div class=\"site-news-date\"><time>%s</time></div>", entry["date"]))
-
-  news_entry = HTML.create_element("div")
-  HTML.add_class(news_entry, "site-news-entry")
-  HTML.append_child(news_entry, news_date)
-  HTML.append_child(news_entry,	news_content)
+  news_entry = HTML.parse(String.render_template(template, entry))
 
   HTML.append_child(container, news_entry)
 end
 
 max_entries = config["max_entries"]
 selector = config["selector"]
+template = config["entry_template"]
 
 if not max_entries then
   max_entries = 10
@@ -36,6 +27,10 @@ if not selector then
   Plugin.fail("selector option is not specified, don't know where to insert news entries")
 end
 
+if not template then
+  Plugin.fail("entry_template option is not specified")
+end
+
 news = HTML.select_one(page, selector)
 
 local n = 1
@@ -43,7 +38,7 @@ while (n <= max_entries) do
   entry = site_index[n]
 
   if entry then
-    process_entry(news, entry)
+    process_entry(news, template, entry)
   end
   n = n + 1
 end
