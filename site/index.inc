@@ -41,6 +41,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 if you want secure communication).</p>
 
 <h2 id="news-heading">Recent updates</h2>
+<div id="site-news"> </div>
 
 <h2>Privacy notice</h2>
 <p>This website does not use cookies (should I have made this a popup message?).</p>
