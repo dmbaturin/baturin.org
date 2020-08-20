@@ -11,6 +11,8 @@ site:
 	scripts/blog-archive.py $(SITE_DIR)/blog/tag $(INDEX_FILE)
 	$(SOUPAULT)
 	scripts/json2feed.py index.json > $(BUILD_DIR)/blog/atom.xml
+	# OCaml posts for syndication on https://ocaml.org/community/planet/
+	scripts/json2feed.py index.json ocaml > $(BUILD_DIR)/blog/atom-ocaml.xml
 
 .PHONY: assets
 assets:

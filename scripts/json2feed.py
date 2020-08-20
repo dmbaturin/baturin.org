@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import re
 import sys
 import json
 import datetime
@@ -11,7 +12,7 @@ from datetime import datetime
 from feedgen.feed import FeedGenerator
 
 
-base_url = 'https://baturin.org/'
+base_url = 'https://baturin.org'
 
 default_date = datetime(1970, 1, 1, tzinfo=dateutil.tz.gettz('Etc/UTC'))
 
@@ -41,12 +42,22 @@ fg.language(feed_language)
 
 index_file = sys.argv[1]
 
+if len(sys.argv) > 2:
+    tag = sys.argv[2]
+else:
+    tag = None
+
 with open(index_file, 'r') as f:
     entries = json.load(f)
 
 for entry in entries:
     if not entry["nav_path"] or (entry["nav_path"][0] != "blog"):
         continue
+
+    if tag:
+        tags = re.split(r',\s*', entry["tags"])
+        if not (tag in tags):
+            continue
 
     fe = fg.add_entry()
 
