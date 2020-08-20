@@ -22,7 +22,7 @@ and ship it as a single `.js` file.
 It may be fine for applications under constant development, but it's bad for pages [designed to last](https://jeffhuang.com/designed_to_last/).
 If you have a script that happens to use jQuery 1.0.0, you can independently a) edit the script b) edit the page that uses it c) upgrade jQuery.
 You will not lose your ability to do any of those things in the future. NPM-based workflows have more potential to become lost technology
-is you are not doing it all the time and not adjusting for library and tooling changes.
+if you are not doing it all the time and not adjusting for library and tooling changes.
 
 For an upcoming project, I need to manipulate TOML in browser. To my surprise, I couldn't find a library that would do both parsing and printing. 
 So, I decided to assemble a jQuery-style library for that, from two packages: [toml](https://www.npmjs.com/package/toml) for parsing,
@@ -49,7 +49,7 @@ Now it's time to bundle it all together. There are a few tools for that, but I s
 They also provide a plugin for JS minification, named &ldquo;tinyify&rdquo;.
 
 Let's install them: `npm install browserify tinyify`. If you use `npm -g` for a global install, then `browserify` command will become available
-However, you can as well run it directly from the module dir/
+However, you can as well run it directly from the module dir.
 
 ```
 $ ./node_modules/browserify/bin/cmd.js -o toml.js -p tinyify ./toml_browser.js
