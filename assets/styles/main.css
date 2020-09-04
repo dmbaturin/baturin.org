@@ -23,6 +23,8 @@ body
 {
     margin: 0;
     line-height: 1.4;
+    background: white;
+    color: black;
 }
 
 /** Structural blocks */
