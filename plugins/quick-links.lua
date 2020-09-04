@@ -162,7 +162,7 @@ function make_twitter_link(element)
 end
 
 elements = HTML.select_all_of(page, {
-  "wikipedia", "github", "sourcehut", "mastodon", "twitter", "rfc"
+  "wikipedia", "github", "sourcehut", "mastodon", "twitter", "linkedin", "rfc"
 })
 
 local index = 1
@@ -180,6 +180,8 @@ while elements[index] do
     new_elem = make_mastodon_link(elem)
   elseif (tag_name == "twitter") then
     new_elem = make_twitter_link(elem)
+  elseif (tag_name == "linkedin") then
+    new_elem = make_simple_link(elem, "user", "https://www.linkedin.com/in/%s")
   elseif (tag_name == "rfc") then
     new_elem = make_rfc_link(elem)
   end
