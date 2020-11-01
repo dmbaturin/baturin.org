@@ -46,6 +46,8 @@ using the <em>vii</em> of the major key as the <em>ii</em> of the minor key.
   <li> Key: D major </li>
 </ul>
 
+<audio src="/music/fully-notated/op2019-03_album_leaf_mm.mp3" controls> </audio>
+
 <h3 id="winter-waltz">Winter Waltz</h3>
 
 <p>
@@ -68,6 +70,8 @@ to make a decent gift for someone who knows much more about harmony than I do.
   <li> Key: C minor </li>
 </ul>
 
+<audio src="/music/fully-notated/op2019-02_winter_waltz.mp3" controls> </audio>
+
 <h3 id="partita-1">Partita for a monophonic instrument</h3>
 
 <p>
@@ -86,6 +90,8 @@ of the common woodwinds as well as the trumpet.
   <li> <a href="/music/fully-notated/op2019.1-1_gavotte.mscz">MuseScore file</a> </li>
 </ul>
 
+<audio src="/music/fully-notated/op2019.1-1_gavotte.mp3" controls> </audio>
+
 <h4 id="partita-1-gigue">Gigue</h4>
 <p>Has a piano part.</p>
 <ul class="plain">
@@ -94,6 +100,8 @@ of the common woodwinds as well as the trumpet.
   <li> <a href="/music/fully-notated/op2019.1-2_gigue.mscz">MuseScore file</a> </li>
   <li> <a href="/music/fully-notated/op2019.1-2_gigue.mxl">MusicXML</a> </li>
 </ul>
+
+<audio src="/music/fully-notated/op2019.1-2_gigue.mp3" controls> </audio>
 
 <h3 id="album-leaf-iyn-2018">Album leaf 2018.12 (piano solo)</h3>
 
@@ -110,6 +118,8 @@ were popular, and this piece is exactly that.
   <li> Date: December 2018 </li>
   <li> Original key: B-flat major </li>
 </ul>
+
+<audio src="/music/fully-notated/op_2018-02_album_leaf.mp3" controls> </audio>
 
 <h3 id="when-i-died">When I died, there was no one who could disprove it</h3>
 
@@ -130,6 +140,7 @@ instrumentation, I can come up with something.
   <li> Date: November 2018 </li>
 </ul>
 
+<audio src="/music/fully-notated/when_i_died.mp3" controls> </audio>
 
 <h3 id="op2018-01">Fake Folk Dance #2 (flute and piano)</h3>
 
@@ -140,6 +151,8 @@ instrumentation, I can come up with something.
   <li> Date: January 2018 </li>
   <li> Original key: A major </li>
 </ul>
+
+<audio src="/music/fully-notated/op_2018-01_fake_folk_dance_2.mp3" controls> </audio>
 
 <p>From an imaginary fake dance suite.</p>
 
@@ -152,6 +165,8 @@ instrumentation, I can come up with something.
   <li> Date: December 2017 </li>
   <li> Original key: B minor </li>
 </ul>
+
+<audio src="/music/fully-notated/op2017-07_sarabande.mp3" controls> </audio>
 
 <p>
 By the romantic era, the word &ldquo;sarabande&rdquo; lost all connections to a particular baroque dance.
@@ -168,6 +183,8 @@ Minor key, triple meter, let's call it a sarabande.
   <li> Original key: C minor </li>
 </ul>
 
+<audio src="/music/fully-notated/op2017-06_fake_folk_dance.mp3" controls> </audio>
+
 <p>More of an exercise in using the leading tone chord than anything.</p>
 
 <h3>Waltz for a double bass solo</h3>
@@ -179,6 +196,8 @@ Minor key, triple meter, let's call it a sarabande.
   <li> Date: June 2017 </li>
   <li> Original key: F major </li>
 </ul>
+
+<audio src="/music/fully-notated/op2017-05_f_waltz.mp3" controls> </audio>
 
 <p>I could not come up with any accompanying parts that I would really like, so I left it solo.</p>
 <p>There are quite a few up strokes if you read it as written, adjust the bowings to taste.</p>
@@ -193,6 +212,8 @@ Minor key, triple meter, let's call it a sarabande.
   <li>Original key: A minor</li>
 </ul>
 
+<audio src="/music/fully-notated/op2017-04_ballad_of_an_epic_fail.mp3" controls> </audio>
+
 <p>It would make a good fantasy RPG theme I suppose, even though I didn't set out to make one.</p>
 
 
@@ -205,6 +226,8 @@ Minor key, triple meter, let's call it a sarabande.
   <li>Date: April 2017</li>
   <li>Original key: C major</li>
 </ul>
+
+<audio src="/music/fully-notated/op2017-03_rhythm_changes_prelude.mp3" controls> </audio>
 
 <p>
 The harmony of George Gershwin's song &ldquo;I've Got Rhythm&rdquo; is immensely popular with jazz composers,
@@ -225,6 +248,8 @@ smoothly as it consists entirely of secondary dominants (ragtime progression) an
   <li>Date: March 2017</li>
   <li>Original key: E minor</li>
 </ul>
+
+<audio src="/music/fully-notated/op2017-02_awkward_waltz_for_ann.mp3" controls> </audio>
 
 <p>The initial idea was to descend from the I to the V by major seconds. Funnily enough,
    later my friend pointed me to a very dissimilar song with similar harmonic idea, &ldquo;Stray Cat Strut&rdquo; by Brian Setzer.</p>

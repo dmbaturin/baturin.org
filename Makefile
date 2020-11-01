@@ -40,6 +40,10 @@ site: encapcalc iproute2-manual
 assets:
 	cp -r assets/* $(BUILD_DIR)/
 
+.PHONY: sounds
+sounds:
+	find  assets/music/fully-notated/ -name '*.mid' -exec scripts/midi2mp3.sh {} \;
+
 .PHONY: all
 all: site assets
 
