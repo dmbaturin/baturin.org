@@ -97,7 +97,7 @@
 
 <h5>Expired</h5>
 <ul>
-  <li> <a href="https://www.certmetrics.com/brocade/public/verification.aspx?code=PKFQ5FECCMV428P2">Brocade Certified vRouter Engineer 2013</a>. </li>
+  <li> <a href="/files/DaniilVCP.pdf">Vyatta Certified Professional #64</a> (aka Brocade Certified vRouter Engineer 2013).</li>
   <li> CCNA R&S 419440597336JSXM. <a href="https://www.youracclaim.com/badges/56003ccc-7239-4d2a-91c5-0824d94c550f">Verify</a>. </li>
 </ul>
 
