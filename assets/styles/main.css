@@ -52,7 +52,7 @@ body
     border-bottom: #006699 solid 1px;
 }
 
-#nav
+div#nav
 {
     margin-top: 1%;
     margin-bottom: 1%;
@@ -60,10 +60,18 @@ body
     margin-left: 2%;
     margin-right: 2%;
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    /* Display as two rows */
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+} 
+
+/* On desktop, center the link text in the navigation menu to align them nicely */
+div#nav div
+{
+    text-align: center;
 }
 
 #breadcrumbs
@@ -75,6 +83,11 @@ body
 #menu-link, #top-link
 {
     display: none;
+}
+
+div.nav div
+{
+    text-align: center;
 }
 
 /* Mobile device only */
@@ -98,8 +111,9 @@ body
     }
 
     /* Make nav links larger and place them vertically */
-    #nav
+    div#nav
     {
+        display: flex;
         flex-direction: column;
         font-size: 120%;
     }
@@ -145,6 +159,10 @@ body
 {
     font-family: sans-serif;
 }
+
+/* Larger font size for the navigation menu */
+
+div#nav { font-size: 14pt; }
 
 /** Misc visual styles */
 
