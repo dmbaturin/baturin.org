@@ -31,7 +31,13 @@ function make_tag_links(tags_elem)
 
   links_html = String.join(", ", tag_links)
 
-  links_html = format("<p><strong>Tags:</strong> <span id=\"tags\">%s</span></p>", links_html)
+  tags_html = [[
+    <p>
+      <strong>Tags:</strong> <span id="tags">%s</span>
+    </p>
+  ]]
+
+  links_html = format(tags_html, links_html)
 
   HTML.insert_after(tags_elem, HTML.parse(links_html))
   HTML.delete_element(tags_elem)
