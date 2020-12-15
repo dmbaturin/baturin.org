@@ -7,8 +7,8 @@ this fact affects your life and the lives of people around you.
 </p>
 <p>
 While I hope that I will be able to maintain my own stuff for quite a while, I'm well aware of my own mortality and of the fact that death of
-one person always affects others in complex ways. They need to dispose of the corpse at the very least (while we are at it, I would like to
-donate mine to a research or educational institution&mdash;better make it an asset than a liability). There are also many ways to become permanently unable
+one person always affects others in complex ways. They need to dispose of the corpse at the very least.<fn>While we are at it, I would like to
+donate mine to a research or educational institution&mdash;better make it an asset than a liability.</fn> There are also many ways to become permanently unable
 to maintain anything while still being technically alive, for various definitions of &ldquo;alive&rdquo;.
 </p>
 <p>
@@ -20,7 +20,7 @@ and information that may help other people, and because I'm just as vain as ever
 <h2>What I would like to be done if I'm dead (or otherwise permanently incapacitated)</h2>
 
 <p>
-I don't feel a need to burden anyone with the role of a virtual executor since I all projects I want to be public are already
+I don't feel a need to burden anyone with the role of a virtual executor since all projects I want to be public are already
 public on the web, complete with their build scripts. Alexander Norman (xh at xh dot se) can easily gain root access to the server
 because he hosts it (at the time of writing), so if anything needs to be done on the server he's the one to ask.
 </p>
@@ -41,4 +41,4 @@ If you want to maintain any of the self-contained parts such as the <a href="/do
 ok to make a fork of it and keep the updated version at a new location.
 </p>
 
-<time id="last-modified">2018-03-21</time>
+<div id="footnotes"> </div>
