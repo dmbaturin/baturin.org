@@ -27,8 +27,11 @@ iproute2-manual:
 	mkdir -p ../site/docs/iproute2
 	cp build/index.html ../site/docs/iproute2/
 
+.PHONY: external
+external: encapcalc iproute2-manual
+
 .PHONY: site
-site: encapcalc iproute2-manual
+site:
 	$(SOUPAULT) --index-only
 	scripts/blog-archive.py $(SITE_DIR)/blog/tag $(INDEX_FILE)
 	$(SOUPAULT)
@@ -45,7 +48,7 @@ sounds:
 	find  assets/music/fully-notated/ -name '*.mid' -exec scripts/midi2mp3.sh {} \;
 
 .PHONY: all
-all: site assets
+all: site external assets
 
 .PHONY: clean
 clean:
