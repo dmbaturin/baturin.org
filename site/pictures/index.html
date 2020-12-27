@@ -1,0 +1,174 @@
+<h1>Pictures</h1>
+
+<p>
+If you are bad at drawing, there are only two ways to make pictures: generate them
+or ask someone else. I mostly do the former, and occasionally the latter.
+</p>
+
+<div id="generated-toc"></div>
+
+<h2>Postcards</h2>
+
+<h3>Valentine's Day</h3>
+
+<p>
+The polarizing holiday. Some oppose it for its commercialization, some
+for religious reasons, some just love it or hate it for no reason at all.
+Nerds have their own ways of mocking or celebrating it (you decide which of those
+I did).
+</p>
+
+<h4>2013</h4>
+
+<p>
+I made up this parametric curve for the 2013 event. There are other curves around,
+but I didn't like their shape, and of course they weren't invented by me, so I chose
+to make my own. I should document its derivation some time, all it takes is just some
+basic facts from differential geometry really.
+</p>
+
+<p>For now, here's the image:</p>
+<img alt="heart-shaped parametric curve" src="/pictures/heart.png"/>
+<p>and its gnuplot source: <a href="/pictures/heart.gnuplot">heart.gnuplot</a>.</p>
+
+<h4>2014</h4>
+
+<p>
+What's better than a curve? A surface, of course! Next year I made a three-dimensional
+version of that same curve. If you limit the range of <em>x</em> to a single half-period,
+you can get just one heart, but if you don't, you get a whole string of them.
+If you manage to 3d-print a heart necklace from it, let me know.
+</p>
+
+<img alt="heart-shaped parametric surface" src="/pictures/heart_3d.png"/>
+
+<p>Here is the gnuplot source: <a href="/pictures/heart_3d.gnuplot">heart_3d.gnuplot</a>.</p>
+
+<h3>Misc</h3>
+
+<h4>New b'ak'tun (2012)</h4>
+
+<p>
+A <a href="https://en.wikipedia.org/wiki/Baktun">b'ak'tun</a> is a cycle of 144000 days
+(about 394 years) in the ancient Maya long count calendar. In the most commonly accepted
+correlation with the Gregorian calendar, the new 13th b'ak'tun started on 21 December 2012.
+Yes, that's what the infamous
+&ldquo;2012 phenomenon&rdquo; was really about (the original Maya calendar wraps around at that date,
+for some reason).
+</p>
+
+<p>
+For this truly once in a lifetime event, my friend Irina Kushnerova and I made a picture of
+Itzamna, the creator god in the Maya mythology, pretending he's Santa.
+</p>
+
+<img alt="Mayan god Itzamna as Santa" src="/pictures/new_baktun.png"/>
+
+<p>Due to extreme length of a b'ak'tun, it's quite unlikely that I'll make another one.</p>
+
+<h4>World Telecommunication Day</h4>
+
+<p>
+The <a href="http://www.itu.int">International Telecommucation Union</a> seems to have
+a competing standard for every de facto standard in use. Their alternative to the de facto
+System Administrator Appreciation Day (the last Friday of July) is World Telecommunication and Information Society Day
+celebrated on May the 17th.
+</p>
+
+<p>
+When I learnt about it, it prompted me to make this quick and dirty postcard from a broken cat5 cable I've
+had on my desk.
+</p>
+
+<img alt="a postcard with a cut and crudely repaired cat5 cable" src="world_telecommunication_day_2012.jpg" width="90%"/>
+
+<h2>Just curves</h3>
+
+<h3>Cylindrical rose</h3>
+
+<p>This is in fact a work from 2007, that I remembered of and recreated in 2012. It's been a while.</p>
+<p>
+A three-dimensional equivalent of the well known <a href="https://en.wikipedia.org/wiki/Rose_(mathematics)">polar rose</a>.
+The cylindrical coordinate system is a natural fit, since the <em>r</em> and the <em>&phi;</em> remain the same and only the height
+function <em>z</em> needs to be set to something that has maxima at the same points as the maxima of the <em>r</em>
+and has minima where <em>r</em> has zeroes.
+</p>
+<p>In cylindrical coordinates the equation looks very simple:</p>
+<img alt="r = a*sin(k*t), phi=t, z=b*cos(k*t)" src="/pictures/cylindrical_rose/cylindrical_rose_equation.png"/>
+<p>
+However, gnuplot did not have direct support for plotting 3d curves in cylindrical coordinates at the time,
+so I had to convert it to a cartesian &ldquo;surface&rdquo; These days it can be done with the nonlinear axis feature,
+but that's left as an exercise for the reader.
+</p>
+<p>Here is the four-petal curve:</p>
+<img alt="cylindrical rose" src="/pictures/cylindrical_rose/cylindrical_rose.png"/>
+<p>The gnuplot source: <a href="/pictures/cylindrical_rose/cylindrical_rose.gnuplot">cylindrical_rose.gnuplot</a>.</p>
+
+<p>There's also an animated version:</p>
+<img alt="cylindrical rose animation" src="/pictures/cylindrical_rose/cylindrical_rose_animated.gif"/>
+
+<p>
+To produce the GIF, you will need <a href="/pictures/cylindrical_rose/cylindrical_rose_animation.gnuplot">cylindrical_rose_animation.gnuplot</a>
+and <a href="/pictures/cylindrical_rose/cylindrical_rose_animate.gnuplot">cylindrical_rose_animate.gnuplot</a>.
+Place them in the same directory and run &ldquo;gnuplot cylindrical_rose_animate.gnuplot&rdquo;.
+</p>
+
+<h2>Autonomous system maps</h2>
+
+<p>
+Border Gateway Protocol (BGP), the protocol used for the global Internet routing,
+operates at the level of so called &ldquo;autonomous systems&rdquo; rather than individual
+routers. Typically, one company uses only one autonomous system number. Thus in BGP you may
+see that the path to for example 192.0.2.0/24 network is &ldquo;64600 64700 64800&ldquo;.
+This says nothing about the number of routers on the way, but that the traffic will pass through
+three different Internet service providers.
+</p>
+<p>
+One day I thought it would be fun to visualize a BGP table. Visualizing it from one router
+obviously does not produce a complete graph of all inter-AS connections, it only shows what
+it looks like from the AS where it belongs, but it does illustrate the total number of
+autonomous systems.
+</p>
+
+<p>
+So I asked my friend who's an AS operator to dump the tables, converted them to 
+<a href="http://www.graphviz.org/">Graphviz</a> source files with a few lines of Perl, and ran them through the spdf program
+from Graphviz. Due to large numbers of routes, the process was quite resource-intensive,
+and I ran into difficulties producing PNG files of the IPv4 maps, since the default PNG
+library couldn't handle it, and I had to convert through SVG and some alternative tool.
+</p>
+
+<p>Here are the maps from 2012. This one is for IPv4:</p>
+<img alt="IPv4 internet map" src="/pictures/as_maps/ipv4_as_map_small.png"/>
+
+<p>This is for IPv6:</p>
+<img alt="IPv6 internet map" src="/pictures/as_maps/ipv6_as_map_small.png"/>
+
+<p>
+I also repeated the experiment in 2015, but my machine didn't have enough
+resources to handle the IPv4 data set, and I only made the IPv6 version that time.
+Even looking from just one point, it's clear that in those three years the IPv6
+Internet has grown much larger and more well-connected:
+</p>
+
+<img alt="IPv6 internet map" src="/pictures/as_maps/ipv6_as_map_2015_small.png"/>
+
+<p>
+If you really want them, here are large versions. By large I mean large, 
+(megabytes). The original unprocessed files were even larger.
+Here they are: <a href="/pictures/as_maps/ipv4_as_map.png">ipv4_as_map.png</a>,
+<a href="/pictures/as_maps/ipv6_as_map.png">ipv6_as_map.png</a>,
+<a href="/pictures/as_maps/ipv6_as_map_2015.png">ipv4_as_map_2015.png</a>
+</p>
+
+<h2>Misc</h2>
+
+<h3>OCaml</h3>
+<p>
+A promotional picture for the <a href="http://ocaml.org">OCaml</a> programming language.
+Different camel species are used as <a href="https://en.wikipedia.org/wiki/Type_variable">type variables</a>
+in the type of the reverse application operator (<code>|&gt;</code>).
+</p>
+
+<img alt="reverse application combinator type with dromedary and bactrian camels as type variables" src="/pictures/ocaml.png"/>
+

@@ -36,16 +36,12 @@ site:
 	scripts/blog-archive.py $(SITE_DIR)/blog/tag $(INDEX_FILE)
 	$(SOUPAULT)
 
-.PHONY: assets
-assets:
-	cp -r assets/* $(BUILD_DIR)/
-
 .PHONY: sounds
 sounds:
-	find  assets/music/fully-notated/ -name '*.mid' -exec scripts/midi2mp3.sh {} \;
+	find $(BUILD_DIR)/music/compositions/ -name '*.mid' -exec scripts/midi2mp3.sh {} \;
 
 .PHONY: all
-all: site external assets
+all: site external
 
 .PHONY: clean
 clean:
