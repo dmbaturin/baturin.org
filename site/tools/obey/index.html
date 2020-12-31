@@ -1,6 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 <!--
         OBEY message generator
 
@@ -9,77 +7,60 @@
         Distributed under the terms of CC-BY license
         (http://creativecommons.org/licenses/by/3.0/)
 
-        Inspired by the John Carpenter's "They Live" movie
+        Inspired by John Carpenter's "They Live" movie
   -->
-
-    <head>
-
-        <title> OBEY </title>
-
-        <style type="text/css">
-            body
-            {
-                text-align: center;
-            }
+  <head>
+    <title>OBEY</title>
+    <style type="text/css">
+      body { text-align: center; }
   
-            #messageWrapper
-            {
-                padding-top: 10%;
-                padding-bottom: 10%;
-                font-family: Arial;
-                font-weight: bold;
-                font-size: 80pt;
-                text-transform: uppercase;
-                word-wrap: break-word;
-            }
-        </style>
+      #messageWrapper {
+        padding-top: 10%;
+        padding-bottom: 10%;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 80pt;
+        text-transform: uppercase;
+        word-wrap: break-word;
+      }
+    </style>
+    <script type="text/javascript">
+      var messageList = Array(
+        "obey",
+        "watch tv",
+        "consume",
+        "sleep",
+        "stay asleep",
+        "conform",
+        "submit",
+        "no thought",
+        "marry and reproduce",
+        "no independent thought",
+        "buy",
+        "no imagination",
+        "do not question authority"
+      );
 
-        <script type="text/javascript">
-        //<![CDATA[
-            var messageList = Array(    "obey",
-                                        "watch tv",
-                                        "consume",
-                                        "sleep",
-                                        "stay asleep",
-                                        "conform",
-                                        "submit",
-                                        "no thought",
-                                        "marry and reproduce",
-                                        "no independent thought",
-                                        "buy",
-                                        "no imagination",
-                                        "do not question authority"
-                                   );
+      function message() {
+          var currentMessage = document.getElementById("message").innerHTML;
+          var newMessage = currentMessage;
 
-            function message()
-            {
-                var currentMessage = document.getElementById("message").innerHTML;
-                var newMessage = currentMessage;
+          do {
+              var messageNumber = Math.floor((Math.random() * messageList.length));
+              newMessage = messageList[messageNumber];
+          }
+          while (newMessage == currentMessage); // Ensure the next message is different
 
-                do
-                {
-                    var messageNumber = Math.floor((Math.random() * messageList.length));
-                    newMessage = messageList[messageNumber];
-                }
-                while (newMessage == currentMessage); // Ensure the next message is different
-
-                document.getElementById("message").innerHTML = newMessage;
-            }
-        //]]>
-        </script>
-
-    </head>
-
-    <body onload="message()">
-
-        <div id="messageWrapper">
-            <span id="message"> </span>
-        </div>
-
-        <div id="controls">
-            <button onclick="message()">OBEY</button>
-        </div>
-
-    </body>
-
+         document.getElementById("message").innerHTML = newMessage;
+      }
+    </script>
+  </head>
+  <body onload="message()">
+    <div id="messageWrapper">
+      <span id="message"> </span>
+    </div>
+    <div id="controls">
+      <button onclick="message()">OBEY</button>
+    </div>
+  </body>
 </html>
