@@ -1,16 +1,20 @@
 # A trivial subset of English.
 # Generates one or more sentences.
 
-<start> ::= 10 <sentence> <line_break> <start> | <sentence> ;
+# Generate up to ten sentences
+<start> ::= <sentence>{1,10} ;
 
-<sentence> ::= <NP> <VP> "." ;
+# It's fine to declare symbols out of order
+# (<line_break> is defined at the end of the file).
+<sentence> ::= <NP> <VP> "." <line_break>;
 
 <NP> ::= <capitalized_article> " " <subject> " " ;
 
 <VP> ::= <verb> " " <article> " " <object>;
 
-<article> ::= "a" | "the";
-<capitalized_article> ::= "A" | "The" ;
+# Make the indefinite article ("a") appear ten times more often than "the"
+<article> ::= 10 "a" | "the";
+<capitalized_article> ::= 10 "A" | "The" ;
 
 <subject> ::=
     "customer" 

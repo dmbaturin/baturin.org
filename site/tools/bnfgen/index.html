@@ -1,120 +1,245 @@
 <script src="bnfgen.js"> </script>
 
 <script>
-function generate()
-{
-    var grammarBNF = document.getElementById("grammar").value;
-    var startSymbol = document.getElementById("start-symbol").value;
-    var separator = document.getElementById("separator").value;
-
-    var output_container = document.getElementById("output");
-
-    var output = "";
-
-    try
-    {
-        var grammar = bnfgen.loadGrammar(grammarBNF);
-        output = bnfgen.generate(grammar, startSymbol, separator);
-    }
-    catch(err)
-    {
-        output = err[1];
-    }
-
-    var output_text = document.createTextNode(output);
-    output_container.innerHTML = '';
-    output_container.appendChild(output_text);
+function output(msg) {
+    var output_text = document.createTextNode(msg);
+    var outputContainer = document.getElementById("output");
+    outputContainer.appendChild(output_text);
 }
 
-function download_grammar(name)
-{
+function debugOutput(msg) {
+    output("Debug: " + msg + "\n")
+}
+bnfgen.debugFunction = debugOutput;
+
+function generate() {
+    var grammarBNF = document.getElementById("grammar").value;
+    var startSymbol = document.getElementById("start-symbol").value;
+
+    bnfgen.symbolSeparator = document.getElementById("separator").value;
+
+    var outputContainer = document.getElementById("output");
+    // Clear the output
+    outputContainer.innerHTML = '';
+    var outputText = "";
+
+    try {
+        bnfgen.maxReductions = parseInt(document.getElementById("max-reductions").value, 10)
+        bnfgen.maxNonproductiveReductions = parseInt(document.getElementById("max-nonproductive-reductions").value, 10)
+        bnfgen.debug = document.getElementById("debug").checked;
+        bnfgen.dumpStack = document.getElementById("dump-stack").checked;
+
+        bnfgen.loadGrammar(grammarBNF);
+        outputText = bnfgen.generate(startSymbol);
+    } catch(err) {
+        outputText = err;
+    }
+
+    output(outputText);
+}
+
+function downloadGrammar(name) {
     var url = window.location.protocol + '//' + window.location.host + window.location.pathname + name;
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
            // Typical action to be performed when the document is ready:
-           document.getElementById("grammar").value = xhttp.responseText;
+           document.getElementById("grammar").value = xhr.responseText;
            document.getElementById("output").innerHTML = "";
         }
     };
-    xhttp.open("GET", url, true);
-    xhttp.send();
+    xhr.open("GET", url, true);
+    xhr.send();
 }
+
+function loadFromFile(filePath) {
+    var reader = new FileReader();
+    var content = "";
+    if(filePath.files && filePath.files[0]) {
+        reader.onload = function (e) {
+            content = e.target.result;
+            document.getElementById("grammar").value = content;
+        };
+        reader.readAsText(filePath.files[0]);
+    }
+}
+
+// Load the "English" grammar by default.
+window.addEventListener('DOMContentLoaded', (event) => {
+    downloadGrammar("english.bnf");
+});
 
 </script>
 
 
 <h1>BNFGen</h1>
 <p>
-This is an online version of <a href="https://github.com/dmbaturin/bnfgen">BNFGen</a>,
-yet another random text generator based on context-free grammars. Here are the highlights:
+BNFGen is a random text generator based on context-free grammars. Its goal is to make it easy to write and share grammars,
+and to give the user total control and insight into the generation process. The ultimate goal is to bring generative grammar tools
+to people other than programmers: writers, linguists, and anyone who may be interested in generating languages,
+whether it's for parser fuzzing, research, worldbuilding, or pure amusement.
 </p>
-<ul>
-  <li>Familiar BNF input and examples.</li>
-  <li>Allows you to choose how often each alternative is taken by adding a &ldquo;weight&rdquo; and tweak your grammars for more realistic output.
-      For example, <code>&lt;x_or_y&gt; ::= 10 "x" | "y" ;</code> will make <code>x</code> appear ten times more often than <code>y</code>.
-  </li>
-  <li>Supports comments in grammar files (shell style).</li>
-  <li>Good syntax error reporting.</li>
-</ul>
-<h2>Grammar syntax</h2>
 <p>
-If you are already familiar with formal languages, here's a quick summary of the BNF variant used by BNFGen.
-If not, there's a formal grammar <a href="#tutorial">tutorial</a> below the input form.
+How does it achieve those goals? First, it uses a DSL for grammar definitions that is similar to the familiar <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">BNF</a>,
+with two extensions: <a href="#weighted-random">weighted random selection</a> and <a href="#repetition-ranges">deterministic repetition</a>.
 </p>
-<ul>
-  <li>Terminals are written in single or double quotes (<code>'foo'</code> or <code>"foo"</code>).</li>
-  <li>Non-terminals are in angle brackets (<code>&lt;foo&gt;</code>, <code>&lt;_foo_bar0&gt;</code>).</li>
-  <li>Rules are separated by semicolons.</li>
-  <li>Empty alternatives (<code>&lt;foo&gt; ::= | "a" | "b";</code> are not allowed.</li>
-  <li>The default starting symbol is <code>&lt;start&gt;</code>, but that's configurable.</li>
-  <li>You can specify the symbol separator if you don't want to insert all spaces by hand.</li>
-  <li>Recursion depth is not limited. You can hang your browser with infinite recursion.</li>
-</ul>
+<p>
+Second, it offers good syntax error reporting for that language. In most cases you get a helpful error message if you get it wrong. For example:
+</p>
+<pre>
+$ cat bad.bnf
+&lt;start&gt; ::= ;
 
+$ bnfgen ./bad.bnf 
+Could not load grammar from ./bad.bnf.
+Syntax error on line 1, character 13: The right-hand side of a rule is empty or starts with an empty alternative.
+Empty rules (&lt;foo&gt; ::= ;) and empty alternatives (&lt;foo&gt; ::= | "foo") are not allowed.
+Example of a valid rule: &lt;start&gt; ::= &lt;foo&gt; | &lt;bar&gt; ;
+</pre>
+<p>
+Finally, there are options to enable detailed debugging output that shows every reduction step and the program state
+so that you can easily find out what exactly is going on.
+</p>
 
+<h2>Demo</h2>
+<p>This is a pure client-side demo with a few sample grammars and an option to load your own from file.</p>
 <form action="">
   <div>
     <span>Sample grammars:</span>
-    <input type="button" value="English" onclick='download_grammar("english.bnf")' />
-    <input type="button" value="Balanced parentheses" onclick='download_grammar("parens.bnf")' />
-    <input type="button" value="Serial numbers" onclick='download_grammar("serial.bnf")' />
+    <input type="button" value="English" onclick='downloadGrammar("english.bnf")' />
+    <input type="button" value="Balanced parentheses" onclick='downloadGrammar("parens.bnf")' />
+    <input type="button" value="Serial numbers" onclick='downloadGrammar("serial.bnf")' />
+    <input type="file" value="Load from file" onchange='loadFromFile(this)' />
   </div>
-  <textarea id="grammar" style="width: 100%; min-height: 20em">
-# A trivial subset of English.
-# Generates one or more sentences.
-
-&lt;start&gt; ::= 10 &lt;sentence&gt; &lt;line_break&gt; &lt;start&gt; | &lt;sentence&gt; ;
-
-&lt;sentence&gt; ::= &lt;NP&gt; &lt;VP&gt; "." ;
-
-&lt;NP&gt; ::= &lt;capitalized_article&gt; " " &lt;subject&gt; " " ;
-
-&lt;VP&gt; ::= &lt;verb&gt; " " &lt;article&gt; " " &lt;object&gt;;
-
-&lt;article&gt; ::= "a" | "the";
-&lt;capitalized_article&gt; ::= "A" | "The" ;
-
-&lt;subject&gt; ::=
-    "customer" 
-  | "system administrator"
-  | "programmer"
-;
-
-&lt;object&gt; ::= "system" | "compiler" | "program";
-
-&lt;verb&gt; ::= "used" | "installed" | "developed" ;
-
-&lt;line_break&gt; ::= "\n"
-  </textarea>
+  <textarea id="grammar" style="width: 100%; min-height: 20em">  </textarea>
   <span>Start symbol: </span> <input id="start-symbol" type="text" value="start" />
   <span>Symbol separator: </span> <input id="separator" type="text" value="" />
   <input type="button" value="Generate" onclick="generate()" />
+  <br />
+  <span>Maximum reduction steps: </span> <input id="max-reductions" type="text" value="1000" />
+  <span>Maximum non-productive steps: </span> <input id="max-nonproductive-reductions" type="text" value="1000" />
+  <br />
+  <span>Debug: </span> <input id="debug" type="checkbox" />
+  <span>Dump symbol stack: </span> <input id="dump-stack" type="checkbox" />
 </form>
 <span>Output:</span>
-<div class="cfgen-output">
+<div class="bnfgen-output">
   <pre id="output"> </pre>
 </div>
+
+<h2>Installation</h2>
+
+<p>
+BNFGen is two packages and three different things. It's a CLI tool, an OCaml library, and a JS library
+(cross-compiled from OCaml using <a href="https://ocsigen.org/js_of_ocaml/">js_of_ocaml</a>).
+</p>
+<p>
+If you are only interested in the CLI tool, you may want to download <a href="https://github.com/dmbaturin/bnfgen/releases">precompiled binaries</a>
+for Linux (statically linked), Windows (64-bit), or macOS (x86-64).
+</p>
+<p>
+If you want the OCaml library along with the CLI tool, or just happen to have the OCaml toolchain installed,
+you may want to install from <a href="https://opam.ocaml.org/packages/bnfgen/">OPAM</a>: <code>opam install bnfgen</code>.
+</p>
+<p>
+Finally, if you want the JS version, you can get it from <a href="https://www.npmjs.com/package/bnfgen">NPM</a>: <code>npm install bnfgen</code>.
+</p>
+
+<h2>Grammar definition syntax</h2>
+
+<ul>
+  <li>Terminals are in single or double quotes (<code>"foo"</code>, <code>'foo'</code>)</li>
+  <li>Nonterminals are in angle brackets (<code>&lt;baz&gt;</code>, <code>&lt;xyzzy_quux&gt;</code>)</li>
+  <li>Rule example: <code>&lt;start&gt; ::= "foo" | &lt;bar&gt;</code></li>
+  <li>Rules are separated by semicolons: <code>&lt;start&gt; ::= "foo" | &lt;bar&gt;; &lt;bar&gt; ::= "bar"</code></li>
+  <li>Any rule may refer to any symbol, including itself: <code>&lt;start&gt; ::= "foo" &lt;start&gt; | "foo"</code></li>
+  <li>You can add comments in the shell style, any line starting with <code>#</code> is ignored by the parser.</li>
+</ul>
+
+<h3 id="weighted-random">Weighted random selection</h3>
+
+<p>
+Repetition is canonically expressed via recursion. For example, &ldquo;string "foo" repeated one or more times&rdquo; is written
+<code>&lt;start&gt; ::= "foo" &lt;start&gt; | "foo"</code>. The problem with this approach for driving language generators
+is that there's a 50% chance that the process will pick the non-recursive alternative right at the first step and terminate immediately.
+</p>
+<p>
+BNFGen fixes this problem by allowing weighted random rules. For example, in <code>&lt;start&gt; ::= 10 "foo" &lt;start&gt; | "foo"</code>,
+the first (recursive) alternative will be taken ten times more frequently, so that longer sequences are more likely.
+</p>
+<p>You can use that to express different &ldquo;word frequencies&rdquo; for terminals as well: <code>&lt;start&gt; ::= 20 "foo" | "bar"</code>.</p>
+
+<h3 id="repetition-ranges">Repetition ranges</h3>
+
+<p>
+Sometimes you may want to set an explicit limit. For example, if you are generating names for imaginary people,
+you may want to say &ldquo;a person may have no more than three middle names&rdquo;. This is expressible in the normal BNF,
+but can be very tedious to write.
+</p>
+<p>
+BNFGen gives you a shortcut that looks like the repetition syntax in regular expressions. You can write <code>&lt;FooFooFoo&gt; ::= "foo"{3}</code>
+(exactly three of <code>foo</code>) or <code>&lt;foos&gt; ::= "foo"{1,3}</code> (from one to three).
+The rule for names may look like this: <code>&lt;personName&gt; ::= &lt;firstName&gt; &lt;middleName&gt;{0,3} &lt;lastName&gt;</code>
+</p>
+
+<h2>CLI tool usage</h2>
+
+<pre>
+Usage: bnfgen [OPTIONS] &lt;BNF file&gt;
+  --dump-rules  Dump production rules and exit
+  --separator &lt;string&gt;  Token separator for generated output, default is space
+  --start &lt;string&gt;  Start symbol, default is "start"
+  --max-reductions &lt;int&gt;  Maximum reductions, default is infinite
+  --max-nonproductive-reductions &lt;int&gt;  Maximum number of reductions that don't produce a terminal, default is infinite
+  --debug  Enable debug output (symbols processed, alternatives taken...)
+  --dump-stack  Show symbol stack for every reduction (implies --debug)
+  --version   Print version and exit
+  -help   Display this list of options
+  --help  Display this list of options
+</pre>
+<p>
+Running <kbd>bnfgen --debug --dump-stack</kbd> will make it log every reduction step and show you the current symbol stack,
+so that you know what it's doing and can see where your grammar is looping or growing out of control.
+</p>
+
+<h2>OCaml library usage example</h2>
+<pre>
+<code class="language-ocaml">
+# let g = Bnfgen.grammar_from_string " &lt;greeting&gt; ::= \"hello\" | \"hi\" ; &lt;start&gt; ::= &lt;greeting&gt; \"world\"; " |&gt; Result.get_ok ;;
+val g : Bnfgen.Grammar.grammar =
+  [("greeting",
+    [{Bnfgen.Grammar.weight = 1; symbols = [Bnfgen.Grammar.Terminal "hi"]};
+     {Bnfgen.Grammar.weight = 1; symbols = [Bnfgen.Grammar.Terminal "hello"]}]);
+   ("start",
+    [{Bnfgen.Grammar.weight = 1;
+      symbols =
+       [Bnfgen.Grammar.Nonterminal "greeting"; Bnfgen.Grammar.Terminal "world"]}])]
+
+# Bnfgen.generate_string ~settings:({Bnfgen.default_settings with symbol_separator=" "}) g "start" ;;
+- : (string, string) result = Ok "hello world "
+
+# Bnfgen.generate ~settings:({Bnfgen.default_settings with symbol_separator=""}) print_endline g "start" ;;
+hello
+world
+- : (unit, string) result = Ok ()
+</code>
+</pre>
+
+<h2>JS library usage example</h2>
+<pre>
+<code class="language-js">
+&gt; var bnfgen = require('bnfgen');
+
+&gt; bnfgen.loadGrammar(' &lt;greeting&gt; ::= "hello" | "hi"; &lt;start&gt; ::= &lt;greeting&gt; "world"; ');
+
+&gt; bnfgen.symbolSeparator = " ";
+
+&gt; bnfgen.generate('start')
+'hello world '
+</code>
+</pre>
+
+<h2>Grammar syntax</h2>
 
 <h2 id="tutorial">Tutorial</h2>
 <p>

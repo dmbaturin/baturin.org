@@ -1,6 +1,5 @@
-# Serial numbers for an imaginary proprietary program.
-# Without ABNF support, simple things can be verbose...
-# I'll add some shortcuts some day.
+# Serial numbers for imaginary proprietary programs
+# that consist of 4-6 groups of five letters and digits.
 
 <letter> ::= 
   "A" | "B" | "C" | "D" | "E" | "F" | "G" |
@@ -13,8 +12,11 @@
 
 <symbol> ::= <letter> | <digit> ;
 
-<group> ::= <symbol> <symbol> <symbol> <symbol> <symbol> ;
+<group> ::= <symbol>{5} "-" ;
 
-<serialNumber> ::= <group> "-" <group> "-" <group> "-" <group> "-" <group> ;
+# Avoid group separator after the last group
+<finalGroup> ::= <symbol>{5} ;
+
+<serialNumber> ::= <group>{3,5} <finalGroup> ;
 
 <start> ::= <serialNumber>

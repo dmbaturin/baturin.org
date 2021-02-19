@@ -1,11 +1,2147 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){"use strict";var Curry=require("./curry.js");var Caml_obj=require("./caml_obj.js");var Caml_array=require("./caml_array.js");var Caml_exceptions=require("./caml_exceptions.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");var make_float=Caml_array.caml_make_float_vect;var Floatarray={};function init(l,f){if(l===0){return[]}else{if(l<0){throw[Caml_builtin_exceptions.invalid_argument,"Array.init"]}var res=Caml_array.caml_make_vect(l,Curry._1(f,0));for(var i=1,i_finish=l-1|0;i<=i_finish;++i){res[i]=Curry._1(f,i)}return res}}function make_matrix(sx,sy,init){var res=Caml_array.caml_make_vect(sx,[]);for(var x=0,x_finish=sx-1|0;x<=x_finish;++x){res[x]=Caml_array.caml_make_vect(sy,init)}return res}function copy(a){var l=a.length;if(l===0){return[]}else{return Caml_array.caml_array_sub(a,0,l)}}function append(a1,a2){var l1=a1.length;if(l1===0){return copy(a2)}else if(a2.length===0){return Caml_array.caml_array_sub(a1,0,l1)}else{return a1.concat(a2)}}function sub(a,ofs,len){if(ofs<0||len<0||ofs>(a.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Array.sub"]}return Caml_array.caml_array_sub(a,ofs,len)}function fill(a,ofs,len,v){if(ofs<0||len<0||ofs>(a.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Array.fill"]}for(var i=ofs,i_finish=(ofs+len|0)-1|0;i<=i_finish;++i){a[i]=v}return 0}function blit(a1,ofs1,a2,ofs2,len){if(len<0||ofs1<0||ofs1>(a1.length-len|0)||ofs2<0||ofs2>(a2.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Array.blit"]}return Caml_array.caml_array_blit(a1,ofs1,a2,ofs2,len)}function iter(f,a){for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){Curry._1(f,a[i])}return 0}function iter2(f,a,b){if(a.length!==b.length){throw[Caml_builtin_exceptions.invalid_argument,"Array.iter2: arrays must have the same length"]}for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){Curry._2(f,a[i],b[i])}return 0}function map(f,a){var l=a.length;if(l===0){return[]}else{var r=Caml_array.caml_make_vect(l,Curry._1(f,a[0]));for(var i=1,i_finish=l-1|0;i<=i_finish;++i){r[i]=Curry._1(f,a[i])}return r}}function map2(f,a,b){var la=a.length;var lb=b.length;if(la!==lb){throw[Caml_builtin_exceptions.invalid_argument,"Array.map2: arrays must have the same length"]}if(la===0){return[]}else{var r=Caml_array.caml_make_vect(la,Curry._2(f,a[0],b[0]));for(var i=1,i_finish=la-1|0;i<=i_finish;++i){r[i]=Curry._2(f,a[i],b[i])}return r}}function iteri(f,a){for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){Curry._2(f,i,a[i])}return 0}function mapi(f,a){var l=a.length;if(l===0){return[]}else{var r=Caml_array.caml_make_vect(l,Curry._2(f,0,a[0]));for(var i=1,i_finish=l-1|0;i<=i_finish;++i){r[i]=Curry._2(f,i,a[i])}return r}}function to_list(a){var _i=a.length-1|0;var _res=0;while(true){var res=_res;var i=_i;if(i<0){return res}else{_res=[a[i],res];_i=i-1|0;continue}}}function list_length(_accu,_param){while(true){var param=_param;var accu=_accu;if(param){_param=param[1];_accu=accu+1|0;continue}else{return accu}}}function of_list(l){if(l){var a=Caml_array.caml_make_vect(list_length(0,l),l[0]);var _i=1;var _param=l[1];while(true){var param=_param;var i=_i;if(param){a[i]=param[0];_param=param[1];_i=i+1|0;continue}else{return a}}}else{return[]}}function fold_left(f,x,a){var r=x;for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){r=Curry._2(f,r,a[i])}return r}function fold_right(f,a,x){var r=x;for(var i=a.length-1|0;i>=0;--i){r=Curry._2(f,a[i],r)}return r}function exists(p,a){var n=a.length;var _i=0;while(true){var i=_i;if(i===n){return false}else if(Curry._1(p,a[i])){return true}else{_i=i+1|0;continue}}}function for_all(p,a){var n=a.length;var _i=0;while(true){var i=_i;if(i===n){return true}else if(Curry._1(p,a[i])){_i=i+1|0;continue}else{return false}}}function mem(x,a){var n=a.length;var _i=0;while(true){var i=_i;if(i===n){return false}else if(Caml_obj.caml_equal(a[i],x)){return true}else{_i=i+1|0;continue}}}function memq(x,a){var n=a.length;var _i=0;while(true){var i=_i;if(i===n){return false}else if(x===a[i]){return true}else{_i=i+1|0;continue}}}var Bottom=Caml_exceptions.create("Array.Bottom");function sort(cmp,a){var maxson=function(l,i){var i31=((i+i|0)+i|0)+1|0;var x=i31;if((i31+2|0)<l){if(Curry._2(cmp,Caml_array.caml_array_get(a,i31),Caml_array.caml_array_get(a,i31+1|0))<0){x=i31+1|0}if(Curry._2(cmp,Caml_array.caml_array_get(a,x),Caml_array.caml_array_get(a,i31+2|0))<0){x=i31+2|0}return x}else if((i31+1|0)<l&&Curry._2(cmp,Caml_array.caml_array_get(a,i31),Caml_array.caml_array_get(a,i31+1|0))<0){return i31+1|0}else if(i31<l){return i31}else{throw[Bottom,i]}};var trickle=function(l,i,e){try{var l$1=l;var _i=i;var e$1=e;while(true){var i$1=_i;var j=maxson(l$1,i$1);if(Curry._2(cmp,Caml_array.caml_array_get(a,j),e$1)>0){Caml_array.caml_array_set(a,i$1,Caml_array.caml_array_get(a,j));_i=j;continue}else{return Caml_array.caml_array_set(a,i$1,e$1)}}}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Bottom){return Caml_array.caml_array_set(a,exn[1],e)}else{throw exn}}};var bubble=function(l,i){try{var l$1=l;var _i=i;while(true){var i$1=_i;var j=maxson(l$1,i$1);Caml_array.caml_array_set(a,i$1,Caml_array.caml_array_get(a,j));_i=j;continue}}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Bottom){return exn[1]}else{throw exn}}};var trickleup=function(_i,e){while(true){var i=_i;var father=(i-1|0)/3|0;if(i===father){throw[Caml_builtin_exceptions.assert_failure,["array.ml",238,4]]}if(Curry._2(cmp,Caml_array.caml_array_get(a,father),e)<0){Caml_array.caml_array_set(a,i,Caml_array.caml_array_get(a,father));if(father>0){_i=father;continue}else{return Caml_array.caml_array_set(a,0,e)}}else{return Caml_array.caml_array_set(a,i,e)}}};var l=a.length;for(var i=((l+1|0)/3|0)-1|0;i>=0;--i){trickle(l,i,Caml_array.caml_array_get(a,i))}for(var i$1=l-1|0;i$1>=2;--i$1){var e=Caml_array.caml_array_get(a,i$1);Caml_array.caml_array_set(a,i$1,Caml_array.caml_array_get(a,0));trickleup(bubble(i$1,0),e)}if(l>1){var e$1=Caml_array.caml_array_get(a,1);Caml_array.caml_array_set(a,1,Caml_array.caml_array_get(a,0));return Caml_array.caml_array_set(a,0,e$1)}else{return 0}}function stable_sort(cmp,a){var merge=function(src1ofs,src1len,src2,src2ofs,src2len,dst,dstofs){var src1r=src1ofs+src1len|0;var src2r=src2ofs+src2len|0;var _i1=src1ofs;var _s1=Caml_array.caml_array_get(a,src1ofs);var _i2=src2ofs;var _s2=Caml_array.caml_array_get(src2,src2ofs);var _d=dstofs;while(true){var d=_d;var s2=_s2;var i2=_i2;var s1=_s1;var i1=_i1;if(Curry._2(cmp,s1,s2)<=0){Caml_array.caml_array_set(dst,d,s1);var i1$1=i1+1|0;if(i1$1<src1r){_d=d+1|0;_s1=Caml_array.caml_array_get(a,i1$1);_i1=i1$1;continue}else{return blit(src2,i2,dst,d+1|0,src2r-i2|0)}}else{Caml_array.caml_array_set(dst,d,s2);var i2$1=i2+1|0;if(i2$1<src2r){_d=d+1|0;_s2=Caml_array.caml_array_get(src2,i2$1);_i2=i2$1;continue}else{return blit(a,i1,dst,d+1|0,src1r-i1|0)}}}};var isortto=function(srcofs,dst,dstofs,len){for(var i=0,i_finish=len-1|0;i<=i_finish;++i){var e=Caml_array.caml_array_get(a,srcofs+i|0);var j=(dstofs+i|0)-1|0;while(j>=dstofs&&Curry._2(cmp,Caml_array.caml_array_get(dst,j),e)>0){Caml_array.caml_array_set(dst,j+1|0,Caml_array.caml_array_get(dst,j));j=j-1|0}Caml_array.caml_array_set(dst,j+1|0,e)}return 0};var sortto=function(srcofs,dst,dstofs,len){if(len<=5){return isortto(srcofs,dst,dstofs,len)}else{var l1=len/2|0;var l2=len-l1|0;sortto(srcofs+l1|0,dst,dstofs+l1|0,l2);sortto(srcofs,a,srcofs+l2|0,l1);return merge(srcofs+l2|0,l1,dst,dstofs+l1|0,l2,dst,dstofs)}};var l=a.length;if(l<=5){return isortto(0,a,0,l)}else{var l1=l/2|0;var l2=l-l1|0;var t=Caml_array.caml_make_vect(l2,Caml_array.caml_array_get(a,0));sortto(l1,t,0,l2);sortto(0,a,l2,l1);return merge(l2,l1,t,0,l2,a,0)}}var create_matrix=make_matrix;var concat=Caml_array.caml_array_concat;var fast_sort=stable_sort;exports.make_float=make_float;exports.init=init;exports.make_matrix=make_matrix;exports.create_matrix=create_matrix;exports.append=append;exports.concat=concat;exports.sub=sub;exports.copy=copy;exports.fill=fill;exports.blit=blit;exports.to_list=to_list;exports.of_list=of_list;exports.iter=iter;exports.iteri=iteri;exports.map=map;exports.mapi=mapi;exports.fold_left=fold_left;exports.fold_right=fold_right;exports.iter2=iter2;exports.map2=map2;exports.for_all=for_all;exports.exists=exists;exports.mem=mem;exports.memq=memq;exports.sort=sort;exports.stable_sort=stable_sort;exports.fast_sort=fast_sort;exports.Floatarray=Floatarray},{"./caml_array.js":5,"./caml_builtin_exceptions.js":6,"./caml_exceptions.js":8,"./caml_js_exceptions.js":14,"./caml_obj.js":17,"./curry.js":27}],2:[function(require,module,exports){"use strict";function __(tag,block){block.tag=tag;return block}exports.__=__},{}],3:[function(require,module,exports){"use strict";var Bytes=require("./bytes.js");var Curry=require("./curry.js");var $$String=require("./string.js");var Caml_bytes=require("./caml_bytes.js");var Pervasives=require("./pervasives.js");var Caml_string=require("./caml_string.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function create(n){var n$1=n<1?1:n;var s=Caml_bytes.caml_create_bytes(n$1);return{buffer:s,position:0,length:n$1,initial_buffer:s}}function contents(b){return Bytes.sub_string(b.buffer,0,b.position)}function to_bytes(b){return Bytes.sub(b.buffer,0,b.position)}function sub(b,ofs,len){if(ofs<0||len<0||ofs>(b.position-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.sub"]}return Bytes.sub_string(b.buffer,ofs,len)}function blit(src,srcoff,dst,dstoff,len){if(len<0||srcoff<0||srcoff>(src.position-len|0)||dstoff<0||dstoff>(dst.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.blit"]}return Caml_bytes.caml_blit_bytes(src.buffer,srcoff,dst,dstoff,len)}function nth(b,ofs){if(ofs<0||ofs>=b.position){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.nth"]}return b.buffer[ofs]}function length(b){return b.position}function clear(b){b.position=0;return 0}function reset(b){b.position=0;b.buffer=b.initial_buffer;b.length=b.buffer.length;return 0}function resize(b,more){var len=b.length;var new_len=len;while((b.position+more|0)>new_len){new_len=new_len<<1}var new_buffer=Caml_bytes.caml_create_bytes(new_len);Bytes.blit(b.buffer,0,new_buffer,0,b.position);b.buffer=new_buffer;b.length=new_len;return 0}function add_char(b,c){var pos=b.position;if(pos>=b.length){resize(b,1)}b.buffer[pos]=c;b.position=pos+1|0;return 0}function add_utf_8_uchar(b,u){var u$1=u;if(u$1<0){throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",90,19]]}if(u$1<=127){return add_char(b,u$1)}else if(u$1<=2047){var pos=b.position;if((pos+2|0)>b.length){resize(b,2)}b.buffer[pos]=192|u$1>>>6;b.buffer[pos+1|0]=128|u$1&63;b.position=pos+2|0;return 0}else if(u$1<=65535){var pos$1=b.position;if((pos$1+3|0)>b.length){resize(b,3)}b.buffer[pos$1]=224|u$1>>>12;b.buffer[pos$1+1|0]=128|u$1>>>6&63;b.buffer[pos$1+2|0]=128|u$1&63;b.position=pos$1+3|0;return 0}else if(u$1<=1114111){var pos$2=b.position;if((pos$2+4|0)>b.length){resize(b,4)}b.buffer[pos$2]=240|u$1>>>18;b.buffer[pos$2+1|0]=128|u$1>>>12&63;b.buffer[pos$2+2|0]=128|u$1>>>6&63;b.buffer[pos$2+3|0]=128|u$1&63;b.position=pos$2+4|0;return 0}else{throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",123,8]]}}function add_utf_16be_uchar(b,u){var u$1=u;if(u$1<0){throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",126,19]]}if(u$1<=65535){var pos=b.position;if((pos+2|0)>b.length){resize(b,2)}b.buffer[pos]=u$1>>>8;b.buffer[pos+1|0]=u$1&255;b.position=pos+2|0;return 0}else if(u$1<=1114111){var u$prime=u$1-65536|0;var hi=55296|u$prime>>>10;var lo=56320|u$prime&1023;var pos$1=b.position;if((pos$1+4|0)>b.length){resize(b,4)}b.buffer[pos$1]=hi>>>8;b.buffer[pos$1+1|0]=hi&255;b.buffer[pos$1+2|0]=lo>>>8;b.buffer[pos$1+3|0]=lo&255;b.position=pos$1+4|0;return 0}else{throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",144,8]]}}function add_utf_16le_uchar(b,u){var u$1=u;if(u$1<0){throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",147,19]]}if(u$1<=65535){var pos=b.position;if((pos+2|0)>b.length){resize(b,2)}b.buffer[pos]=u$1&255;b.buffer[pos+1|0]=u$1>>>8;b.position=pos+2|0;return 0}else if(u$1<=1114111){var u$prime=u$1-65536|0;var hi=55296|u$prime>>>10;var lo=56320|u$prime&1023;var pos$1=b.position;if((pos$1+4|0)>b.length){resize(b,4)}b.buffer[pos$1]=hi&255;b.buffer[pos$1+1|0]=hi>>>8;b.buffer[pos$1+2|0]=lo&255;b.buffer[pos$1+3|0]=lo>>>8;b.position=pos$1+4|0;return 0}else{throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",165,8]]}}function add_substring(b,s,offset,len){if(offset<0||len<0||offset>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.add_substring/add_subbytes"]}var new_position=b.position+len|0;if(new_position>b.length){resize(b,len)}Bytes.blit_string(s,offset,b.buffer,b.position,len);b.position=new_position;return 0}function add_subbytes(b,s,offset,len){return add_substring(b,Caml_bytes.bytes_to_string(s),offset,len)}function add_string(b,s){var len=s.length;var new_position=b.position+len|0;if(new_position>b.length){resize(b,len)}Bytes.blit_string(s,0,b.buffer,b.position,len);b.position=new_position;return 0}function add_bytes(b,s){return add_string(b,Caml_bytes.bytes_to_string(s))}function add_buffer(b,bs){return add_subbytes(b,bs.buffer,0,bs.position)}function add_channel(b,ic,len){if(len<0){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.add_channel"]}if((b.position+len|0)>b.length){resize(b,len)}var b$1=b;var ic$1=ic;var _len=len;while(true){var len$1=_len;if(len$1>0){var n=Pervasives.input(ic$1,b$1.buffer,b$1.position,len$1);b$1.position=b$1.position+n|0;if(n===0){throw Caml_builtin_exceptions.end_of_file}_len=len$1-n|0;continue}else{return 0}}}function output_buffer(oc,b){return Pervasives.output(oc,b.buffer,0,b.position)}function closing(param){if(param!==40){if(param!==123){throw[Caml_builtin_exceptions.assert_failure,["buffer.ml",216,9]]}else{return 125}}else{return 41}}function advance_to_closing(opening,closing,k,s,start){var _k=k;var _i=start;var lim=s.length;while(true){var i=_i;var k$1=_k;if(i>=lim){throw Caml_builtin_exceptions.not_found}if(Caml_string.get(s,i)===opening){_i=i+1|0;_k=k$1+1|0;continue}else if(Caml_string.get(s,i)===closing){if(k$1===0){return i}else{_i=i+1|0;_k=k$1-1|0;continue}}else{_i=i+1|0;continue}}}function advance_to_non_alpha(s,start){var _i=start;var lim=s.length;while(true){var i=_i;if(i>=lim){return lim}else{var match=Caml_string.get(s,i);if(match>=91){if(match>=97){if(match>=123){return i}}else if(match!==95){return i}}else if(match>=58){if(match<65){return i}}else if(match<48){return i}_i=i+1|0;continue}}}function find_ident(s,start,lim){if(start>=lim){throw Caml_builtin_exceptions.not_found}var c=Caml_string.get(s,start);if(c!==40&&c!==123){var stop=advance_to_non_alpha(s,start+1|0);return[$$String.sub(s,start,stop-start|0),stop]}var new_start=start+1|0;var stop$1=advance_to_closing(c,closing(c),0,s,new_start);return[$$String.sub(s,new_start,(stop$1-start|0)-1|0),stop$1+1|0]}function add_substitute(b,f,s){var lim=s.length;var _previous=32;var _i=0;while(true){var i=_i;var previous=_previous;if(i<lim){var current=Caml_string.get(s,i);if(current!==36){if(previous===92){add_char(b,92);add_char(b,current);_i=i+1|0;_previous=32;continue}else if(current!==92){add_char(b,current);_i=i+1|0;_previous=current;continue}else{_i=i+1|0;_previous=current;continue}}else if(previous===92){add_char(b,current);_i=i+1|0;_previous=32;continue}else{var j=i+1|0;var match=find_ident(s,j,lim);add_string(b,Curry._1(f,match[0]));_i=match[1];_previous=32;continue}}else if(previous===92){return add_char(b,previous)}else{return 0}}}function truncate(b,len){if(len<0||len>b.position){throw[Caml_builtin_exceptions.invalid_argument,"Buffer.truncate"]}b.position=len;return 0}exports.create=create;exports.contents=contents;exports.to_bytes=to_bytes;exports.sub=sub;exports.blit=blit;exports.nth=nth;exports.length=length;exports.clear=clear;exports.reset=reset;exports.add_char=add_char;exports.add_utf_8_uchar=add_utf_8_uchar;exports.add_utf_16le_uchar=add_utf_16le_uchar;exports.add_utf_16be_uchar=add_utf_16be_uchar;exports.add_string=add_string;exports.add_bytes=add_bytes;exports.add_substring=add_substring;exports.add_subbytes=add_subbytes;exports.add_substitute=add_substitute;exports.add_buffer=add_buffer;exports.add_channel=add_channel;exports.output_buffer=output_buffer;exports.truncate=truncate},{"./bytes.js":4,"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_string.js":20,"./curry.js":27,"./pervasives.js":36,"./string.js":39}],4:[function(require,module,exports){"use strict";var Char=require("./char.js");var Curry=require("./curry.js");var Caml_bytes=require("./caml_bytes.js");var Caml_primitive=require("./caml_primitive.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function make(n,c){var s=Caml_bytes.caml_create_bytes(n);Caml_bytes.caml_fill_bytes(s,0,n,c);return s}function init(n,f){var s=Caml_bytes.caml_create_bytes(n);for(var i=0,i_finish=n-1|0;i<=i_finish;++i){s[i]=Curry._1(f,i)}return s}var empty=[];function copy(s){var len=s.length;var r=Caml_bytes.caml_create_bytes(len);Caml_bytes.caml_blit_bytes(s,0,r,0,len);return r}function to_string(b){return Caml_bytes.bytes_to_string(copy(b))}function of_string(s){return copy(Caml_bytes.bytes_of_string(s))}function sub(s,ofs,len){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"String.sub / Bytes.sub"]}var r=Caml_bytes.caml_create_bytes(len);Caml_bytes.caml_blit_bytes(s,ofs,r,0,len);return r}function sub_string(b,ofs,len){return Caml_bytes.bytes_to_string(sub(b,ofs,len))}function $plus$plus(a,b){var c=a+b|0;var match=a<0;var match$1=b<0;var match$2=c<0;if(match){if(match$1&&!match$2){throw[Caml_builtin_exceptions.invalid_argument,"Bytes.extend"]}else{return c}}else if(match$1){return c}else{if(match$2){throw[Caml_builtin_exceptions.invalid_argument,"Bytes.extend"]}return c}}function extend(s,left,right){var len=$plus$plus($plus$plus(s.length,left),right);var r=Caml_bytes.caml_create_bytes(len);var match=left<0?[-left|0,0]:[0,left];var dstoff=match[1];var srcoff=match[0];var cpylen=Caml_primitive.caml_int_min(s.length-srcoff|0,len-dstoff|0);if(cpylen>0){Caml_bytes.caml_blit_bytes(s,srcoff,r,dstoff,cpylen)}return r}function fill(s,ofs,len,c){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"String.fill / Bytes.fill"]}return Caml_bytes.caml_fill_bytes(s,ofs,len,c)}function blit(s1,ofs1,s2,ofs2,len){if(len<0||ofs1<0||ofs1>(s1.length-len|0)||ofs2<0||ofs2>(s2.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Bytes.blit"]}return Caml_bytes.caml_blit_bytes(s1,ofs1,s2,ofs2,len)}function blit_string(s1,ofs1,s2,ofs2,len){if(len<0||ofs1<0||ofs1>(s1.length-len|0)||ofs2<0||ofs2>(s2.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"String.blit / Bytes.blit_string"]}return Caml_bytes.caml_blit_string(s1,ofs1,s2,ofs2,len)}function iter(f,a){for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){Curry._1(f,a[i])}return 0}function iteri(f,a){for(var i=0,i_finish=a.length-1|0;i<=i_finish;++i){Curry._2(f,i,a[i])}return 0}function ensure_ge(x,y){if(x>=y){return x}else{throw[Caml_builtin_exceptions.invalid_argument,"Bytes.concat"]}}function sum_lengths(_acc,seplen,_param){while(true){var param=_param;var acc=_acc;if(param){var tl=param[1];var hd=param[0];if(tl){_param=tl;_acc=ensure_ge((hd.length+seplen|0)+acc|0,acc);continue}else{return hd.length+acc|0}}else{return acc}}}function concat(sep,l){if(l){var seplen=sep.length;var dst=Caml_bytes.caml_create_bytes(sum_lengths(0,seplen,l));var _pos=0;var sep$1=sep;var seplen$1=seplen;var _param=l;while(true){var param=_param;var pos=_pos;if(param){var tl=param[1];var hd=param[0];if(tl){Caml_bytes.caml_blit_bytes(hd,0,dst,pos,hd.length);Caml_bytes.caml_blit_bytes(sep$1,0,dst,pos+hd.length|0,seplen$1);_param=tl;_pos=(pos+hd.length|0)+seplen$1|0;continue}else{Caml_bytes.caml_blit_bytes(hd,0,dst,pos,hd.length);return dst}}else{return dst}}}else{return empty}}function cat(s1,s2){var l1=s1.length;var l2=s2.length;var r=Caml_bytes.caml_create_bytes(l1+l2|0);Caml_bytes.caml_blit_bytes(s1,0,r,0,l1);Caml_bytes.caml_blit_bytes(s2,0,r,l1,l2);return r}function is_space(param){var switcher=param-9|0;if(switcher>4||switcher<0){return switcher===23}else{return switcher!==2}}function trim(s){var len=s.length;var i=0;while(i<len&&is_space(s[i])){i=i+1|0}var j=len-1|0;while(j>=i&&is_space(s[j])){j=j-1|0}if(j>=i){return sub(s,i,(j-i|0)+1|0)}else{return empty}}function escaped(s){var n=0;for(var i=0,i_finish=s.length-1|0;i<=i_finish;++i){var match=s[i];var tmp;if(match>=32){var switcher=match-34|0;tmp=switcher>58||switcher<0?switcher>=93?4:1:switcher>57||switcher<1?2:1}else{tmp=match>=11?match!==13?4:2:match>=8?2:4}n=n+tmp|0}if(n===s.length){return copy(s)}else{var s$prime=Caml_bytes.caml_create_bytes(n);n=0;for(var i$1=0,i_finish$1=s.length-1|0;i$1<=i_finish$1;++i$1){var c=s[i$1];var exit=0;if(c>=35){if(c!==92){if(c>=127){exit=1}else{s$prime[n]=c}}else{exit=2}}else if(c>=32){if(c>=34){exit=2}else{s$prime[n]=c}}else if(c>=14){exit=1}else{switch(c){case 8:s$prime[n]=92;n=n+1|0;s$prime[n]=98;break;case 9:s$prime[n]=92;n=n+1|0;s$prime[n]=116;break;case 10:s$prime[n]=92;n=n+1|0;s$prime[n]=110;break;case 0:case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 11:case 12:exit=1;break;case 13:s$prime[n]=92;n=n+1|0;s$prime[n]=114;break}}switch(exit){case 1:s$prime[n]=92;n=n+1|0;s$prime[n]=48+(c/100|0)|0;n=n+1|0;s$prime[n]=48+(c/10|0)%10|0;n=n+1|0;s$prime[n]=48+c%10|0;break;case 2:s$prime[n]=92;n=n+1|0;s$prime[n]=c;break}n=n+1|0}return s$prime}}function map(f,s){var l=s.length;if(l===0){return s}else{var r=Caml_bytes.caml_create_bytes(l);for(var i=0,i_finish=l-1|0;i<=i_finish;++i){r[i]=Curry._1(f,s[i])}return r}}function mapi(f,s){var l=s.length;if(l===0){return s}else{var r=Caml_bytes.caml_create_bytes(l);for(var i=0,i_finish=l-1|0;i<=i_finish;++i){r[i]=Curry._2(f,i,s[i])}return r}}function uppercase_ascii(s){return map(Char.uppercase_ascii,s)}function lowercase_ascii(s){return map(Char.lowercase_ascii,s)}function apply1(f,s){if(s.length===0){return s}else{var r=copy(s);r[0]=Curry._1(f,s[0]);return r}}function capitalize_ascii(s){return apply1(Char.uppercase_ascii,s)}function uncapitalize_ascii(s){return apply1(Char.lowercase_ascii,s)}function index_rec(s,lim,_i,c){while(true){var i=_i;if(i>=lim){throw Caml_builtin_exceptions.not_found}if(s[i]===c){return i}else{_i=i+1|0;continue}}}function index(s,c){return index_rec(s,s.length,0,c)}function index_rec_opt(s,lim,_i,c){while(true){var i=_i;if(i>=lim){return}else if(s[i]===c){return i}else{_i=i+1|0;continue}}}function index_opt(s,c){return index_rec_opt(s,s.length,0,c)}function index_from(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.index_from / Bytes.index_from"]}return index_rec(s,l,i,c)}function index_from_opt(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.index_from_opt / Bytes.index_from_opt"]}return index_rec_opt(s,l,i,c)}function rindex_rec(s,_i,c){while(true){var i=_i;if(i<0){throw Caml_builtin_exceptions.not_found}if(s[i]===c){return i}else{_i=i-1|0;continue}}}function rindex(s,c){return rindex_rec(s,s.length-1|0,c)}function rindex_from(s,i,c){if(i<-1||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rindex_from / Bytes.rindex_from"]}return rindex_rec(s,i,c)}function rindex_rec_opt(s,_i,c){while(true){var i=_i;if(i<0){return}else if(s[i]===c){return i}else{_i=i-1|0;continue}}}function rindex_opt(s,c){return rindex_rec_opt(s,s.length-1|0,c)}function rindex_from_opt(s,i,c){if(i<-1||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rindex_from_opt / Bytes.rindex_from_opt"]}return rindex_rec_opt(s,i,c)}function contains_from(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.contains_from / Bytes.contains_from"]}try{index_rec(s,l,i,c);return true}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return false}else{throw exn}}}function contains(s,c){return contains_from(s,0,c)}function rcontains_from(s,i,c){if(i<0||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rcontains_from / Bytes.rcontains_from"]}try{rindex_rec(s,i,c);return true}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return false}else{throw exn}}}var compare=Caml_primitive.caml_bytes_compare;function uppercase(s){return map(Char.uppercase,s)}function lowercase(s){return map(Char.lowercase,s)}function capitalize(s){return apply1(Char.uppercase,s)}function uncapitalize(s){return apply1(Char.lowercase,s)}var equal=Caml_primitive.caml_bytes_equal;var unsafe_to_string=Caml_bytes.bytes_to_string;var unsafe_of_string=Caml_bytes.bytes_of_string;exports.make=make;exports.init=init;exports.empty=empty;exports.copy=copy;exports.of_string=of_string;exports.to_string=to_string;exports.sub=sub;exports.sub_string=sub_string;exports.extend=extend;exports.fill=fill;exports.blit=blit;exports.blit_string=blit_string;exports.concat=concat;exports.cat=cat;exports.iter=iter;exports.iteri=iteri;exports.map=map;exports.mapi=mapi;exports.trim=trim;exports.escaped=escaped;exports.index=index;exports.index_opt=index_opt;exports.rindex=rindex;exports.rindex_opt=rindex_opt;exports.index_from=index_from;exports.index_from_opt=index_from_opt;exports.rindex_from=rindex_from;exports.rindex_from_opt=rindex_from_opt;exports.contains=contains;exports.contains_from=contains_from;exports.rcontains_from=rcontains_from;exports.uppercase=uppercase;exports.lowercase=lowercase;exports.capitalize=capitalize;exports.uncapitalize=uncapitalize;exports.uppercase_ascii=uppercase_ascii;exports.lowercase_ascii=lowercase_ascii;exports.capitalize_ascii=capitalize_ascii;exports.uncapitalize_ascii=uncapitalize_ascii;exports.compare=compare;exports.equal=equal;exports.unsafe_to_string=unsafe_to_string;exports.unsafe_of_string=unsafe_of_string},{"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_primitive.js":19,"./char.js":26,"./curry.js":27}],5:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function caml_array_sub(x,offset,len){var result=new Array(len);var j=0;var i=offset;while(j<len){result[j]=x[i];j=j+1|0;i=i+1|0}return result}function len(_acc,_l){while(true){var l=_l;var acc=_acc;if(l){_l=l[1];_acc=l[0].length+acc|0;continue}else{return acc}}}function fill(arr,_i,_l){while(true){var l=_l;var i=_i;if(l){var x=l[0];var l$1=x.length;var k=i;var j=0;while(j<l$1){arr[k]=x[j];k=k+1|0;j=j+1|0}_l=l[1];_i=k;continue}else{return 0}}}function caml_array_concat(l){var v=len(0,l);var result=new Array(v);fill(result,0,l);return result}function caml_array_set(xs,index,newval){if(index<0||index>=xs.length){throw[Caml_builtin_exceptions.invalid_argument,"index out of bounds"]}xs[index]=newval;return 0}function caml_array_get(xs,index){if(index<0||index>=xs.length){throw[Caml_builtin_exceptions.invalid_argument,"index out of bounds"]}return xs[index]}function caml_make_vect(len,init){var b=new Array(len);for(var i=0,i_finish=len-1|0;i<=i_finish;++i){b[i]=init}return b}function caml_make_float_vect(len){var b=new Array(len);for(var i=0,i_finish=len-1|0;i<=i_finish;++i){b[i]=0}return b}function caml_array_blit(a1,i1,a2,i2,len){if(i2<=i1){for(var j=0,j_finish=len-1|0;j<=j_finish;++j){a2[j+i2|0]=a1[j+i1|0]}return 0}else{for(var j$1=len-1|0;j$1>=0;--j$1){a2[j$1+i2|0]=a1[j$1+i1|0]}return 0}}function caml_array_dup(prim){return prim.slice(0)}exports.caml_array_dup=caml_array_dup;exports.caml_array_sub=caml_array_sub;exports.caml_array_concat=caml_array_concat;exports.caml_make_vect=caml_make_vect;exports.caml_make_float_vect=caml_make_float_vect;exports.caml_array_blit=caml_array_blit;exports.caml_array_get=caml_array_get;exports.caml_array_set=caml_array_set},{"./caml_builtin_exceptions.js":6}],6:[function(require,module,exports){"use strict";var out_of_memory=["Out_of_memory",0];var sys_error=["Sys_error",-1];var failure=["Failure",-2];var invalid_argument=["Invalid_argument",-3];var end_of_file=["End_of_file",-4];var division_by_zero=["Division_by_zero",-5];var not_found=["Not_found",-6];var match_failure=["Match_failure",-7];var stack_overflow=["Stack_overflow",-8];var sys_blocked_io=["Sys_blocked_io",-9];var assert_failure=["Assert_failure",-10];var undefined_recursive_module=["Undefined_recursive_module",-11];out_of_memory.tag=248;sys_error.tag=248;failure.tag=248;invalid_argument.tag=248;end_of_file.tag=248;division_by_zero.tag=248;not_found.tag=248;match_failure.tag=248;stack_overflow.tag=248;sys_blocked_io.tag=248;assert_failure.tag=248;undefined_recursive_module.tag=248;exports.out_of_memory=out_of_memory;exports.sys_error=sys_error;exports.failure=failure;exports.invalid_argument=invalid_argument;exports.end_of_file=end_of_file;exports.division_by_zero=division_by_zero;exports.not_found=not_found;exports.match_failure=match_failure;exports.stack_overflow=stack_overflow;exports.sys_blocked_io=sys_blocked_io;exports.assert_failure=assert_failure;exports.undefined_recursive_module=undefined_recursive_module},{}],7:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function get(s,i){if(i<0||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"index out of bounds"]}return s[i]}function caml_fill_bytes(s,i,l,c){if(l>0){for(var k=i,k_finish=(l+i|0)-1|0;k<=k_finish;++k){s[k]=c}return 0}else{return 0}}function caml_create_bytes(len){if(len<0){throw[Caml_builtin_exceptions.invalid_argument,"String.create"]}var result=new Array(len);for(var i=0,i_finish=len-1|0;i<=i_finish;++i){result[i]=0}return result}function caml_blit_bytes(s1,i1,s2,i2,len){if(len>0){if(s1===s2){var s1$1=s1;var i1$1=i1;var i2$1=i2;var len$1=len;if(i1$1<i2$1){var range_a=(s1$1.length-i2$1|0)-1|0;var range_b=len$1-1|0;var range=range_a>range_b?range_b:range_a;for(var j=range;j>=0;--j){s1$1[i2$1+j|0]=s1$1[i1$1+j|0]}return 0}else if(i1$1>i2$1){var range_a$1=(s1$1.length-i1$1|0)-1|0;var range_b$1=len$1-1|0;var range$1=range_a$1>range_b$1?range_b$1:range_a$1;for(var k=0;k<=range$1;++k){s1$1[i2$1+k|0]=s1$1[i1$1+k|0]}return 0}else{return 0}}else{var off1=s1.length-i1|0;if(len<=off1){for(var i=0,i_finish=len-1|0;i<=i_finish;++i){s2[i2+i|0]=s1[i1+i|0]}return 0}else{for(var i$1=0,i_finish$1=off1-1|0;i$1<=i_finish$1;++i$1){s2[i2+i$1|0]=s1[i1+i$1|0]}for(var i$2=off1,i_finish$2=len-1|0;i$2<=i_finish$2;++i$2){s2[i2+i$2|0]=0}return 0}}}else{return 0}}function bytes_to_string(a){var bytes=a;var i=0;var len=a.length;var s="";var s_len=len;if(i===0&&len<=4096&&len===bytes.length){return String.fromCharCode.apply(null,bytes)}else{var offset=0;while(s_len>0){var next=s_len<1024?s_len:1024;var tmp_bytes=new Array(next);caml_blit_bytes(bytes,offset,tmp_bytes,0,next);s=s+String.fromCharCode.apply(null,tmp_bytes);s_len=s_len-next|0;offset=offset+next|0}return s}}function caml_blit_string(s1,i1,s2,i2,len){if(len>0){var off1=s1.length-i1|0;if(len<=off1){for(var i=0,i_finish=len-1|0;i<=i_finish;++i){s2[i2+i|0]=s1.charCodeAt(i1+i|0)}return 0}else{for(var i$1=0,i_finish$1=off1-1|0;i$1<=i_finish$1;++i$1){s2[i2+i$1|0]=s1.charCodeAt(i1+i$1|0)}for(var i$2=off1,i_finish$2=len-1|0;i$2<=i_finish$2;++i$2){s2[i2+i$2|0]=0}return 0}}else{return 0}}function bytes_of_string(s){var len=s.length;var res=new Array(len);for(var i=0,i_finish=len-1|0;i<=i_finish;++i){
-res[i]=s.charCodeAt(i)}return res}exports.caml_create_bytes=caml_create_bytes;exports.caml_fill_bytes=caml_fill_bytes;exports.get=get;exports.bytes_to_string=bytes_to_string;exports.caml_blit_bytes=caml_blit_bytes;exports.caml_blit_string=caml_blit_string;exports.bytes_of_string=bytes_of_string},{"./caml_builtin_exceptions.js":6}],8:[function(require,module,exports){"use strict";var id={contents:0};function caml_set_oo_id(b){b[1]=id.contents;id.contents=id.contents+1;return b}function caml_fresh_oo_id(param){id.contents=id.contents+1;return id.contents}function create(str){var v_001=caml_fresh_oo_id(0);var v=[str,v_001];v.tag=248;return v}function caml_is_extension(e){if(e===undefined){return false}else if(e.tag===248){return true}else{var slot=e[0];if(slot!==undefined){return slot.tag===248}else{return false}}}exports.caml_set_oo_id=caml_set_oo_id;exports.caml_fresh_oo_id=caml_fresh_oo_id;exports.create=create;exports.caml_is_extension=caml_is_extension},{}],9:[function(require,module,exports){(function(global){"use strict";function getGlobalThis(){if(typeof globalThis!=="undefined")return globalThis;if(typeof self!=="undefined")return self;if(typeof window!=="undefined")return window;if(typeof global!=="undefined")return global;if(typeof this!=="undefined")return this;throw new Error("Unable to locate global `this`")}function resolve(s){var myGlobal=getGlobalThis();if(myGlobal[s]===undefined){throw new Error(s+" not polyfilled by BuckleScript yet\n")}return myGlobal[s]}function register(s,fn){var myGlobal=getGlobalThis();myGlobal[s]=fn;return 0}exports.getGlobalThis=getGlobalThis;exports.resolve=resolve;exports.register=register}).call(this,typeof global!=="undefined"?global:typeof self!=="undefined"?self:typeof window!=="undefined"?window:{})},{}],10:[function(require,module,exports){"use strict";var Caml_int32=require("./caml_int32.js");var Caml_int64=require("./caml_int64.js");var Caml_utils=require("./caml_utils.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function parse_digit(c){if(c>=65){if(c>=97){if(c>=123){return-1}else{return c-87|0}}else if(c>=91){return-1}else{return c-55|0}}else if(c>57||c<48){return-1}else{return c-48|0}}function int_of_string_base(param){switch(param){case 0:return 8;case 1:return 16;case 2:return 10;case 3:return 2}}function parse_sign_and_base(s){var sign=1;var base=2;var i=0;var match=s.charCodeAt(i);switch(match){case 43:i=i+1|0;break;case 44:break;case 45:sign=-1;i=i+1|0;break;default:}if(s[i]==="0"){var match$1=s.charCodeAt(i+1|0);if(match$1>=89){if(match$1>=111){if(match$1<121){switch(match$1-111|0){case 0:base=0;i=i+2|0;break;case 6:i=i+2|0;break;case 1:case 2:case 3:case 4:case 5:case 7:case 8:break;case 9:base=1;i=i+2|0;break}}}else if(match$1===98){base=3;i=i+2|0}}else if(match$1!==66){if(match$1>=79){switch(match$1-79|0){case 0:base=0;i=i+2|0;break;case 6:i=i+2|0;break;case 1:case 2:case 3:case 4:case 5:case 7:case 8:break;case 9:base=1;i=i+2|0;break}}}else{base=3;i=i+2|0}}return[i,sign,base]}function caml_int_of_string(s){var match=parse_sign_and_base(s);var i=match[0];var base=int_of_string_base(match[2]);var threshold=4294967295;var len=s.length;var c=i<len?s.charCodeAt(i):0;var d=parse_digit(c);if(d<0||d>=base){throw[Caml_builtin_exceptions.failure,"int_of_string"]}var aux=function(_acc,_k){while(true){var k=_k;var acc=_acc;if(k===len){return acc}else{var a=s.charCodeAt(k);if(a===95){_k=k+1|0;continue}else{var v=parse_digit(a);if(v<0||v>=base){throw[Caml_builtin_exceptions.failure,"int_of_string"]}var acc$1=base*acc+v;if(acc$1>threshold){throw[Caml_builtin_exceptions.failure,"int_of_string"]}_k=k+1|0;_acc=acc$1;continue}}}};var res=match[1]*aux(d,i+1|0);var or_res=res|0;if(base===10&&res!==or_res){throw[Caml_builtin_exceptions.failure,"int_of_string"]}return or_res}function caml_int64_of_string(s){var match=parse_sign_and_base(s);var hbase=match[2];var i=match[0];var base=Caml_int64.of_int32(int_of_string_base(hbase));var sign=Caml_int64.of_int32(match[1]);var threshold;switch(hbase){case 0:threshold={hi:536870911,lo:4294967295};break;case 1:threshold={hi:268435455,lo:4294967295};break;case 2:threshold={hi:429496729,lo:2576980377};break;case 3:threshold={hi:2147483647,lo:4294967295};break}var len=s.length;var c=i<len?s.charCodeAt(i):0;var d=Caml_int64.of_int32(parse_digit(c));if(Caml_int64.lt(d,{hi:0,lo:0})||Caml_int64.ge(d,base)){throw[Caml_builtin_exceptions.failure,"int64_of_string"]}var aux=function(_acc,_k){while(true){var k=_k;var acc=_acc;if(k===len){return acc}else{var a=s.charCodeAt(k);if(a===95){_k=k+1|0;continue}else{var v=Caml_int64.of_int32(parse_digit(a));if(Caml_int64.lt(v,{hi:0,lo:0})||Caml_int64.ge(v,base)||Caml_int64.gt(acc,threshold)){throw[Caml_builtin_exceptions.failure,"int64_of_string"]}var acc$1=Caml_int64.add(Caml_int64.mul(base,acc),v);_k=k+1|0;_acc=acc$1;continue}}}};var res=Caml_int64.mul(sign,aux(d,i+1|0));var or_res=Caml_int64.or_(res,{hi:0,lo:0});if(Caml_int64.eq(base,{hi:0,lo:10})&&Caml_int64.neq(res,or_res)){throw[Caml_builtin_exceptions.failure,"int64_of_string"]}return or_res}function int_of_base(param){switch(param){case 0:return 8;case 1:return 16;case 2:return 10}}function lowercase(c){if(c>=65&&c<=90||c>=192&&c<=214||c>=216&&c<=222){return c+32|0}else{return c}}function parse_format(fmt){var len=fmt.length;if(len>31){throw[Caml_builtin_exceptions.invalid_argument,"format_int: format too long"]}var f={justify:"+",signstyle:"-",filter:" ",alternate:false,base:2,signedconv:false,width:0,uppercase:false,sign:1,prec:-1,conv:"f"};var _i=0;while(true){var i=_i;if(i>=len){return f}else{var c=fmt.charCodeAt(i);var exit=0;if(c>=69){if(c>=88){if(c>=121){exit=1}else{switch(c-88|0){case 0:f.base=1;f.uppercase=true;_i=i+1|0;continue;case 13:case 14:case 15:exit=5;break;case 12:case 17:exit=4;break;case 23:f.base=0;_i=i+1|0;continue;case 29:f.base=2;_i=i+1|0;continue;case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11:case 16:case 18:case 19:case 20:case 21:case 22:case 24:case 25:case 26:case 27:case 28:case 30:case 31:exit=1;break;case 32:f.base=1;_i=i+1|0;continue}}}else if(c>=72){exit=1}else{f.signedconv=true;f.uppercase=true;f.conv=String.fromCharCode(lowercase(c));_i=i+1|0;continue}}else{switch(c){case 35:f.alternate=true;_i=i+1|0;continue;case 32:case 43:exit=2;break;case 45:f.justify="-";_i=i+1|0;continue;case 46:f.prec=0;var j=i+1|0;while(function(j){return function(){var w=fmt.charCodeAt(j)-48|0;return w>=0&&w<=9}}(j)()){f.prec=(Caml_int32.imul(f.prec,10)+fmt.charCodeAt(j)|0)-48|0;j=j+1|0};_i=j;continue;case 33:case 34:case 36:case 37:case 38:case 39:case 40:case 41:case 42:case 44:case 47:exit=1;break;case 48:f.filter="0";_i=i+1|0;continue;case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:exit=3;break;default:exit=1}}switch(exit){case 1:_i=i+1|0;continue;case 2:f.signstyle=String.fromCharCode(c);_i=i+1|0;continue;case 3:f.width=0;var j$1=i;while(function(j$1){return function(){var w=fmt.charCodeAt(j$1)-48|0;return w>=0&&w<=9}}(j$1)()){f.width=(Caml_int32.imul(f.width,10)+fmt.charCodeAt(j$1)|0)-48|0;j$1=j$1+1|0};_i=j$1;continue;case 4:f.signedconv=true;f.base=2;_i=i+1|0;continue;case 5:f.signedconv=true;f.conv=String.fromCharCode(c);_i=i+1|0;continue}}}}function finish_formatting(config,rawbuffer){var justify=config.justify;var signstyle=config.signstyle;var filter=config.filter;var alternate=config.alternate;var base=config.base;var signedconv=config.signedconv;var width=config.width;var uppercase=config.uppercase;var sign=config.sign;var len=rawbuffer.length;if(signedconv&&(sign<0||signstyle!=="-")){len=len+1|0}if(alternate){if(base===0){len=len+1|0}else if(base===1){len=len+2|0}}var buffer="";if(justify==="+"&&filter===" "){for(var i=len,i_finish=width-1|0;i<=i_finish;++i){buffer=buffer+filter}}if(signedconv){if(sign<0){buffer=buffer+"-"}else if(signstyle!=="-"){buffer=buffer+signstyle}}if(alternate&&base===0){buffer=buffer+"0"}if(alternate&&base===1){buffer=buffer+"0x"}if(justify==="+"&&filter==="0"){for(var i$1=len,i_finish$1=width-1|0;i$1<=i_finish$1;++i$1){buffer=buffer+filter}}buffer=uppercase?buffer+rawbuffer.toUpperCase():buffer+rawbuffer;if(justify==="-"){for(var i$2=len,i_finish$2=width-1|0;i$2<=i_finish$2;++i$2){buffer=buffer+" "}}return buffer}function caml_format_int(fmt,i){if(fmt==="%d"){return String(i)}else{var f=parse_format(fmt);var f$1=f;var i$1=i;var i$2=i$1<0?f$1.signedconv?(f$1.sign=-1,-i$1):i$1>>>0:i$1;var s=i$2.toString(int_of_base(f$1.base));if(f$1.prec>=0){f$1.filter=" ";var n=f$1.prec-s.length|0;if(n>0){s=Caml_utils.repeat(n,"0")+s}}return finish_formatting(f$1,s)}}function caml_int64_format(fmt,x){var f=parse_format(fmt);var x$1=f.signedconv&&Caml_int64.lt(x,{hi:0,lo:0})?(f.sign=-1,Caml_int64.neg(x)):x;var s="";var match=f.base;switch(match){case 0:var wbase={hi:0,lo:8};var cvtbl="01234567";if(Caml_int64.lt(x$1,{hi:0,lo:0})){var y=Caml_int64.discard_sign(x$1);var match$1=Caml_int64.div_mod(y,wbase);var quotient=Caml_int64.add({hi:268435456,lo:0},match$1[0]);var modulus=match$1[1];s=String.fromCharCode(cvtbl.charCodeAt(Caml_int64.to_int32(modulus)))+s;while(Caml_int64.neq(quotient,{hi:0,lo:0})){var match$2=Caml_int64.div_mod(quotient,wbase);quotient=match$2[0];modulus=match$2[1];s=String.fromCharCode(cvtbl.charCodeAt(Caml_int64.to_int32(modulus)))+s}}else{var match$3=Caml_int64.div_mod(x$1,wbase);var quotient$1=match$3[0];var modulus$1=match$3[1];s=String.fromCharCode(cvtbl.charCodeAt(Caml_int64.to_int32(modulus$1)))+s;while(Caml_int64.neq(quotient$1,{hi:0,lo:0})){var match$4=Caml_int64.div_mod(quotient$1,wbase);quotient$1=match$4[0];modulus$1=match$4[1];s=String.fromCharCode(cvtbl.charCodeAt(Caml_int64.to_int32(modulus$1)))+s}}break;case 1:s=Caml_int64.to_hex(x$1)+s;break;case 2:var wbase$1={hi:0,lo:10};var cvtbl$1="0123456789";if(Caml_int64.lt(x$1,{hi:0,lo:0})){var y$1=Caml_int64.discard_sign(x$1);var match$5=Caml_int64.div_mod(y$1,wbase$1);var match$6=Caml_int64.div_mod(Caml_int64.add({hi:0,lo:8},match$5[1]),wbase$1);var quotient$2=Caml_int64.add(Caml_int64.add({hi:214748364,lo:3435973836},match$5[0]),match$6[0]);var modulus$2=match$6[1];s=String.fromCharCode(cvtbl$1.charCodeAt(Caml_int64.to_int32(modulus$2)))+s;while(Caml_int64.neq(quotient$2,{hi:0,lo:0})){var match$7=Caml_int64.div_mod(quotient$2,wbase$1);quotient$2=match$7[0];modulus$2=match$7[1];s=String.fromCharCode(cvtbl$1.charCodeAt(Caml_int64.to_int32(modulus$2)))+s}}else{var match$8=Caml_int64.div_mod(x$1,wbase$1);var quotient$3=match$8[0];var modulus$3=match$8[1];s=String.fromCharCode(cvtbl$1.charCodeAt(Caml_int64.to_int32(modulus$3)))+s;while(Caml_int64.neq(quotient$3,{hi:0,lo:0})){var match$9=Caml_int64.div_mod(quotient$3,wbase$1);quotient$3=match$9[0];modulus$3=match$9[1];s=String.fromCharCode(cvtbl$1.charCodeAt(Caml_int64.to_int32(modulus$3)))+s}}break}if(f.prec>=0){f.filter=" ";var n=f.prec-s.length|0;if(n>0){s=Caml_utils.repeat(n,"0")+s}}return finish_formatting(f,s)}function caml_format_float(fmt,x){var f=parse_format(fmt);var prec=f.prec<0?6:f.prec;var x$1=x<0?(f.sign=-1,-x):x;var s="";if(isNaN(x$1)){s="nan";f.filter=" "}else if(isFinite(x$1)){var match=f.conv;switch(match){case"e":s=x$1.toExponential(prec);var i=s.length;if(s[i-3|0]==="e"){s=s.slice(0,i-1|0)+("0"+s.slice(i-1|0))}break;case"f":s=x$1.toFixed(prec);break;case"g":var prec$1=prec!==0?prec:1;s=x$1.toExponential(prec$1-1|0);var j=s.indexOf("e");var exp=Number(s.slice(j+1|0))|0;if(exp<-4||x$1>=1e21||x$1.toFixed().length>prec$1){var i$1=j-1|0;while(s[i$1]==="0"){i$1=i$1-1|0}if(s[i$1]==="."){i$1=i$1-1|0}s=s.slice(0,i$1+1|0)+s.slice(j);var i$2=s.length;if(s[i$2-3|0]==="e"){s=s.slice(0,i$2-1|0)+("0"+s.slice(i$2-1|0))}}else{var p=prec$1;if(exp<0){p=p-(exp+1|0)|0;s=x$1.toFixed(p)}else{while(function(){s=x$1.toFixed(p);return s.length>(prec$1+1|0)}()){p=p-1|0}}if(p!==0){var k=s.length-1|0;while(s[k]==="0"){k=k-1|0}if(s[k]==="."){k=k-1|0}s=s.slice(0,k+1|0)}}break;default:}}else{s="inf";f.filter=" "}return finish_formatting(f,s)}function caml_hexstring_of_float(x,prec,style){if(!isFinite(x)){if(isNaN(x))return"nan";return x>0?"infinity":"-infinity"}var sign=x==0&&1/x==-Infinity?1:x>=0?0:1;if(sign)x=-x;var exp=0;if(x==0){}else if(x<1){while(x<1&&exp>-1022){x*=2;exp--}}else{while(x>=2){x/=2;exp++}}var exp_sign=exp<0?"":"+";var sign_str="";if(sign)sign_str="-";else{switch(style){case 43:sign_str="+";break;case 32:sign_str=" ";break;default:break}}if(prec>=0&&prec<13){var cst=Math.pow(2,prec*4);x=Math.round(x*cst)/cst}var x_str=x.toString(16);if(prec>=0){var idx=x_str.indexOf(".");if(idx<0){x_str+="."+"0".repeat(prec)}else{var size=idx+1+prec;if(x_str.length<size)x_str+="0".repeat(size-x_str.length);else x_str=x_str.substr(0,size)}}return sign_str+"0x"+x_str+"p"+exp_sign+exp.toString(10)}function float_of_string(s,exn){var res=+s;if(s.length>0&&res===res)return res;s=s.replace(/_/g,"");res=+s;if(s.length>0&&res===res||/^[+-]?nan$/i.test(s)){return res}var m=/^ *([+-]?)0x([0-9a-f]+)\.?([0-9a-f]*)p([+-]?[0-9]+)/i.exec(s);if(m){var m3=m[3].replace(/0+$/,"");var mantissa=parseInt(m[1]+m[2]+m3,16);var exponent=(m[4]|0)-4*m3.length;res=mantissa*Math.pow(2,exponent);return res}if(/^\+?inf(inity)?$/i.test(s))return Infinity;if(/^-inf(inity)?$/i.test(s))return-Infinity;throw exn}function caml_float_of_string(s){return float_of_string(s,[Caml_builtin_exceptions.failure,"float_of_string"])}var caml_nativeint_format=caml_format_int;var caml_int32_format=caml_format_int;var caml_int32_of_string=caml_int_of_string;var caml_nativeint_of_string=caml_int_of_string;exports.caml_format_float=caml_format_float;exports.caml_hexstring_of_float=caml_hexstring_of_float;exports.caml_format_int=caml_format_int;exports.caml_nativeint_format=caml_nativeint_format;exports.caml_int32_format=caml_int32_format;exports.caml_float_of_string=caml_float_of_string;exports.caml_int64_format=caml_int64_format;exports.caml_int_of_string=caml_int_of_string;exports.caml_int32_of_string=caml_int32_of_string;exports.caml_int64_of_string=caml_int64_of_string;exports.caml_nativeint_of_string=caml_nativeint_of_string},{"./caml_builtin_exceptions.js":6,"./caml_int32.js":11,"./caml_int64.js":12,"./caml_utils.js":22}],11:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function div(x,y){if(y===0){throw Caml_builtin_exceptions.division_by_zero}return x/y|0}function mod_(x,y){if(y===0){throw Caml_builtin_exceptions.division_by_zero}return x%y}function caml_bswap16(x){return(x&255)<<8|(x&65280)>>>8}function caml_int32_bswap(x){return(x&255)<<24|(x&65280)<<8|(x&16711680)>>>8|(x&4278190080)>>>24}var imul=Math.imul||function(x,y){y|=0;return((x>>16)*y<<16)+(x&65535)*y|0};var caml_nativeint_bswap=caml_int32_bswap;exports.div=div;exports.mod_=mod_;exports.caml_bswap16=caml_bswap16;exports.caml_int32_bswap=caml_int32_bswap;exports.caml_nativeint_bswap=caml_nativeint_bswap;exports.imul=imul},{"./caml_builtin_exceptions.js":6}],12:[function(require,module,exports){"use strict";var Caml_int32=require("./caml_int32.js");var Caml_utils=require("./caml_utils.js");var Caml_primitive=require("./caml_primitive.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");var min_int={hi:-2147483648,lo:0};var max_int={hi:2147483647,lo:1};var one={hi:0,lo:1};var zero={hi:0,lo:0};var neg_one={hi:-1,lo:4294967295};function neg_signed(x){return(x&2147483648)!==0}function add(param,param$1){var other_low_=param$1.lo;var this_low_=param.lo;var lo=this_low_+other_low_&4294967295;var overflow=neg_signed(this_low_)&&(neg_signed(other_low_)||!neg_signed(lo))||neg_signed(other_low_)&&!neg_signed(lo)?1:0;var hi=param.hi+param$1.hi+overflow&4294967295;return{hi:hi,lo:lo>>>0}}function not(param){var hi=param.hi^-1;var lo=param.lo^-1;return{hi:hi,lo:lo>>>0}}function eq(x,y){if(x.hi===y.hi){return x.lo===y.lo}else{return false}}function equal_null(x,y){if(y!==null){return eq(x,y)}else{return false}}function equal_undefined(x,y){if(y!==undefined){return eq(x,y)}else{return false}}function equal_nullable(x,y){if(y==null){return false}else{return eq(x,y)}}function neg(x){if(eq(x,min_int)){return min_int}else{return add(not(x),one)}}function sub(x,y){return add(x,neg(y))}function lsl_(x,numBits){if(numBits===0){return x}else{var lo=x.lo;if(numBits>=32){return{hi:lo<<(numBits-32|0),lo:0}}else{var hi=lo>>>(32-numBits|0)|x.hi<<numBits;return{hi:hi,lo:lo<<numBits>>>0}}}}function lsr_(x,numBits){if(numBits===0){return x}else{var hi=x.hi;var offset=numBits-32|0;if(offset===0){return{hi:0,lo:hi>>>0}}else if(offset>0){var lo=hi>>>offset;return{hi:0,lo:lo>>>0}}else{var hi$1=hi>>>numBits;var lo$1=hi<<(-offset|0)|x.lo>>>numBits;return{hi:hi$1,lo:lo$1>>>0}}}}function asr_(x,numBits){if(numBits===0){return x}else{var hi=x.hi;if(numBits<32){var hi$1=hi>>numBits;var lo=hi<<(32-numBits|0)|x.lo>>>numBits;return{hi:hi$1,lo:lo>>>0}}else{var lo$1=hi>>(numBits-32|0);return{hi:hi>=0?0:-1,lo:lo$1>>>0}}}}function is_zero(param){if(param.hi!==0||param.lo!==0){return false}else{return true}}function mul(_this,_other){while(true){var other=_other;var $$this=_this;var lo;var this_hi=$$this.hi;var exit=0;var exit$1=0;var exit$2=0;if(this_hi!==0||$$this.lo!==0){exit$2=4}else{return zero}if(exit$2===4){if(other.hi!==0||other.lo!==0){exit$1=3}else{return zero}}if(exit$1===3){if(this_hi!==-2147483648||$$this.lo!==0){exit=2}else{lo=other.lo}}if(exit===2){var other_hi=other.hi;var lo$1=$$this.lo;var exit$3=0;if(other_hi!==-2147483648||other.lo!==0){exit$3=3}else{lo=lo$1}if(exit$3===3){var other_lo=other.lo;if(this_hi<0){if(other_hi<0){_other=neg(other);_this=neg($$this);continue}else{return neg(mul(neg($$this),other))}}else if(other_hi<0){return neg(mul($$this,neg(other)))}else{var a48=this_hi>>>16;var a32=this_hi&65535;var a16=lo$1>>>16;var a00=lo$1&65535;var b48=other_hi>>>16;var b32=other_hi&65535;var b16=other_lo>>>16;var b00=other_lo&65535;var c48=0;var c32=0;var c16=0;var c00=a00*b00;c16=(c00>>>16)+a16*b00;c32=c16>>>16;c16=(c16&65535)+a00*b16;c32=c32+(c16>>>16)+a32*b00;c48=c32>>>16;c32=(c32&65535)+a16*b16;c48=c48+(c32>>>16);c32=(c32&65535)+a00*b32;c48=c48+(c32>>>16);c32=c32&65535;c48=c48+(a48*b00+a32*b16+a16*b32+a00*b48)&65535;var hi=c32|c48<<16;var lo$2=c00&65535|(c16&65535)<<16;return{hi:hi,lo:lo$2>>>0}}}}if((lo&1)===0){return zero}else{return min_int}}}function swap(param){var hi=Caml_int32.caml_int32_bswap(param.lo);var lo=Caml_int32.caml_int32_bswap(param.hi);return{hi:hi,lo:lo>>>0}}function xor(param,param$1){return{hi:param.hi^param$1.hi,lo:(param.lo^param$1.lo)>>>0}}function or_(param,param$1){return{hi:param.hi|param$1.hi,lo:(param.lo|param$1.lo)>>>0}}function and_(param,param$1){return{hi:param.hi&param$1.hi,lo:(param.lo&param$1.lo)>>>0}}function ge(param,param$1){var other_hi=param$1.hi;var hi=param.hi;if(hi>other_hi){return true}else if(hi<other_hi){return false}else{return param.lo>=param$1.lo}}function neq(x,y){return!eq(x,y)}function lt(x,y){return!ge(x,y)}function gt(x,y){if(x.hi>y.hi){return true}else if(x.hi<y.hi){return false}else{return x.lo>y.lo}}function le(x,y){return!gt(x,y)}function min(x,y){if(ge(x,y)){return y}else{return x}}function max(x,y){if(gt(x,y)){return x}else{return y}}function to_float(param){return param.hi*4294967296+param.lo}function of_float(x){if(isNaN(x)||!isFinite(x)){return zero}else if(x<=-0x8000000000000000){return min_int}else if(x+1>=0x8000000000000000){return max_int}else if(x<0){return neg(of_float(-x))}else{var hi=x/4294967296|0;var lo=x%4294967296|0;return{hi:hi,lo:lo>>>0}}}function div(_self,_other){while(true){var other=_other;var self=_self;var self_hi=self.hi;var exit=0;var exit$1=0;if(other.hi!==0||other.lo!==0){exit$1=2}else{throw Caml_builtin_exceptions.division_by_zero}if(exit$1===2){if(self_hi!==-2147483648){if(self_hi!==0||self.lo!==0){exit=1}else{return zero}}else if(self.lo!==0){exit=1}else if(eq(other,one)||eq(other,neg_one)){return self}else if(eq(other,min_int)){return one}else{var other_hi=other.hi;var half_this=asr_(self,1);var approx=lsl_(div(half_this,other),1);if(approx.hi===0&&approx.lo===0){if(other_hi<0){return one}else{return neg(one)}}var y=mul(other,approx);var rem=add(self,neg(y));return add(approx,div(rem,other))}}if(exit===1){var other_hi$1=other.hi;if(other_hi$1===-2147483648&&other.lo===0){return zero}if(self_hi<0){if(other_hi$1<0){_other=neg(other);_self=neg(self);continue}else{return neg(div(neg(self),other))}}else if(other_hi$1<0){return neg(div(self,neg(other)))}else{var res=zero;var rem$1=self;while(ge(rem$1,other)){var approx$1=Caml_primitive.caml_float_max(1,Math.floor(to_float(rem$1)/to_float(other)));var log2=Math.ceil(Math.log(approx$1)/Math.LN2);var delta=log2<=48?1:Math.pow(2,log2-48);var approxRes=of_float(approx$1);var approxRem=mul(approxRes,other);while(approxRem.hi<0||gt(approxRem,rem$1)){approx$1=approx$1-delta;approxRes=of_float(approx$1);approxRem=mul(approxRes,other)}if(is_zero(approxRes)){approxRes=one}res=add(res,approxRes);rem$1=add(rem$1,neg(approxRem))}return res}}}}function mod_(self,other){var y=mul(div(self,other),other);return add(self,neg(y))}function div_mod(self,other){var quotient=div(self,other);var y=mul(quotient,other);return[quotient,add(self,neg(y))]}function compare(self,other){var v=Caml_primitive.caml_nativeint_compare(self.hi,other.hi);if(v===0){return Caml_primitive.caml_nativeint_compare(self.lo,other.lo)}else{return v}}function of_int32(lo){return{hi:lo<0?-1:0,lo:lo>>>0}}function to_int32(x){return x.lo|0}function to_hex(x){var x_lo=x.lo;var x_hi=x.hi;var aux=function(v){return(v>>>0).toString(16)};if(x_hi===0&&x_lo===0){return"0"}if(x_lo!==0){if(x_hi!==0){var lo=aux(x_lo);var pad=8-lo.length|0;if(pad<=0){return aux(x_hi)+lo}else{return aux(x_hi)+(Caml_utils.repeat(pad,"0")+lo)}}else{return aux(x_lo)}}else{return aux(x_hi)+"00000000"}}function discard_sign(x){return{hi:2147483647&x.hi,lo:x.lo}}function float_of_bits(x){return function(lo,hi){return new Float64Array(new Int32Array([lo,hi]).buffer)[0]}(x.lo,x.hi)}function bits_of_float(x){var buf=new Int32Array(new Float64Array([x]).buffer);return{hi:buf[1],lo:buf[0]>>>0}}function get64(s,i){var hi=s.charCodeAt(i+4|0)<<32|s.charCodeAt(i+5|0)<<40|s.charCodeAt(i+6|0)<<48|s.charCodeAt(i+7|0)<<56;var lo=s.charCodeAt(i)|s.charCodeAt(i+1|0)<<8|s.charCodeAt(i+2|0)<<16|s.charCodeAt(i+3|0)<<24;return{hi:hi,lo:lo>>>0}}exports.min_int=min_int;exports.max_int=max_int;exports.one=one;exports.zero=zero;exports.not=not;exports.of_int32=of_int32;exports.to_int32=to_int32;exports.add=add;exports.neg=neg;exports.sub=sub;exports.lsl_=lsl_;exports.lsr_=lsr_;exports.asr_=asr_;exports.is_zero=is_zero;exports.mul=mul;exports.xor=xor;exports.or_=or_;exports.and_=and_;exports.swap=swap;exports.ge=ge;exports.eq=eq;exports.neq=neq;exports.lt=lt;exports.gt=gt;exports.le=le;exports.equal_null=equal_null;exports.equal_undefined=equal_undefined;exports.equal_nullable=equal_nullable;exports.min=min;exports.max=max;exports.to_float=to_float;exports.of_float=of_float;exports.div=div;exports.mod_=mod_;exports.compare=compare;exports.float_of_bits=float_of_bits;exports.bits_of_float=bits_of_float;exports.get64=get64;exports.div_mod=div_mod;exports.to_hex=to_hex;exports.discard_sign=discard_sign},{"./caml_builtin_exceptions.js":6,"./caml_int32.js":11,"./caml_primitive.js":19,"./caml_utils.js":22}],13:[function(require,module,exports){(function(process){"use strict";var Curry=require("./curry.js");var stdout={buffer:"",output:function(param,s){var v=s.length-1|0;if(typeof process!=="undefined"&&process.stdout&&process.stdout.write){return process.stdout.write(s)}else if(s[v]==="\n"){console.log(s.slice(0,v));return 0}else{console.log(s);return 0}}};var stderr={buffer:"",output:function(param,s){var v=s.length-1|0;if(s[v]==="\n"){console.log(s.slice(0,v));return 0}else{console.log(s);return 0}}};function caml_ml_flush(oc){if(oc.buffer!==""){Curry._2(oc.output,oc,oc.buffer);oc.buffer="";return 0}else{return 0}}function caml_ml_output(oc,str,offset,len){var str$1=offset===0&&len===str.length?str:str.slice(offset,len);if(typeof process!=="undefined"&&process.stdout&&process.stdout.write&&oc===stdout){return process.stdout.write(str$1)}else{var id=str$1.lastIndexOf("\n");if(id<0){oc.buffer=oc.buffer+str$1;return 0}else{oc.buffer=oc.buffer+str$1.slice(0,id+1|0);caml_ml_flush(oc);oc.buffer=oc.buffer+str$1.slice(id+1|0);return 0}}}function caml_ml_output_char(oc,$$char){return caml_ml_output(oc,String.fromCharCode($$char),0,1)}function caml_ml_out_channels_list(param){return[stdout,[stderr,0]]}var stdin=undefined;exports.stdin=stdin;exports.stdout=stdout;exports.stderr=stderr;exports.caml_ml_flush=caml_ml_flush;exports.caml_ml_output=caml_ml_output;exports.caml_ml_output_char=caml_ml_output_char;exports.caml_ml_out_channels_list=caml_ml_out_channels_list}).call(this,require("_process"))},{"./curry.js":27,_process:51}],14:[function(require,module,exports){"use strict";var Caml_option=require("./caml_option.js");var Caml_exceptions=require("./caml_exceptions.js");var $$Error=Caml_exceptions.create("Caml_js_exceptions.Error");function internalToOCamlException(e){if(Caml_exceptions.caml_is_extension(e)){return e}else{return[$$Error,e]}}function caml_as_js_exn(exn){if(exn[0]===$$Error){return Caml_option.some(exn[1])}}exports.$$Error=$$Error;exports.internalToOCamlException=internalToOCamlException;exports.caml_as_js_exn=caml_as_js_exn},{"./caml_exceptions.js":8,"./caml_option.js":18}],15:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function caml_lex_array(s){var l=s.length/2;var a=new Array(l);for(var i=0;i<l;i++)a[i]=(s.charCodeAt(2*i)|s.charCodeAt(2*i+1)<<8)<<16>>16;return a}function caml_lex_engine_aux(tbl,start_state,lexbuf,exn){var lex_buffer="lex_buffer";var lex_buffer_len="lex_buffer_len";var lex_start_pos="lex_start_pos";var lex_curr_pos="lex_curr_pos";var lex_last_pos="lex_last_pos";var lex_last_action="lex_last_action";var lex_eof_reached="lex_eof_reached";var lex_base="lex_base";var lex_backtrk="lex_backtrk";var lex_default="lex_default";var lex_trans="lex_trans";var lex_check="lex_check";if(!tbl.processed){tbl.lex_base=caml_lex_array(tbl[lex_base]);tbl.lex_backtrk=caml_lex_array(tbl[lex_backtrk]);tbl.lex_check=caml_lex_array(tbl[lex_check]);tbl.lex_trans=caml_lex_array(tbl[lex_trans]);tbl.lex_default=caml_lex_array(tbl[lex_default]);tbl.processed=true}var c;var state=start_state;var buffer=lexbuf[lex_buffer];if(state>=0){lexbuf[lex_last_pos]=lexbuf[lex_start_pos]=lexbuf[lex_curr_pos];lexbuf[lex_last_action]=-1}else{state=-state-1}for(;;){var base=tbl.lex_base[state];if(base<0)return-base-1;var backtrk=tbl.lex_backtrk[state];if(backtrk>=0){lexbuf[lex_last_pos]=lexbuf[lex_curr_pos];lexbuf[lex_last_action]=backtrk}if(lexbuf[lex_curr_pos]>=lexbuf[lex_buffer_len]){if(lexbuf[lex_eof_reached]===0)return-state-1;else c=256}else{c=buffer[lexbuf[lex_curr_pos]];lexbuf[lex_curr_pos]++}if(tbl.lex_check[base+c]===state){state=tbl.lex_trans[base+c]}else{state=tbl.lex_default[state]}if(state<0){lexbuf[lex_curr_pos]=lexbuf[lex_last_pos];if(lexbuf[lex_last_action]==-1)throw exn;else return lexbuf[lex_last_action]}else{if(c==256)lexbuf[lex_eof_reached]=0}}}var empty_token_lit="lexing: empty token";function caml_lex_engine(tbls,i,buf){return caml_lex_engine_aux(tbls,i,buf,[Caml_builtin_exceptions.failure,empty_token_lit])}function caml_lex_run_mem(s,i,mem,curr_pos){for(;;){var dst=s.charCodeAt(i);i++;if(dst==255)return;var src=s.charCodeAt(i);i++;if(src==255)mem[dst]=curr_pos;else mem[dst]=mem[src]}}function caml_lex_run_tag(s,i,mem){for(;;){var dst=s.charCodeAt(i);i++;if(dst==255)return;var src=s.charCodeAt(i);i++;if(src==255)mem[dst]=-1;else mem[dst]=mem[src]}}function caml_new_lex_engine_aux(tbl,start_state,lexbuf,exn){var lex_buffer="lex_buffer";var lex_buffer_len="lex_buffer_len";var lex_start_pos="lex_start_pos";var lex_curr_pos="lex_curr_pos";var lex_last_pos="lex_last_pos";var lex_last_action="lex_last_action";var lex_eof_reached="lex_eof_reached";var lex_mem="lex_mem";var lex_base="lex_base";var lex_backtrk="lex_backtrk";var lex_default="lex_default";var lex_trans="lex_trans";var lex_check="lex_check";var lex_base_code="lex_base_code";var lex_backtrk_code="lex_backtrk_code";var lex_default_code="lex_default_code";var lex_trans_code="lex_trans_code";var lex_check_code="lex_check_code";var lex_code="lex_code";if(!tbl.processed){tbl.lex_base=caml_lex_array(tbl[lex_base]);tbl.lex_backtrk=caml_lex_array(tbl[lex_backtrk]);tbl.lex_check=caml_lex_array(tbl[lex_check]);tbl.lex_trans=caml_lex_array(tbl[lex_trans]);tbl.lex_default=caml_lex_array(tbl[lex_default]);tbl.lex_base_code=caml_lex_array(tbl[lex_base_code]);tbl.lex_backtrk_code=caml_lex_array(tbl[lex_backtrk_code]);tbl.lex_check_code=caml_lex_array(tbl[lex_check_code]);tbl.lex_trans_code=caml_lex_array(tbl[lex_trans_code]);tbl.lex_default_code=caml_lex_array(tbl[lex_default_code]);tbl.processed=true}var c,state=start_state;var buffer=lexbuf[lex_buffer];if(state>=0){lexbuf[lex_last_pos]=lexbuf[lex_start_pos]=lexbuf[lex_curr_pos];lexbuf[lex_last_action]=-1}else{state=-state-1}for(;;){var base=tbl.lex_base[state];if(base<0){var pc_off=tbl.lex_base_code[state];caml_lex_run_tag(tbl.lex_code,pc_off,lexbuf[lex_mem]);return-base-1}var backtrk=tbl.lex_backtrk[state];if(backtrk>=0){var pc_off=tbl.lex_backtrk_code[state];caml_lex_run_tag(tbl.lex_code,pc_off,lexbuf[lex_mem]);lexbuf[lex_last_pos]=lexbuf[lex_curr_pos];lexbuf[lex_last_action]=backtrk}if(lexbuf[lex_curr_pos]>=lexbuf[lex_buffer_len]){if(lexbuf[lex_eof_reached]==0)return-state-1;else c=256}else{c=buffer[lexbuf[lex_curr_pos]];lexbuf[lex_curr_pos]++}var pstate=state;if(tbl.lex_check[base+c]==state)state=tbl.lex_trans[base+c];else state=tbl.lex_default[state];if(state<0){lexbuf[lex_curr_pos]=lexbuf[lex_last_pos];if(lexbuf[lex_last_action]==-1)throw exn;else return lexbuf[lex_last_action]}else{var base_code=tbl.lex_base_code[pstate],pc_off;if(tbl.lex_check_code[base_code+c]==pstate)pc_off=tbl.lex_trans_code[base_code+c];else pc_off=tbl.lex_default_code[pstate];if(pc_off>0)caml_lex_run_mem(tbl.lex_code,pc_off,lexbuf[lex_mem],lexbuf[lex_curr_pos]);if(c==256)lexbuf[lex_eof_reached]=0}}}function caml_new_lex_engine(tbl,i,buf){return caml_new_lex_engine_aux(tbl,i,buf,[Caml_builtin_exceptions.failure,empty_token_lit])}exports.caml_lex_engine=caml_lex_engine;exports.caml_new_lex_engine=caml_new_lex_engine},{"./caml_builtin_exceptions.js":6}],16:[function(require,module,exports){"use strict";function cmn(q,a,b,x,s,t){var a$1=((a+q|0)+x|0)+t|0;return(a$1<<s|a$1>>>(32-s|0)|0)+b|0}function f(a,b,c,d,x,s,t){return cmn(b&c|(b^-1)&d,a,b,x,s,t)}function g(a,b,c,d,x,s,t){return cmn(b&d|c&(d^-1),a,b,x,s,t)}function h(a,b,c,d,x,s,t){return cmn(b^c^d,a,b,x,s,t)}function i(a,b,c,d,x,s,t){return cmn(c^(b|d^-1),a,b,x,s,t)}function cycle(x,k){var a=x[0];var b=x[1];var c=x[2];var d=x[3];a=f(a,b,c,d,k[0],7,-680876936);d=f(d,a,b,c,k[1],12,-389564586);c=f(c,d,a,b,k[2],17,606105819);b=f(b,c,d,a,k[3],22,-1044525330);a=f(a,b,c,d,k[4],7,-176418897);d=f(d,a,b,c,k[5],12,1200080426);c=f(c,d,a,b,k[6],17,-1473231341);b=f(b,c,d,a,k[7],22,-45705983);a=f(a,b,c,d,k[8],7,1770035416);d=f(d,a,b,c,k[9],12,-1958414417);c=f(c,d,a,b,k[10],17,-42063);b=f(b,c,d,a,k[11],22,-1990404162);a=f(a,b,c,d,k[12],7,1804603682);d=f(d,a,b,c,k[13],12,-40341101);c=f(c,d,a,b,k[14],17,-1502002290);b=f(b,c,d,a,k[15],22,1236535329);a=g(a,b,c,d,k[1],5,-165796510);d=g(d,a,b,c,k[6],9,-1069501632);c=g(c,d,a,b,k[11],14,643717713);b=g(b,c,d,a,k[0],20,-373897302);a=g(a,b,c,d,k[5],5,-701558691);d=g(d,a,b,c,k[10],9,38016083);c=g(c,d,a,b,k[15],14,-660478335);b=g(b,c,d,a,k[4],20,-405537848);a=g(a,b,c,d,k[9],5,568446438);d=g(d,a,b,c,k[14],9,-1019803690);c=g(c,d,a,b,k[3],14,-187363961);b=g(b,c,d,a,k[8],20,1163531501);a=g(a,b,c,d,k[13],5,-1444681467);d=g(d,a,b,c,k[2],9,-51403784);c=g(c,d,a,b,k[7],14,1735328473);b=g(b,c,d,a,k[12],20,-1926607734);a=h(a,b,c,d,k[5],4,-378558);d=h(d,a,b,c,k[8],11,-2022574463);c=h(c,d,a,b,k[11],16,1839030562);b=h(b,c,d,a,k[14],23,-35309556);a=h(a,b,c,d,k[1],4,-1530992060)
-;d=h(d,a,b,c,k[4],11,1272893353);c=h(c,d,a,b,k[7],16,-155497632);b=h(b,c,d,a,k[10],23,-1094730640);a=h(a,b,c,d,k[13],4,681279174);d=h(d,a,b,c,k[0],11,-358537222);c=h(c,d,a,b,k[3],16,-722521979);b=h(b,c,d,a,k[6],23,76029189);a=h(a,b,c,d,k[9],4,-640364487);d=h(d,a,b,c,k[12],11,-421815835);c=h(c,d,a,b,k[15],16,530742520);b=h(b,c,d,a,k[2],23,-995338651);a=i(a,b,c,d,k[0],6,-198630844);d=i(d,a,b,c,k[7],10,1126891415);c=i(c,d,a,b,k[14],15,-1416354905);b=i(b,c,d,a,k[5],21,-57434055);a=i(a,b,c,d,k[12],6,1700485571);d=i(d,a,b,c,k[3],10,-1894986606);c=i(c,d,a,b,k[10],15,-1051523);b=i(b,c,d,a,k[1],21,-2054922799);a=i(a,b,c,d,k[8],6,1873313359);d=i(d,a,b,c,k[15],10,-30611744);c=i(c,d,a,b,k[6],15,-1560198380);b=i(b,c,d,a,k[13],21,1309151649);a=i(a,b,c,d,k[4],6,-145523070);d=i(d,a,b,c,k[11],10,-1120210379);c=i(c,d,a,b,k[2],15,718787259);b=i(b,c,d,a,k[9],21,-343485551);x[0]=a+x[0]|0;x[1]=b+x[1]|0;x[2]=c+x[2]|0;x[3]=d+x[3]|0;return 0}var state=[1732584193,-271733879,-1732584194,271733878];var md5blk=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];function caml_md5_string(s,start,len){var s$1=s.slice(start,len);var n=s$1.length;state[0]=1732584193;state[1]=-271733879;state[2]=-1732584194;state[3]=271733878;for(var i=0;i<=15;++i){md5blk[i]=0}var i_end=n/64|0;for(var i$1=1;i$1<=i_end;++i$1){for(var j=0;j<=15;++j){var k=((i$1<<6)-64|0)+(j<<2)|0;md5blk[j]=((s$1.charCodeAt(k)+(s$1.charCodeAt(k+1|0)<<8)|0)+(s$1.charCodeAt(k+2|0)<<16)|0)+(s$1.charCodeAt(k+3|0)<<24)|0}cycle(state,md5blk)}var s_tail=s$1.slice(i_end<<6);for(var kk=0;kk<=15;++kk){md5blk[kk]=0}var i_end$1=s_tail.length-1|0;for(var i$2=0;i$2<=i_end$1;++i$2){md5blk[i$2/4|0]=md5blk[i$2/4|0]|s_tail.charCodeAt(i$2)<<(i$2%4<<3)}var i$3=i_end$1+1|0;md5blk[i$3/4|0]=md5blk[i$3/4|0]|128<<(i$3%4<<3);if(i$3>55){cycle(state,md5blk);for(var i$4=0;i$4<=15;++i$4){md5blk[i$4]=0}}md5blk[14]=n<<3;cycle(state,md5blk);return String.fromCharCode(state[0]&255,state[0]>>8&255,state[0]>>16&255,state[0]>>24&255,state[1]&255,state[1]>>8&255,state[1]>>16&255,state[1]>>24&255,state[2]&255,state[2]>>8&255,state[2]>>16&255,state[2]>>24&255,state[3]&255,state[3]>>8&255,state[3]>>16&255,state[3]>>24&255)}exports.caml_md5_string=caml_md5_string},{}],17:[function(require,module,exports){"use strict";var Block=require("./block.js");var Caml_primitive=require("./caml_primitive.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function for_in(o,foo){for(var x in o){foo(x)}}function caml_obj_block(tag,size){var v=new Array(size);v.tag=tag;return v}function caml_obj_dup(x){if(Array.isArray(x)){var len=x.length|0;var v=new Array(len);for(var i=0,i_finish=len-1|0;i<=i_finish;++i){v[i]=x[i]}v.tag=x.tag|0;return v}else{return Object.assign({},x)}}function caml_obj_truncate(x,new_size){var len=x.length|0;if(new_size<=0||new_size>len){throw[Caml_builtin_exceptions.invalid_argument,"Obj.truncate"]}if(len!==new_size){for(var i=new_size,i_finish=len-1|0;i<=i_finish;++i){x[i]=0}x.length=new_size;return 0}else{return 0}}function caml_lazy_make_forward(x){return Block.__(250,[x])}function caml_lazy_make(fn){var block=[fn];block.tag=246;return block}function caml_update_dummy(x,y){for(var k in y){x[k]=y[k]}return 0}function caml_compare(_a,_b){while(true){var b=_b;var a=_a;if(a===b){return 0}else{var a_type=typeof a;var b_type=typeof b;switch(a_type){case"boolean":if(b_type==="boolean"){return Caml_primitive.caml_bool_compare(a,b)}break;case"function":if(b_type==="function"){throw[Caml_builtin_exceptions.invalid_argument,"compare: functional value"]}break;case"number":if(b_type==="number"){return Caml_primitive.caml_int_compare(a,b)}break;case"string":if(b_type==="string"){return Caml_primitive.caml_string_compare(a,b)}else{return 1}case"undefined":return-1;default:}switch(b_type){case"string":return-1;case"undefined":return 1;default:if(a_type==="boolean"){return 1}else if(b_type==="boolean"){return-1}else if(a_type==="function"){return 1}else if(b_type==="function"){return-1}else if(a_type==="number"){if(b===null||b.tag===256){return 1}else{return-1}}else if(b_type==="number"){if(a===null||a.tag===256){return-1}else{return 1}}else if(a===null){if(b.tag===256){return 1}else{return-1}}else if(b===null){if(a.tag===256){return-1}else{return 1}}else{var tag_a=a.tag|0;var tag_b=b.tag|0;if(tag_a===250){_a=a[0];continue}else if(tag_b===250){_b=b[0];continue}else if(tag_a===256){if(tag_b===256){return Caml_primitive.caml_int_compare(a[1],b[1])}else{return-1}}else if(tag_a===248){return Caml_primitive.caml_int_compare(a[1],b[1])}else{if(tag_a===251){throw[Caml_builtin_exceptions.invalid_argument,"equal: abstract value"]}if(tag_a!==tag_b){if(tag_a<tag_b){return-1}else{return 1}}else{var len_a=a.length|0;var len_b=b.length|0;if(len_a===len_b){if(Array.isArray(a)){var a$1=a;var b$1=b;var _i=0;var same_length=len_a;while(true){var i=_i;if(i===same_length){return 0}else{var res=caml_compare(a$1[i],b$1[i]);if(res!==0){return res}else{_i=i+1|0;continue}}}}else if(a instanceof Date&&b instanceof Date){return a-b}else{var a$2=a;var b$2=b;var min_key_lhs={contents:undefined};var min_key_rhs={contents:undefined};var do_key=function(param,key){var min_key=param[2];var b=param[1];if(!b.hasOwnProperty(key)||caml_compare(param[0][key],b[key])>0){var match=min_key.contents;if(match!==undefined&&key>=match){return 0}else{min_key.contents=key;return 0}}else{return 0}};var partial_arg=[a$2,b$2,min_key_rhs];var do_key_a=function(partial_arg){return function do_key_a(param){return do_key(partial_arg,param)}}(partial_arg);var partial_arg$1=[b$2,a$2,min_key_lhs];var do_key_b=function(partial_arg$1){return function do_key_b(param){return do_key(partial_arg$1,param)}}(partial_arg$1);for_in(a$2,do_key_a);for_in(b$2,do_key_b);var match=min_key_lhs.contents;var match$1=min_key_rhs.contents;if(match!==undefined){if(match$1!==undefined){return Caml_primitive.caml_string_compare(match,match$1)}else{return-1}}else if(match$1!==undefined){return 1}else{return 0}}}else if(len_a<len_b){var a$3=a;var b$3=b;var _i$1=0;var short_length=len_a;while(true){var i$1=_i$1;if(i$1===short_length){return-1}else{var res$1=caml_compare(a$3[i$1],b$3[i$1]);if(res$1!==0){return res$1}else{_i$1=i$1+1|0;continue}}}}else{var a$4=a;var b$4=b;var _i$2=0;var short_length$1=len_b;while(true){var i$2=_i$2;if(i$2===short_length$1){return 1}else{var res$2=caml_compare(a$4[i$2],b$4[i$2]);if(res$2!==0){return res$2}else{_i$2=i$2+1|0;continue}}}}}}}}}}}function caml_equal(_a,_b){while(true){var b=_b;var a=_a;if(a===b){return true}else{var a_type=typeof a;if(a_type==="string"||a_type==="number"||a_type==="boolean"||a_type==="undefined"||a===null){return false}else{var b_type=typeof b;if(a_type==="function"||b_type==="function"){throw[Caml_builtin_exceptions.invalid_argument,"equal: functional value"]}if(b_type==="number"||b_type==="undefined"||b===null){return false}else{var tag_a=a.tag|0;var tag_b=b.tag|0;if(tag_a===250){_a=a[0];continue}else if(tag_b===250){_b=b[0];continue}else if(tag_a===248){return a[1]===b[1]}else{if(tag_a===251){throw[Caml_builtin_exceptions.invalid_argument,"equal: abstract value"]}if(tag_a!==tag_b){return false}else if(tag_a===256){return a[1]===b[1]}else{var len_a=a.length|0;var len_b=b.length|0;if(len_a===len_b){if(Array.isArray(a)){var a$1=a;var b$1=b;var _i=0;var same_length=len_a;while(true){var i=_i;if(i===same_length){return true}else if(caml_equal(a$1[i],b$1[i])){_i=i+1|0;continue}else{return false}}}else if(a instanceof Date&&b instanceof Date){return!(a>b||a<b)}else{var a$2=a;var b$2=b;var result={contents:true};var do_key_a=function(b$2,result){return function do_key_a(key){if(b$2.hasOwnProperty(key)){return 0}else{result.contents=false;return 0}}}(b$2,result);var do_key_b=function(a$2,b$2,result){return function do_key_b(key){if(!a$2.hasOwnProperty(key)||!caml_equal(b$2[key],a$2[key])){result.contents=false;return 0}else{return 0}}}(a$2,b$2,result);for_in(a$2,do_key_a);if(result.contents){for_in(b$2,do_key_b)}return result.contents}}else{return false}}}}}}}}function caml_equal_null(x,y){if(y!==null){return caml_equal(x,y)}else{return x===y}}function caml_equal_undefined(x,y){if(y!==undefined){return caml_equal(x,y)}else{return x===y}}function caml_equal_nullable(x,y){if(y==null){return x===y}else{return caml_equal(x,y)}}function caml_notequal(a,b){return!caml_equal(a,b)}function caml_greaterequal(a,b){return caml_compare(a,b)>=0}function caml_greaterthan(a,b){return caml_compare(a,b)>0}function caml_lessequal(a,b){return caml_compare(a,b)<=0}function caml_lessthan(a,b){return caml_compare(a,b)<0}function caml_min(x,y){if(caml_compare(x,y)<=0){return x}else{return y}}function caml_max(x,y){if(caml_compare(x,y)>=0){return x}else{return y}}function caml_obj_set_tag(prim,prim$1){prim.tag=prim$1;return 0}exports.caml_obj_block=caml_obj_block;exports.caml_obj_dup=caml_obj_dup;exports.caml_obj_truncate=caml_obj_truncate;exports.caml_lazy_make_forward=caml_lazy_make_forward;exports.caml_lazy_make=caml_lazy_make;exports.caml_update_dummy=caml_update_dummy;exports.caml_compare=caml_compare;exports.caml_equal=caml_equal;exports.caml_equal_null=caml_equal_null;exports.caml_equal_undefined=caml_equal_undefined;exports.caml_equal_nullable=caml_equal_nullable;exports.caml_notequal=caml_notequal;exports.caml_greaterequal=caml_greaterequal;exports.caml_greaterthan=caml_greaterthan;exports.caml_lessthan=caml_lessthan;exports.caml_lessequal=caml_lessequal;exports.caml_min=caml_min;exports.caml_max=caml_max;exports.caml_obj_set_tag=caml_obj_set_tag},{"./block.js":2,"./caml_builtin_exceptions.js":6,"./caml_primitive.js":19}],18:[function(require,module,exports){"use strict";var undefinedHeader=[];function some(x){if(x===undefined){var block=[undefinedHeader,0];block.tag=256;return block}else if(x!==null&&x[0]===undefinedHeader){var nid=x[1]+1|0;var block$1=[undefinedHeader,nid];block$1.tag=256;return block$1}else{return x}}function nullable_to_opt(x){if(x===null||x===undefined){return}else{return some(x)}}function undefined_to_opt(x){if(x===undefined){return}else{return some(x)}}function null_to_opt(x){if(x===null){return}else{return some(x)}}function valFromOption(x){if(x!==null&&x[0]===undefinedHeader){var depth=x[1];if(depth===0){return}else{return[undefinedHeader,depth-1|0]}}else{return x}}function option_get(x){if(x===undefined){return}else{return valFromOption(x)}}function option_get_unwrap(x){if(x===undefined){return}else{return valFromOption(x)[1]}}exports.nullable_to_opt=nullable_to_opt;exports.undefined_to_opt=undefined_to_opt;exports.null_to_opt=null_to_opt;exports.valFromOption=valFromOption;exports.some=some;exports.option_get=option_get;exports.option_get_unwrap=option_get_unwrap},{}],19:[function(require,module,exports){"use strict";function caml_int_compare(x,y){if(x<y){return-1}else if(x===y){return 0}else{return 1}}function caml_bool_compare(x,y){if(x){if(y){return 0}else{return 1}}else if(y){return-1}else{return 0}}function caml_float_compare(x,y){if(x===y){return 0}else if(x<y){return-1}else if(x>y||x===x){return 1}else if(y===y){return-1}else{return 0}}function caml_string_compare(s1,s2){if(s1===s2){return 0}else if(s1<s2){return-1}else{return 1}}function caml_bytes_compare_aux(s1,s2,_off,len,def){while(true){var off=_off;if(off<len){var a=s1[off];var b=s2[off];if(a>b){return 1}else if(a<b){return-1}else{_off=off+1|0;continue}}else{return def}}}function caml_bytes_compare(s1,s2){var len1=s1.length;var len2=s2.length;if(len1===len2){return caml_bytes_compare_aux(s1,s2,0,len1,0)}else if(len1<len2){return caml_bytes_compare_aux(s1,s2,0,len1,-1)}else{return caml_bytes_compare_aux(s1,s2,0,len2,1)}}function caml_bytes_equal(s1,s2){var len1=s1.length;var len2=s2.length;if(len1===len2){var s1$1=s1;var s2$1=s2;var _off=0;var len=len1;while(true){var off=_off;if(off===len){return true}else{var a=s1$1[off];var b=s2$1[off];if(a===b){_off=off+1|0;continue}else{return false}}}}else{return false}}function caml_bool_min(x,y){if(x){return y}else{return x}}function caml_int_min(x,y){if(x<y){return x}else{return y}}function caml_float_min(x,y){if(x<y){return x}else{return y}}function caml_string_min(x,y){if(x<y){return x}else{return y}}function caml_nativeint_min(x,y){if(x<y){return x}else{return y}}function caml_int32_min(x,y){if(x<y){return x}else{return y}}function caml_bool_max(x,y){if(x){return x}else{return y}}function caml_int_max(x,y){if(x>y){return x}else{return y}}function caml_float_max(x,y){if(x>y){return x}else{return y}}function caml_string_max(x,y){if(x>y){return x}else{return y}}function caml_nativeint_max(x,y){if(x>y){return x}else{return y}}function caml_int32_max(x,y){if(x>y){return x}else{return y}}var caml_nativeint_compare=caml_int_compare;var caml_int32_compare=caml_int_compare;exports.caml_bytes_compare=caml_bytes_compare;exports.caml_bytes_equal=caml_bytes_equal;exports.caml_int_compare=caml_int_compare;exports.caml_bool_compare=caml_bool_compare;exports.caml_float_compare=caml_float_compare;exports.caml_nativeint_compare=caml_nativeint_compare;exports.caml_string_compare=caml_string_compare;exports.caml_int32_compare=caml_int32_compare;exports.caml_bool_min=caml_bool_min;exports.caml_int_min=caml_int_min;exports.caml_float_min=caml_float_min;exports.caml_string_min=caml_string_min;exports.caml_nativeint_min=caml_nativeint_min;exports.caml_int32_min=caml_int32_min;exports.caml_bool_max=caml_bool_max;exports.caml_int_max=caml_int_max;exports.caml_float_max=caml_float_max;exports.caml_string_max=caml_string_max;exports.caml_nativeint_max=caml_nativeint_max;exports.caml_int32_max=caml_int32_max},{}],20:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function caml_string_get(s,i){if(i>=s.length||i<0){throw[Caml_builtin_exceptions.invalid_argument,"index out of bounds"]}return s.charCodeAt(i)}function caml_string_get16(s,i){return s.charCodeAt(i)+(s.charCodeAt(i+1|0)<<8)|0}function caml_string_get32(s,i){return((s.charCodeAt(i)+(s.charCodeAt(i+1|0)<<8)|0)+(s.charCodeAt(i+2|0)<<16)|0)+(s.charCodeAt(i+3|0)<<24)|0}function get(s,i){if(i<0||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"index out of bounds"]}return s.charCodeAt(i)}exports.caml_string_get=caml_string_get;exports.caml_string_get16=caml_string_get16;exports.caml_string_get32=caml_string_get32;exports.get=get},{"./caml_builtin_exceptions.js":6}],21:[function(require,module,exports){(function(process){"use strict";var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function caml_sys_getenv(s){if(typeof process==="undefined"||process.env===undefined){throw Caml_builtin_exceptions.not_found}var match=process.env[s];if(match!==undefined){return match}else{throw Caml_builtin_exceptions.not_found}}function caml_sys_time(param){if(typeof process==="undefined"||process.uptime===undefined){return-1}else{return process.uptime()}}function caml_sys_random_seed(param){return[((Date.now()|0)^4294967295)*Math.random()|0]}function caml_sys_system_command(_cmd){return 127}function caml_sys_getcwd(param){if(typeof process==="undefined"){return"/"}else{return process.cwd()}}function caml_sys_get_argv(param){if(typeof process==="undefined"){return["",[""]]}else{var argv=process.argv;if(argv==null){return["",[""]]}else{return[argv[0],argv]}}}function caml_sys_exit(exit_code){if(typeof process!=="undefined"){return process.exit(exit_code)}else{return 0}}function caml_sys_is_directory(_s){throw[Caml_builtin_exceptions.failure,"caml_sys_is_directory not implemented"]}function caml_sys_file_exists(_s){throw[Caml_builtin_exceptions.failure,"caml_sys_file_exists not implemented"]}exports.caml_sys_getenv=caml_sys_getenv;exports.caml_sys_time=caml_sys_time;exports.caml_sys_random_seed=caml_sys_random_seed;exports.caml_sys_system_command=caml_sys_system_command;exports.caml_sys_getcwd=caml_sys_getcwd;exports.caml_sys_get_argv=caml_sys_get_argv;exports.caml_sys_exit=caml_sys_exit;exports.caml_sys_is_directory=caml_sys_is_directory;exports.caml_sys_file_exists=caml_sys_file_exists}).call(this,require("_process"))},{"./caml_builtin_exceptions.js":6,_process:51}],22:[function(require,module,exports){"use strict";function repeat(count,self){if(self.repeat){return self.repeat(count)}if(self.length==0||count==0){return""}if(self.length*count>=1<<28){throw new RangeError("repeat count must not overflow maximum string size")}var rpt="";for(;;){if((count&1)==1){rpt+=self}count>>>=1;if(count==0){break}self+=self}return rpt}exports.repeat=repeat},{}],23:[function(require,module,exports){"use strict";var Char=require("./char.js");var Block=require("./block.js");var Bytes=require("./bytes.js");var Curry=require("./curry.js");var $$Buffer=require("./buffer.js");var $$String=require("./string.js");var Caml_io=require("./caml_io.js");var Caml_obj=require("./caml_obj.js");var Caml_bytes=require("./caml_bytes.js");var Caml_int32=require("./caml_int32.js");var Pervasives=require("./pervasives.js");var Caml_format=require("./caml_format.js");var Caml_string=require("./caml_string.js");var Caml_primitive=require("./caml_primitive.js");var Caml_exceptions=require("./caml_exceptions.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");var CamlinternalFormatBasics=require("./camlinternalFormatBasics.js");function create_char_set(param){return Bytes.make(32,0)}function add_in_char_set(char_set,c){var str_ind=c>>>3;var mask=1<<(c&7);char_set[str_ind]=Pervasives.char_of_int(Caml_bytes.get(char_set,str_ind)|mask);return 0}var freeze_char_set=Bytes.to_string;function rev_char_set(char_set){var char_set$prime=Bytes.make(32,0);for(var i=0;i<=31;++i){char_set$prime[i]=Pervasives.char_of_int(Caml_string.get(char_set,i)^255)}return Caml_bytes.bytes_to_string(char_set$prime)}function is_in_char_set(char_set,c){var str_ind=c>>>3;var mask=1<<(c&7);return(Caml_string.get(char_set,str_ind)&mask)!==0}function pad_of_pad_opt(pad_opt){if(pad_opt!==undefined){return Block.__(0,[1,pad_opt])}else{return 0}}function prec_of_prec_opt(prec_opt){if(prec_opt!==undefined){return[prec_opt]}else{return 0}}function param_format_of_ignored_format(ign,fmt){if(typeof ign==="number"){switch(ign){case 0:return[Block.__(0,[fmt])];case 1:return[Block.__(1,[fmt])];case 2:return[Block.__(19,[fmt])];case 3:return[Block.__(22,[fmt])]}}else{switch(ign.tag|0){case 0:return[Block.__(2,[pad_of_pad_opt(ign[0]),fmt])];case 1:return[Block.__(3,[pad_of_pad_opt(ign[0]),fmt])];case 2:return[Block.__(4,[ign[0],pad_of_pad_opt(ign[1]),0,fmt])];case 3:return[Block.__(5,[ign[0],pad_of_pad_opt(ign[1]),0,fmt])];case 4:return[Block.__(6,[ign[0],pad_of_pad_opt(ign[1]),0,fmt])];case 5:return[Block.__(7,[ign[0],pad_of_pad_opt(ign[1]),0,fmt])];case 6:return[Block.__(8,[0,pad_of_pad_opt(ign[0]),prec_of_prec_opt(ign[1]),fmt])];case 7:return[Block.__(9,[pad_of_pad_opt(ign[0]),fmt])];case 8:return[Block.__(13,[ign[0],ign[1],fmt])];case 9:return[Block.__(14,[ign[0],ign[1],fmt])];case 10:return[Block.__(20,[ign[0],ign[1],fmt])];case 11:return[Block.__(21,[ign[0],fmt])]}}}function buffer_check_size(buf,overhead){var len=buf.bytes.length;var min_len=buf.ind+overhead|0;if(min_len>len){var new_len=Caml_primitive.caml_int_max(len<<1,min_len);var new_str=Caml_bytes.caml_create_bytes(new_len);Bytes.blit(buf.bytes,0,new_str,0,len);buf.bytes=new_str;return 0}else{return 0}}function buffer_add_char(buf,c){buffer_check_size(buf,1);buf.bytes[buf.ind]=c;buf.ind=buf.ind+1|0;return 0}function buffer_add_string(buf,s){var str_len=s.length;buffer_check_size(buf,str_len);$$String.blit(s,0,buf.bytes,buf.ind,str_len);buf.ind=buf.ind+str_len|0;return 0}function buffer_contents(buf){return Bytes.sub_string(buf.bytes,0,buf.ind)}function char_of_iconv(iconv){switch(iconv){case 0:case 1:case 2:return 100;case 3:case 4:case 5:return 105;case 6:case 7:return 120;case 8:case 9:return 88;case 10:case 11:return 111;case 12:return 117}}function char_of_fconv(fconv){switch(fconv){case 0:case 1:case 2:return 102;case 3:case 4:case 5:return 101;case 6:case 7:case 8:return 69;case 9:case 10:case 11:return 103;case 12:case 13:case 14:return 71;case 15:return 70;case 16:case 17:case 18:return 104;case 19:case 20:case 21:return 72}}function char_of_counter(counter){switch(counter){case 0:return 108;case 1:return 110;case 2:return 78}}function bprint_char_set(buf,char_set){var print_char=function(buf,i){var c=Pervasives.char_of_int(i);if(c!==37){if(c!==64){return buffer_add_char(buf,c)}else{buffer_add_char(buf,37);return buffer_add_char(buf,64)}}else{buffer_add_char(buf,37);return buffer_add_char(buf,37)}};var print_out=function(set,_i){while(true){var i=_i;if(i<256){if(is_in_char_set(set,Pervasives.char_of_int(i))){var set$1=set;var i$1=i;var match=Pervasives.char_of_int(i$1);var switcher=match-45|0;if(switcher>48||switcher<0){if(switcher>=210){return print_char(buf,255)}else{return print_second(set$1,i$1+1|0)}}else if(switcher>47||switcher<1){return print_out(set$1,i$1+1|0)}else{return print_second(set$1,i$1+1|0)}}else{_i=i+1|0;continue}}else{return 0}}};var print_second=function(set,i){if(is_in_char_set(set,Pervasives.char_of_int(i))){var match=Pervasives.char_of_int(i);var switcher=match-45|0;if(switcher>48||switcher<0){if(switcher>=210){print_char(buf,254);return print_char(buf,255)}}else if((switcher>47||switcher<1)&&!is_in_char_set(set,Pervasives.char_of_int(i+1|0))){print_char(buf,i-1|0);return print_out(set,i+1|0)}if(is_in_char_set(set,Pervasives.char_of_int(i+1|0))){var set$1=set;var i$1=i-1|0;var _j=i+2|0;while(true){var j=_j;if(j===256||!is_in_char_set(set$1,Pervasives.char_of_int(j))){print_char(buf,i$1);print_char(buf,45);print_char(buf,j-1|0);if(j<256){return print_out(set$1,j+1|0)}else{return 0}}else{_j=j+1|0;continue}}}else{print_char(buf,i-1|0);print_char(buf,i);return print_out(set,i+2|0)}}else{print_char(buf,i-1|0);return print_out(set,i+1|0)}};var print_start=function(set){var is_alone=function(c){var before=Char.chr(c-1|0);var after=Char.chr(c+1|0);if(is_in_char_set(set,c)){return!(is_in_char_set(set,before)&&is_in_char_set(set,after))}else{return false}};if(is_alone(93)){buffer_add_char(buf,93)}print_out(set,1);if(is_alone(45)){return buffer_add_char(buf,45)}else{return 0}};buffer_add_char(buf,91);print_start(is_in_char_set(char_set,0)?(buffer_add_char(buf,94),rev_char_set(char_set)):char_set);return buffer_add_char(buf,93)}function bprint_padty(buf,padty){switch(padty){case 0:return buffer_add_char(buf,45);case 1:return 0;case 2:return buffer_add_char(buf,48)}}function bprint_ignored_flag(buf,ign_flag){if(ign_flag){return buffer_add_char(buf,95)}else{return 0}}function bprint_pad_opt(buf,pad_opt){if(pad_opt!==undefined){return buffer_add_string(buf,String(pad_opt))}else{return 0}}function bprint_padding(buf,pad){if(typeof pad==="number"){return 0}else{bprint_padty(buf,pad[0]);if(pad.tag){return buffer_add_char(buf,42)}else{return buffer_add_string(buf,String(pad[1]))}}}function bprint_precision(buf,prec){if(typeof prec==="number"){if(prec!==0){return buffer_add_string(buf,".*")}else{return 0}}else{buffer_add_char(buf,46);return buffer_add_string(buf,String(prec[0]))}}function bprint_iconv_flag(buf,iconv){switch(iconv){case 1:case 4:return buffer_add_char(buf,43);case 2:case 5:return buffer_add_char(buf,32);case 7:case 9:case 11:return buffer_add_char(buf,35);case 0:case 3:case 6:case 8:case 10:case 12:return 0}}function bprint_int_fmt(buf,ign_flag,iconv,pad,prec){buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_iconv_flag(buf,iconv);bprint_padding(buf,pad);bprint_precision(buf,prec);return buffer_add_char(buf,char_of_iconv(iconv))}function bprint_altint_fmt(buf,ign_flag,iconv,pad,prec,c){buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_iconv_flag(buf,iconv);bprint_padding(buf,pad);bprint_precision(buf,prec);buffer_add_char(buf,c);return buffer_add_char(buf,char_of_iconv(iconv))}function bprint_fconv_flag(buf,fconv){switch(fconv){case 0:case 3:case 6:case 9:case 12:case 15:case 16:case 19:return 0;case 1:case 4:case 7:case 10:case 13:case 17:case 20:return buffer_add_char(buf,43);case 2:case 5:case 8:case 11:case 14:case 18:case 21:return buffer_add_char(buf,32)}}function bprint_float_fmt(buf,ign_flag,fconv,pad,prec){buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_fconv_flag(buf,fconv);bprint_padding(buf,pad);bprint_precision(buf,prec);return buffer_add_char(buf,char_of_fconv(fconv))}function string_of_formatting_lit(formatting_lit){if(typeof formatting_lit==="number"){switch(formatting_lit){case 0:return"@]";case 1:return"@}";case 2:return"@?";case 3:return"@\n";case 4:return"@.";case 5:return"@@";case 6:return"@%"}}else{switch(formatting_lit.tag|0){case 0:case 1:return formatting_lit[0];case 2:return"@"+Caml_bytes.bytes_to_string(Bytes.make(1,formatting_lit[0]))}}}function string_of_formatting_gen(formatting_gen){return formatting_gen[0][1]}function bprint_char_literal(buf,chr){if(chr!==37){return buffer_add_char(buf,chr)}else{return buffer_add_string(buf,"%%")}}function bprint_string_literal(buf,str){for(var i=0,i_finish=str.length-1|0;i<=i_finish;++i){bprint_char_literal(buf,Caml_string.get(str,i))}return 0}function bprint_fmtty(buf,_fmtty){while(true){var fmtty=_fmtty;if(typeof fmtty==="number"){return 0}else{switch(fmtty.tag|0){case 0:buffer_add_string(buf,"%c");_fmtty=fmtty[0];continue;case 1:buffer_add_string(buf,"%s");_fmtty=fmtty[0];continue;case 2:buffer_add_string(buf,"%i");_fmtty=fmtty[0];continue;case 3:buffer_add_string(buf,"%li");_fmtty=fmtty[0];continue;case 4:buffer_add_string(buf,"%ni");_fmtty=fmtty[0];continue;case 5:buffer_add_string(buf,"%Li");_fmtty=fmtty[0];continue;case 6:buffer_add_string(buf,"%f");_fmtty=fmtty[0];continue;case 7:buffer_add_string(buf,"%B");_fmtty=fmtty[0];continue;case 8:buffer_add_string(buf,"%{");bprint_fmtty(buf,fmtty[0]);buffer_add_string(buf,"%}");_fmtty=fmtty[1];continue;case 9:buffer_add_string(buf,"%(");bprint_fmtty(buf,fmtty[0]);buffer_add_string(buf,"%)");_fmtty=fmtty[2];continue;case 10:buffer_add_string(buf,"%a");_fmtty=fmtty[0];continue;case 11:buffer_add_string(buf,"%t");_fmtty=fmtty[0];continue;case 12:buffer_add_string(buf,"%?");_fmtty=fmtty[0];continue;case 13:buffer_add_string(buf,"%r");_fmtty=fmtty[0];continue;case 14:buffer_add_string(buf,"%_r");_fmtty=fmtty[0];continue}}}}function int_of_custom_arity(param){if(param){return 1+int_of_custom_arity(param[0])|0}else{return 0}}function bprint_fmt(buf,fmt){var _fmt=fmt;var _ign_flag=false;while(true){var ign_flag=_ign_flag;var fmt$1=_fmt;if(typeof fmt$1==="number"){return 0}else{switch(fmt$1.tag|0){case 0:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,99);_ign_flag=false;_fmt=fmt$1[0];continue;case 1:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,67);_ign_flag=false;_fmt=fmt$1[0];continue;case 2:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_padding(buf,fmt$1[0]);buffer_add_char(buf,115);_ign_flag=false;_fmt=fmt$1[1];continue;case 3:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_padding(buf,fmt$1[0]);buffer_add_char(buf,83);_ign_flag=false;_fmt=fmt$1[1];continue;case 4:bprint_int_fmt(buf,ign_flag,fmt$1[0],fmt$1[1],fmt$1[2]);_ign_flag=false;_fmt=fmt$1[3];continue;case 5:bprint_altint_fmt(buf,ign_flag,fmt$1[0],fmt$1[1],fmt$1[2],108);_ign_flag=false;_fmt=fmt$1[3];continue;case 6:bprint_altint_fmt(buf,ign_flag,fmt$1[0],fmt$1[1],fmt$1[2],110);_ign_flag=false;_fmt=fmt$1[3];continue;case 7:bprint_altint_fmt(buf,ign_flag,fmt$1[0],fmt$1[1],fmt$1[2],76);_ign_flag=false;_fmt=fmt$1[3];continue;case 8:bprint_float_fmt(buf,ign_flag,fmt$1[0],fmt$1[1],fmt$1[2]);_ign_flag=false;_fmt=fmt$1[3];continue;case 9:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_padding(buf,fmt$1[0]);buffer_add_char(buf,66);_ign_flag=false;_fmt=fmt$1[1];continue;case 10:buffer_add_string(buf,"%!");_fmt=fmt$1[0];continue;case 11:bprint_string_literal(buf,fmt$1[0]);_fmt=fmt$1[1];continue;case 12:bprint_char_literal(buf,fmt$1[0]);_fmt=fmt$1[1];continue;case 13:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_pad_opt(buf,fmt$1[0]);buffer_add_char(buf,123);bprint_fmtty(buf,fmt$1[1]);buffer_add_char(buf,37);buffer_add_char(buf,125);_ign_flag=false;_fmt=fmt$1[2];continue;case 14:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_pad_opt(buf,fmt$1[0]);buffer_add_char(buf,40);bprint_fmtty(buf,fmt$1[1]);buffer_add_char(buf,37);buffer_add_char(buf,41);_ign_flag=false;_fmt=fmt$1[2];continue;case 15:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,97);_ign_flag=false;_fmt=fmt$1[0];continue;case 16:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,116);_ign_flag=false;_fmt=fmt$1[0];continue;case 17:bprint_string_literal(buf,string_of_formatting_lit(fmt$1[0]));_fmt=fmt$1[1];continue;case 18:bprint_string_literal(buf,"@{");bprint_string_literal(buf,string_of_formatting_gen(fmt$1[0]));_fmt=fmt$1[1];continue;case 19:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,114);_ign_flag=false;_fmt=fmt$1[0];continue;case 20:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_pad_opt(buf,fmt$1[0]);bprint_char_set(buf,fmt$1[1]);_ign_flag=false;_fmt=fmt$1[2];continue;case 21:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,char_of_counter(fmt$1[0]));_ign_flag=false;_fmt=fmt$1[1];continue;case 22:buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);bprint_string_literal(buf,"0c");_ign_flag=false;_fmt=fmt$1[0];continue;case 23:var match=param_format_of_ignored_format(fmt$1[0],fmt$1[1]);_ign_flag=true;_fmt=match[0];continue;case 24:for(var _i=1,_i_finish=int_of_custom_arity(fmt$1[0]);_i<=_i_finish;++_i){buffer_add_char(buf,37);bprint_ignored_flag(buf,ign_flag);buffer_add_char(buf,63)}_ign_flag=false;_fmt=fmt$1[2];continue}}}}function string_of_fmt(fmt){var buf={ind:0,bytes:Caml_bytes.caml_create_bytes(16)};bprint_fmt(buf,fmt);return buffer_contents(buf)}function symm(param){if(typeof param==="number"){return 0}else{switch(param.tag|0){case 0:return Block.__(0,[symm(param[0])]);case 1:return Block.__(1,[symm(param[0])]);case 2:return Block.__(2,[symm(param[0])]);case 3:return Block.__(3,[symm(param[0])]);case 4:return Block.__(4,[symm(param[0])]);case 5:return Block.__(5,[symm(param[0])]);case 6:return Block.__(6,[symm(param[0])]);case 7:return Block.__(7,[symm(param[0])]);case 8:return Block.__(8,[param[0],symm(param[1])]);case 9:return Block.__(9,[param[1],param[0],symm(param[2])]);case 10:return Block.__(10,[symm(param[0])]);case 11:return Block.__(11,[symm(param[0])]);case 12:return Block.__(12,[symm(param[0])]);case 13:return Block.__(13,[symm(param[0])]);case 14:return Block.__(14,[symm(param[0])])}}}function fmtty_rel_det(param){if(typeof param==="number"){return[function(param){return 0},function(param){return 0},function(param){return 0},function(param){return 0}]}else{switch(param.tag|0){case 0:var match=fmtty_rel_det(param[0]);var af=match[1];var fa=match[0];return[function(param){Curry._1(fa,0);return 0},function(param){Curry._1(af,0);return 0},match[2],match[3]];case 1:var match$1=fmtty_rel_det(param[0]);var af$1=match$1[1];var fa$1=match$1[0];return[function(param){Curry._1(fa$1,0);return 0},function(param){Curry._1(af$1,0);return 0},match$1[2],match$1[3]];case 2:var match$2=fmtty_rel_det(param[0]);var af$2=match$2[1];var fa$2=match$2[0];return[function(param){Curry._1(fa$2,0);return 0},function(param){Curry._1(af$2,0);return 0},match$2[2],match$2[3]];case 3:var match$3=fmtty_rel_det(param[0]);var af$3=match$3[1];var fa$3=match$3[0];return[function(param){Curry._1(fa$3,0);return 0},function(param){Curry._1(af$3,0);return 0},match$3[2],match$3[3]];case 4:var match$4=fmtty_rel_det(param[0]);var af$4=match$4[1];var fa$4=match$4[0];return[function(param){Curry._1(fa$4,0);return 0},function(param){Curry._1(af$4,0);return 0},match$4[2],match$4[3]];case 5:var match$5=fmtty_rel_det(param[0]);var af$5=match$5[1];var fa$5=match$5[0];return[function(param){
-Curry._1(fa$5,0);return 0},function(param){Curry._1(af$5,0);return 0},match$5[2],match$5[3]];case 6:var match$6=fmtty_rel_det(param[0]);var af$6=match$6[1];var fa$6=match$6[0];return[function(param){Curry._1(fa$6,0);return 0},function(param){Curry._1(af$6,0);return 0},match$6[2],match$6[3]];case 7:var match$7=fmtty_rel_det(param[0]);var af$7=match$7[1];var fa$7=match$7[0];return[function(param){Curry._1(fa$7,0);return 0},function(param){Curry._1(af$7,0);return 0},match$7[2],match$7[3]];case 8:var match$8=fmtty_rel_det(param[1]);var af$8=match$8[1];var fa$8=match$8[0];return[function(param){Curry._1(fa$8,0);return 0},function(param){Curry._1(af$8,0);return 0},match$8[2],match$8[3]];case 9:var match$9=fmtty_rel_det(param[2]);var de=match$9[3];var ed=match$9[2];var af$9=match$9[1];var fa$9=match$9[0];var ty=trans(symm(param[0]),param[1]);var match$10=fmtty_rel_det(ty);var jd=match$10[3];var dj=match$10[2];var ga=match$10[1];var ag=match$10[0];return[function(param){Curry._1(fa$9,0);Curry._1(ag,0);return 0},function(param){Curry._1(ga,0);Curry._1(af$9,0);return 0},function(param){Curry._1(ed,0);Curry._1(dj,0);return 0},function(param){Curry._1(jd,0);Curry._1(de,0);return 0}];case 10:var match$11=fmtty_rel_det(param[0]);var af$10=match$11[1];var fa$10=match$11[0];return[function(param){Curry._1(fa$10,0);return 0},function(param){Curry._1(af$10,0);return 0},match$11[2],match$11[3]];case 11:var match$12=fmtty_rel_det(param[0]);var af$11=match$12[1];var fa$11=match$12[0];return[function(param){Curry._1(fa$11,0);return 0},function(param){Curry._1(af$11,0);return 0},match$12[2],match$12[3]];case 12:var match$13=fmtty_rel_det(param[0]);var af$12=match$13[1];var fa$12=match$13[0];return[function(param){Curry._1(fa$12,0);return 0},function(param){Curry._1(af$12,0);return 0},match$13[2],match$13[3]];case 13:var match$14=fmtty_rel_det(param[0]);var de$1=match$14[3];var ed$1=match$14[2];var af$13=match$14[1];var fa$13=match$14[0];return[function(param){Curry._1(fa$13,0);return 0},function(param){Curry._1(af$13,0);return 0},function(param){Curry._1(ed$1,0);return 0},function(param){Curry._1(de$1,0);return 0}];case 14:var match$15=fmtty_rel_det(param[0]);var de$2=match$15[3];var ed$2=match$15[2];var af$14=match$15[1];var fa$14=match$15[0];return[function(param){Curry._1(fa$14,0);return 0},function(param){Curry._1(af$14,0);return 0},function(param){Curry._1(ed$2,0);return 0},function(param){Curry._1(de$2,0);return 0}]}}}function trans(ty1,ty2){var exit=0;if(typeof ty1==="number"){if(typeof ty2==="number"){return 0}else{switch(ty2.tag|0){case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break;default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",846,23]]}}}else{switch(ty1.tag|0){case 0:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 0:return Block.__(0,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 1:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 1:return Block.__(1,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 2:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 2:return Block.__(2,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 3:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 3:return Block.__(3,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 4:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 4:return Block.__(4,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 5:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 5:return Block.__(5,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 6:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 6:return Block.__(6,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 7:if(typeof ty2==="number"){exit=8}else{switch(ty2.tag|0){case 7:return Block.__(7,[trans(ty1[0],ty2[0])]);case 8:exit=6;break;case 9:exit=7;break;case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break}}break;case 8:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",832,26]]}else{switch(ty2.tag|0){case 8:return Block.__(8,[trans(ty1[0],ty2[0]),trans(ty1[1],ty2[1])]);case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break;default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",832,26]]}}break;case 9:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",842,28]]}else{switch(ty2.tag|0){case 8:exit=6;break;case 9:var ty=trans(symm(ty1[1]),ty2[0]);var match=fmtty_rel_det(ty);Curry._1(match[1],0);Curry._1(match[3],0);return Block.__(9,[ty1[0],ty2[1],trans(ty1[2],ty2[2])]);case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:exit=5;break;default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",842,28]]}}break;case 10:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",810,21]]}else if(ty2.tag===10){return Block.__(10,[trans(ty1[0],ty2[0])])}else{throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",810,21]]}case 11:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",814,21]]}else{switch(ty2.tag|0){case 10:exit=1;break;case 11:return Block.__(11,[trans(ty1[0],ty2[0])]);default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",814,21]]}}break;case 12:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",818,19]]}else{switch(ty2.tag|0){case 10:exit=1;break;case 11:exit=2;break;case 12:return Block.__(12,[trans(ty1[0],ty2[0])]);default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",818,19]]}}break;case 13:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",822,22]]}else{switch(ty2.tag|0){case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:return Block.__(13,[trans(ty1[0],ty2[0])]);default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",822,22]]}}break;case 14:if(typeof ty2==="number"){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",827,30]]}else{switch(ty2.tag|0){case 10:exit=1;break;case 11:exit=2;break;case 12:exit=3;break;case 13:exit=4;break;case 14:return Block.__(14,[trans(ty1[0],ty2[0])]);default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",827,30]]}}break}}switch(exit){case 1:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",811,21]];case 2:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",815,21]];case 3:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",819,19]];case 4:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",823,22]];case 5:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",828,30]];case 6:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",833,26]];case 7:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",843,28]];case 8:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",847,23]]}}function fmtty_of_formatting_gen(formatting_gen){return fmtty_of_fmt(formatting_gen[0][0])}function fmtty_of_fmt(_fmtty){while(true){var fmtty=_fmtty;if(typeof fmtty==="number"){return 0}else{switch(fmtty.tag|0){case 2:case 3:break;case 4:var ty_rest=fmtty_of_fmt(fmtty[3]);var prec_ty=fmtty_of_precision_fmtty(fmtty[2],Block.__(2,[ty_rest]));return fmtty_of_padding_fmtty(fmtty[1],prec_ty);case 5:var ty_rest$1=fmtty_of_fmt(fmtty[3]);var prec_ty$1=fmtty_of_precision_fmtty(fmtty[2],Block.__(3,[ty_rest$1]));return fmtty_of_padding_fmtty(fmtty[1],prec_ty$1);case 6:var ty_rest$2=fmtty_of_fmt(fmtty[3]);var prec_ty$2=fmtty_of_precision_fmtty(fmtty[2],Block.__(4,[ty_rest$2]));return fmtty_of_padding_fmtty(fmtty[1],prec_ty$2);case 7:var ty_rest$3=fmtty_of_fmt(fmtty[3]);var prec_ty$3=fmtty_of_precision_fmtty(fmtty[2],Block.__(5,[ty_rest$3]));return fmtty_of_padding_fmtty(fmtty[1],prec_ty$3);case 8:var ty_rest$4=fmtty_of_fmt(fmtty[3]);var prec_ty$4=fmtty_of_precision_fmtty(fmtty[2],Block.__(6,[ty_rest$4]));return fmtty_of_padding_fmtty(fmtty[1],prec_ty$4);case 9:return fmtty_of_padding_fmtty(fmtty[0],Block.__(7,[fmtty_of_fmt(fmtty[1])]));case 10:_fmtty=fmtty[0];continue;case 13:return Block.__(8,[fmtty[1],fmtty_of_fmt(fmtty[2])]);case 14:var ty=fmtty[1];return Block.__(9,[ty,ty,fmtty_of_fmt(fmtty[2])]);case 15:return Block.__(10,[fmtty_of_fmt(fmtty[0])]);case 16:return Block.__(11,[fmtty_of_fmt(fmtty[0])]);case 11:case 12:case 17:_fmtty=fmtty[1];continue;case 18:return CamlinternalFormatBasics.concat_fmtty(fmtty_of_formatting_gen(fmtty[0]),fmtty_of_fmt(fmtty[1]));case 19:return Block.__(13,[fmtty_of_fmt(fmtty[0])]);case 20:return Block.__(1,[fmtty_of_fmt(fmtty[2])]);case 21:return Block.__(2,[fmtty_of_fmt(fmtty[1])]);case 23:var ign=fmtty[0];var fmt=fmtty[1];if(typeof ign==="number"){if(ign===2){return Block.__(14,[fmtty_of_fmt(fmt)])}else{return fmtty_of_fmt(fmt)}}else if(ign.tag===9){return CamlinternalFormatBasics.concat_fmtty(ign[1],fmtty_of_fmt(fmt))}else{return fmtty_of_fmt(fmt)}case 24:return fmtty_of_custom(fmtty[0],fmtty_of_fmt(fmtty[2]));default:return Block.__(0,[fmtty_of_fmt(fmtty[0])])}}return fmtty_of_padding_fmtty(fmtty[0],Block.__(1,[fmtty_of_fmt(fmtty[1])]))}}function fmtty_of_custom(arity,fmtty){if(arity){return Block.__(12,[fmtty_of_custom(arity[0],fmtty)])}else{return fmtty}}function fmtty_of_padding_fmtty(pad,fmtty){if(typeof pad==="number"||!pad.tag){return fmtty}else{return Block.__(2,[fmtty])}}function fmtty_of_precision_fmtty(prec,fmtty){if(typeof prec==="number"&&prec!==0){return Block.__(2,[fmtty])}else{return fmtty}}var Type_mismatch=Caml_exceptions.create("CamlinternalFormat.Type_mismatch");function type_padding(pad,fmtty){if(typeof pad==="number"){return[0,fmtty]}else if(pad.tag){if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===2){return[Block.__(1,[pad[0]]),fmtty[0]]}else{throw Type_mismatch}}else{return[Block.__(0,[pad[0],pad[1]]),fmtty]}}function type_padprec(pad,prec,fmtty){var match=type_padding(pad,fmtty);if(typeof prec==="number"){if(prec!==0){var match$1=match[1];if(typeof match$1==="number"){throw Type_mismatch}else if(match$1.tag===2){return[match[0],1,match$1[0]]}else{throw Type_mismatch}}else{return[match[0],0,match[1]]}}else{return[match[0],[prec[0]],match[1]]}}function type_ignored_format_substitution(sub_fmtty,fmt,fmtty){if(typeof sub_fmtty==="number"){return[0,type_format_gen(fmt,fmtty)]}else{switch(sub_fmtty.tag|0){case 0:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag){throw Type_mismatch}else{var match=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(0,[match[0]]),match[1]]}case 1:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===1){var match$1=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(1,[match$1[0]]),match$1[1]]}else{throw Type_mismatch}case 2:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===2){var match$2=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(2,[match$2[0]]),match$2[1]]}else{throw Type_mismatch}case 3:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===3){var match$3=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(3,[match$3[0]]),match$3[1]]}else{throw Type_mismatch}case 4:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===4){var match$4=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(4,[match$4[0]]),match$4[1]]}else{throw Type_mismatch}case 5:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===5){var match$5=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(5,[match$5[0]]),match$5[1]]}else{throw Type_mismatch}case 6:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===6){var match$6=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(6,[match$6[0]]),match$6[1]]}else{throw Type_mismatch}case 7:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===7){var match$7=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(7,[match$7[0]]),match$7[1]]}else{throw Type_mismatch}case 8:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===8){var sub2_fmtty$prime=fmtty[0];if(Caml_obj.caml_notequal([sub_fmtty[0]],[sub2_fmtty$prime])){throw Type_mismatch}var match$8=type_ignored_format_substitution(sub_fmtty[1],fmt,fmtty[1]);return[Block.__(8,[sub2_fmtty$prime,match$8[0]]),match$8[1]]}else{throw Type_mismatch}case 9:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===9){var sub2_fmtty$prime$1=fmtty[1];var sub1_fmtty$prime=fmtty[0];if(Caml_obj.caml_notequal([CamlinternalFormatBasics.erase_rel(sub_fmtty[0])],[CamlinternalFormatBasics.erase_rel(sub1_fmtty$prime)])){throw Type_mismatch}if(Caml_obj.caml_notequal([CamlinternalFormatBasics.erase_rel(sub_fmtty[1])],[CamlinternalFormatBasics.erase_rel(sub2_fmtty$prime$1)])){throw Type_mismatch}var sub_fmtty$prime=trans(symm(sub1_fmtty$prime),sub2_fmtty$prime$1);var match$9=fmtty_rel_det(sub_fmtty$prime);Curry._1(match$9[1],0);Curry._1(match$9[3],0);var match$10=type_ignored_format_substitution(CamlinternalFormatBasics.erase_rel(sub_fmtty[2]),fmt,fmtty[2]);return[Block.__(9,[sub1_fmtty$prime,sub2_fmtty$prime$1,symm(match$10[0])]),match$10[1]]}else{throw Type_mismatch}case 10:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===10){var match$11=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(10,[match$11[0]]),match$11[1]]}else{throw Type_mismatch}case 11:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===11){var match$12=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(11,[match$12[0]]),match$12[1]]}else{throw Type_mismatch}case 12:throw Type_mismatch;case 13:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===13){var match$13=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(13,[match$13[0]]),match$13[1]]}else{throw Type_mismatch}case 14:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===14){var match$14=type_ignored_format_substitution(sub_fmtty[0],fmt,fmtty[0]);return[Block.__(14,[match$14[0]]),match$14[1]]}else{throw Type_mismatch}}}}function type_format_gen(fmt,fmtty){if(typeof fmt==="number"){return[0,fmtty]}else{switch(fmt.tag|0){case 0:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag){throw Type_mismatch}else{var match=type_format_gen(fmt[0],fmtty[0]);return[Block.__(0,[match[0]]),match[1]]}case 1:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag){throw Type_mismatch}else{var match$1=type_format_gen(fmt[0],fmtty[0]);return[Block.__(1,[match$1[0]]),match$1[1]]}case 2:var match$2=type_padding(fmt[0],fmtty);var match$3=match$2[1];if(typeof match$3==="number"){throw Type_mismatch}else if(match$3.tag===1){var match$4=type_format_gen(fmt[1],match$3[0]);return[Block.__(2,[match$2[0],match$4[0]]),match$4[1]]}else{throw Type_mismatch}case 3:var match$5=type_padding(fmt[0],fmtty);var match$6=match$5[1];if(typeof match$6==="number"){throw Type_mismatch}else if(match$6.tag===1){var match$7=type_format_gen(fmt[1],match$6[0]);return[Block.__(3,[match$5[0],match$7[0]]),match$7[1]]}else{throw Type_mismatch}case 4:var match$8=type_padprec(fmt[1],fmt[2],fmtty);var match$9=match$8[2];if(typeof match$9==="number"){throw Type_mismatch}else if(match$9.tag===2){var match$10=type_format_gen(fmt[3],match$9[0]);return[Block.__(4,[fmt[0],match$8[0],match$8[1],match$10[0]]),match$10[1]]}else{throw Type_mismatch}case 5:var match$11=type_padprec(fmt[1],fmt[2],fmtty);var match$12=match$11[2];if(typeof match$12==="number"){throw Type_mismatch}else if(match$12.tag===3){var match$13=type_format_gen(fmt[3],match$12[0]);return[Block.__(5,[fmt[0],match$11[0],match$11[1],match$13[0]]),match$13[1]]}else{throw Type_mismatch}case 6:var match$14=type_padprec(fmt[1],fmt[2],fmtty);var match$15=match$14[2];if(typeof match$15==="number"){throw Type_mismatch}else if(match$15.tag===4){var match$16=type_format_gen(fmt[3],match$15[0]);return[Block.__(6,[fmt[0],match$14[0],match$14[1],match$16[0]]),match$16[1]]}else{throw Type_mismatch}case 7:var match$17=type_padprec(fmt[1],fmt[2],fmtty);var match$18=match$17[2];if(typeof match$18==="number"){throw Type_mismatch}else if(match$18.tag===5){var match$19=type_format_gen(fmt[3],match$18[0]);return[Block.__(7,[fmt[0],match$17[0],match$17[1],match$19[0]]),match$19[1]]}else{throw Type_mismatch}case 8:var match$20=type_padprec(fmt[1],fmt[2],fmtty);var match$21=match$20[2];if(typeof match$21==="number"){throw Type_mismatch}else if(match$21.tag===6){var match$22=type_format_gen(fmt[3],match$21[0]);return[Block.__(8,[fmt[0],match$20[0],match$20[1],match$22[0]]),match$22[1]]}else{throw Type_mismatch}case 9:var match$23=type_padding(fmt[0],fmtty);var match$24=match$23[1];if(typeof match$24==="number"){throw Type_mismatch}else if(match$24.tag===7){var match$25=type_format_gen(fmt[1],match$24[0]);return[Block.__(9,[match$23[0],match$25[0]]),match$25[1]]}else{throw Type_mismatch}case 10:var match$26=type_format_gen(fmt[0],fmtty);return[Block.__(10,[match$26[0]]),match$26[1]];case 11:var match$27=type_format_gen(fmt[1],fmtty);return[Block.__(11,[fmt[0],match$27[0]]),match$27[1]];case 12:var match$28=type_format_gen(fmt[1],fmtty);return[Block.__(12,[fmt[0],match$28[0]]),match$28[1]];case 13:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===8){var sub_fmtty$prime=fmtty[0];if(Caml_obj.caml_notequal([fmt[1]],[sub_fmtty$prime])){throw Type_mismatch}var match$29=type_format_gen(fmt[2],fmtty[1]);return[Block.__(13,[fmt[0],sub_fmtty$prime,match$29[0]]),match$29[1]]}else{throw Type_mismatch}case 14:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===9){var sub_fmtty1=fmtty[0];if(Caml_obj.caml_notequal([CamlinternalFormatBasics.erase_rel(fmt[1])],[CamlinternalFormatBasics.erase_rel(sub_fmtty1)])){throw Type_mismatch}var match$30=type_format_gen(fmt[2],CamlinternalFormatBasics.erase_rel(fmtty[2]));return[Block.__(14,[fmt[0],sub_fmtty1,match$30[0]]),match$30[1]]}else{throw Type_mismatch}case 15:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===10){var match$31=type_format_gen(fmt[0],fmtty[0]);return[Block.__(15,[match$31[0]]),match$31[1]]}else{throw Type_mismatch}case 16:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===11){var match$32=type_format_gen(fmt[0],fmtty[0]);return[Block.__(16,[match$32[0]]),match$32[1]]}else{throw Type_mismatch}case 17:var match$33=type_format_gen(fmt[1],fmtty);return[Block.__(17,[fmt[0],match$33[0]]),match$33[1]];case 18:var formatting_gen=fmt[0];var fmt0=fmt[1];var fmtty0=fmtty;if(formatting_gen.tag){var match$34=formatting_gen[0];var match$35=type_format_gen(match$34[0],fmtty0);var match$36=type_format_gen(fmt0,match$35[1]);return[Block.__(18,[Block.__(1,[[match$35[0],match$34[1]]]),match$36[0]]),match$36[1]]}else{var match$37=formatting_gen[0];var match$38=type_format_gen(match$37[0],fmtty0);var match$39=type_format_gen(fmt0,match$38[1]);return[Block.__(18,[Block.__(0,[[match$38[0],match$37[1]]]),match$39[0]]),match$39[1]]}case 19:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===13){var match$40=type_format_gen(fmt[0],fmtty[0]);return[Block.__(19,[match$40[0]]),match$40[1]]}else{throw Type_mismatch}case 20:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===1){var match$41=type_format_gen(fmt[2],fmtty[0]);return[Block.__(20,[fmt[0],fmt[1],match$41[0]]),match$41[1]]}else{throw Type_mismatch}case 21:if(typeof fmtty==="number"){throw Type_mismatch}else if(fmtty.tag===2){var match$42=type_format_gen(fmt[1],fmtty[0]);return[Block.__(21,[fmt[0],match$42[0]]),match$42[1]]}else{throw Type_mismatch}case 23:var ign=fmt[0];var fmt$1=fmt[1];var fmtty$1=fmtty;if(typeof ign==="number"){if(ign===2){if(typeof fmtty$1==="number"){throw Type_mismatch}else if(fmtty$1.tag===14){var match$43=type_format_gen(fmt$1,fmtty$1[0]);return[Block.__(23,[2,match$43[0]]),match$43[1]]}else{throw Type_mismatch}}else{return type_ignored_param_one(ign,fmt$1,fmtty$1)}}else{switch(ign.tag|0){case 8:return type_ignored_param_one(Block.__(8,[ign[0],ign[1]]),fmt$1,fmtty$1);case 9:var match$44=type_ignored_format_substitution(ign[1],fmt$1,fmtty$1);var match$45=match$44[1];return[Block.__(23,[Block.__(9,[ign[0],match$44[0]]),match$45[0]]),match$45[1]];default:return type_ignored_param_one(ign,fmt$1,fmtty$1)}}case 22:case 24:throw Type_mismatch}}}function type_ignored_param_one(ign,fmt,fmtty){var match=type_format_gen(fmt,fmtty);return[Block.__(23,[ign,match[0]]),match[1]]}function type_format(fmt,fmtty){var match=type_format_gen(fmt,fmtty);if(typeof match[1]==="number"){return match[0]}else{throw Type_mismatch}}function recast(fmt,fmtty){return type_format(fmt,CamlinternalFormatBasics.erase_rel(symm(fmtty)))}function fix_padding(padty,width,str){var len=str.length;var width$1=Pervasives.abs(width);var padty$1=width<0?0:padty;if(width$1<=len){return str}else{var res=Bytes.make(width$1,padty$1===2?48:32);switch(padty$1){case 0:$$String.blit(str,0,res,0,len);break;case 1:$$String.blit(str,0,res,width$1-len|0,len);break;case 2:if(len>0&&(Caml_string.get(str,0)===43||Caml_string.get(str,0)===45||Caml_string.get(str,0)===32)){res[0]=Caml_string.get(str,0);$$String.blit(str,1,res,(width$1-len|0)+1|0,len-1|0)}else if(len>1&&Caml_string.get(str,0)===48&&(Caml_string.get(str,1)===120||Caml_string.get(str,1)===88)){res[1]=Caml_string.get(str,1);$$String.blit(str,2,res,(width$1-len|0)+2|0,len-2|0)}else{$$String.blit(str,0,res,width$1-len|0,len)}break}return Caml_bytes.bytes_to_string(res)}}function fix_int_precision(prec,str){var prec$1=Pervasives.abs(prec);var len=str.length;var c=Caml_string.get(str,0);var exit=0;if(c>=58){if(c>=71){if(c>102||c<97){return str}else{exit=2}}else if(c>=65){exit=2}else{return str}}else if(c!==32){if(c>=43){switch(c-43|0){case 0:case 2:exit=1;break;case 1:case 3:case 4:return str;case 5:if((prec$1+2|0)>len&&len>1&&(Caml_string.get(str,1)===120||Caml_string.get(str,1)===88)){var res=Bytes.make(prec$1+2|0,48);res[1]=Caml_string.get(str,1);$$String.blit(str,2,res,(prec$1-len|0)+4|0,len-2|0);return Caml_bytes.bytes_to_string(res)}else{exit=2}break;case 6:case 7:case 8:case 9:case 10:case 11:case 12:case 13:case 14:exit=2;break}}else{return str}}else{exit=1}switch(exit){case 1:if((prec$1+1|0)>len){var res$1=Bytes.make(prec$1+1|0,48);res$1[0]=c;$$String.blit(str,1,res$1,(prec$1-len|0)+2|0,len-1|0);return Caml_bytes.bytes_to_string(res$1)}else{return str}case 2:if(prec$1>len){var res$2=Bytes.make(prec$1,48);$$String.blit(str,0,res$2,prec$1-len|0,len);return Caml_bytes.bytes_to_string(res$2)}else{return str}}}function string_to_caml_string(str){var str$1=$$String.escaped(str);var l=str$1.length;var res=Bytes.make(l+2|0,34);Caml_bytes.caml_blit_string(str$1,0,res,1,l);return Caml_bytes.bytes_to_string(res)}function format_of_iconv(param){switch(param){case 0:return"%d";case 1:return"%+d";case 2:return"% d";case 3:return"%i";case 4:return"%+i";case 5:return"% i";case 6:return"%x";case 7:return"%#x";case 8:return"%X";case 9:return"%#X";case 10:return"%o";case 11:return"%#o";case 12:return"%u"}}function format_of_iconvL(param){switch(param){case 0:return"%Ld";case 1:return"%+Ld";case 2:return"% Ld";case 3:return"%Li";case 4:return"%+Li";case 5:return"% Li";case 6:return"%Lx";case 7:return"%#Lx";case 8:return"%LX";case 9:return"%#LX";case 10:return"%Lo";case 11:return"%#Lo";case 12:return"%Lu"}}function format_of_iconvl(param){switch(param){case 0:return"%ld";case 1:return"%+ld";case 2:return"% ld";case 3:return"%li";case 4:return"%+li";case 5:return"% li";case 6:return"%lx";case 7:return"%#lx";case 8:return"%lX";case 9:return"%#lX";case 10:return"%lo";case 11:return"%#lo";case 12:return"%lu"}}function format_of_iconvn(param){switch(param){case 0:return"%nd";case 1:return"%+nd";case 2:return"% nd";case 3:return"%ni";case 4:return"%+ni";case 5:return"% ni";case 6:return"%nx";case 7:return"%#nx";case 8:return"%nX";case 9:return"%#nX";case 10:return"%no";case 11:return"%#no";case 12:return"%nu"}}function format_of_fconv(fconv,prec){if(fconv===15){return"%.12g"}else{var prec$1=Pervasives.abs(prec);var symb=char_of_fconv(fconv);var buf={ind:0,bytes:Caml_bytes.caml_create_bytes(16)};buffer_add_char(buf,37);bprint_fconv_flag(buf,fconv);buffer_add_char(buf,46);buffer_add_string(buf,String(prec$1));buffer_add_char(buf,symb);return buffer_contents(buf)}}function convert_int(iconv,n){return Caml_format.caml_format_int(format_of_iconv(iconv),n)}function convert_int32(iconv,n){return Caml_format.caml_int32_format(format_of_iconvl(iconv),n)}function convert_nativeint(iconv,n){return Caml_format.caml_nativeint_format(format_of_iconvn(iconv),n)}function convert_int64(iconv,n){return Caml_format.caml_int64_format(format_of_iconvL(iconv),n)}function convert_float(fconv,prec,x){if(fconv>=16){var sign;if(fconv>=17){switch(fconv-17|0){case 2:sign=45;break;case 0:case 3:sign=43;break;case 1:case 4:sign=32;break}}else{sign=45}var str=Caml_format.caml_hexstring_of_float(x,prec,sign);if(fconv>=19){return Caml_bytes.bytes_to_string(Bytes.uppercase_ascii(Caml_bytes.bytes_of_string(str)))}else{return str}}else{var str$1=Caml_format.caml_format_float(format_of_fconv(fconv,prec),x);if(fconv!==15){return str$1}else{var len=str$1.length;var is_valid=function(_i){while(true){var i=_i;if(i===len){return false}else{var match=Caml_string.get(str$1,i);var switcher=match-46|0;if(switcher>23||switcher<0){if(switcher!==55){_i=i+1|0;continue}else{return true}}else if(switcher>22||switcher<1){return true}else{_i=i+1|0;continue}}}};var match=Pervasives.classify_float(x);if(match!==3){if(match>=4){return"nan"}else if(is_valid(0)){return str$1}else{return str$1+"."}}else if(x<0){return"neg_infinity"}else{return"infinity"}}}}function format_caml_char(c){var str=Char.escaped(c);var l=str.length;var res=Bytes.make(l+2|0,39);Caml_bytes.caml_blit_string(str,0,res,1,l);return Caml_bytes.bytes_to_string(res)}function string_of_fmtty(fmtty){var buf={ind:0,bytes:Caml_bytes.caml_create_bytes(16)};bprint_fmtty(buf,fmtty);return buffer_contents(buf)}function make_printf(_k,o,_acc,_fmt){while(true){var fmt=_fmt;var acc=_acc;var k=_k;if(typeof fmt==="number"){return Curry._2(k,o,acc)}else{switch(fmt.tag|0){case 0:var rest=fmt[0];return function(k,acc,rest){return function(c){var new_acc=Block.__(5,[acc,c]);return make_printf(k,o,new_acc,rest)}}(k,acc,rest);case 1:var rest$1=fmt[0];return function(k,acc,rest$1){return function(c){var new_acc_001=format_caml_char(c);var new_acc=Block.__(4,[acc,new_acc_001]);return make_printf(k,o,new_acc,rest$1)}}(k,acc,rest$1);case 2:return make_padding(k,o,acc,fmt[1],fmt[0],function(str){return str});case 3:return make_padding(k,o,acc,fmt[1],fmt[0],string_to_caml_string);case 4:return make_int_padding_precision(k,o,acc,fmt[3],fmt[1],fmt[2],convert_int,fmt[0]);case 5:return make_int_padding_precision(k,o,acc,fmt[3],fmt[1],fmt[2],convert_int32,fmt[0]);case 6:return make_int_padding_precision(k,o,acc,fmt[3],fmt[1],fmt[2],convert_nativeint,fmt[0]);case 7:return make_int_padding_precision(k,o,acc,fmt[3],fmt[1],fmt[2],convert_int64,fmt[0]);case 8:var k$1=k;var o$1=o;var acc$1=acc;var fmt$1=fmt[3];var pad=fmt[1];var prec=fmt[2];var fconv=fmt[0];if(typeof pad==="number"){if(typeof prec==="number"){if(prec!==0){return function(k$1,o$1,acc$1,fmt$1,fconv){return function(p,x){var str=convert_float(fconv,p,x);return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv)}else{return function(k$1,o$1,acc$1,fmt$1,fconv){return function(x){var str=convert_float(fconv,-6,x);return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv)}}else{var p=prec[0];return function(k$1,o$1,acc$1,fmt$1,fconv,p){return function(x){var str=convert_float(fconv,p,x);return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,p)}}else if(pad.tag){var padty=pad[0];if(typeof prec==="number"){if(prec!==0){return function(k$1,o$1,acc$1,fmt$1,fconv,padty){return function(w,p,x){var str=fix_padding(padty,w,convert_float(fconv,p,x));return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty)}else{return function(k$1,o$1,acc$1,fmt$1,fconv,padty){return function(w,x){var str=convert_float(fconv,-6,x);var str$prime=fix_padding(padty,w,str);return make_printf(k$1,o$1,Block.__(4,[acc$1,str$prime]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty)}}else{var p$1=prec[0];return function(k$1,o$1,acc$1,fmt$1,fconv,padty,p$1){return function(w,x){var str=fix_padding(padty,w,convert_float(fconv,p$1,x));return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty,p$1)}}else{var w=pad[1];var padty$1=pad[0];if(typeof prec==="number"){if(prec!==0){return function(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w){return function(p,x){var str=fix_padding(padty$1,w,convert_float(fconv,p,x));return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w)}else{return function(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w){return function(x){var str=convert_float(fconv,-6,x);var str$prime=fix_padding(padty$1,w,str);return make_printf(k$1,o$1,Block.__(4,[acc$1,str$prime]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w)}}else{var p$2=prec[0];return function(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w,p$2){return function(x){var str=fix_padding(padty$1,w,convert_float(fconv,p$2,x));return make_printf(k$1,o$1,Block.__(4,[acc$1,str]),fmt$1)}}(k$1,o$1,acc$1,fmt$1,fconv,padty$1,w,p$2)}}case 9:return make_padding(k,o,acc,fmt[1],fmt[0],Pervasives.string_of_bool);case 10:_fmt=fmt[0];_acc=Block.__(7,[acc]);continue;case 11:_fmt=fmt[1];_acc=Block.__(2,[acc,fmt[0]]);continue;case 12:_fmt=fmt[1];_acc=Block.__(3,[acc,fmt[0]]);continue;case 13:var rest$2=fmt[2];var ty=string_of_fmtty(fmt[1]);return function(k,acc,rest$2,ty){return function(str){return make_printf(k,o,Block.__(4,[acc,ty]),rest$2)}}(k,acc,rest$2,ty);case 14:var rest$3=fmt[2];var fmtty=fmt[1];return function(k,acc,fmtty,rest$3){return function(param){return make_printf(k,o,acc,CamlinternalFormatBasics.concat_fmt(recast(param[0],fmtty),rest$3))}}(k,acc,fmtty,rest$3);case 15:var rest$4=fmt[0];return function(k,acc,rest$4){return function(f,x){return make_printf(k,o,Block.__(6,[acc,function(o){return Curry._2(f,o,x)}]),rest$4)}}(k,acc,rest$4);case 16:var rest$5=fmt[0];return function(k,acc,rest$5){return function(f){return make_printf(k,o,Block.__(6,[acc,f]),rest$5)}}(k,acc,rest$5);case 17:_fmt=fmt[1];_acc=Block.__(0,[acc,fmt[0]]);continue;case 18:var match=fmt[0];if(match.tag){var rest$6=fmt[1];var k$prime=function(k,acc,rest$6){return function k$prime(koc,kacc){return make_printf(k,koc,Block.__(1,[acc,Block.__(1,[kacc])]),rest$6)}}(k,acc,rest$6);_fmt=match[0][0];_acc=0
-;_k=k$prime;continue}else{var rest$7=fmt[1];var k$prime$1=function(k,acc,rest$7){return function k$prime$1(koc,kacc){return make_printf(k,koc,Block.__(1,[acc,Block.__(0,[kacc])]),rest$7)}}(k,acc,rest$7);_fmt=match[0][0];_acc=0;_k=k$prime$1;continue}case 19:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",1525,4]];case 20:var rest$8=fmt[2];var new_acc=Block.__(8,[acc,"Printf: bad conversion %["]);return function(k,rest$8,new_acc){return function(param){return make_printf(k,o,new_acc,rest$8)}}(k,rest$8,new_acc);case 21:var rest$9=fmt[1];return function(k,acc,rest$9){return function(n){var new_acc_001=Caml_format.caml_format_int("%u",n);var new_acc=Block.__(4,[acc,new_acc_001]);return make_printf(k,o,new_acc,rest$9)}}(k,acc,rest$9);case 22:var rest$10=fmt[0];return function(k,acc,rest$10){return function(c){var new_acc=Block.__(5,[acc,c]);return make_printf(k,o,new_acc,rest$10)}}(k,acc,rest$10);case 23:return make_ignored_param(k,o,acc,fmt[0],fmt[1]);case 24:return make_custom(k,o,acc,fmt[2],fmt[0],Curry._1(fmt[1],0))}}}}function make_ignored_param(k,o,acc,ign,fmt){if(typeof ign==="number"){if(ign===2){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",1593,39]]}else{return make_invalid_arg(k,o,acc,fmt)}}else if(ign.tag===9){return make_from_fmtty(k,o,acc,ign[1],fmt)}else{return make_invalid_arg(k,o,acc,fmt)}}function make_from_fmtty(k,o,acc,fmtty,fmt){if(typeof fmtty==="number"){return make_invalid_arg(k,o,acc,fmt)}else{switch(fmtty.tag|0){case 0:var rest=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest,fmt)};case 1:var rest$1=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$1,fmt)};case 2:var rest$2=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$2,fmt)};case 3:var rest$3=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$3,fmt)};case 4:var rest$4=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$4,fmt)};case 5:var rest$5=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$5,fmt)};case 6:var rest$6=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$6,fmt)};case 7:var rest$7=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$7,fmt)};case 8:var rest$8=fmtty[1];return function(param){return make_from_fmtty(k,o,acc,rest$8,fmt)};case 9:var rest$9=fmtty[2];var ty=trans(symm(fmtty[0]),fmtty[1]);return function(param){return make_from_fmtty(k,o,acc,CamlinternalFormatBasics.concat_fmtty(ty,rest$9),fmt)};case 10:var rest$10=fmtty[0];return function(param,param$1){return make_from_fmtty(k,o,acc,rest$10,fmt)};case 11:var rest$11=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$11,fmt)};case 12:var rest$12=fmtty[0];return function(param){return make_from_fmtty(k,o,acc,rest$12,fmt)};case 13:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",1616,31]];case 14:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",1617,31]]}}}function make_invalid_arg(k,o,acc,fmt){return make_printf(k,o,Block.__(8,[acc,"Printf: bad conversion %_"]),fmt)}function make_padding(k,o,acc,fmt,pad,trans){if(typeof pad==="number"){return function(x){var new_acc_001=Curry._1(trans,x);var new_acc=Block.__(4,[acc,new_acc_001]);return make_printf(k,o,new_acc,fmt)}}else if(pad.tag){var padty=pad[0];return function(w,x){var new_acc_001=fix_padding(padty,w,Curry._1(trans,x));var new_acc=Block.__(4,[acc,new_acc_001]);return make_printf(k,o,new_acc,fmt)}}else{var width=pad[1];var padty$1=pad[0];return function(x){var new_acc_001=fix_padding(padty$1,width,Curry._1(trans,x));var new_acc=Block.__(4,[acc,new_acc_001]);return make_printf(k,o,new_acc,fmt)}}}function make_int_padding_precision(k,o,acc,fmt,pad,prec,trans,iconv){if(typeof pad==="number"){if(typeof prec==="number"){if(prec!==0){return function(p,x){var str=fix_int_precision(p,Curry._2(trans,iconv,x));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}else{return function(x){var str=Curry._2(trans,iconv,x);return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}else{var p=prec[0];return function(x){var str=fix_int_precision(p,Curry._2(trans,iconv,x));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}else if(pad.tag){var padty=pad[0];if(typeof prec==="number"){if(prec!==0){return function(w,p,x){var str=fix_padding(padty,w,fix_int_precision(p,Curry._2(trans,iconv,x)));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}else{return function(w,x){var str=fix_padding(padty,w,Curry._2(trans,iconv,x));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}else{var p$1=prec[0];return function(w,x){var str=fix_padding(padty,w,fix_int_precision(p$1,Curry._2(trans,iconv,x)));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}else{var w=pad[1];var padty$1=pad[0];if(typeof prec==="number"){if(prec!==0){return function(p,x){var str=fix_padding(padty$1,w,fix_int_precision(p,Curry._2(trans,iconv,x)));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}else{return function(x){var str=fix_padding(padty$1,w,Curry._2(trans,iconv,x));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}else{var p$2=prec[0];return function(x){var str=fix_padding(padty$1,w,fix_int_precision(p$2,Curry._2(trans,iconv,x)));return make_printf(k,o,Block.__(4,[acc,str]),fmt)}}}}function make_custom(k,o,acc,rest,arity,f){if(arity){var arity$1=arity[0];return function(x){return make_custom(k,o,acc,rest,arity$1,Curry._1(f,x))}}else{return make_printf(k,o,Block.__(4,[acc,f]),rest)}}function make_iprintf(_k,o,_fmt){while(true){var fmt=_fmt;var k=_k;var exit=0;if(typeof fmt==="number"){return Curry._1(k,o)}else{switch(fmt.tag|0){case 2:var tmp=fmt[0];if(typeof tmp!=="number"&&tmp.tag){var partial_arg=make_iprintf(k,o,fmt[1]);var partial_arg$1=function(partial_arg){return function partial_arg$1(param){return partial_arg}}(partial_arg);return function(param){return partial_arg$1}}var partial_arg$2=make_iprintf(k,o,fmt[1]);return function(partial_arg$2){return function(param){return partial_arg$2}}(partial_arg$2);case 3:var tmp$1=fmt[0];if(typeof tmp$1!=="number"&&tmp$1.tag){var partial_arg$3=make_iprintf(k,o,fmt[1]);var partial_arg$4=function(partial_arg$3){return function partial_arg$4(param){return partial_arg$3}}(partial_arg$3);return function(param){return partial_arg$4}}var partial_arg$5=make_iprintf(k,o,fmt[1]);return function(partial_arg$5){return function(param){return partial_arg$5}}(partial_arg$5);case 9:var tmp$2=fmt[0];if(typeof tmp$2!=="number"&&tmp$2.tag){var partial_arg$6=make_iprintf(k,o,fmt[1]);var partial_arg$7=function(partial_arg$6){return function partial_arg$7(param){return partial_arg$6}}(partial_arg$6);return function(param){return partial_arg$7}}var partial_arg$8=make_iprintf(k,o,fmt[1]);return function(partial_arg$8){return function(param){return partial_arg$8}}(partial_arg$8);case 10:_fmt=fmt[0];continue;case 14:var rest=fmt[2];var fmtty=fmt[1];return function(k,fmtty,rest){return function(param){return make_iprintf(k,o,CamlinternalFormatBasics.concat_fmt(recast(param[0],fmtty),rest))}}(k,fmtty,rest);case 15:var partial_arg$9=make_iprintf(k,o,fmt[0]);var partial_arg$10=function(partial_arg$9){return function partial_arg$10(param){return partial_arg$9}}(partial_arg$9);return function(param){return partial_arg$10};case 11:case 12:case 17:exit=2;break;case 18:var match=fmt[0];if(match.tag){var rest$1=fmt[1];_fmt=match[0][0];_k=function(k,rest$1){return function(koc){return make_iprintf(k,koc,rest$1)}}(k,rest$1);continue}else{var rest$2=fmt[1];_fmt=match[0][0];_k=function(k,rest$2){return function(koc){return make_iprintf(k,koc,rest$2)}}(k,rest$2);continue}case 19:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",1797,8]];case 13:case 20:exit=3;break;case 21:var partial_arg$11=make_iprintf(k,o,fmt[1]);return function(partial_arg$11){return function(param){return partial_arg$11}}(partial_arg$11);case 0:case 1:case 16:case 22:exit=1;break;case 23:return make_ignored_param(function(k){return function(x,param){return Curry._1(k,x)}}(k),o,0,fmt[0],fmt[1]);case 24:return fn_of_custom_arity(k,o,fmt[2],fmt[0]);default:var k$1=k;var o$1=o;var fmt$1=fmt[3];var pad=fmt[1];var prec=fmt[2];if(typeof pad==="number"){if(typeof prec==="number"){if(prec!==0){var partial_arg$12=make_iprintf(k$1,o$1,fmt$1);var partial_arg$13=function(partial_arg$12){return function partial_arg$13(param){return partial_arg$12}}(partial_arg$12);return function(param){return partial_arg$13}}else{var partial_arg$14=make_iprintf(k$1,o$1,fmt$1);return function(partial_arg$14){return function(param){return partial_arg$14}}(partial_arg$14)}}else{var partial_arg$15=make_iprintf(k$1,o$1,fmt$1);return function(partial_arg$15){return function(param){return partial_arg$15}}(partial_arg$15)}}else if(pad.tag){if(typeof prec==="number"){if(prec!==0){var partial_arg$16=make_iprintf(k$1,o$1,fmt$1);var partial_arg$17=function(partial_arg$16){return function partial_arg$17(param){return partial_arg$16}}(partial_arg$16);var partial_arg$18=function(param){return partial_arg$17};return function(param){return partial_arg$18}}else{var partial_arg$19=make_iprintf(k$1,o$1,fmt$1);var partial_arg$20=function(partial_arg$19){return function partial_arg$20(param){return partial_arg$19}}(partial_arg$19);return function(param){return partial_arg$20}}}else{var partial_arg$21=make_iprintf(k$1,o$1,fmt$1);var partial_arg$22=function(partial_arg$21){return function partial_arg$22(param){return partial_arg$21}}(partial_arg$21);return function(param){return partial_arg$22}}}else if(typeof prec==="number"){if(prec!==0){var partial_arg$23=make_iprintf(k$1,o$1,fmt$1);var partial_arg$24=function(partial_arg$23){return function partial_arg$24(param){return partial_arg$23}}(partial_arg$23);return function(param){return partial_arg$24}}else{var partial_arg$25=make_iprintf(k$1,o$1,fmt$1);return function(partial_arg$25){return function(param){return partial_arg$25}}(partial_arg$25)}}else{var partial_arg$26=make_iprintf(k$1,o$1,fmt$1);return function(partial_arg$26){return function(param){return partial_arg$26}}(partial_arg$26)}}}switch(exit){case 1:var partial_arg$27=make_iprintf(k,o,fmt[0]);return function(partial_arg$27){return function(param){return partial_arg$27}}(partial_arg$27);case 2:_fmt=fmt[1];continue;case 3:var partial_arg$28=make_iprintf(k,o,fmt[2]);return function(partial_arg$28){return function(param){return partial_arg$28}}(partial_arg$28)}}}function fn_of_custom_arity(k,o,fmt,param){if(param){var partial_arg=fn_of_custom_arity(k,o,fmt,param[0]);return function(param){return partial_arg}}else{return make_iprintf(k,o,fmt)}}function output_acc(o,_acc){while(true){var acc=_acc;var exit=0;if(typeof acc==="number"){return 0}else{switch(acc.tag|0){case 0:var s=string_of_formatting_lit(acc[1]);output_acc(o,acc[0]);return Pervasives.output_string(o,s);case 1:var match=acc[1];var p=acc[0];output_acc(o,p);if(match.tag){Pervasives.output_string(o,"@[");_acc=match[0];continue}else{Pervasives.output_string(o,"@{");_acc=match[0];continue}case 2:case 4:exit=1;break;case 3:case 5:exit=2;break;case 6:output_acc(o,acc[0]);return Curry._1(acc[1],o);case 7:output_acc(o,acc[0]);return Caml_io.caml_ml_flush(o);case 8:output_acc(o,acc[0]);throw[Caml_builtin_exceptions.invalid_argument,acc[1]]}}switch(exit){case 1:output_acc(o,acc[0]);return Pervasives.output_string(o,acc[1]);case 2:output_acc(o,acc[0]);return Caml_io.caml_ml_output_char(o,acc[1])}}}function bufput_acc(b,_acc){while(true){var acc=_acc;var exit=0;if(typeof acc==="number"){return 0}else{switch(acc.tag|0){case 0:var s=string_of_formatting_lit(acc[1]);bufput_acc(b,acc[0]);return $$Buffer.add_string(b,s);case 1:var match=acc[1];var p=acc[0];bufput_acc(b,p);if(match.tag){$$Buffer.add_string(b,"@[");_acc=match[0];continue}else{$$Buffer.add_string(b,"@{");_acc=match[0];continue}case 2:case 4:exit=1;break;case 3:case 5:exit=2;break;case 6:bufput_acc(b,acc[0]);return Curry._1(acc[1],b);case 7:_acc=acc[0];continue;case 8:bufput_acc(b,acc[0]);throw[Caml_builtin_exceptions.invalid_argument,acc[1]]}}switch(exit){case 1:bufput_acc(b,acc[0]);return $$Buffer.add_string(b,acc[1]);case 2:bufput_acc(b,acc[0]);return $$Buffer.add_char(b,acc[1])}}}function strput_acc(b,_acc){while(true){var acc=_acc;var exit=0;if(typeof acc==="number"){return 0}else{switch(acc.tag|0){case 0:var s=string_of_formatting_lit(acc[1]);strput_acc(b,acc[0]);return $$Buffer.add_string(b,s);case 1:var match=acc[1];var p=acc[0];strput_acc(b,p);if(match.tag){$$Buffer.add_string(b,"@[");_acc=match[0];continue}else{$$Buffer.add_string(b,"@{");_acc=match[0];continue}case 2:case 4:exit=1;break;case 3:case 5:exit=2;break;case 6:strput_acc(b,acc[0]);return $$Buffer.add_string(b,Curry._1(acc[1],0));case 7:_acc=acc[0];continue;case 8:strput_acc(b,acc[0]);throw[Caml_builtin_exceptions.invalid_argument,acc[1]]}}switch(exit){case 1:strput_acc(b,acc[0]);return $$Buffer.add_string(b,acc[1]);case 2:strput_acc(b,acc[0]);return $$Buffer.add_char(b,acc[1])}}}function failwith_message(param){var buf=$$Buffer.create(256);var k=function(param,acc){strput_acc(buf,acc);var s=$$Buffer.contents(buf);throw[Caml_builtin_exceptions.failure,s]};return make_printf(k,0,0,param[0])}function open_box_of_string(str){if(str===""){return[0,4]}else{var len=str.length;var invalid_box=function(param){return Curry._1(failwith_message([Block.__(11,["invalid box description ",Block.__(3,[0,0])]),"invalid box description %S"]),str)};var parse_spaces=function(_i){while(true){var i=_i;if(i===len){return i}else{var match=Caml_string.get(str,i);if(match!==9){if(match!==32){return i}else{_i=i+1|0;continue}}else{_i=i+1|0;continue}}}};var parse_lword=function(i,_j){while(true){var j=_j;if(j===len){return j}else{var match=Caml_string.get(str,j);if(match>122||match<97){return j}else{_j=j+1|0;continue}}}};var parse_int=function(i,_j){while(true){var j=_j;if(j===len){return j}else{var match=Caml_string.get(str,j);if(match>=48){if(match>=58){return j}else{_j=j+1|0;continue}}else if(match!==45){return j}else{_j=j+1|0;continue}}}};var wstart=parse_spaces(0);var wend=parse_lword(wstart,wstart);var box_name=$$String.sub(str,wstart,wend-wstart|0);var nstart=parse_spaces(wend);var nend=parse_int(nstart,nstart);var indent;if(nstart===nend){indent=0}else{try{indent=Caml_format.caml_int_of_string($$String.sub(str,nstart,nend-nstart|0))}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){indent=invalid_box(0)}else{throw exn}}}var exp_end=parse_spaces(nend);if(exp_end!==len){invalid_box(0)}var box_type;switch(box_name){case"":case"b":box_type=4;break;case"h":box_type=0;break;case"hov":box_type=3;break;case"hv":box_type=2;break;case"v":box_type=1;break;default:box_type=invalid_box(0)}return[indent,box_type]}}function make_padding_fmt_ebb(pad,fmt){if(typeof pad==="number"){return[0,fmt]}else if(pad.tag){return[Block.__(1,[pad[0]]),fmt]}else{return[Block.__(0,[pad[0],pad[1]]),fmt]}}function make_precision_fmt_ebb(prec,fmt){if(typeof prec==="number"){if(prec!==0){return[1,fmt]}else{return[0,fmt]}}else{return[[prec[0]],fmt]}}function make_padprec_fmt_ebb(pad,prec,fmt){var match=make_precision_fmt_ebb(prec,fmt);var fmt$prime=match[1];var prec$1=match[0];if(typeof pad==="number"){return[0,prec$1,fmt$prime]}else if(pad.tag){return[Block.__(1,[pad[0]]),prec$1,fmt$prime]}else{return[Block.__(0,[pad[0],pad[1]]),prec$1,fmt$prime]}}function fmt_ebb_of_string(legacy_behavior,str){var legacy_behavior$1=legacy_behavior!==undefined?legacy_behavior:true;var invalid_format_message=function(str_ind,msg){return Curry._3(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", ",Block.__(2,[0,0])])])])])]),"invalid format %S: at character number %d, %s"]),str,str_ind,msg)};var invalid_format_without=function(str_ind,c,s){return Curry._4(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", '",Block.__(0,[Block.__(11,["' without ",Block.__(2,[0,0])])])])])])])]),"invalid format %S: at character number %d, '%c' without %s"]),str,str_ind,c,s)};var expected_character=function(str_ind,expected,read){return Curry._4(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", ",Block.__(2,[0,Block.__(11,[" expected, read ",Block.__(1,[0])])])])])])])]),"invalid format %S: at character number %d, %s expected, read %C"]),str,str_ind,expected,read)};var parse_after_at=function(str_ind,end_ind){if(str_ind===end_ind){return[Block.__(12,[64,0])]}else{var c=Caml_string.get(str,str_ind);if(c>=65){if(c>=94){switch(c){case 123:return parse_tag(true,str_ind+1|0,end_ind);case 124:break;case 125:var beg_ind=str_ind+1|0;var match=parse_literal(beg_ind,beg_ind,end_ind);return[Block.__(17,[1,match[0]])];default:}}else if(c>=91){switch(c-91|0){case 0:return parse_tag(false,str_ind+1|0,end_ind);case 1:break;case 2:var beg_ind$1=str_ind+1|0;var match$1=parse_literal(beg_ind$1,beg_ind$1,end_ind);return[Block.__(17,[0,match$1[0]])]}}}else if(c!==10){if(c>=32){switch(c-32|0){case 0:var beg_ind$2=str_ind+1|0;var match$2=parse_literal(beg_ind$2,beg_ind$2,end_ind);return[Block.__(17,[Block.__(0,["@ ",1,0]),match$2[0]])];case 5:if((str_ind+1|0)<end_ind&&Caml_string.get(str,str_ind+1|0)===37){var beg_ind$3=str_ind+2|0;var match$3=parse_literal(beg_ind$3,beg_ind$3,end_ind);return[Block.__(17,[6,match$3[0]])]}else{var match$4=parse_literal(str_ind,str_ind,end_ind);return[Block.__(12,[64,match$4[0]])]}case 12:var beg_ind$4=str_ind+1|0;var match$5=parse_literal(beg_ind$4,beg_ind$4,end_ind);return[Block.__(17,[Block.__(0,["@,",0,0]),match$5[0]])];case 14:var beg_ind$5=str_ind+1|0;var match$6=parse_literal(beg_ind$5,beg_ind$5,end_ind);return[Block.__(17,[4,match$6[0]])];case 27:var str_ind$1=str_ind+1|0;var end_ind$1=end_ind;var match$7;try{if(str_ind$1===end_ind$1||Caml_string.get(str,str_ind$1)!==60){throw Caml_builtin_exceptions.not_found}var str_ind_1=parse_spaces(str_ind$1+1|0,end_ind$1);var match$8=Caml_string.get(str,str_ind_1);var exit=0;if(match$8>=48){if(match$8>=58){throw Caml_builtin_exceptions.not_found}exit=1}else{if(match$8!==45){throw Caml_builtin_exceptions.not_found}exit=1}if(exit===1){var match$9=parse_integer(str_ind_1,end_ind$1);var width=match$9[1];var str_ind_3=parse_spaces(match$9[0],end_ind$1);var match$10=Caml_string.get(str,str_ind_3);var switcher=match$10-45|0;if(switcher>12||switcher<0){if(switcher!==17){throw Caml_builtin_exceptions.not_found}var s=$$String.sub(str,str_ind$1-2|0,(str_ind_3-str_ind$1|0)+3|0);match$7=[str_ind_3+1|0,Block.__(0,[s,width,0])]}else if(switcher===2||switcher===1){throw Caml_builtin_exceptions.not_found}else{var match$11=parse_integer(str_ind_3,end_ind$1);var str_ind_5=parse_spaces(match$11[0],end_ind$1);if(Caml_string.get(str,str_ind_5)!==62){throw Caml_builtin_exceptions.not_found}var s$1=$$String.sub(str,str_ind$1-2|0,(str_ind_5-str_ind$1|0)+3|0);match$7=[str_ind_5+1|0,Block.__(0,[s$1,width,match$11[1]])]}}}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn===Caml_builtin_exceptions.not_found||exn[0]===Caml_builtin_exceptions.failure){match$7=[str_ind$1,Block.__(0,["@;",1,0])]}else{throw exn}}var next_ind=match$7[0];var match$12=parse_literal(next_ind,next_ind,end_ind$1);return[Block.__(17,[match$7[1],match$12[0]])];case 28:var str_ind$2=str_ind+1|0;var end_ind$2=end_ind;var match$13;try{var str_ind_1$1=parse_spaces(str_ind$2,end_ind$2);var match$14=Caml_string.get(str,str_ind_1$1);var exit$1=0;if(match$14>=48){if(match$14>=58){match$13=undefined}else{exit$1=1}}else if(match$14!==45){match$13=undefined}else{exit$1=1}if(exit$1===1){var match$15=parse_integer(str_ind_1$1,end_ind$2);var str_ind_3$1=parse_spaces(match$15[0],end_ind$2);if(Caml_string.get(str,str_ind_3$1)!==62){throw Caml_builtin_exceptions.not_found}var s$2=$$String.sub(str,str_ind$2-2|0,(str_ind_3$1-str_ind$2|0)+3|0);match$13=[str_ind_3$1+1|0,Block.__(1,[s$2,match$15[1]])]}}catch(raw_exn$1){var exn$1=Caml_js_exceptions.internalToOCamlException(raw_exn$1);if(exn$1===Caml_builtin_exceptions.not_found||exn$1[0]===Caml_builtin_exceptions.failure){match$13=undefined}else{throw exn$1}}if(match$13!==undefined){var match$16=match$13;var next_ind$1=match$16[0];var match$17=parse_literal(next_ind$1,next_ind$1,end_ind$2);return[Block.__(17,[match$16[1],match$17[0]])]}else{var match$18=parse_literal(str_ind$2,str_ind$2,end_ind$2);return[Block.__(17,[Block.__(2,[60]),match$18[0]])]}case 1:case 2:case 3:case 4:case 6:case 7:case 8:case 9:case 10:case 11:case 13:case 15:case 16:case 17:case 18:case 19:case 20:case 21:case 22:case 23:case 24:case 25:case 26:case 29:case 30:break;case 31:var beg_ind$6=str_ind+1|0;var match$19=parse_literal(beg_ind$6,beg_ind$6,end_ind);return[Block.__(17,[2,match$19[0]])];case 32:var beg_ind$7=str_ind+1|0;var match$20=parse_literal(beg_ind$7,beg_ind$7,end_ind);return[Block.__(17,[5,match$20[0]])]}}}else{var beg_ind$8=str_ind+1|0;var match$21=parse_literal(beg_ind$8,beg_ind$8,end_ind);return[Block.__(17,[3,match$21[0]])]}var beg_ind$9=str_ind+1|0;var match$22=parse_literal(beg_ind$9,beg_ind$9,end_ind);return[Block.__(17,[Block.__(2,[c]),match$22[0]])]}};var add_literal=function(lit_start,str_ind,fmt){var size=str_ind-lit_start|0;if(size!==0){if(size!==1){return[Block.__(11,[$$String.sub(str,lit_start,size),fmt])]}else{return[Block.__(12,[Caml_string.get(str,lit_start),fmt])]}}else{return[fmt]}};var parse_format=function(pct_ind,end_ind){var pct_ind$1=pct_ind;var str_ind=pct_ind+1|0;var end_ind$1=end_ind;if(str_ind===end_ind$1){invalid_format_message(end_ind$1,"unexpected end of format")}var match=Caml_string.get(str,str_ind);if(match!==95){return parse_flags(pct_ind$1,str_ind,end_ind$1,false)}else{return parse_flags(pct_ind$1,str_ind+1|0,end_ind$1,true)}};var parse_literal=function(lit_start,_str_ind,end_ind){while(true){var str_ind=_str_ind;if(str_ind===end_ind){return add_literal(lit_start,str_ind,0)}else{var match=Caml_string.get(str,str_ind);if(match!==37){if(match!==64){_str_ind=str_ind+1|0;continue}else{var match$1=parse_after_at(str_ind+1|0,end_ind);return add_literal(lit_start,str_ind,match$1[0])}}else{var match$2=parse_format(str_ind,end_ind);return add_literal(lit_start,str_ind,match$2[0])}}}};var parse_spaces=function(_str_ind,end_ind){while(true){var str_ind=_str_ind;if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}if(Caml_string.get(str,str_ind)===32){_str_ind=str_ind+1|0;continue}else{return str_ind}}};var parse_flags=function(pct_ind,str_ind,end_ind,ign){var zero={contents:false};var minus={contents:false};var plus={contents:false};var space={contents:false};var hash={contents:false};var set_flag=function(str_ind,flag){if(flag.contents&&!legacy_behavior$1){Curry._3(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", duplicate flag ",Block.__(1,[0])])])])])]),"invalid format %S: at character number %d, duplicate flag %C"]),str,str_ind,Caml_string.get(str,str_ind))}flag.contents=true;return 0};var _str_ind=str_ind;while(true){var str_ind$1=_str_ind;if(str_ind$1===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var match=Caml_string.get(str,str_ind$1);switch(match){case 32:set_flag(str_ind$1,space);_str_ind=str_ind$1+1|0;continue;case 35:set_flag(str_ind$1,hash);_str_ind=str_ind$1+1|0;continue;case 43:set_flag(str_ind$1,plus);_str_ind=str_ind$1+1|0;continue;case 45:set_flag(str_ind$1,minus);_str_ind=str_ind$1+1|0;continue;case 33:case 34:case 36:case 37:case 38:case 39:case 40:case 41:case 42:case 44:case 46:case 47:break;case 48:set_flag(str_ind$1,zero);_str_ind=str_ind$1+1|0;continue;default:}var pct_ind$1=pct_ind;var str_ind$2=str_ind$1;var end_ind$1=end_ind;var zero$1=zero.contents;var minus$1=minus.contents;var plus$1=plus.contents;var hash$1=hash.contents;var space$1=space.contents;var ign$1=ign;if(str_ind$2===end_ind$1){invalid_format_message(end_ind$1,"unexpected end of format")}var padty=zero$1?minus$1?legacy_behavior$1?0:incompatible_flag(pct_ind$1,str_ind$2,45,"0"):2:minus$1?0:1;var match$1=Caml_string.get(str,str_ind$2);if(match$1>=48){if(match$1<58){var match$2=parse_positive(str_ind$2,end_ind$1,0);return parse_after_padding(pct_ind$1,match$2[0],end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,Block.__(0,[padty,match$2[1]]))}}else if(match$1===42){return parse_after_padding(pct_ind$1,str_ind$2+1|0,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,Block.__(1,[padty]))}switch(padty){case 0:if(!legacy_behavior$1){invalid_format_without(str_ind$2-1|0,45,"padding")}return parse_after_padding(pct_ind$1,str_ind$2,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,0);case 1:return parse_after_padding(pct_ind$1,str_ind$2,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,0);case 2:return parse_after_padding(pct_ind$1,str_ind$2,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,Block.__(0,[1,0]))}}};var search_subformat_end=function(_str_ind,end_ind,c){while(true){var str_ind=_str_ind;if(str_ind===end_ind){Curry._3(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[': unclosed sub-format, expected "',Block.__(12,[37,Block.__(0,[Block.__(11,['" at character number ',Block.__(4,[0,0,0,0])])])])])])]),'invalid format %S: unclosed sub-format, expected "%%%c" at character number %d']),str,c,end_ind)}var match=Caml_string.get(str,str_ind);if(match!==37){_str_ind=str_ind+1|0;continue}else{if((str_ind+1|0)===end_ind){invalid_format_message(end_ind,"unexpected end of format")}if(Caml_string.get(str,str_ind+1|0)===c){return str_ind}else{var match$1=Caml_string.get(str,str_ind+1|0);if(match$1>=95){if(match$1>=123){if(match$1<126){switch(match$1-123|0){case 0:var sub_end=search_subformat_end(str_ind+2|0,end_ind,125);_str_ind=sub_end+2|0;continue;case 1:break;case 2:return expected_character(str_ind+1|0,"character ')'",125)}}}else if(match$1<96){if((str_ind+2|0)===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var match$2=Caml_string.get(str,str_ind+2|0);if(match$2!==40){if(match$2!==123){_str_ind=str_ind+3|0;continue}else{var sub_end$1=search_subformat_end(str_ind+3|0,end_ind,125);_str_ind=sub_end$1+2|0;continue}}else{var sub_end$2=search_subformat_end(str_ind+3|0,end_ind,41);_str_ind=sub_end$2+2|0;continue}}}else if(match$1!==40){if(match$1===41){return expected_character(str_ind+1|0,"character '}'",41)}}else{var sub_end$3=search_subformat_end(str_ind+2|0,end_ind,41);_str_ind=sub_end$3+2|0;continue}_str_ind=str_ind+2|0;continue}}}};var parse_positive=function(_str_ind,end_ind,_acc){while(true){var acc=_acc;var str_ind=_str_ind;if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var c=Caml_string.get(str,str_ind);if(c>57||c<48){return[str_ind,acc]}else{var new_acc=Caml_int32.imul(acc,10)+(c-48|0)|0;_acc=new_acc;_str_ind=str_ind+1|0;continue}}};var check_open_box=function(fmt){if(typeof fmt==="number"||!(fmt.tag===11&&typeof fmt[1]==="number")){return 0}else{try{open_box_of_string(fmt[0]);return 0}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return 0}else{throw exn}}}};var parse_conversion=function(pct_ind,str_ind,end_ind,plus,hash,space,ign,pad,prec,padprec,symb){var plus_used=false;var hash_used=false;var space_used=false;var ign_used={contents:false};var pad_used={contents:false};var prec_used={contents:false};var get_int_pad=function(param){pad_used.contents=true;prec_used.contents=true;if(typeof prec==="number"&&prec===0){return pad}if(typeof pad==="number"){return 0}else if(pad.tag){if(pad[0]>=2){if(legacy_behavior$1){return Block.__(1,[1])}else{return incompatible_flag(pct_ind,str_ind,48,"precision")}}else{return pad}}else if(pad[0]>=2){if(legacy_behavior$1){return Block.__(0,[1,pad[1]])}else{return incompatible_flag(pct_ind,str_ind,48,"precision")}}else{return pad}};var check_no_0=function(symb,pad){if(typeof pad==="number"){return pad}else if(pad.tag){if(pad[0]>=2){if(legacy_behavior$1){return Block.__(1,[1])}else{return incompatible_flag(pct_ind,str_ind,symb,"0")}}else{return pad}}else if(pad[0]>=2){if(legacy_behavior$1){return Block.__(0,[1,pad[1]])}else{return incompatible_flag(pct_ind,str_ind,symb,"0")}}else{return pad}};var opt_of_pad=function(c,pad){if(typeof pad==="number"){return}else if(pad.tag){return incompatible_flag(pct_ind,str_ind,c,"'*'")}else{switch(pad[0]){case 0:if(legacy_behavior$1){return pad[1]}else{return incompatible_flag(pct_ind,str_ind,c,"'-'")}case 1:return pad[1];case 2:if(legacy_behavior$1){return pad[1]}else{return incompatible_flag(pct_ind,str_ind,c,"'0'")}}}};var get_prec_opt=function(param){prec_used.contents=true;if(typeof prec==="number"){if(prec!==0){return incompatible_flag(pct_ind,str_ind,95,"'*'")}else{return}}else{return prec[0]}};var fmt_result;var exit=0;var exit$1=0;var exit$2=0;if(symb>=124){exit$1=6}else{switch(symb){case 33:var match=parse_literal(str_ind,str_ind,end_ind);fmt_result=[Block.__(10,[match[0]])];break;case 40:var sub_end=search_subformat_end(str_ind,end_ind,41);var beg_ind=sub_end+2|0;var match$1=parse_literal(beg_ind,beg_ind,end_ind);var fmt_rest=match$1[0];var match$2=parse_literal(str_ind,str_ind,sub_end);var sub_fmtty=fmtty_of_fmt(match$2[0]);if(ign_used.contents=true,ign){var ignored_000=opt_of_pad(95,(pad_used.contents=true,pad));var ignored=Block.__(9,[ignored_000,sub_fmtty]);fmt_result=[Block.__(23,[ignored,fmt_rest])]}else{fmt_result=[Block.__(14,[opt_of_pad(40,(pad_used.contents=true,pad)),sub_fmtty,fmt_rest])]}break;case 44:fmt_result=parse_literal(str_ind,str_ind,end_ind);break;case 37:case 64:exit$1=4;break;case 67:var match$3=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$1=match$3[0];fmt_result=(ign_used.contents=true,ign)?[Block.__(23,[1,fmt_rest$1])]:[Block.__(1,[fmt_rest$1])];break;case 78:var match$4=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$2=match$4[0];if(ign_used.contents=true,ign){var ignored$1=Block.__(11,[2]);fmt_result=[Block.__(23,[ignored$1,fmt_rest$2])]}else{fmt_result=[Block.__(21,[2,fmt_rest$2])]}break;case 83:var pad$1=check_no_0(symb,(pad_used.contents=true,padprec));var match$5=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$3=match$5[0];if(ign_used.contents=true,ign){var ignored$2=Block.__(1,[opt_of_pad(95,(pad_used.contents=true,padprec))]);fmt_result=[Block.__(23,[ignored$2,fmt_rest$3])]}else{var match$6=make_padding_fmt_ebb(pad$1,fmt_rest$3);fmt_result=[Block.__(3,[match$6[0],match$6[1]])]}break;case 91:var match$7=parse_char_set(str_ind,end_ind);var char_set=match$7[1];var next_ind=match$7[0];var match$8=parse_literal(next_ind,next_ind,end_ind);var fmt_rest$4=match$8[0];if(ign_used.contents=true,ign){var ignored_000$1=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$3=Block.__(10,[ignored_000$1,char_set]);fmt_result=[Block.__(23,[ignored$3,fmt_rest$4])]}else{fmt_result=[Block.__(20,[opt_of_pad(91,(pad_used.contents=true,pad)),char_set,fmt_rest$4])]}break;case 32:case 35:case 43:case 45:case 95:exit$1=5;break;case 97:var match$9=parse_literal(str_ind,str_ind,end_ind);fmt_result=[Block.__(15,[match$9[0]])];break;case 66:case 98:exit$1=3;break;case 99:var char_format=function(fmt_rest){if(ign_used.contents=true,ign){return[Block.__(23,[0,fmt_rest])]}else{return[Block.__(0,[fmt_rest])]}};var scan_format=function(fmt_rest){if(ign_used.contents=true,ign){return[Block.__(23,[3,fmt_rest])]}else{return[Block.__(22,[fmt_rest])]}};var match$10=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$5=match$10[0];var match$11=opt_of_pad(99,(pad_used.contents=true,pad));fmt_result=match$11!==undefined?match$11!==0?legacy_behavior$1?char_format(fmt_rest$5):invalid_format_message(str_ind,"non-zero widths are unsupported for %c conversions"):scan_format(fmt_rest$5):char_format(fmt_rest$5);break;case 69:case 70:case 71:case 72:case 101:case 102:case 103:case 104:exit$1=2;break;case 76:case 108:case 110:exit$2=8;break
-;case 114:var match$12=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$6=match$12[0];fmt_result=(ign_used.contents=true,ign)?[Block.__(23,[2,fmt_rest$6])]:[Block.__(19,[fmt_rest$6])];break;case 115:var pad$2=check_no_0(symb,(pad_used.contents=true,padprec));var match$13=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$7=match$13[0];if(ign_used.contents=true,ign){var ignored$4=Block.__(0,[opt_of_pad(95,(pad_used.contents=true,padprec))]);fmt_result=[Block.__(23,[ignored$4,fmt_rest$7])]}else{var match$14=make_padding_fmt_ebb(pad$2,fmt_rest$7);fmt_result=[Block.__(2,[match$14[0],match$14[1]])]}break;case 116:var match$15=parse_literal(str_ind,str_ind,end_ind);fmt_result=[Block.__(16,[match$15[0]])];break;case 88:case 100:case 105:case 111:case 117:case 120:exit$2=7;break;case 0:case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11:case 12:case 13:case 14:case 15:case 16:case 17:case 18:case 19:case 20:case 21:case 22:case 23:case 24:case 25:case 26:case 27:case 28:case 29:case 30:case 31:case 34:case 36:case 38:case 39:case 41:case 42:case 46:case 47:case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:case 58:case 59:case 60:case 61:case 62:case 63:case 65:case 68:case 73:case 74:case 75:case 77:case 79:case 80:case 81:case 82:case 84:case 85:case 86:case 87:case 89:case 90:case 92:case 93:case 94:case 96:case 106:case 107:case 109:case 112:case 113:case 118:case 119:case 121:case 122:exit$1=6;break;case 123:var sub_end$1=search_subformat_end(str_ind,end_ind,125);var match$16=parse_literal(str_ind,str_ind,sub_end$1);var beg_ind$1=sub_end$1+2|0;var match$17=parse_literal(beg_ind$1,beg_ind$1,end_ind);var fmt_rest$8=match$17[0];var sub_fmtty$1=fmtty_of_fmt(match$16[0]);if(ign_used.contents=true,ign){var ignored_000$2=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$5=Block.__(8,[ignored_000$2,sub_fmtty$1]);fmt_result=[Block.__(23,[ignored$5,fmt_rest$8])]}else{fmt_result=[Block.__(13,[opt_of_pad(123,(pad_used.contents=true,pad)),sub_fmtty$1,fmt_rest$8])]}break}}switch(exit$2){case 7:plus_used=true;hash_used=true;space_used=true;var iconv=compute_int_conv(pct_ind,str_ind,plus,hash,space,symb);var match$18=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$9=match$18[0];if(ign_used.contents=true,ign){var ignored_001=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$6=Block.__(2,[iconv,ignored_001]);fmt_result=[Block.__(23,[ignored$6,fmt_rest$9])]}else{var match$19=make_padprec_fmt_ebb(get_int_pad(0),(prec_used.contents=true,prec),fmt_rest$9);fmt_result=[Block.__(4,[iconv,match$19[0],match$19[1],match$19[2]])]}break;case 8:if(str_ind===end_ind||!is_int_base(Caml_string.get(str,str_ind))){var match$20=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$10=match$20[0];var counter=counter_of_char(symb);if(ign_used.contents=true,ign){var ignored$7=Block.__(11,[counter]);fmt_result=[Block.__(23,[ignored$7,fmt_rest$10])]}else{fmt_result=[Block.__(21,[counter,fmt_rest$10])]}}else{exit$1=6}break}switch(exit$1){case 2:plus_used=true;space_used=true;var fconv=compute_float_conv(pct_ind,str_ind,plus,space,symb);var match$21=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$11=match$21[0];if(ign_used.contents=true,ign){var ignored_000$3=opt_of_pad(95,(pad_used.contents=true,pad));var ignored_001$1=get_prec_opt(0);var ignored$8=Block.__(6,[ignored_000$3,ignored_001$1]);fmt_result=[Block.__(23,[ignored$8,fmt_rest$11])]}else{var match$22=make_padprec_fmt_ebb((pad_used.contents=true,pad),(prec_used.contents=true,prec),fmt_rest$11);fmt_result=[Block.__(8,[fconv,match$22[0],match$22[1],match$22[2]])]}break;case 3:var pad$3=check_no_0(symb,(pad_used.contents=true,padprec));var match$23=parse_literal(str_ind,str_ind,end_ind);var fmt_rest$12=match$23[0];if(ign_used.contents=true,ign){var ignored$9=Block.__(7,[opt_of_pad(95,(pad_used.contents=true,padprec))]);fmt_result=[Block.__(23,[ignored$9,fmt_rest$12])]}else{var match$24=make_padding_fmt_ebb(pad$3,fmt_rest$12);fmt_result=[Block.__(9,[match$24[0],match$24[1]])]}break;case 4:var match$25=parse_literal(str_ind,str_ind,end_ind);fmt_result=[Block.__(12,[symb,match$25[0]])];break;case 5:fmt_result=Curry._3(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", flag ",Block.__(1,[Block.__(11,[" is only allowed after the '",Block.__(12,[37,Block.__(11,["', before padding and precision",0])])])])])])])])]),"invalid format %S: at character number %d, flag %C is only allowed after the '%%', before padding and precision"]),str,pct_ind,symb);break;case 6:if(symb>=108){if(symb>=111){exit=1}else{switch(symb-108|0){case 0:plus_used=true;hash_used=true;space_used=true;var iconv$1=compute_int_conv(pct_ind,str_ind+1|0,plus,hash,space,Caml_string.get(str,str_ind));var beg_ind$2=str_ind+1|0;var match$26=parse_literal(beg_ind$2,beg_ind$2,end_ind);var fmt_rest$13=match$26[0];if(ign_used.contents=true,ign){var ignored_001$2=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$10=Block.__(3,[iconv$1,ignored_001$2]);fmt_result=[Block.__(23,[ignored$10,fmt_rest$13])]}else{var match$27=make_padprec_fmt_ebb(get_int_pad(0),(prec_used.contents=true,prec),fmt_rest$13);fmt_result=[Block.__(5,[iconv$1,match$27[0],match$27[1],match$27[2]])]}break;case 1:exit=1;break;case 2:plus_used=true;hash_used=true;space_used=true;var iconv$2=compute_int_conv(pct_ind,str_ind+1|0,plus,hash,space,Caml_string.get(str,str_ind));var beg_ind$3=str_ind+1|0;var match$28=parse_literal(beg_ind$3,beg_ind$3,end_ind);var fmt_rest$14=match$28[0];if(ign_used.contents=true,ign){var ignored_001$3=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$11=Block.__(4,[iconv$2,ignored_001$3]);fmt_result=[Block.__(23,[ignored$11,fmt_rest$14])]}else{var match$29=make_padprec_fmt_ebb(get_int_pad(0),(prec_used.contents=true,prec),fmt_rest$14);fmt_result=[Block.__(6,[iconv$2,match$29[0],match$29[1],match$29[2]])]}break}}}else if(symb!==76){exit=1}else{plus_used=true;hash_used=true;space_used=true;var iconv$3=compute_int_conv(pct_ind,str_ind+1|0,plus,hash,space,Caml_string.get(str,str_ind));var beg_ind$4=str_ind+1|0;var match$30=parse_literal(beg_ind$4,beg_ind$4,end_ind);var fmt_rest$15=match$30[0];if(ign_used.contents=true,ign){var ignored_001$4=opt_of_pad(95,(pad_used.contents=true,pad));var ignored$12=Block.__(5,[iconv$3,ignored_001$4]);fmt_result=[Block.__(23,[ignored$12,fmt_rest$15])]}else{var match$31=make_padprec_fmt_ebb(get_int_pad(0),(prec_used.contents=true,prec),fmt_rest$15);fmt_result=[Block.__(7,[iconv$3,match$31[0],match$31[1],match$31[2]])]}}break}if(exit===1){fmt_result=Curry._3(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[', invalid conversion "',Block.__(12,[37,Block.__(0,[Block.__(12,[34,0])])])])])])])]),'invalid format %S: at character number %d, invalid conversion "%%%c"']),str,str_ind-1|0,symb)}if(!legacy_behavior$1){if(!plus_used&&plus){incompatible_flag(pct_ind,str_ind,symb,"'+'")}if(!hash_used&&hash){incompatible_flag(pct_ind,str_ind,symb,"'#'")}if(!space_used&&space){incompatible_flag(pct_ind,str_ind,symb,"' '")}if(!pad_used.contents&&Caml_obj.caml_notequal([pad],[0])){incompatible_flag(pct_ind,str_ind,symb,"`padding'")}if(!prec_used.contents&&Caml_obj.caml_notequal([prec],[0])){incompatible_flag(pct_ind,str_ind,ign?95:symb,"`precision'")}if(ign&&plus){incompatible_flag(pct_ind,str_ind,95,"'+'")}}if(!ign_used.contents&&ign){var exit$3=0;if(symb>=38){if(symb!==44){if(symb!==64||!legacy_behavior$1){exit$3=1}}else if(!legacy_behavior$1){exit$3=1}}else if(symb!==33){if(!(symb>=37&&legacy_behavior$1)){exit$3=1}}else if(!legacy_behavior$1){exit$3=1}if(exit$3===1){incompatible_flag(pct_ind,str_ind,symb,"'_'")}}return fmt_result};var parse_integer=function(str_ind,end_ind){if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var match=Caml_string.get(str,str_ind);if(match>=48){if(match>=58){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2814,11]]}return parse_positive(str_ind,end_ind,0)}else{if(match!==45){throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2814,11]]}if((str_ind+1|0)===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var c=Caml_string.get(str,str_ind+1|0);if(c>57||c<48){return expected_character(str_ind+1|0,"digit",c)}else{var match$1=parse_positive(str_ind+1|0,end_ind,0);return[match$1[0],-match$1[1]|0]}}};var incompatible_flag=function(pct_ind,str_ind,symb,option){var subfmt=$$String.sub(str,pct_ind,str_ind-pct_ind|0);return Curry._5(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": at character number ",Block.__(4,[0,0,0,Block.__(11,[", ",Block.__(2,[0,Block.__(11,[" is incompatible with '",Block.__(0,[Block.__(11,["' in sub-format ",Block.__(3,[0,0])])])])])])])])])]),"invalid format %S: at character number %d, %s is incompatible with '%c' in sub-format %S"]),str,pct_ind,option,symb,subfmt)};var parse_after_padding=function(pct_ind,str_ind,end_ind,minus,plus,hash,space,ign,pad){if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var symb=Caml_string.get(str,str_ind);if(symb!==46){return parse_conversion(pct_ind,str_ind+1|0,end_ind,plus,hash,space,ign,pad,0,pad,symb)}else{var pct_ind$1=pct_ind;var str_ind$1=str_ind+1|0;var end_ind$1=end_ind;var minus$1=minus;var plus$1=plus;var hash$1=hash;var space$1=space;var ign$1=ign;var pad$1=pad;if(str_ind$1===end_ind$1){invalid_format_message(end_ind$1,"unexpected end of format")}var parse_literal=function(minus,str_ind){var match=parse_positive(str_ind,end_ind$1,0);return parse_after_precision(pct_ind$1,match[0],end_ind$1,minus,plus$1,hash$1,space$1,ign$1,pad$1,[match[1]])};var symb$1=Caml_string.get(str,str_ind$1);var exit=0;if(symb$1>=48){if(symb$1<58){return parse_literal(minus$1,str_ind$1)}}else if(symb$1>=42){switch(symb$1-42|0){case 0:return parse_after_precision(pct_ind$1,str_ind$1+1|0,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,pad$1,1);case 1:case 3:exit=2;break;case 2:case 4:case 5:break}}if(exit===2&&legacy_behavior$1){return parse_literal(minus$1||symb$1===45,str_ind$1+1|0)}if(legacy_behavior$1){return parse_after_precision(pct_ind$1,str_ind$1,end_ind$1,minus$1,plus$1,hash$1,space$1,ign$1,pad$1,[0])}else{return invalid_format_without(str_ind$1-1|0,46,"precision")}}};var is_int_base=function(symb){switch(symb){case 89:case 90:case 91:case 92:case 93:case 94:case 95:case 96:case 97:case 98:case 99:case 101:case 102:case 103:case 104:case 106:case 107:case 108:case 109:case 110:case 112:case 113:case 114:case 115:case 116:case 118:case 119:return false;case 88:case 100:case 105:case 111:case 117:case 120:return true;default:return false}};var counter_of_char=function(symb){if(symb>=108){if(symb<111){switch(symb-108|0){case 0:return 0;case 1:break;case 2:return 1}}}else if(symb===76){return 2}throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2876,34]]};var parse_char_set=function(str_ind,end_ind){if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var char_set=Bytes.make(32,0);var add_range=function(c,c$prime){for(var i=c;i<=c$prime;++i){add_in_char_set(char_set,Pervasives.char_of_int(i))}return 0};var fail_single_percent=function(str_ind){return Curry._2(failwith_message([Block.__(11,["invalid format ",Block.__(3,[0,Block.__(11,[": '",Block.__(12,[37,Block.__(11,["' alone is not accepted in character sets, use ",Block.__(12,[37,Block.__(12,[37,Block.__(11,[" instead at position ",Block.__(4,[0,0,0,Block.__(12,[46,0])])])])])])])])])]),"invalid format %S: '%%' alone is not accepted in character sets, use %%%% instead at position %d."]),str,str_ind)};var parse_char_set_content=function(_str_ind,end_ind){while(true){var str_ind=_str_ind;if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var c=Caml_string.get(str,str_ind);if(c!==45){if(c!==93){return parse_char_set_after_char(str_ind+1|0,end_ind,c)}else{return str_ind+1|0}}else{add_in_char_set(char_set,45);_str_ind=str_ind+1|0;continue}}};var parse_char_set_after_char=function(_str_ind,end_ind,_c){while(true){var c=_c;var str_ind=_str_ind;if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var c$prime=Caml_string.get(str,str_ind);var exit=0;if(c$prime>=46){if(c$prime!==64){if(c$prime===93){add_in_char_set(char_set,c);return str_ind+1|0}}else{exit=2}}else if(c$prime!==37){if(c$prime>=45){var str_ind$1=str_ind+1|0;var end_ind$1=end_ind;var c$1=c;if(str_ind$1===end_ind$1){invalid_format_message(end_ind$1,"unexpected end of format")}var c$prime$1=Caml_string.get(str,str_ind$1);if(c$prime$1!==37){if(c$prime$1!==93){add_range(c$1,c$prime$1);return parse_char_set_content(str_ind$1+1|0,end_ind$1)}else{add_in_char_set(char_set,c$1);add_in_char_set(char_set,45);return str_ind$1+1|0}}else{if((str_ind$1+1|0)===end_ind$1){invalid_format_message(end_ind$1,"unexpected end of format")}var c$prime$2=Caml_string.get(str,str_ind$1+1|0);if(c$prime$2!==37&&c$prime$2!==64){return fail_single_percent(str_ind$1)}add_range(c$1,c$prime$2);return parse_char_set_content(str_ind$1+2|0,end_ind$1)}}}else{exit=2}if(exit===2&&c===37){add_in_char_set(char_set,c$prime);return parse_char_set_content(str_ind+1|0,end_ind)}if(c===37){fail_single_percent(str_ind)}add_in_char_set(char_set,c);_c=c$prime;_str_ind=str_ind+1|0;continue}};var parse_char_set_start=function(str_ind,end_ind){if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var c=Caml_string.get(str,str_ind);return parse_char_set_after_char(str_ind+1|0,end_ind,c)};if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var match=Caml_string.get(str,str_ind);var match$1=match!==94?[str_ind,false]:[str_ind+1|0,true];var next_ind=parse_char_set_start(match$1[0],end_ind);var char_set$1=Bytes.to_string(char_set);return[next_ind,match$1[1]?rev_char_set(char_set$1):char_set$1]};var compute_int_conv=function(pct_ind,str_ind,_plus,_hash,_space,symb){while(true){var space=_space;var hash=_hash;var plus=_plus;var exit=0;if(plus){if(hash){exit=2}else if(!space){if(symb!==100){if(symb===105){return 4}}else{return 1}}}else if(hash){if(space){exit=2}else if(symb!==88){if(symb!==111){if(symb!==120){exit=2}else{return 7}}else{return 11}}else{return 9}}else if(space){if(symb!==100){if(symb===105){return 5}}else{return 2}}else{switch(symb){case 88:return 8;case 100:return 0;case 105:return 3;case 111:return 10;case 117:return 12;case 89:case 90:case 91:case 92:case 93:case 94:case 95:case 96:case 97:case 98:case 99:case 101:case 102:case 103:case 104:case 106:case 107:case 108:case 109:case 110:case 112:case 113:case 114:case 115:case 116:case 118:case 119:break;case 120:return 6;default:}}if(exit===2){var exit$1=0;switch(symb){case 88:if(legacy_behavior$1){return 9}break;case 111:if(legacy_behavior$1){return 11}break;case 100:case 105:case 117:exit$1=3;break;case 89:case 90:case 91:case 92:case 93:case 94:case 95:case 96:case 97:case 98:case 99:case 101:case 102:case 103:case 104:case 106:case 107:case 108:case 109:case 110:case 112:case 113:case 114:case 115:case 116:case 118:case 119:break;case 120:if(legacy_behavior$1){return 7}break;default:}if(exit$1===3){if(legacy_behavior$1){_hash=false;continue}else{return incompatible_flag(pct_ind,str_ind,symb,"'#'")}}}if(plus){if(space){if(legacy_behavior$1){_space=false;continue}else{return incompatible_flag(pct_ind,str_ind,32,"'+'")}}else if(legacy_behavior$1){_plus=false;continue}else{return incompatible_flag(pct_ind,str_ind,symb,"'+'")}}else if(space){if(legacy_behavior$1){_space=false;continue}else{return incompatible_flag(pct_ind,str_ind,symb,"' '")}}else{throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2909,28]]}}};var compute_float_conv=function(pct_ind,str_ind,_plus,_space,symb){while(true){var space=_space;var plus=_plus;if(plus){if(space){if(legacy_behavior$1){_space=false;continue}else{return incompatible_flag(pct_ind,str_ind,32,"'+'")}}else{if(symb>=73){switch(symb){case 101:return 4;case 102:return 1;case 103:return 10;case 104:return 17;default:}}else if(symb>=69){switch(symb-69|0){case 0:return 7;case 1:break;case 2:return 13;case 3:return 20}}if(legacy_behavior$1){_plus=false;continue}else{return incompatible_flag(pct_ind,str_ind,symb,"'+'")}}}else if(space){if(symb>=73){switch(symb){case 101:return 5;case 102:return 2;case 103:return 11;case 104:return 18;default:}}else if(symb>=69){switch(symb-69|0){case 0:return 8;case 1:break;case 2:return 14;case 3:return 21}}if(legacy_behavior$1){_space=false;continue}else{return incompatible_flag(pct_ind,str_ind,symb,"' '")}}else if(symb>=73){switch(symb){case 101:return 3;case 102:return 0;case 103:return 9;case 104:return 16;default:throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2943,25]]}}else if(symb>=69){switch(symb-69|0){case 0:return 6;case 1:return 15;case 2:return 12;case 3:return 19}}else{throw[Caml_builtin_exceptions.assert_failure,["camlinternalFormat.ml",2943,25]]}}};var parse_after_precision=function(pct_ind,str_ind,end_ind,minus,plus,hash,space,ign,pad,prec){if(str_ind===end_ind){invalid_format_message(end_ind,"unexpected end of format")}var parse_conv=function(padprec){return parse_conversion(pct_ind,str_ind+1|0,end_ind,plus,hash,space,ign,pad,prec,padprec,Caml_string.get(str,str_ind))};if(typeof pad==="number"){if(typeof prec==="number"&&prec===0){return parse_conv(0)}if(minus){if(typeof prec==="number"){return parse_conv(Block.__(1,[0]))}else{return parse_conv(Block.__(0,[0,prec[0]]))}}else if(typeof prec==="number"){return parse_conv(Block.__(1,[1]))}else{return parse_conv(Block.__(0,[1,prec[0]]))}}else{return parse_conv(pad)}};var parse_tag=function(is_open_tag,str_ind,end_ind){try{if(str_ind===end_ind){throw Caml_builtin_exceptions.not_found}var match=Caml_string.get(str,str_ind);if(match!==60){throw Caml_builtin_exceptions.not_found}var ind=$$String.index_from(str,str_ind+1|0,62);if(ind>=end_ind){throw Caml_builtin_exceptions.not_found}var sub_str=$$String.sub(str,str_ind,(ind-str_ind|0)+1|0);var beg_ind=ind+1|0;var match$1=parse_literal(beg_ind,beg_ind,end_ind);var match$2=parse_literal(str_ind,str_ind,ind+1|0);var sub_fmt=match$2[0];var sub_format=[sub_fmt,sub_str];var formatting=is_open_tag?Block.__(0,[sub_format]):(check_open_box(sub_fmt),Block.__(1,[sub_format]));return[Block.__(18,[formatting,match$1[0]])]}catch(exn){if(exn===Caml_builtin_exceptions.not_found){var match$3=parse_literal(str_ind,str_ind,end_ind);var sub_format$1=[0,""];var formatting$1=is_open_tag?Block.__(0,[sub_format$1]):Block.__(1,[sub_format$1]);return[Block.__(18,[formatting$1,match$3[0]])]}else{throw exn}}};return parse_literal(0,0,str.length)}function format_of_string_fmtty(str,fmtty){var match=fmt_ebb_of_string(undefined,str);try{return[type_format(match[0],fmtty),str]}catch(exn){if(exn===Type_mismatch){return Curry._2(failwith_message([Block.__(11,["bad input: format type mismatch between ",Block.__(3,[0,Block.__(11,[" and ",Block.__(3,[0,0])])])]),"bad input: format type mismatch between %S and %S"]),str,string_of_fmtty(fmtty))}else{throw exn}}}function format_of_string_format(str,param){var match=fmt_ebb_of_string(undefined,str);try{return[type_format(match[0],fmtty_of_fmt(param[0])),str]}catch(exn){if(exn===Type_mismatch){return Curry._2(failwith_message([Block.__(11,["bad input: format type mismatch between ",Block.__(3,[0,Block.__(11,[" and ",Block.__(3,[0,0])])])]),"bad input: format type mismatch between %S and %S"]),str,param[1])}else{throw exn}}}exports.is_in_char_set=is_in_char_set;exports.rev_char_set=rev_char_set;exports.create_char_set=create_char_set;exports.add_in_char_set=add_in_char_set;exports.freeze_char_set=freeze_char_set;exports.param_format_of_ignored_format=param_format_of_ignored_format;exports.make_printf=make_printf;exports.make_iprintf=make_iprintf;exports.output_acc=output_acc;exports.bufput_acc=bufput_acc;exports.strput_acc=strput_acc;exports.type_format=type_format;exports.fmt_ebb_of_string=fmt_ebb_of_string;exports.format_of_string_fmtty=format_of_string_fmtty;exports.format_of_string_format=format_of_string_format;exports.char_of_iconv=char_of_iconv;exports.string_of_formatting_lit=string_of_formatting_lit;exports.string_of_formatting_gen=string_of_formatting_gen;exports.string_of_fmtty=string_of_fmtty;exports.string_of_fmt=string_of_fmt;exports.open_box_of_string=open_box_of_string;exports.symm=symm;exports.trans=trans;exports.recast=recast},{"./block.js":2,"./buffer.js":3,"./bytes.js":4,"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_exceptions.js":8,"./caml_format.js":10,"./caml_int32.js":11,"./caml_io.js":13,"./caml_js_exceptions.js":14,"./caml_obj.js":17,"./caml_primitive.js":19,"./caml_string.js":20,"./camlinternalFormatBasics.js":24,"./char.js":26,"./curry.js":27,"./pervasives.js":36,"./string.js":39}],24:[function(require,module,exports){"use strict";var Block=require("./block.js");function erase_rel(param){if(typeof param==="number"){return 0}else{switch(param.tag|0){case 0:return Block.__(0,[erase_rel(param[0])]);case 1:return Block.__(1,[erase_rel(param[0])]);case 2:return Block.__(2,[erase_rel(param[0])]);case 3:return Block.__(3,[erase_rel(param[0])]);case 4:return Block.__(4,[erase_rel(param[0])]);case 5:return Block.__(5,[erase_rel(param[0])]);case 6:return Block.__(6,[erase_rel(param[0])]);case 7:return Block.__(7,[erase_rel(param[0])]);case 8:return Block.__(8,[param[0],erase_rel(param[1])]);case 9:var ty1=param[0];return Block.__(9,[ty1,ty1,erase_rel(param[2])]);case 10:return Block.__(10,[erase_rel(param[0])]);case 11:return Block.__(11,[erase_rel(param[0])]);case 12:return Block.__(12,[erase_rel(param[0])]);case 13:return Block.__(13,[erase_rel(param[0])]);case 14:return Block.__(14,[erase_rel(param[0])])}}}function concat_fmtty(fmtty1,fmtty2){if(typeof fmtty1==="number"){return fmtty2}else{switch(fmtty1.tag|0){case 0:return Block.__(0,[concat_fmtty(fmtty1[0],fmtty2)]);case 1:return Block.__(1,[concat_fmtty(fmtty1[0],fmtty2)]);case 2:return Block.__(2,[concat_fmtty(fmtty1[0],fmtty2)]);case 3:return Block.__(3,[concat_fmtty(fmtty1[0],fmtty2)]);case 4:return Block.__(4,[concat_fmtty(fmtty1[0],fmtty2)]);case 5:return Block.__(5,[concat_fmtty(fmtty1[0],fmtty2)]);case 6:return Block.__(6,[concat_fmtty(fmtty1[0],fmtty2)]);case 7:return Block.__(7,[concat_fmtty(fmtty1[0],fmtty2)]);case 8:return Block.__(8,[fmtty1[0],concat_fmtty(fmtty1[1],fmtty2)]);case 9:return Block.__(9,[fmtty1[0],fmtty1[1],concat_fmtty(fmtty1[2],fmtty2)]);case 10:return Block.__(10,[concat_fmtty(fmtty1[0],fmtty2)]);case 11:return Block.__(11,[concat_fmtty(fmtty1[0],fmtty2)]);case 12:return Block.__(12,[concat_fmtty(fmtty1[0],fmtty2)]);case 13:return Block.__(13,[concat_fmtty(fmtty1[0],fmtty2)]);case 14:return Block.__(14,[concat_fmtty(fmtty1[0],fmtty2)])}}}function concat_fmt(fmt1,fmt2){if(typeof fmt1==="number"){return fmt2}else{switch(fmt1.tag|0){case 0:return Block.__(0,[concat_fmt(fmt1[0],fmt2)]);case 1:return Block.__(1,[concat_fmt(fmt1[0],fmt2)]);case 2:return Block.__(2,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 3:return Block.__(3,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 4:return Block.__(4,[fmt1[0],fmt1[1],fmt1[2],concat_fmt(fmt1[3],fmt2)]);case 5:return Block.__(5,[fmt1[0],fmt1[1],fmt1[2],concat_fmt(fmt1[3],fmt2)]);case 6:return Block.__(6,[fmt1[0],fmt1[1],fmt1[2],concat_fmt(fmt1[3],fmt2)]);case 7:return Block.__(7,[fmt1[0],fmt1[1],fmt1[2],concat_fmt(fmt1[3],fmt2)]);case 8:return Block.__(8,[fmt1[0],fmt1[1],fmt1[2],concat_fmt(fmt1[3],fmt2)]);case 9:return Block.__(9,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 10:return Block.__(10,[concat_fmt(fmt1[0],fmt2)]);case 11:return Block.__(11,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 12:return Block.__(12,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 13:return Block.__(13,[fmt1[0],fmt1[1],concat_fmt(fmt1[2],fmt2)]);case 14:return Block.__(14,[fmt1[0],fmt1[1],concat_fmt(fmt1[2],fmt2)]);case 15:return Block.__(15,[concat_fmt(fmt1[0],fmt2)]);case 16:return Block.__(16,[concat_fmt(fmt1[0],fmt2)]);case 17:return Block.__(17,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 18:return Block.__(18,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 19:return Block.__(19,[concat_fmt(fmt1[0],fmt2)]);case 20:return Block.__(20,[fmt1[0],fmt1[1],concat_fmt(fmt1[2],fmt2)]);case 21:return Block.__(21,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 22:return Block.__(22,[concat_fmt(fmt1[0],fmt2)]);case 23:return Block.__(23,[fmt1[0],concat_fmt(fmt1[1],fmt2)]);case 24:return Block.__(24,[fmt1[0],fmt1[1],concat_fmt(fmt1[2],fmt2)])}}}exports.concat_fmtty=concat_fmtty;exports.erase_rel=erase_rel;exports.concat_fmt=concat_fmt},{"./block.js":2}],25:[function(require,module,exports){"use strict";var Obj=require("./obj.js");var Curry=require("./curry.js");var Caml_obj=require("./caml_obj.js");var Caml_exceptions=require("./caml_exceptions.js");var Undefined=Caml_exceptions.create("CamlinternalLazy.Undefined");function raise_undefined(param){throw Undefined}function force_lazy_block(blk){var closure=blk[0];blk[0]=raise_undefined;try{var result=Curry._1(closure,0);blk[0]=result;Caml_obj.caml_obj_set_tag(blk,Obj.forward_tag);return result}catch(e){blk[0]=function(param){throw e};throw e}}function force_val_lazy_block(blk){var closure=blk[0];blk[0]=raise_undefined;var result=Curry._1(closure,0);blk[0]=result;Caml_obj.caml_obj_set_tag(blk,Obj.forward_tag);return result}function force(lzv){var t=lzv.tag|0;if(t===Obj.forward_tag){return lzv[0]}else if(t!==Obj.lazy_tag){return lzv}else{return force_lazy_block(lzv)}}function force_val(lzv){var t=lzv.tag|0;if(t===Obj.forward_tag){return lzv[0]}else if(t!==Obj.lazy_tag){return lzv}else{return force_val_lazy_block(lzv)}}exports.Undefined=Undefined;exports.force_lazy_block=force_lazy_block;exports.force_val_lazy_block=force_val_lazy_block;exports.force=force;exports.force_val=force_val},{"./caml_exceptions.js":8,"./caml_obj.js":17,"./curry.js":27,"./obj.js":35}],26:[function(require,module,exports){"use strict";var Caml_bytes=require("./caml_bytes.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function chr(n){if(n<0||n>255){throw[Caml_builtin_exceptions.invalid_argument,"Char.chr"]}return n}function escaped(c){var exit=0;if(c>=40){if(c!==92){exit=c>=127?1:2}else{return"\\\\"}}else if(c>=32){if(c>=39){return"\\'"}else{exit=2}}else if(c>=14){exit=1}else{switch(c){case 8:return"\\b";case 9:return"\\t";case 10:return"\\n";case 0:case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 11:case 12:exit=1;break;case 13:return"\\r"}}switch(exit){case 1:var s=[0,0,0,0];s[0]=92;s[1]=48+(c/100|0)|0;s[2]=48+(c/10|0)%10|0;s[3]=48+c%10|0;return Caml_bytes.bytes_to_string(s);case 2:var s$1=[0];s$1[0]=c;return Caml_bytes.bytes_to_string(s$1)}}function lowercase(c){if(c>=65&&c<=90||c>=192&&c<=214||c>=216&&c<=222){return c+32|0}else{return c}}function uppercase(c){if(c>=97&&c<=122||c>=224&&c<=246||c>=248&&c<=254){return c-32|0}else{return c}}function lowercase_ascii(c){if(c>=65&&c<=90){return c+32|0}else{return c}}function uppercase_ascii(c){if(c>=97&&c<=122){return c-32|0}else{return c}}function compare(c1,c2){return c1-c2|0}function equal(c1,c2){return(c1-c2|0)===0}exports.chr=chr;exports.escaped=escaped;exports.lowercase=lowercase;exports.uppercase=uppercase;exports.lowercase_ascii=lowercase_ascii;exports.uppercase_ascii=uppercase_ascii;exports.compare=compare;exports.equal=equal},{"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7}],27:[function(require,module,exports){"use strict";var Caml_array=require("./caml_array.js");function app(_f,_args){while(true){var args=_args;var f=_f;var init_arity=f.length;var arity=init_arity===0?1:init_arity;var len=args.length;var d=arity-len|0;if(d===0){return f.apply(null,args)}else if(d<0){_args=Caml_array.caml_array_sub(args,arity,-d|0);_f=f.apply(null,Caml_array.caml_array_sub(args,0,arity));continue}else{return function(f,args){return function(x){return app(f,args.concat([x]))}}(f,args)}}}function curry_1(o,a0,arity){switch(arity){case 1:return o(a0);case 2:return function(param){return o(a0,param)};case 3:return function(param,param$1){return o(a0,param,param$1)};case 4:return function(param,param$1,param$2){return o(a0,param,param$1,param$2)};case 5:return function(param,param$1,param$2,param$3){return o(a0,param,param$1,param$2,param$3)};case 6:return function(param,param$1,param$2,param$3,param$4){return o(a0,param,param$1,param$2,param$3,param$4)};case 7:return function(param,param$1,param$2,param$3,param$4,param$5){return o(a0,param,param$1,param$2,param$3,param$4,param$5)};default:return app(o,[a0])}}function _1(o,a0){var arity=o.length;if(arity===1){return o(a0)}else{return curry_1(o,a0,arity)}}function __1(o){var arity=o.length;if(arity===1){return o}else{return function(a0){return _1(o,a0)}}}function curry_2(o,a0,a1,arity){switch(arity){case 1:return app(o(a0),[a1]);case 2:return o(a0,a1);case 3:return function(param){return o(a0,a1,param)};case 4:return function(param,param$1){return o(a0,a1,param,param$1)};case 5:return function(param,param$1,param$2){return o(a0,a1,param,param$1,param$2)};case 6:return function(param,param$1,param$2,param$3){return o(a0,a1,param,param$1,param$2,param$3)};case 7:return function(param,param$1,param$2,param$3,param$4){return o(a0,a1,param,param$1,param$2,param$3,param$4)};default:return app(o,[a0,a1])}}function _2(o,a0,a1){var arity=o.length;if(arity===2){return o(a0,a1)}else{return curry_2(o,a0,a1,arity)}}function __2(o){var arity=o.length;if(arity===2){return o}else{return function(a0,a1){return _2(o,a0,a1)}}}function curry_3(o,a0,a1,a2,arity){switch(arity){case 1:return app(o(a0),[a1,a2]);case 2:return app(o(a0,a1),[a2]);case 3:return o(a0,a1,a2);case 4:return function(param){return o(a0,a1,a2,param)};case 5:return function(param,param$1){return o(a0,a1,a2,param,param$1)};case 6:return function(param,param$1,param$2){return o(a0,a1,a2,param,param$1,param$2)};case 7:return function(param,param$1,param$2,param$3){return o(a0,a1,a2,param,param$1,param$2,param$3)};default:return app(o,[a0,a1,a2])}}function _3(o,a0,a1,a2){var arity=o.length;if(arity===3){return o(a0,a1,a2)}else{return curry_3(o,a0,a1,a2,arity)}}function __3(o){var arity=o.length;if(arity===3){return o}else{return function(a0,a1,a2){return _3(o,a0,a1,a2)}}}function curry_4(o,a0,a1,a2,a3,arity){switch(arity){case 1:return app(o(a0),[a1,a2,a3]);case 2:return app(o(a0,a1),[a2,a3]);case 3:return app(o(a0,a1,a2),[a3]);case 4:return o(a0,a1,a2,a3);case 5:return function(param){return o(a0,a1,a2,a3,param)};case 6:return function(param,param$1){return o(a0,a1,a2,a3,param,param$1)};case 7:return function(param,param$1,param$2){return o(a0,a1,a2,a3,param,param$1,param$2)};default:return app(o,[a0,a1,a2,a3])}}function _4(o,a0,a1,a2,a3){var arity=o.length;if(arity===4){return o(a0,a1,a2,a3)}else{return curry_4(o,a0,a1,a2,a3,arity)}}function __4(o){var arity=o.length;if(arity===4){return o}else{return function(a0,a1,a2,a3){return _4(o,a0,a1,a2,a3)}}}function curry_5(o,a0,a1,a2,a3,a4,arity){switch(arity){case 1:return app(o(a0),[a1,a2,a3,a4]);case 2:return app(o(a0,a1),[a2,a3,a4]);case 3:return app(o(a0,a1,a2),[a3,a4]);case 4:return app(o(a0,a1,a2,a3),[a4]);case 5:return o(a0,a1,a2,a3,a4);case 6:return function(param){return o(a0,a1,a2,a3,a4,param)};case 7:return function(param,param$1){return o(a0,a1,a2,a3,a4,param,param$1)};default:return app(o,[a0,a1,a2,a3,a4])}}function _5(o,a0,a1,a2,a3,a4){var arity=o.length;if(arity===5){return o(a0,a1,a2,a3,a4)}else{return curry_5(o,a0,a1,a2,a3,a4,arity)}}function __5(o){var arity=o.length;if(arity===5){return o}else{return function(a0,a1,a2,a3,a4){return _5(o,a0,a1,a2,a3,a4)}}}function curry_6(o,a0,a1,a2,a3,a4,a5,arity){switch(arity){case 1:return app(o(a0),[a1,a2,a3,a4,a5]);case 2:return app(o(a0,a1),[a2,a3,a4,a5]);case 3:return app(o(a0,a1,a2),[a3,a4,a5]);case 4:return app(o(a0,a1,a2,a3),[a4,a5]);case 5:return app(o(a0,a1,a2,a3,a4),[a5]);case 6:
-return o(a0,a1,a2,a3,a4,a5);case 7:return function(param){return o(a0,a1,a2,a3,a4,a5,param)};default:return app(o,[a0,a1,a2,a3,a4,a5])}}function _6(o,a0,a1,a2,a3,a4,a5){var arity=o.length;if(arity===6){return o(a0,a1,a2,a3,a4,a5)}else{return curry_6(o,a0,a1,a2,a3,a4,a5,arity)}}function __6(o){var arity=o.length;if(arity===6){return o}else{return function(a0,a1,a2,a3,a4,a5){return _6(o,a0,a1,a2,a3,a4,a5)}}}function curry_7(o,a0,a1,a2,a3,a4,a5,a6,arity){switch(arity){case 1:return app(o(a0),[a1,a2,a3,a4,a5,a6]);case 2:return app(o(a0,a1),[a2,a3,a4,a5,a6]);case 3:return app(o(a0,a1,a2),[a3,a4,a5,a6]);case 4:return app(o(a0,a1,a2,a3),[a4,a5,a6]);case 5:return app(o(a0,a1,a2,a3,a4),[a5,a6]);case 6:return app(o(a0,a1,a2,a3,a4,a5),[a6]);case 7:return o(a0,a1,a2,a3,a4,a5,a6);default:return app(o,[a0,a1,a2,a3,a4,a5,a6])}}function _7(o,a0,a1,a2,a3,a4,a5,a6){var arity=o.length;if(arity===7){return o(a0,a1,a2,a3,a4,a5,a6)}else{return curry_7(o,a0,a1,a2,a3,a4,a5,a6,arity)}}function __7(o){var arity=o.length;if(arity===7){return o}else{return function(a0,a1,a2,a3,a4,a5,a6){return _7(o,a0,a1,a2,a3,a4,a5,a6)}}}function curry_8(o,a0,a1,a2,a3,a4,a5,a6,a7,arity){switch(arity){case 1:return app(o(a0),[a1,a2,a3,a4,a5,a6,a7]);case 2:return app(o(a0,a1),[a2,a3,a4,a5,a6,a7]);case 3:return app(o(a0,a1,a2),[a3,a4,a5,a6,a7]);case 4:return app(o(a0,a1,a2,a3),[a4,a5,a6,a7]);case 5:return app(o(a0,a1,a2,a3,a4),[a5,a6,a7]);case 6:return app(o(a0,a1,a2,a3,a4,a5),[a6,a7]);case 7:return app(o(a0,a1,a2,a3,a4,a5,a6),[a7]);default:return app(o,[a0,a1,a2,a3,a4,a5,a6,a7])}}function _8(o,a0,a1,a2,a3,a4,a5,a6,a7){var arity=o.length;if(arity===8){return o(a0,a1,a2,a3,a4,a5,a6,a7)}else{return curry_8(o,a0,a1,a2,a3,a4,a5,a6,a7,arity)}}function __8(o){var arity=o.length;if(arity===8){return o}else{return function(a0,a1,a2,a3,a4,a5,a6,a7){return _8(o,a0,a1,a2,a3,a4,a5,a6,a7)}}}exports.app=app;exports.curry_1=curry_1;exports._1=_1;exports.__1=__1;exports.curry_2=curry_2;exports._2=_2;exports.__2=__2;exports.curry_3=curry_3;exports._3=_3;exports.__3=__3;exports.curry_4=curry_4;exports._4=_4;exports.__4=__4;exports.curry_5=curry_5;exports._5=_5;exports.__5=__5;exports.curry_6=curry_6;exports._6=_6;exports.__6=__6;exports.curry_7=curry_7;exports._7=_7;exports.__7=__7;exports.curry_8=curry_8;exports._8=_8;exports.__8=__8},{"./caml_array.js":5}],28:[function(require,module,exports){"use strict";var Char=require("./char.js");var $$String=require("./string.js");var Caml_md5=require("./caml_md5.js");var Caml_bytes=require("./caml_bytes.js");var Pervasives=require("./pervasives.js");var Caml_string=require("./caml_string.js");var Caml_external_polyfill=require("./caml_external_polyfill.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function string(str){return Caml_md5.caml_md5_string(str,0,str.length)}function bytes(b){return string(Caml_bytes.bytes_to_string(b))}function substring(str,ofs,len){if(ofs<0||len<0||ofs>(str.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Digest.substring"]}return Caml_md5.caml_md5_string(str,ofs,len)}function subbytes(b,ofs,len){return substring(Caml_bytes.bytes_to_string(b),ofs,len)}function file(filename){var ic=Pervasives.open_in_bin(filename);var d;try{d=Caml_external_polyfill.resolve("caml_md5_chan")(ic,-1)}catch(e){Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);throw e}Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);return d}var output=Pervasives.output_string;function input(chan){return Pervasives.really_input_string(chan,16)}function char_hex(n){return n+(n<10?48:87)|0}function to_hex(d){if(d.length!==16){throw[Caml_builtin_exceptions.invalid_argument,"Digest.to_hex"]}var result=Caml_bytes.caml_create_bytes(32);for(var i=0;i<=15;++i){var x=Caml_string.get(d,i);result[i<<1]=char_hex(x>>>4);result[(i<<1)+1|0]=char_hex(x&15)}return Caml_bytes.bytes_to_string(result)}function from_hex(s){if(s.length!==32){throw[Caml_builtin_exceptions.invalid_argument,"Digest.from_hex"]}var digit=function(c){if(c>=65){if(c>=97){if(c>=103){throw[Caml_builtin_exceptions.invalid_argument,"Digest.from_hex"]}return(c-97|0)+10|0}else{if(c>=71){throw[Caml_builtin_exceptions.invalid_argument,"Digest.from_hex"]}return(c-65|0)+10|0}}else{if(c>57||c<48){throw[Caml_builtin_exceptions.invalid_argument,"Digest.from_hex"]}return c-48|0}};var $$byte=function(i){return(digit(Caml_string.get(s,i))<<4)+digit(Caml_string.get(s,i+1|0))|0};var result=Caml_bytes.caml_create_bytes(16);for(var i=0;i<=15;++i){result[i]=Char.chr($$byte(i<<1))}return Caml_bytes.bytes_to_string(result)}var compare=$$String.compare;var equal=$$String.equal;exports.compare=compare;exports.equal=equal;exports.string=string;exports.bytes=bytes;exports.substring=substring;exports.subbytes=subbytes;exports.file=file;exports.output=output;exports.input=input;exports.to_hex=to_hex;exports.from_hex=from_hex},{"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_external_polyfill.js":9,"./caml_md5.js":16,"./caml_string.js":20,"./char.js":26,"./pervasives.js":36,"./string.js":39}],29:[function(require,module,exports){"use strict";var Caml_format=require("./caml_format.js");var Caml_primitive=require("./caml_primitive.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function succ(n){return n+1|0}function pred(n){return n-1|0}function abs(n){if(n>=0){return n}else{return-n|0}}function lognot(n){return n^-1}function to_string(n){return Caml_format.caml_int32_format("%d",n)}function of_string_opt(s){try{return Caml_format.caml_int32_of_string(s)}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return}else{throw exn}}}var compare=Caml_primitive.caml_int32_compare;function equal(x,y){return x===y}var zero=0;var one=1;var minus_one=-1;var max_int=2147483647;var min_int=-2147483648;exports.zero=zero;exports.one=one;exports.minus_one=minus_one;exports.succ=succ;exports.pred=pred;exports.abs=abs;exports.max_int=max_int;exports.min_int=min_int;exports.lognot=lognot;exports.of_string_opt=of_string_opt;exports.to_string=to_string;exports.compare=compare;exports.equal=equal},{"./caml_builtin_exceptions.js":6,"./caml_format.js":10,"./caml_js_exceptions.js":14,"./caml_primitive.js":19}],30:[function(require,module,exports){"use strict";var Caml_int64=require("./caml_int64.js");var Caml_format=require("./caml_format.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function succ(n){return Caml_int64.add(n,{hi:0,lo:1})}function pred(n){return Caml_int64.sub(n,{hi:0,lo:1})}function abs(n){if(Caml_int64.ge(n,{hi:0,lo:0})){return n}else{return Caml_int64.neg(n)}}function lognot(n){return Caml_int64.xor(n,{hi:-1,lo:4294967295})}function to_string(n){return Caml_format.caml_int64_format("%d",n)}function of_string_opt(s){try{return Caml_format.caml_int64_of_string(s)}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return}else{throw exn}}}var compare=Caml_int64.compare;function equal(x,y){return Caml_int64.compare(x,y)===0}var zero={hi:0,lo:0};var one={hi:0,lo:1};var minus_one={hi:-1,lo:4294967295};var max_int={hi:2147483647,lo:4294967295};var min_int={hi:-2147483648,lo:0};exports.zero=zero;exports.one=one;exports.minus_one=minus_one;exports.succ=succ;exports.pred=pred;exports.abs=abs;exports.max_int=max_int;exports.min_int=min_int;exports.lognot=lognot;exports.of_string_opt=of_string_opt;exports.to_string=to_string;exports.compare=compare;exports.equal=equal},{"./caml_builtin_exceptions.js":6,"./caml_format.js":10,"./caml_int64.js":12,"./caml_js_exceptions.js":14}],31:[function(require,module,exports){"use strict";var Bytes=require("./bytes.js");var Curry=require("./curry.js");var Caml_array=require("./caml_array.js");var Caml_bytes=require("./caml_bytes.js");var Caml_lexer=require("./caml_lexer.js");var Pervasives=require("./pervasives.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function engine(tbl,state,buf){var result=Caml_lexer.caml_lex_engine(tbl,state,buf);if(result>=0){buf.lex_start_p=buf.lex_curr_p;var init=buf.lex_curr_p;buf.lex_curr_p={pos_fname:init.pos_fname,pos_lnum:init.pos_lnum,pos_bol:init.pos_bol,pos_cnum:buf.lex_abs_pos+buf.lex_curr_pos|0}}return result}function new_engine(tbl,state,buf){var result=Caml_lexer.caml_new_lex_engine(tbl,state,buf);if(result>=0){buf.lex_start_p=buf.lex_curr_p;var init=buf.lex_curr_p;buf.lex_curr_p={pos_fname:init.pos_fname,pos_lnum:init.pos_lnum,pos_bol:init.pos_bol,pos_cnum:buf.lex_abs_pos+buf.lex_curr_pos|0}}return result}var zero_pos={pos_fname:"",pos_lnum:1,pos_bol:0,pos_cnum:0};function from_function(f){var partial_arg=Caml_bytes.caml_create_bytes(512);return{refill_buff:function(param){var read_fun=f;var aux_buffer=partial_arg;var lexbuf=param;var read=Curry._2(read_fun,aux_buffer,aux_buffer.length);var n=read>0?read:(lexbuf.lex_eof_reached=true,0);if((lexbuf.lex_buffer_len+n|0)>lexbuf.lex_buffer.length){if(((lexbuf.lex_buffer_len-lexbuf.lex_start_pos|0)+n|0)<=lexbuf.lex_buffer.length){Bytes.blit(lexbuf.lex_buffer,lexbuf.lex_start_pos,lexbuf.lex_buffer,0,lexbuf.lex_buffer_len-lexbuf.lex_start_pos|0)}else{var newlen=lexbuf.lex_buffer.length<<1;if(((lexbuf.lex_buffer_len-lexbuf.lex_start_pos|0)+n|0)>newlen){throw[Caml_builtin_exceptions.failure,"Lexing.lex_refill: cannot grow buffer"]}var newbuf=Caml_bytes.caml_create_bytes(newlen);Bytes.blit(lexbuf.lex_buffer,lexbuf.lex_start_pos,newbuf,0,lexbuf.lex_buffer_len-lexbuf.lex_start_pos|0);lexbuf.lex_buffer=newbuf}var s=lexbuf.lex_start_pos;lexbuf.lex_abs_pos=lexbuf.lex_abs_pos+s|0;lexbuf.lex_curr_pos=lexbuf.lex_curr_pos-s|0;lexbuf.lex_start_pos=0;lexbuf.lex_last_pos=lexbuf.lex_last_pos-s|0;lexbuf.lex_buffer_len=lexbuf.lex_buffer_len-s|0;var t=lexbuf.lex_mem;for(var i=0,i_finish=t.length-1|0;i<=i_finish;++i){var v=Caml_array.caml_array_get(t,i);if(v>=0){Caml_array.caml_array_set(t,i,v-s|0)}}}Bytes.blit(aux_buffer,0,lexbuf.lex_buffer,lexbuf.lex_buffer_len,n);lexbuf.lex_buffer_len=lexbuf.lex_buffer_len+n|0;return 0},lex_buffer:Caml_bytes.caml_create_bytes(1024),lex_buffer_len:0,lex_abs_pos:0,lex_start_pos:0,lex_curr_pos:0,lex_last_pos:0,lex_last_action:0,lex_eof_reached:false,lex_mem:[],lex_start_p:zero_pos,lex_curr_p:zero_pos}}function from_channel(ic){return from_function(function(buf,n){return Pervasives.input(ic,buf,0,n)})}function from_string(s){return{refill_buff:function(lexbuf){lexbuf.lex_eof_reached=true;return 0},lex_buffer:Bytes.of_string(s),lex_buffer_len:s.length,lex_abs_pos:0,lex_start_pos:0,lex_curr_pos:0,lex_last_pos:0,lex_last_action:0,lex_eof_reached:true,lex_mem:[],lex_start_p:zero_pos,lex_curr_p:zero_pos}}function lexeme(lexbuf){var len=lexbuf.lex_curr_pos-lexbuf.lex_start_pos|0;return Bytes.sub_string(lexbuf.lex_buffer,lexbuf.lex_start_pos,len)}function sub_lexeme(lexbuf,i1,i2){var len=i2-i1|0;return Bytes.sub_string(lexbuf.lex_buffer,i1,len)}function sub_lexeme_opt(lexbuf,i1,i2){if(i1>=0){var len=i2-i1|0;return Bytes.sub_string(lexbuf.lex_buffer,i1,len)}}function sub_lexeme_char(lexbuf,i){return Caml_bytes.get(lexbuf.lex_buffer,i)}function sub_lexeme_char_opt(lexbuf,i){if(i>=0){return Caml_bytes.get(lexbuf.lex_buffer,i)}}function lexeme_char(lexbuf,i){return Caml_bytes.get(lexbuf.lex_buffer,lexbuf.lex_start_pos+i|0)}function lexeme_start(lexbuf){return lexbuf.lex_start_p.pos_cnum}function lexeme_end(lexbuf){return lexbuf.lex_curr_p.pos_cnum}function lexeme_start_p(lexbuf){return lexbuf.lex_start_p}function lexeme_end_p(lexbuf){return lexbuf.lex_curr_p}function new_line(lexbuf){var lcp=lexbuf.lex_curr_p;lexbuf.lex_curr_p={pos_fname:lcp.pos_fname,pos_lnum:lcp.pos_lnum+1|0,pos_bol:lcp.pos_cnum,pos_cnum:lcp.pos_cnum};return 0}function flush_input(lb){lb.lex_curr_pos=0;lb.lex_abs_pos=0;var init=lb.lex_curr_p;lb.lex_curr_p={pos_fname:init.pos_fname,pos_lnum:init.pos_lnum,pos_bol:init.pos_bol,pos_cnum:0};lb.lex_buffer_len=0;return 0}var dummy_pos={pos_fname:"",pos_lnum:0,pos_bol:0,pos_cnum:-1};exports.dummy_pos=dummy_pos;exports.from_channel=from_channel;exports.from_string=from_string;exports.from_function=from_function;exports.lexeme=lexeme;exports.lexeme_char=lexeme_char;exports.lexeme_start=lexeme_start;exports.lexeme_end=lexeme_end;exports.lexeme_start_p=lexeme_start_p;exports.lexeme_end_p=lexeme_end_p;exports.new_line=new_line;exports.flush_input=flush_input;exports.sub_lexeme=sub_lexeme;exports.sub_lexeme_opt=sub_lexeme_opt;exports.sub_lexeme_char=sub_lexeme_char;exports.sub_lexeme_char_opt=sub_lexeme_char_opt;exports.engine=engine;exports.new_engine=new_engine},{"./bytes.js":4,"./caml_array.js":5,"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_lexer.js":15,"./curry.js":27,"./pervasives.js":36}],32:[function(require,module,exports){"use strict";var Curry=require("./curry.js");var Caml_obj=require("./caml_obj.js");var Pervasives=require("./pervasives.js");var Caml_option=require("./caml_option.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function length(l){var _len=0;var _param=l;while(true){var param=_param;var len=_len;if(param){_param=param[1];_len=len+1|0;continue}else{return len}}}function cons(a,l){return[a,l]}function hd(param){if(param){return param[0]}else{throw[Caml_builtin_exceptions.failure,"hd"]}}function tl(param){if(param){return param[1]}else{throw[Caml_builtin_exceptions.failure,"tl"]}}function nth(l,n){if(n<0){throw[Caml_builtin_exceptions.invalid_argument,"List.nth"]}var _l=l;var _n=n;while(true){var n$1=_n;var l$1=_l;if(l$1){if(n$1===0){return l$1[0]}else{_n=n$1-1|0;_l=l$1[1];continue}}else{throw[Caml_builtin_exceptions.failure,"nth"]}}}function nth_opt(l,n){if(n<0){throw[Caml_builtin_exceptions.invalid_argument,"List.nth"]}var _l=l;var _n=n;while(true){var n$1=_n;var l$1=_l;if(l$1){if(n$1===0){return Caml_option.some(l$1[0])}else{_n=n$1-1|0;_l=l$1[1];continue}}else{return}}}function rev_append(_l1,_l2){while(true){var l2=_l2;var l1=_l1;if(l1){_l2=[l1[0],l2];_l1=l1[1];continue}else{return l2}}}function rev(l){return rev_append(l,0)}function init_tailrec_aux(_acc,_i,n,f){while(true){var i=_i;var acc=_acc;if(i>=n){return acc}else{_i=i+1|0;_acc=[Curry._1(f,i),acc];continue}}}function init_aux(i,n,f){if(i>=n){return 0}else{var r=Curry._1(f,i);return[r,init_aux(i+1|0,n,f)]}}function init(len,f){if(len<0){throw[Caml_builtin_exceptions.invalid_argument,"List.init"]}if(len>1e4){return rev_append(init_tailrec_aux(0,0,len,f),0)}else{return init_aux(0,len,f)}}function flatten(param){if(param){return Pervasives.$at(param[0],flatten(param[1]))}else{return 0}}function map(f,param){if(param){var r=Curry._1(f,param[0]);return[r,map(f,param[1])]}else{return 0}}function mapi(i,f,param){if(param){var r=Curry._2(f,i,param[0]);return[r,mapi(i+1|0,f,param[1])]}else{return 0}}function mapi$1(f,l){return mapi(0,f,l)}function rev_map(f,l){var _accu=0;var _param=l;while(true){var param=_param;var accu=_accu;if(param){_param=param[1];_accu=[Curry._1(f,param[0]),accu];continue}else{return accu}}}function iter(f,_param){while(true){var param=_param;if(param){Curry._1(f,param[0]);_param=param[1];continue}else{return 0}}}function iteri(f,l){var _i=0;var f$1=f;var _param=l;while(true){var param=_param;var i=_i;if(param){Curry._2(f$1,i,param[0]);_param=param[1];_i=i+1|0;continue}else{return 0}}}function fold_left(f,_accu,_l){while(true){var l=_l;var accu=_accu;if(l){_l=l[1];_accu=Curry._2(f,accu,l[0]);continue}else{return accu}}}function fold_right(f,l,accu){if(l){return Curry._2(f,l[0],fold_right(f,l[1],accu))}else{return accu}}function map2(f,l1,l2){if(l1){if(l2){var r=Curry._2(f,l1[0],l2[0]);return[r,map2(f,l1[1],l2[1])]}else{throw[Caml_builtin_exceptions.invalid_argument,"List.map2"]}}else if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.map2"]}else{return 0}}function rev_map2(f,l1,l2){var _accu=0;var _l1=l1;var _l2=l2;while(true){var l2$1=_l2;var l1$1=_l1;var accu=_accu;if(l1$1){if(l2$1){_l2=l2$1[1];_l1=l1$1[1];_accu=[Curry._2(f,l1$1[0],l2$1[0]),accu];continue}else{throw[Caml_builtin_exceptions.invalid_argument,"List.rev_map2"]}}else{if(l2$1){throw[Caml_builtin_exceptions.invalid_argument,"List.rev_map2"]}return accu}}}function iter2(f,_l1,_l2){while(true){var l2=_l2;var l1=_l1;if(l1){if(l2){Curry._2(f,l1[0],l2[0]);_l2=l2[1];_l1=l1[1];continue}else{throw[Caml_builtin_exceptions.invalid_argument,"List.iter2"]}}else if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.iter2"]}else{return 0}}}function fold_left2(f,_accu,_l1,_l2){while(true){var l2=_l2;var l1=_l1;var accu=_accu;if(l1){if(l2){_l2=l2[1];_l1=l1[1];_accu=Curry._3(f,accu,l1[0],l2[0]);continue}else{throw[Caml_builtin_exceptions.invalid_argument,"List.fold_left2"]}}else{if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.fold_left2"]}return accu}}}function fold_right2(f,l1,l2,accu){if(l1){if(l2){return Curry._3(f,l1[0],l2[0],fold_right2(f,l1[1],l2[1],accu))}else{throw[Caml_builtin_exceptions.invalid_argument,"List.fold_right2"]}}else{if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.fold_right2"]}return accu}}function for_all(p,_param){while(true){var param=_param;if(param){if(Curry._1(p,param[0])){_param=param[1];continue}else{return false}}else{return true}}}function exists(p,_param){while(true){var param=_param;if(param){if(Curry._1(p,param[0])){return true}else{_param=param[1];continue}}else{return false}}}function for_all2(p,_l1,_l2){while(true){var l2=_l2;var l1=_l1;if(l1){if(l2){if(Curry._2(p,l1[0],l2[0])){_l2=l2[1];_l1=l1[1];continue}else{return false}}else{throw[Caml_builtin_exceptions.invalid_argument,"List.for_all2"]}}else if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.for_all2"]}else{return true}}}function exists2(p,_l1,_l2){while(true){var l2=_l2;var l1=_l1;if(l1){if(l2){if(Curry._2(p,l1[0],l2[0])){return true}else{_l2=l2[1];_l1=l1[1];continue}}else{throw[Caml_builtin_exceptions.invalid_argument,"List.exists2"]}}else if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.exists2"]}else{return false}}}function mem(x,_param){while(true){var param=_param;if(param){if(Caml_obj.caml_equal(param[0],x)){return true}else{_param=param[1];continue}}else{return false}}}function memq(x,_param){while(true){var param=_param;if(param){if(param[0]===x){return true}else{_param=param[1];continue}}else{return false}}}function assoc(x,_param){while(true){var param=_param;if(param){var match=param[0];if(Caml_obj.caml_equal(match[0],x)){return match[1]}else{_param=param[1];continue}}else{throw Caml_builtin_exceptions.not_found}}}function assoc_opt(x,_param){while(true){var param=_param;if(param){var match=param[0];if(Caml_obj.caml_equal(match[0],x)){return Caml_option.some(match[1])}else{_param=param[1];continue}}else{return}}}function assq(x,_param){while(true){var param=_param;if(param){var match=param[0];if(match[0]===x){return match[1]}else{_param=param[1];continue}}else{throw Caml_builtin_exceptions.not_found}}}function assq_opt(x,_param){while(true){var param=_param;if(param){var match=param[0];if(match[0]===x){return Caml_option.some(match[1])}else{_param=param[1];continue}}else{return}}}function mem_assoc(x,_param){while(true){var param=_param;if(param){if(Caml_obj.caml_equal(param[0][0],x)){return true}else{_param=param[1];continue}}else{return false}}}function mem_assq(x,_param){while(true){var param=_param;if(param){if(param[0][0]===x){return true}else{_param=param[1];continue}}else{return false}}}function remove_assoc(x,param){if(param){var l=param[1];var pair=param[0];if(Caml_obj.caml_equal(pair[0],x)){return l}else{return[pair,remove_assoc(x,l)]}}else{return 0}}function remove_assq(x,param){if(param){var l=param[1];var pair=param[0];if(pair[0]===x){return l}else{return[pair,remove_assq(x,l)]}}else{return 0}}function find(p,_param){while(true){var param=_param;if(param){var x=param[0];if(Curry._1(p,x)){return x}else{_param=param[1];continue}}else{throw Caml_builtin_exceptions.not_found}}}function find_opt(p,_param){while(true){var param=_param;if(param){var x=param[0];if(Curry._1(p,x)){return Caml_option.some(x)}else{_param=param[1];continue}}else{return}}}function find_all(p){return function(param){var _accu=0;var _param=param;while(true){var param$1=_param;var accu=_accu;if(param$1){var l=param$1[1];var x=param$1[0];if(Curry._1(p,x)){_param=l;_accu=[x,accu];continue}else{_param=l;continue}}else{return rev_append(accu,0)}}}}function partition(p,l){var _yes=0;var _no=0;var _param=l;while(true){var param=_param;var no=_no;var yes=_yes;if(param){var l$1=param[1];var x=param[0];if(Curry._1(p,x)){_param=l$1;_yes=[x,yes];continue}else{_param=l$1;_no=[x,no];continue}}else{return[rev_append(yes,0),rev_append(no,0)]}}}function split(param){if(param){var match=param[0];var match$1=split(param[1]);return[[match[0],match$1[0]],[match[1],match$1[1]]]}else{return[0,0]}}function combine(l1,l2){if(l1){if(l2){return[[l1[0],l2[0]],combine(l1[1],l2[1])]}else{throw[Caml_builtin_exceptions.invalid_argument,"List.combine"]}}else if(l2){throw[Caml_builtin_exceptions.invalid_argument,"List.combine"]}else{return 0}}function merge(cmp,l1,l2){if(l1){if(l2){var h2=l2[0];var h1=l1[0];if(Curry._2(cmp,h1,h2)<=0){return[h1,merge(cmp,l1[1],l2)]}else{return[h2,merge(cmp,l1,l2[1])]}}else{return l1}}else{return l2}}function chop(_k,_l){while(true){var l=_l;var k=_k;if(k===0){return l}else if(l){_l=l[1];_k=k-1|0;continue}else{throw[Caml_builtin_exceptions.assert_failure,["list.ml",262,11]]}}}function stable_sort(cmp,l){var sort=function(n,l){if(n!==2){if(n===3&&l){var match=l[1];if(match){var match$1=match[1];if(match$1){var x3=match$1[0];var x2=match[0];var x1=l[0];if(Curry._2(cmp,x1,x2)<=0){if(Curry._2(cmp,x2,x3)<=0){return[x1,[x2,[x3,0]]]}else if(Curry._2(cmp,x1,x3)<=0){return[x1,[x3,[x2,0]]]}else{return[x3,[x1,[x2,0]]]}}else if(Curry._2(cmp,x1,x3)<=0){return[x2,[x1,[x3,0]]]}else if(Curry._2(cmp,x2,x3)<=0){return[x2,[x3,[x1,0]]]}else{return[x3,[x2,[x1,0]]]}}}}}else if(l){var match$2=l[1];if(match$2){var x2$1=match$2[0];var x1$1=l[0];if(Curry._2(cmp,x1$1,x2$1)<=0){return[x1$1,[x2$1,0]]}else{return[x2$1,[x1$1,0]]}}}var n1=n>>1;var n2=n-n1|0;var l2=chop(n1,l);var s1=rev_sort(n1,l);var s2=rev_sort(n2,l2);var _l1=s1;var _l2=s2;var _accu=0;while(true){var accu=_accu;var l2$1=_l2;var l1=_l1;if(l1){if(l2$1){var h2=l2$1[0];var h1=l1[0];if(Curry._2(cmp,h1,h2)>0){_accu=[h1,accu];_l1=l1[1];continue}else{_accu=[h2,accu];_l2=l2$1[1];continue}}else{return rev_append(l1,accu)}}else{return rev_append(l2$1,accu)}}};var rev_sort=function(n,l){if(n!==2){if(n===3&&l){var match=l[1];if(match){var match$1=match[1];if(match$1){var x3=match$1[0];var x2=match[0];var x1=l[0];if(Curry._2(cmp,x1,x2)>0){if(Curry._2(cmp,x2,x3)>0){return[x1,[x2,[x3,0]]]}else if(Curry._2(cmp,x1,x3)>0){return[x1,[x3,[x2,0]]]}else{return[x3,[x1,[x2,0]]]}}else if(Curry._2(cmp,x1,x3)>0){return[x2,[x1,[x3,0]]]}else if(Curry._2(cmp,x2,x3)>0){return[x2,[x3,[x1,0]]]}else{return[x3,[x2,[x1,0]]]}}}}}else if(l){var match$2=l[1];if(match$2){var x2$1=match$2[0];var x1$1=l[0];if(Curry._2(cmp,x1$1,x2$1)>0){return[x1$1,[x2$1,0]]}else{return[x2$1,[x1$1,0]]}}}var n1=n>>1;var n2=n-n1|0;var l2=chop(n1,l);var s1=sort(n1,l);var s2=sort(n2,l2);var _l1=s1;var _l2=s2;var _accu=0;while(true){var accu=_accu;var l2$1=_l2;var l1=_l1;if(l1){if(l2$1){var h2=l2$1[0];var h1=l1[0];if(Curry._2(cmp,h1,h2)<=0){_accu=[h1,accu];_l1=l1[1];continue}else{_accu=[h2,accu];_l2=l2$1[1];continue}}else{return rev_append(l1,accu)}}else{return rev_append(l2$1,accu)}}};var len=length(l);if(len<2){return l}else{return sort(len,l)}}function sort_uniq(cmp,l){var sort=function(n,l){if(n!==2){if(n===3&&l){var match=l[1];if(match){var match$1=match[1];if(match$1){var x3=match$1[0];var x2=match[0];var x1=l[0];var c=Curry._2(cmp,x1,x2);if(c===0){var c$1=Curry._2(cmp,x2,x3);if(c$1===0){return[x2,0]}else if(c$1<0){return[x2,[x3,0]]}else{return[x3,[x2,0]]}}else if(c<0){var c$2=Curry._2(cmp,x2,x3);if(c$2===0){return[x1,[x2,0]]}else if(c$2<0){return[x1,[x2,[x3,0]]]}else{var c$3=Curry._2(cmp,x1,x3);if(c$3===0){return[x1,[x2,0]]}else if(c$3<0){return[x1,[x3,[x2,0]]]}else{return[x3,[x1,[x2,0]]]}}}else{var c$4=Curry._2(cmp,x1,x3);if(c$4===0){return[x2,[x1,0]]}else if(c$4<0){return[x2,[x1,[x3,0]]]}else{var c$5=Curry._2(cmp,x2,x3);if(c$5===0){return[x2,[x1,0]]}else if(c$5<0){return[x2,[x3,[x1,0]]]}else{return[x3,[x2,[x1,0]]]}}}}}}}else if(l){var match$2=l[1];if(match$2){var x2$1=match$2[0];var x1$1=l[0];var c$6=Curry._2(cmp,x1$1,x2$1);if(c$6===0){return[x1$1,0]}else if(c$6<0){return[x1$1,[x2$1,0]]}else{return[x2$1,[x1$1,0]]}}}var n1=n>>1;var n2=n-n1|0;var l2=chop(n1,l);var s1=rev_sort(n1,l);var s2=rev_sort(n2,l2);var _l1=s1;var _l2=s2;var _accu=0;while(true){var accu=_accu;var l2$1=_l2;var l1=_l1;if(l1){if(l2$1){var t2=l2$1[1];var h2=l2$1[0];var t1=l1[1];var h1=l1[0];var c$7=Curry._2(cmp,h1,h2);if(c$7===0){_accu=[h1,accu];_l2=t2;_l1=t1;continue}else if(c$7>0){_accu=[h1,accu];_l1=t1;continue}else{_accu=[h2,accu];_l2=t2;continue}}else{return rev_append(l1,accu)}}else{return rev_append(l2$1,accu)}}};var rev_sort=function(n,l){if(n!==2){if(n===3&&l){var match=l[1];if(match){var match$1=match[1];if(match$1){var x3=match$1[0];var x2=match[0];var x1=l[0];var c=Curry._2(cmp,x1,x2);if(c===0){var c$1=Curry._2(cmp,x2,x3);if(c$1===0){return[x2,0]}else if(c$1>0){return[x2,[x3,0]]}else{return[x3,[x2,0]]}}else if(c>0){var c$2=Curry._2(cmp,x2,x3);if(c$2===0){return[x1,[x2,0]]}else if(c$2>0){return[x1,[x2,[x3,0]]]}else{var c$3=Curry._2(cmp,x1,x3);if(c$3===0){return[x1,[x2,0]]}else if(c$3>0){return[x1,[x3,[x2,0]]]}else{return[x3,[x1,[x2,0]]]}}}else{var c$4=Curry._2(cmp,x1,x3);if(c$4===0){return[x2,[x1,0]]}else if(c$4>0){return[x2,[x1,[x3,0]]]}else{var c$5=Curry._2(cmp,x2,x3);if(c$5===0){return[x2,[x1,0]]}else if(c$5>0){return[x2,[x3,[x1,0]]]}else{return[x3,[x2,[x1,0]]]}}}}}}}else if(l){var match$2=l[1];if(match$2){var x2$1=match$2[0];var x1$1=l[0];var c$6=Curry._2(cmp,x1$1,x2$1);if(c$6===0){return[x1$1,0]}else if(c$6>0){return[x1$1,[x2$1,0]]}else{return[x2$1,[x1$1,0]]}}}var n1=n>>1;var n2=n-n1|0;var l2=chop(n1,l);var s1=sort(n1,l);var s2=sort(n2,l2);var _l1=s1;var _l2=s2;var _accu=0;while(true){var accu=_accu;var l2$1=_l2;var l1=_l1;if(l1){if(l2$1){var t2=l2$1[1];var h2=l2$1[0];var t1=l1[1];var h1=l1[0];var c$7=Curry._2(cmp,h1,h2);if(c$7===0){_accu=[h1,accu];_l2=t2;_l1=t1;continue}else if(c$7<0){_accu=[h1,accu];_l1=t1;continue}else{_accu=[h2,accu];_l2=t2;continue}}else{return rev_append(l1,accu)}}else{return rev_append(l2$1,accu)}}};var len=length(l);if(len<2){return l}else{return sort(len,l)}}function compare_lengths(_l1,_l2){while(true){var l2=_l2;var l1=_l1;if(l1){if(l2){_l2=l2[1];_l1=l1[1];continue}else{return 1}}else if(l2){return-1}else{return 0}}}function compare_length_with(_l,_n){while(true){var n=_n;var l=_l;if(l){if(n<=0){return 1}else{_n=n-1|0;_l=l[1];continue}}else if(n===0){return 0}else if(n>0){return-1}else{return 1}}}var append=Pervasives.$at;var concat=flatten;var filter=find_all;var sort=stable_sort;var fast_sort=stable_sort;exports.length=length;exports.compare_lengths=compare_lengths;exports.compare_length_with=compare_length_with;exports.cons=cons;exports.hd=hd;exports.tl=tl;exports.nth=nth;exports.nth_opt=nth_opt;exports.rev=rev;exports.init=init;exports.append=append;exports.rev_append=rev_append;exports.concat=concat;exports.flatten=flatten;exports.iter=iter;exports.iteri=iteri;exports.map=map;exports.mapi=mapi$1;exports.rev_map=rev_map;exports.fold_left=fold_left;exports.fold_right=fold_right;exports.iter2=iter2;exports.map2=map2;exports.rev_map2=rev_map2;exports.fold_left2=fold_left2;exports.fold_right2=fold_right2;exports.for_all=for_all;exports.exists=exists;exports.for_all2=for_all2;exports.exists2=exists2;exports.mem=mem;exports.memq=memq;exports.find=find;exports.find_opt=find_opt;exports.filter=filter;exports.find_all=find_all;exports.partition=partition;exports.assoc=assoc;exports.assoc_opt=assoc_opt;exports.assq=assq;exports.assq_opt=assq_opt;exports.mem_assoc=mem_assoc;exports.mem_assq=mem_assq;exports.remove_assoc=remove_assoc;exports.remove_assq=remove_assq;exports.split=split;exports.combine=combine;exports.sort=sort;exports.stable_sort=stable_sort;exports.fast_sort=fast_sort;exports.sort_uniq=sort_uniq;exports.merge=merge},{"./caml_builtin_exceptions.js":6,"./caml_obj.js":17,"./caml_option.js":18,"./curry.js":27,"./pervasives.js":36}],33:[function(require,module,exports){"use strict";var Caml_bytes=require("./caml_bytes.js");var Caml_external_polyfill=require("./caml_external_polyfill.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function to_buffer(buff,ofs,len,v,flags){if(ofs<0||len<0||ofs>(buff.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"Marshal.to_buffer: substring out of bounds"]}return Caml_external_polyfill.resolve("caml_output_value_to_buffer")(buff,ofs,len,v,flags)}function data_size(buff,ofs){if(ofs<0||ofs>(buff.length-20|0)){throw[Caml_builtin_exceptions.invalid_argument,"Marshal.data_size"]}return Caml_external_polyfill.resolve("caml_marshal_data_size")(buff,ofs)}function total_size(buff,ofs){return 20+data_size(buff,ofs)|0}function from_bytes(buff,ofs){if(ofs<0||ofs>(buff.length-20|0)){throw[Caml_builtin_exceptions.invalid_argument,"Marshal.from_bytes"]}var len=Caml_external_polyfill.resolve("caml_marshal_data_size")(buff,ofs);if(ofs>(buff.length-(20+len|0)|0)){throw[Caml_builtin_exceptions.invalid_argument,"Marshal.from_bytes"]}return Caml_external_polyfill.resolve("caml_input_value_from_string")(buff,ofs)}function from_string(buff,ofs){return from_bytes(Caml_bytes.bytes_of_string(buff),ofs)}function to_channel(prim,prim$1,prim$2){return Caml_external_polyfill.resolve("caml_output_value")(prim,prim$1,prim$2)}function from_channel(prim){return Caml_external_polyfill.resolve("caml_input_value")(prim)}var header_size=20;exports.to_channel=to_channel;exports.to_buffer=to_buffer;exports.from_channel=from_channel;exports.from_bytes=from_bytes;exports.from_string=from_string;exports.header_size=header_size;exports.data_size=data_size;exports.total_size=total_size},{"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_external_polyfill.js":9}],34:[function(require,module,exports){"use strict";var Caml_format=require("./caml_format.js");var Caml_primitive=require("./caml_primitive.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function succ(n){return n+1}function pred(n){return n-1}function abs(n){if(n>=0){return n}else{return-n}}function lognot(n){return n^-1}function to_string(n){return Caml_format.caml_nativeint_format("%d",n)}function of_string_opt(s){try{return Caml_format.caml_nativeint_of_string(s)}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return}else{throw exn}}}var compare=Caml_primitive.caml_nativeint_compare;function equal(x,y){return Caml_primitive.caml_nativeint_compare(x,y)===0}var zero=0;var one=1;var minus_one=-1;var size=54;var max_int=9007199254740991;var min_int=-9007199254740991;exports.zero=zero;exports.one=one;exports.minus_one=minus_one;exports.succ=succ;exports.pred=pred;exports.abs=abs;exports.size=size;exports.max_int=max_int;exports.min_int=min_int;exports.lognot=lognot;exports.of_string_opt=of_string_opt;exports.to_string=to_string;exports.compare=compare;exports.equal=equal},{"./caml_builtin_exceptions.js":6,"./caml_format.js":10,"./caml_js_exceptions.js":14,"./caml_primitive.js":19}],35:[function(require,module,exports){"use strict";var Marshal=require("./marshal.js");var Caml_array=require("./caml_array.js");var Caml_external_polyfill=require("./caml_external_polyfill.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function is_block(a){return typeof a!=="number"}var double_field=Caml_array.caml_array_get;var set_double_field=Caml_array.caml_array_set;function marshal(obj){
-return Caml_external_polyfill.resolve("caml_output_value_to_string")(obj,0)}function unmarshal(str,pos){return[Marshal.from_bytes(str,pos),pos+Marshal.total_size(str,pos)|0]}function extension_constructor(x){var slot=typeof x!=="number"&&(x.tag|0)!==248&&x.length>=1?x[0]:x;var name;if(typeof slot!=="number"&&slot.tag===248){name=slot[0]}else{throw[Caml_builtin_exceptions.invalid_argument,"Obj.extension_constructor"]}if(name.tag===252){return slot}else{throw[Caml_builtin_exceptions.invalid_argument,"Obj.extension_constructor"]}}function extension_name(slot){return slot[0]}function extension_id(slot){return slot[1]}function length(x){return x.length-2|0}var first_non_constant_constructor_tag=0;var last_non_constant_constructor_tag=245;var lazy_tag=246;var closure_tag=247;var object_tag=248;var infix_tag=249;var forward_tag=250;var no_scan_tag=251;var abstract_tag=251;var string_tag=252;var double_tag=253;var double_array_tag=254;var custom_tag=255;var final_tag=255;var int_tag=1e3;var out_of_heap_tag=1001;var unaligned_tag=1002;function Ephemeron_create(prim){return Caml_external_polyfill.resolve("caml_ephe_create")(prim)}function Ephemeron_get_key(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_get_key")(prim,prim$1)}function Ephemeron_get_key_copy(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_get_key_copy")(prim,prim$1)}function Ephemeron_set_key(prim,prim$1,prim$2){return Caml_external_polyfill.resolve("caml_ephe_set_key")(prim,prim$1,prim$2)}function Ephemeron_unset_key(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_unset_key")(prim,prim$1)}function Ephemeron_check_key(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_check_key")(prim,prim$1)}function Ephemeron_blit_key(prim,prim$1,prim$2,prim$3,prim$4){return Caml_external_polyfill.resolve("caml_ephe_blit_key")(prim,prim$1,prim$2,prim$3,prim$4)}function Ephemeron_get_data(prim){return Caml_external_polyfill.resolve("caml_ephe_get_data")(prim)}function Ephemeron_get_data_copy(prim){return Caml_external_polyfill.resolve("caml_ephe_get_data_copy")(prim)}function Ephemeron_set_data(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_set_data")(prim,prim$1)}function Ephemeron_unset_data(prim){return Caml_external_polyfill.resolve("caml_ephe_unset_data")(prim)}function Ephemeron_check_data(prim){return Caml_external_polyfill.resolve("caml_ephe_check_data")(prim)}function Ephemeron_blit_data(prim,prim$1){return Caml_external_polyfill.resolve("caml_ephe_blit_data")(prim,prim$1)}var Ephemeron={create:Ephemeron_create,length:length,get_key:Ephemeron_get_key,get_key_copy:Ephemeron_get_key_copy,set_key:Ephemeron_set_key,unset_key:Ephemeron_unset_key,check_key:Ephemeron_check_key,blit_key:Ephemeron_blit_key,get_data:Ephemeron_get_data,get_data_copy:Ephemeron_get_data_copy,set_data:Ephemeron_set_data,unset_data:Ephemeron_unset_data,check_data:Ephemeron_check_data,blit_data:Ephemeron_blit_data};exports.is_block=is_block;exports.double_field=double_field;exports.set_double_field=set_double_field;exports.first_non_constant_constructor_tag=first_non_constant_constructor_tag;exports.last_non_constant_constructor_tag=last_non_constant_constructor_tag;exports.lazy_tag=lazy_tag;exports.closure_tag=closure_tag;exports.object_tag=object_tag;exports.infix_tag=infix_tag;exports.forward_tag=forward_tag;exports.no_scan_tag=no_scan_tag;exports.abstract_tag=abstract_tag;exports.string_tag=string_tag;exports.double_tag=double_tag;exports.double_array_tag=double_array_tag;exports.custom_tag=custom_tag;exports.final_tag=final_tag;exports.int_tag=int_tag;exports.out_of_heap_tag=out_of_heap_tag;exports.unaligned_tag=unaligned_tag;exports.extension_constructor=extension_constructor;exports.extension_name=extension_name;exports.extension_id=extension_id;exports.marshal=marshal;exports.unmarshal=unmarshal;exports.Ephemeron=Ephemeron},{"./caml_array.js":5,"./caml_builtin_exceptions.js":6,"./caml_external_polyfill.js":9,"./marshal.js":33}],36:[function(require,module,exports){"use strict";var Curry=require("./curry.js");var Caml_io=require("./caml_io.js");var Caml_sys=require("./caml_sys.js");var Caml_bytes=require("./caml_bytes.js");var Caml_format=require("./caml_format.js");var Caml_string=require("./caml_string.js");var Caml_exceptions=require("./caml_exceptions.js");var Caml_js_exceptions=require("./caml_js_exceptions.js");var Caml_external_polyfill=require("./caml_external_polyfill.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");var CamlinternalFormatBasics=require("./camlinternalFormatBasics.js");function failwith(s){throw[Caml_builtin_exceptions.failure,s]}function invalid_arg(s){throw[Caml_builtin_exceptions.invalid_argument,s]}var Exit=Caml_exceptions.create("Pervasives.Exit");function abs(x){if(x>=0){return x}else{return-x|0}}function lnot(x){return x^-1}var min_int=-2147483648;function classify_float(x){if(isFinite(x)){if(Math.abs(x)>=2.2250738585072014e-308){return 0}else if(x!==0){return 1}else{return 2}}else if(isNaN(x)){return 4}else{return 3}}function char_of_int(n){if(n<0||n>255){throw[Caml_builtin_exceptions.invalid_argument,"char_of_int"]}return n}function string_of_bool(b){if(b){return"true"}else{return"false"}}function bool_of_string(param){switch(param){case"false":return false;case"true":return true;default:throw[Caml_builtin_exceptions.invalid_argument,"bool_of_string"]}}function bool_of_string_opt(param){switch(param){case"false":return false;case"true":return true;default:return}}function int_of_string_opt(s){try{return Caml_format.caml_int_of_string(s)}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return}else{throw exn}}}function valid_float_lexem(s){var l=s.length;var _i=0;while(true){var i=_i;if(i>=l){return s+"."}else{var match=Caml_string.get(s,i);if(match>=48){if(match>=58){return s}else{_i=i+1|0;continue}}else if(match!==45){return s}else{_i=i+1|0;continue}}}}function string_of_float(f){return valid_float_lexem(Caml_format.caml_format_float("%.12g",f))}function float_of_string_opt(s){try{return Caml_format.caml_float_of_string(s)}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return}else{throw exn}}}function $at(l1,l2){if(l1){return[l1[0],$at(l1[1],l2)]}else{return l2}}var stdin=Caml_io.stdin;var stdout=Caml_io.stdout;var stderr=Caml_io.stderr;function open_out_gen(mode,perm,name){var c=Caml_external_polyfill.resolve("caml_ml_open_descriptor_out")(Caml_external_polyfill.resolve("caml_sys_open")(name,mode,perm));Caml_external_polyfill.resolve("caml_ml_set_channel_name")(c,name);return c}function open_out(name){return open_out_gen([1,[3,[4,[7,0]]]],438,name)}function open_out_bin(name){return open_out_gen([1,[3,[4,[6,0]]]],438,name)}function flush_all(param){var _param=Caml_io.caml_ml_out_channels_list(0);while(true){var param$1=_param;if(param$1){try{Caml_io.caml_ml_flush(param$1[0])}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]!==Caml_builtin_exceptions.sys_error){throw exn}}_param=param$1[1];continue}else{return 0}}}function output_bytes(oc,s){return Caml_external_polyfill.resolve("caml_ml_output_bytes")(oc,s,0,s.length)}function output_string(oc,s){return Caml_io.caml_ml_output(oc,s,0,s.length)}function output(oc,s,ofs,len){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"output"]}return Caml_external_polyfill.resolve("caml_ml_output_bytes")(oc,s,ofs,len)}function output_substring(oc,s,ofs,len){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"output_substring"]}return Caml_io.caml_ml_output(oc,s,ofs,len)}function output_value(chan,v){return Caml_external_polyfill.resolve("caml_output_value")(chan,v,0)}function close_out(oc){Caml_io.caml_ml_flush(oc);return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc)}function close_out_noerr(oc){try{Caml_io.caml_ml_flush(oc)}catch(exn){}try{return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc)}catch(exn$1){return 0}}function open_in_gen(mode,perm,name){var c=Caml_external_polyfill.resolve("caml_ml_open_descriptor_in")(Caml_external_polyfill.resolve("caml_sys_open")(name,mode,perm));Caml_external_polyfill.resolve("caml_ml_set_channel_name")(c,name);return c}function open_in(name){return open_in_gen([0,[7,0]],0,name)}function open_in_bin(name){return open_in_gen([0,[6,0]],0,name)}function input(ic,s,ofs,len){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"input"]}return Caml_external_polyfill.resolve("caml_ml_input")(ic,s,ofs,len)}function unsafe_really_input(ic,s,_ofs,_len){while(true){var len=_len;var ofs=_ofs;if(len<=0){return 0}else{var r=Caml_external_polyfill.resolve("caml_ml_input")(ic,s,ofs,len);if(r===0){throw Caml_builtin_exceptions.end_of_file}_len=len-r|0;_ofs=ofs+r|0;continue}}}function really_input(ic,s,ofs,len){if(ofs<0||len<0||ofs>(s.length-len|0)){throw[Caml_builtin_exceptions.invalid_argument,"really_input"]}return unsafe_really_input(ic,s,ofs,len)}function really_input_string(ic,len){var s=Caml_bytes.caml_create_bytes(len);really_input(ic,s,0,len);return Caml_bytes.bytes_to_string(s)}function input_line(chan){var build_result=function(buf,_pos,_param){while(true){var param=_param;var pos=_pos;if(param){var hd=param[0];var len=hd.length;Caml_bytes.caml_blit_bytes(hd,0,buf,pos-len|0,len);_param=param[1];_pos=pos-len|0;continue}else{return buf}}};var scan=function(_accu,_len){while(true){var len=_len;var accu=_accu;var n=Caml_external_polyfill.resolve("caml_ml_input_scan_line")(chan);if(n===0){if(accu){return build_result(Caml_bytes.caml_create_bytes(len),len,accu)}else{throw Caml_builtin_exceptions.end_of_file}}else if(n>0){var res=Caml_bytes.caml_create_bytes(n-1|0);Caml_external_polyfill.resolve("caml_ml_input")(chan,res,0,n-1|0);Caml_external_polyfill.resolve("caml_ml_input_char")(chan);if(accu){var len$1=(len+n|0)-1|0;return build_result(Caml_bytes.caml_create_bytes(len$1),len$1,[res,accu])}else{return res}}else{var beg=Caml_bytes.caml_create_bytes(-n|0);Caml_external_polyfill.resolve("caml_ml_input")(chan,beg,0,-n|0);_len=len-n|0;_accu=[beg,accu];continue}}};return Caml_bytes.bytes_to_string(scan(0,0))}function close_in_noerr(ic){try{return Caml_external_polyfill.resolve("caml_ml_close_channel")(ic)}catch(exn){return 0}}function print_char(c){return Caml_io.caml_ml_output_char(stdout,c)}function print_string(s){return output_string(stdout,s)}function print_bytes(s){return output_bytes(stdout,s)}function print_int(i){return output_string(stdout,String(i))}function print_float(f){return output_string(stdout,valid_float_lexem(Caml_format.caml_format_float("%.12g",f)))}function print_newline(param){Caml_io.caml_ml_output_char(stdout,10);return Caml_io.caml_ml_flush(stdout)}function prerr_char(c){return Caml_io.caml_ml_output_char(stderr,c)}function prerr_string(s){return output_string(stderr,s)}function prerr_bytes(s){return output_bytes(stderr,s)}function prerr_int(i){return output_string(stderr,String(i))}function prerr_float(f){return output_string(stderr,valid_float_lexem(Caml_format.caml_format_float("%.12g",f)))}function prerr_newline(param){Caml_io.caml_ml_output_char(stderr,10);return Caml_io.caml_ml_flush(stderr)}function read_line(param){Caml_io.caml_ml_flush(stdout);return input_line(stdin)}function read_int(param){return Caml_format.caml_int_of_string((Caml_io.caml_ml_flush(stdout),input_line(stdin)))}function read_int_opt(param){return int_of_string_opt((Caml_io.caml_ml_flush(stdout),input_line(stdin)))}function read_float(param){return Caml_format.caml_float_of_string((Caml_io.caml_ml_flush(stdout),input_line(stdin)))}function read_float_opt(param){return float_of_string_opt((Caml_io.caml_ml_flush(stdout),input_line(stdin)))}function string_of_format(param){return param[1]}function $caret$caret(param,param$1){return[CamlinternalFormatBasics.concat_fmt(param[0],param$1[0]),param[1]+("%,"+param$1[1])]}var exit_function={contents:flush_all};function at_exit(f){var g=exit_function.contents;exit_function.contents=function(param){Curry._1(f,0);return Curry._1(g,0)};return 0}function do_at_exit(param){return Curry._1(exit_function.contents,0)}function exit(retcode){do_at_exit(0);return Caml_sys.caml_sys_exit(retcode)}var max_int=2147483647;var infinity=Infinity;var neg_infinity=-Infinity;var max_float=1.7976931348623157e308;var min_float=2.2250738585072014e-308;var epsilon_float=2.220446049250313e-16;var flush=Caml_io.caml_ml_flush;var output_char=Caml_io.caml_ml_output_char;var output_byte=Caml_io.caml_ml_output_char;function output_binary_int(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_output_int")(prim,prim$1)}function seek_out(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_seek_out")(prim,prim$1)}function pos_out(prim){return Caml_external_polyfill.resolve("caml_ml_pos_out")(prim)}function out_channel_length(prim){return Caml_external_polyfill.resolve("caml_ml_channel_size")(prim)}function set_binary_mode_out(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_set_binary_mode")(prim,prim$1)}function input_char(prim){return Caml_external_polyfill.resolve("caml_ml_input_char")(prim)}function input_byte(prim){return Caml_external_polyfill.resolve("caml_ml_input_char")(prim)}function input_binary_int(prim){return Caml_external_polyfill.resolve("caml_ml_input_int")(prim)}function input_value(prim){return Caml_external_polyfill.resolve("caml_input_value")(prim)}function seek_in(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_seek_in")(prim,prim$1)}function pos_in(prim){return Caml_external_polyfill.resolve("caml_ml_pos_in")(prim)}function in_channel_length(prim){return Caml_external_polyfill.resolve("caml_ml_channel_size")(prim)}function close_in(prim){return Caml_external_polyfill.resolve("caml_ml_close_channel")(prim)}function set_binary_mode_in(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_set_binary_mode")(prim,prim$1)}function LargeFile_seek_out(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_seek_out_64")(prim,prim$1)}function LargeFile_pos_out(prim){return Caml_external_polyfill.resolve("caml_ml_pos_out_64")(prim)}function LargeFile_out_channel_length(prim){return Caml_external_polyfill.resolve("caml_ml_channel_size_64")(prim)}function LargeFile_seek_in(prim,prim$1){return Caml_external_polyfill.resolve("caml_ml_seek_in_64")(prim,prim$1)}function LargeFile_pos_in(prim){return Caml_external_polyfill.resolve("caml_ml_pos_in_64")(prim)}function LargeFile_in_channel_length(prim){return Caml_external_polyfill.resolve("caml_ml_channel_size_64")(prim)}var LargeFile={seek_out:LargeFile_seek_out,pos_out:LargeFile_pos_out,out_channel_length:LargeFile_out_channel_length,seek_in:LargeFile_seek_in,pos_in:LargeFile_pos_in,in_channel_length:LargeFile_in_channel_length};exports.invalid_arg=invalid_arg;exports.failwith=failwith;exports.Exit=Exit;exports.abs=abs;exports.max_int=max_int;exports.min_int=min_int;exports.lnot=lnot;exports.infinity=infinity;exports.neg_infinity=neg_infinity;exports.max_float=max_float;exports.min_float=min_float;exports.epsilon_float=epsilon_float;exports.classify_float=classify_float;exports.char_of_int=char_of_int;exports.string_of_bool=string_of_bool;exports.bool_of_string=bool_of_string;exports.bool_of_string_opt=bool_of_string_opt;exports.int_of_string_opt=int_of_string_opt;exports.string_of_float=string_of_float;exports.float_of_string_opt=float_of_string_opt;exports.$at=$at;exports.stdin=stdin;exports.stdout=stdout;exports.stderr=stderr;exports.print_char=print_char;exports.print_string=print_string;exports.print_bytes=print_bytes;exports.print_int=print_int;exports.print_float=print_float;exports.print_newline=print_newline;exports.prerr_char=prerr_char;exports.prerr_string=prerr_string;exports.prerr_bytes=prerr_bytes;exports.prerr_int=prerr_int;exports.prerr_float=prerr_float;exports.prerr_newline=prerr_newline;exports.read_line=read_line;exports.read_int=read_int;exports.read_int_opt=read_int_opt;exports.read_float=read_float;exports.read_float_opt=read_float_opt;exports.open_out=open_out;exports.open_out_bin=open_out_bin;exports.open_out_gen=open_out_gen;exports.flush=flush;exports.flush_all=flush_all;exports.output_char=output_char;exports.output_string=output_string;exports.output_bytes=output_bytes;exports.output=output;exports.output_substring=output_substring;exports.output_byte=output_byte;exports.output_binary_int=output_binary_int;exports.output_value=output_value;exports.seek_out=seek_out;exports.pos_out=pos_out;exports.out_channel_length=out_channel_length;exports.close_out=close_out;exports.close_out_noerr=close_out_noerr;exports.set_binary_mode_out=set_binary_mode_out;exports.open_in=open_in;exports.open_in_bin=open_in_bin;exports.open_in_gen=open_in_gen;exports.input_char=input_char;exports.input_line=input_line;exports.input=input;exports.really_input=really_input;exports.really_input_string=really_input_string;exports.input_byte=input_byte;exports.input_binary_int=input_binary_int;exports.input_value=input_value;exports.seek_in=seek_in;exports.pos_in=pos_in;exports.in_channel_length=in_channel_length;exports.close_in=close_in;exports.close_in_noerr=close_in_noerr;exports.set_binary_mode_in=set_binary_mode_in;exports.LargeFile=LargeFile;exports.string_of_format=string_of_format;exports.$caret$caret=$caret$caret;exports.exit=exit;exports.at_exit=at_exit;exports.valid_float_lexem=valid_float_lexem;exports.unsafe_really_input=unsafe_really_input;exports.do_at_exit=do_at_exit},{"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_exceptions.js":8,"./caml_external_polyfill.js":9,"./caml_format.js":10,"./caml_io.js":13,"./caml_js_exceptions.js":14,"./caml_string.js":20,"./caml_sys.js":21,"./camlinternalFormatBasics.js":24,"./curry.js":27}],37:[function(require,module,exports){"use strict";var Curry=require("./curry.js");var $$Buffer=require("./buffer.js");var Pervasives=require("./pervasives.js");var CamlinternalFormat=require("./camlinternalFormat.js");function kfprintf(k,o,param){return CamlinternalFormat.make_printf(function(o,acc){CamlinternalFormat.output_acc(o,acc);return Curry._1(k,o)},o,0,param[0])}function kbprintf(k,b,param){return CamlinternalFormat.make_printf(function(b,acc){CamlinternalFormat.bufput_acc(b,acc);return Curry._1(k,b)},b,0,param[0])}function ikfprintf(k,oc,param){return CamlinternalFormat.make_iprintf(k,oc,param[0])}function fprintf(oc,fmt){return kfprintf(function(prim){return 0},oc,fmt)}function bprintf(b,fmt){return kbprintf(function(prim){return 0},b,fmt)}function ifprintf(oc,fmt){return ikfprintf(function(prim){return 0},oc,fmt)}function printf(fmt){return fprintf(Pervasives.stdout,fmt)}function eprintf(fmt){return fprintf(Pervasives.stderr,fmt)}function ksprintf(k,param){var k$prime=function(param,acc){var buf=$$Buffer.create(64);CamlinternalFormat.strput_acc(buf,acc);return Curry._1(k,$$Buffer.contents(buf))};return CamlinternalFormat.make_printf(k$prime,0,0,param[0])}function sprintf(fmt){return ksprintf(function(s){return s},fmt)}var kprintf=ksprintf;exports.fprintf=fprintf;exports.printf=printf;exports.eprintf=eprintf;exports.sprintf=sprintf;exports.bprintf=bprintf;exports.ifprintf=ifprintf;exports.kfprintf=kfprintf;exports.ikfprintf=ikfprintf;exports.ksprintf=ksprintf;exports.kbprintf=kbprintf;exports.kprintf=kprintf},{"./buffer.js":3,"./camlinternalFormat.js":23,"./curry.js":27,"./pervasives.js":36}],38:[function(require,module,exports){"use strict";var $$Array=require("./array.js");var Curry=require("./curry.js");var Int32=require("./int32.js");var Int64=require("./int64.js");var Digest=require("./digest.js");var Caml_sys=require("./caml_sys.js");var Nativeint=require("./nativeint.js");var Caml_array=require("./caml_array.js");var Caml_int64=require("./caml_int64.js");var Caml_string=require("./caml_string.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function assign(st1,st2){$$Array.blit(st2.st,0,st1.st,0,55);st1.idx=st2.idx;return 0}function full_init(s,seed){var combine=function(accu,x){return Digest.string(accu+String(x))};var extract=function(d){return((Caml_string.get(d,0)+(Caml_string.get(d,1)<<8)|0)+(Caml_string.get(d,2)<<16)|0)+(Caml_string.get(d,3)<<24)|0};var seed$1=seed.length===0?[0]:seed;var l=seed$1.length;for(var i=0;i<=54;++i){Caml_array.caml_array_set(s.st,i,i)}var accu="x";for(var i$1=0,i_finish=54+(55>l?55:l)|0;i$1<=i_finish;++i$1){var j=i$1%55;var k=i$1%l;accu=combine(accu,Caml_array.caml_array_get(seed$1,k));Caml_array.caml_array_set(s.st,j,(Caml_array.caml_array_get(s.st,j)^extract(accu))&1073741823)}s.idx=0;return 0}function make(seed){var result={st:Caml_array.caml_make_vect(55,0),idx:0};full_init(result,seed);return result}function make_self_init(param){return make(Caml_sys.caml_sys_random_seed(0))}function copy(s){var result={st:Caml_array.caml_make_vect(55,0),idx:0};assign(result,s);return result}function bits(s){s.idx=(s.idx+1|0)%55;var curval=Caml_array.caml_array_get(s.st,s.idx);var newval=Caml_array.caml_array_get(s.st,(s.idx+24|0)%55)+(curval^curval>>>25&31)|0;var newval30=newval&1073741823;Caml_array.caml_array_set(s.st,s.idx,newval30);return newval30}function $$int(s,bound){if(bound>1073741823||bound<=0){throw[Caml_builtin_exceptions.invalid_argument,"Random.int"]}var s$1=s;var n=bound;while(true){var r=bits(s$1);var v=r%n;if((r-v|0)>((1073741823-n|0)+1|0)){continue}else{return v}}}function int32(s,bound){if(bound<=0){throw[Caml_builtin_exceptions.invalid_argument,"Random.int32"]}var s$1=s;var n=bound;while(true){var b1=bits(s$1);var b2=(bits(s$1)&1)<<30;var r=b1|b2;var v=r%n;if((r-v|0)>((Int32.max_int-n|0)+1|0)){continue}else{return v}}}function int64(s,bound){if(Caml_int64.le(bound,{hi:0,lo:0})){throw[Caml_builtin_exceptions.invalid_argument,"Random.int64"]}var s$1=s;var n=bound;while(true){var b1=Caml_int64.of_int32(bits(s$1));var b2=Caml_int64.lsl_(Caml_int64.of_int32(bits(s$1)),30);var b3=Caml_int64.lsl_(Caml_int64.of_int32(bits(s$1)&7),60);var r=Caml_int64.or_(b1,Caml_int64.or_(b2,b3));var v=Caml_int64.mod_(r,n);if(Caml_int64.gt(Caml_int64.sub(r,v),Caml_int64.add(Caml_int64.sub(Int64.max_int,n),{hi:0,lo:1}))){continue}else{return v}}}var nativeint=Nativeint.size===32?int32:function(s,bound){return Caml_int64.to_int32(int64(s,Caml_int64.of_int32(bound)))};function rawfloat(s){var r1=bits(s);var r2=bits(s);return(r1/1073741824+r2)/1073741824}function $$float(s,bound){return rawfloat(s)*bound}function bool(s){return(bits(s)&1)===0}var $$default={st:[987910699,495797812,364182224,414272206,318284740,990407751,383018966,270373319,840823159,24560019,536292337,512266505,189156120,730249596,143776328,51606627,140166561,366354223,1003410265,700563762,981890670,913149062,526082594,1021425055,784300257,667753350,630144451,949649812,48546892,415514493,258888527,511570777,89983870,283659902,308386020,242688715,482270760,865188196,1027664170,207196989,193777847,619708188,671350186,149669678,257044018,87658204,558145612,183450813,28133145,901332182,710253903,510646120,652377910,409934019,801085050],idx:0};function bits$1(param){return bits($$default)}function $$int$1(bound){return $$int($$default,bound)}function int32$1(bound){return int32($$default,bound)}function nativeint$1(bound){return Curry._2(nativeint,$$default,bound)}function int64$1(bound){return int64($$default,bound)}function $$float$1(scale){return rawfloat($$default)*scale}function bool$1(param){return bool($$default)}function full_init$1(seed){return full_init($$default,seed)}function init(seed){return full_init($$default,[seed])}function self_init(param){return full_init$1(Caml_sys.caml_sys_random_seed(0))}function get_state(param){return copy($$default)}function set_state(s){return assign($$default,s)}var State={make:make,make_self_init:make_self_init,copy:copy,bits:bits,$$int:$$int,int32:int32,nativeint:nativeint,int64:int64,$$float:$$float,bool:bool};exports.init=init;exports.full_init=full_init$1;exports.self_init=self_init;exports.bits=bits$1;exports.$$int=$$int$1;exports.int32=int32$1;exports.nativeint=nativeint$1;exports.int64=int64$1;exports.$$float=$$float$1;exports.bool=bool$1;exports.State=State;exports.get_state=get_state;exports.set_state=set_state},{"./array.js":1,"./caml_array.js":5,"./caml_builtin_exceptions.js":6,"./caml_int64.js":12,"./caml_string.js":20,"./caml_sys.js":21,"./curry.js":27,"./digest.js":28,"./int32.js":29,"./int64.js":30,"./nativeint.js":34}],39:[function(require,module,exports){"use strict";var Bytes=require("./bytes.js");var Curry=require("./curry.js");var Caml_bytes=require("./caml_bytes.js");var Caml_primitive=require("./caml_primitive.js");var Caml_builtin_exceptions=require("./caml_builtin_exceptions.js");function make(n,c){return Caml_bytes.bytes_to_string(Bytes.make(n,c))}function init(n,f){return Caml_bytes.bytes_to_string(Bytes.init(n,f))}function copy(s){return Caml_bytes.bytes_to_string(Bytes.copy(Caml_bytes.bytes_of_string(s)))}function sub(s,ofs,len){return Caml_bytes.bytes_to_string(Bytes.sub(Caml_bytes.bytes_of_string(s),ofs,len))}function ensure_ge(x,y){if(x>=y){return x}else{throw[Caml_builtin_exceptions.invalid_argument,"String.concat"]}}function sum_lengths(_acc,seplen,_param){while(true){var param=_param;var acc=_acc;if(param){var tl=param[1];var hd=param[0];if(tl){_param=tl;_acc=ensure_ge((hd.length+seplen|0)+acc|0,acc);continue}else{return hd.length+acc|0}}else{return acc}}}function unsafe_blits(dst,_pos,sep,seplen,_param){while(true){var param=_param;var pos=_pos;if(param){var tl=param[1];var hd=param[0];if(tl){Caml_bytes.caml_blit_string(hd,0,dst,pos,hd.length);Caml_bytes.caml_blit_string(sep,0,dst,pos+hd.length|0,seplen);_param=tl;_pos=(pos+hd.length|0)+seplen|0;continue}else{Caml_bytes.caml_blit_string(hd,0,dst,pos,hd.length);return dst}}else{return dst}}}function concat(sep,l){if(l){var seplen=sep.length;return Caml_bytes.bytes_to_string(unsafe_blits(Caml_bytes.caml_create_bytes(sum_lengths(0,seplen,l)),0,sep,seplen,l))}else{return""}}function iter(f,s){for(var i=0,i_finish=s.length-1|0;i<=i_finish;++i){Curry._1(f,s.charCodeAt(i))}return 0}function iteri(f,s){for(var i=0,i_finish=s.length-1|0;i<=i_finish;++i){Curry._2(f,i,s.charCodeAt(i))}return 0}function map(f,s){return Caml_bytes.bytes_to_string(Bytes.map(f,Caml_bytes.bytes_of_string(s)))}function mapi(f,s){return Caml_bytes.bytes_to_string(Bytes.mapi(f,Caml_bytes.bytes_of_string(s)))}function is_space(param){var switcher=param-9|0;if(switcher>4||switcher<0){return switcher===23}else{return switcher!==2}}function trim(s){if(s===""||!(is_space(s.charCodeAt(0))||is_space(s.charCodeAt(s.length-1|0)))){return s}else{return Caml_bytes.bytes_to_string(Bytes.trim(Caml_bytes.bytes_of_string(s)))}}function escaped(s){var needs_escape=function(_i){while(true){var i=_i;if(i>=s.length){return false}else{var match=s.charCodeAt(i);if(match>=32){var switcher=match-34|0;if(switcher>58||switcher<0){if(switcher>=93){return true}else{_i=i+1|0;continue}}else if(switcher>57||switcher<1){return true}else{_i=i+1|0;continue}}else{return true}}}};if(needs_escape(0)){return Caml_bytes.bytes_to_string(Bytes.escaped(Caml_bytes.bytes_of_string(s)))}else{return s}}function index_rec(s,lim,_i,c){while(true){var i=_i;if(i>=lim){throw Caml_builtin_exceptions.not_found}if(s.charCodeAt(i)===c){return i}else{_i=i+1|0;continue}}}function index(s,c){return index_rec(s,s.length,0,c)}function index_rec_opt(s,lim,_i,c){while(true){var i=_i;if(i>=lim){return}else if(s.charCodeAt(i)===c){return i}else{_i=i+1|0;continue}}}function index_opt(s,c){return index_rec_opt(s,s.length,0,c)}function index_from(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.index_from / Bytes.index_from"]}return index_rec(s,l,i,c)}function index_from_opt(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.index_from_opt / Bytes.index_from_opt"]}return index_rec_opt(s,l,i,c)}function rindex_rec(s,_i,c){while(true){var i=_i;if(i<0){throw Caml_builtin_exceptions.not_found}if(s.charCodeAt(i)===c){return i}else{_i=i-1|0;continue}}}function rindex(s,c){return rindex_rec(s,s.length-1|0,c)}function rindex_from(s,i,c){if(i<-1||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rindex_from / Bytes.rindex_from"]}return rindex_rec(s,i,c)}function rindex_rec_opt(s,_i,c){while(true){var i=_i;if(i<0){return}else if(s.charCodeAt(i)===c){return i}else{_i=i-1|0;continue}}}function rindex_opt(s,c){return rindex_rec_opt(s,s.length-1|0,c)}function rindex_from_opt(s,i,c){if(i<-1||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rindex_from_opt / Bytes.rindex_from_opt"]}return rindex_rec_opt(s,i,c)}function contains_from(s,i,c){var l=s.length;if(i<0||i>l){throw[Caml_builtin_exceptions.invalid_argument,"String.contains_from / Bytes.contains_from"]}try{index_rec(s,l,i,c);return true}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return false}else{throw exn}}}function contains(s,c){return contains_from(s,0,c)}function rcontains_from(s,i,c){if(i<0||i>=s.length){throw[Caml_builtin_exceptions.invalid_argument,"String.rcontains_from / Bytes.rcontains_from"]}try{rindex_rec(s,i,c);return true}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return false}else{throw exn}}}function uppercase_ascii(s){return Caml_bytes.bytes_to_string(Bytes.uppercase_ascii(Caml_bytes.bytes_of_string(s)))}function lowercase_ascii(s){return Caml_bytes.bytes_to_string(Bytes.lowercase_ascii(Caml_bytes.bytes_of_string(s)))}function capitalize_ascii(s){return Caml_bytes.bytes_to_string(Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s)))}function uncapitalize_ascii(s){return Caml_bytes.bytes_to_string(Bytes.uncapitalize_ascii(Caml_bytes.bytes_of_string(s)))}var compare=Caml_primitive.caml_string_compare;function split_on_char(sep,s){var r=0;var j=s.length;for(var i=s.length-1|0;i>=0;--i){if(s.charCodeAt(i)===sep){r=[sub(s,i+1|0,(j-i|0)-1|0),r];j=i}}return[sub(s,0,j),r]}function uppercase(s){return Caml_bytes.bytes_to_string(Bytes.uppercase(Caml_bytes.bytes_of_string(s)))}function lowercase(s){return Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s)))}function capitalize(s){return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)))}function uncapitalize(s){return Caml_bytes.bytes_to_string(Bytes.uncapitalize(Caml_bytes.bytes_of_string(s)))}var fill=Bytes.fill;var blit=Bytes.blit_string;function equal(prim,prim$1){return prim===prim$1}exports.make=make;exports.init=init;exports.copy=copy;exports.sub=sub;exports.fill=fill;exports.blit=blit;exports.concat=concat;exports.iter=iter;exports.iteri=iteri;exports.map=map;exports.mapi=mapi;exports.trim=trim;exports.escaped=escaped;exports.index=index;exports.index_opt=index_opt;exports.rindex=rindex;exports.rindex_opt=rindex_opt;exports.index_from=index_from;exports.index_from_opt=index_from_opt;exports.rindex_from=rindex_from;exports.rindex_from_opt=rindex_from_opt;exports.contains=contains;exports.contains_from=contains_from;exports.rcontains_from=rcontains_from;exports.uppercase=uppercase;exports.lowercase=lowercase;exports.capitalize=capitalize;exports.uncapitalize=uncapitalize;exports.uppercase_ascii=uppercase_ascii;exports.lowercase_ascii=lowercase_ascii;exports.capitalize_ascii=capitalize_ascii;exports.uncapitalize_ascii=uncapitalize_ascii;exports.compare=compare;exports.equal=equal;exports.split_on_char=split_on_char},{"./bytes.js":4,"./caml_builtin_exceptions.js":6,"./caml_bytes.js":7,"./caml_primitive.js":19,"./curry.js":27}],40:[function(require,module,exports){(function(process){"use strict";var Caml_sys=require("./caml_sys.js");var Caml_exceptions=require("./caml_exceptions.js");var match=Caml_sys.caml_sys_get_argv(0);var backend_type=["BS"];var big_endian=false;var int_size=32;var unix=true;var win32=false;var cygwin=false;function getenv_opt(s){
-var match=typeof process==="undefined"?undefined:process;if(match!==undefined){return match.env[s]}}var interactive={contents:false};function set_signal(sig_num,sig_beh){return 0}var Break=Caml_exceptions.create("Sys.Break");function catch_break(on){return 0}function enable_runtime_warnings(param){return 0}function runtime_warnings_enabled(param){return false}var argv=match[1];var executable_name=match[0];var word_size=32;var max_string_length=2147483647;var max_array_length=2147483647;var sigabrt=-1;var sigalrm=-2;var sigfpe=-3;var sighup=-4;var sigill=-5;var sigint=-6;var sigkill=-7;var sigpipe=-8;var sigquit=-9;var sigsegv=-10;var sigterm=-11;var sigusr1=-12;var sigusr2=-13;var sigchld=-14;var sigcont=-15;var sigstop=-16;var sigtstp=-17;var sigttin=-18;var sigttou=-19;var sigvtalrm=-20;var sigprof=-21;var sigbus=-22;var sigpoll=-23;var sigsys=-24;var sigtrap=-25;var sigurg=-26;var sigxcpu=-27;var sigxfsz=-28;var ocaml_version="4.06.2+BS";exports.argv=argv;exports.executable_name=executable_name;exports.getenv_opt=getenv_opt;exports.interactive=interactive;exports.backend_type=backend_type;exports.unix=unix;exports.win32=win32;exports.cygwin=cygwin;exports.word_size=word_size;exports.int_size=int_size;exports.big_endian=big_endian;exports.max_string_length=max_string_length;exports.max_array_length=max_array_length;exports.set_signal=set_signal;exports.sigabrt=sigabrt;exports.sigalrm=sigalrm;exports.sigfpe=sigfpe;exports.sighup=sighup;exports.sigill=sigill;exports.sigint=sigint;exports.sigkill=sigkill;exports.sigpipe=sigpipe;exports.sigquit=sigquit;exports.sigsegv=sigsegv;exports.sigterm=sigterm;exports.sigusr1=sigusr1;exports.sigusr2=sigusr2;exports.sigchld=sigchld;exports.sigcont=sigcont;exports.sigstop=sigstop;exports.sigtstp=sigtstp;exports.sigttin=sigttin;exports.sigttou=sigttou;exports.sigvtalrm=sigvtalrm;exports.sigprof=sigprof;exports.sigbus=sigbus;exports.sigpoll=sigpoll;exports.sigsys=sigsys;exports.sigtrap=sigtrap;exports.sigurg=sigurg;exports.sigxcpu=sigxcpu;exports.sigxfsz=sigxfsz;exports.Break=Break;exports.catch_break=catch_break;exports.ocaml_version=ocaml_version;exports.enable_runtime_warnings=enable_runtime_warnings;exports.runtime_warnings_enabled=runtime_warnings_enabled}).call(this,require("_process"))},{"./caml_exceptions.js":8,"./caml_sys.js":21,_process:51}],41:[function(require,module,exports){"use strict";var Util=require("./util.bs.js");var Block=require("bs-platform/lib/js/block.js");var Curry=require("bs-platform/lib/js/curry.js");var $$Buffer=require("bs-platform/lib/js/buffer.js");var Lexing=require("bs-platform/lib/js/lexing.js");var Printf=require("bs-platform/lib/js/printf.js");var Caml_format=require("bs-platform/lib/js/caml_format.js");function lexing_error(lexbuf,msg){var match=Util.get_lexing_position(lexbuf);throw[Util.Syntax_error,[[match[0],match[1]],msg]]}var __ocaml_lex_tables={lex_base:"\0\0óÿ\0õÿöÿ÷ÿM\0W\0úÿûÿüÿ\0þÿÿÿ\0ýÿôÿ\0\0óÿ9\0:\0°\0ÿÿöÿ÷ÿøÿùÿúÿûÿüÿýÿþÿ6\0óÿ7\0\0±\0ÿÿöÿ÷ÿøÿùÿúÿûÿüÿýÿþÿÿ\0üÿKþÿÿÿ",lex_backtrk:"ÿÿÿÿ\f\0ÿÿÿÿÿÿ\0\0ÿÿÿÿÿÿ\f\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\v\0\n\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\v\0\n\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0ÿÿÿÿ",lex_default:"\0\0\0\0\0\0\0\0\0\0ÿÿÿÿ\0\0\0\0\0\0ÿÿ\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0#\0\0\0#\0#\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x001\0\0\0ÿÿ\0\0\0\0",lex_trans:"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\f\0\r\0\0\0\f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\v\0\b\0\t\0\0\0\0\0$\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿÿÿ&\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0%\0ÿÿ\0\0ÿÿÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\0\0\0\0\0\0\0\0(\0\0\0\0\0\0\0\0\0\0\0\0\0 \0/\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0.\0\0\0\0\0\0\0\0\0\0-\0\0\0\0\0\0,\0\0\0\0\0\0\0\0\0\0\0\0\0\0+\0\0\0\0\0\0*\0\0)\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\"\0ÿÿ\0\0ÿÿÿÿ3\0\0\x004\0\0\0\0\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0\0\0\0\0\0\0\0\x002\0\0\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0\0\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ2\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0\0\0\0\0\0\0\0\x002\0\0\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",lex_check:"ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0\0\0\0\0\0\0\0\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0\0ÿÿ\0\0\0\0ÿÿÿÿ\0\0\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\v\0\0ÿÿ!\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0!\0#\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ÿÿ!\0#\0ÿÿ\0\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0$\0ÿÿÿÿÿÿ\0ÿÿ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0%\0ÿÿÿÿÿÿ\0%\0ÿÿÿÿÿÿÿÿÿÿÿÿ\0%\0ÿÿÿÿÿÿÿÿÿÿÿÿ$\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0\0\0\0ÿÿ\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿ\0%\0ÿÿÿÿÿÿÿÿ\0%\0ÿÿÿÿ\0%\0ÿÿÿÿÿÿÿÿÿÿÿÿ\0%\0ÿÿÿÿ\0%\0\0%\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ!\0#\0ÿÿ\0\x000\0ÿÿ0\0ÿÿÿÿ0\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\0ÿÿÿÿÿÿÿÿ0\0ÿÿ0\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\x000\0ÿÿ2\x002\x002\x002\x002\x002\x002\x002\x002\x002\0ÿÿÿÿÿÿÿÿÿÿÿÿ$\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0ÿÿÿÿÿÿÿÿ2\0ÿÿ2\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\x002\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ0\0ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ",lex_base_code:"",lex_backtrk_code:"",lex_default_code:"",lex_trans_code:"",lex_check_code:"",lex_code:""};function __ocaml_lex_read_double_quoted_string_rec(buf,lexbuf,___ocaml_lex_state){while(true){var __ocaml_lex_state=___ocaml_lex_state;var __ocaml_lex_state$1=Lexing.engine(__ocaml_lex_tables,__ocaml_lex_state,lexbuf);switch(__ocaml_lex_state$1){case 0:return Block.__(0,[$$Buffer.contents(buf)]);case 1:$$Buffer.add_char(buf,47);___ocaml_lex_state=18;continue;case 2:$$Buffer.add_char(buf,92);___ocaml_lex_state=18;continue;case 3:$$Buffer.add_char(buf,8);___ocaml_lex_state=18;continue;case 4:$$Buffer.add_char(buf,12);___ocaml_lex_state=18;continue;case 5:$$Buffer.add_char(buf,10);___ocaml_lex_state=18;continue;case 6:$$Buffer.add_char(buf,13);___ocaml_lex_state=18;continue;case 7:$$Buffer.add_char(buf,9);___ocaml_lex_state=18;continue;case 8:$$Buffer.add_char(buf,39);___ocaml_lex_state=18;continue;case 9:$$Buffer.add_char(buf,34);___ocaml_lex_state=18;continue;case 10:Lexing.new_line(lexbuf);$$Buffer.add_char(buf,10);___ocaml_lex_state=18;continue;case 11:$$Buffer.add_string(buf,Lexing.lexeme(lexbuf));___ocaml_lex_state=18;continue;case 12:return lexing_error(lexbuf,"Quoted string is missing the closing double quote");default:Curry._1(lexbuf.refill_buff,lexbuf);___ocaml_lex_state=__ocaml_lex_state$1;continue}}}function __ocaml_lex_read_identifier_rec(buf,lexbuf,___ocaml_lex_state){while(true){var __ocaml_lex_state=___ocaml_lex_state;var __ocaml_lex_state$1=Lexing.engine(__ocaml_lex_tables,__ocaml_lex_state,lexbuf);switch(__ocaml_lex_state$1){case 0:return Block.__(2,[$$Buffer.contents(buf)]);case 1:return lexing_error(lexbuf,"Unmatched left angle bracket");case 2:$$Buffer.add_string(buf,Lexing.lexeme(lexbuf));___ocaml_lex_state=48;continue;case 3:var bad_character=Lexing.sub_lexeme_char(lexbuf,lexbuf.lex_start_pos);var err=Curry._1(Printf.sprintf([Block.__(11,['Invalid character "',Block.__(0,[Block.__(11,['" inside a non-terminal symbol identifier. Did you forget to close a left angle bracket?',0])])]),'Invalid character "%c" inside a non-terminal symbol identifier. Did you forget to close a left angle bracket?']),bad_character);return lexing_error(lexbuf,err);default:Curry._1(lexbuf.refill_buff,lexbuf);___ocaml_lex_state=__ocaml_lex_state$1;continue}}}function __ocaml_lex_token_rec(lexbuf,___ocaml_lex_state){while(true){var __ocaml_lex_state=___ocaml_lex_state;var __ocaml_lex_state$1=Lexing.engine(__ocaml_lex_tables,__ocaml_lex_state,lexbuf);switch(__ocaml_lex_state$1){case 1:___ocaml_lex_state=0;continue;case 2:return 3;case 3:return 1;case 4:return __ocaml_lex_read_identifier_rec($$Buffer.create(16),lexbuf,48);case 5:return 0;case 6:var s=Lexing.sub_lexeme(lexbuf,lexbuf.lex_start_pos,lexbuf.lex_curr_pos);return lexing_error(lexbuf,Curry._2(Printf.sprintf([Block.__(11,["Symbol identifier '",Block.__(2,[0,Block.__(11,["' must be in angle brackets (<",Block.__(2,[0,Block.__(11,[">)",0])])])])]),"Symbol identifier '%s' must be in angle brackets (<%s>)"]),s,s));case 7:var i=Lexing.sub_lexeme(lexbuf,lexbuf.lex_start_pos,lexbuf.lex_curr_pos);return Block.__(1,[Caml_format.caml_int_of_string(i)]);case 8:return 2;case 9:return __ocaml_lex_read_single_quoted_string_rec($$Buffer.create(16),lexbuf,33);case 10:return __ocaml_lex_read_double_quoted_string_rec($$Buffer.create(16),lexbuf,18);case 0:case 11:Lexing.new_line(lexbuf);___ocaml_lex_state=0;continue;case 12:var bad_char=Lexing.sub_lexeme_char(lexbuf,lexbuf.lex_start_pos);return lexing_error(lexbuf,Curry._1(Printf.sprintf([Block.__(11,["unexpected character '",Block.__(0,[Block.__(12,[39,0])])]),"unexpected character '%c'"]),bad_char));default:Curry._1(lexbuf.refill_buff,lexbuf);___ocaml_lex_state=__ocaml_lex_state$1;continue}}}function __ocaml_lex_read_single_quoted_string_rec(buf,lexbuf,___ocaml_lex_state){while(true){var __ocaml_lex_state=___ocaml_lex_state;var __ocaml_lex_state$1=Lexing.engine(__ocaml_lex_tables,__ocaml_lex_state,lexbuf);switch(__ocaml_lex_state$1){case 0:return Block.__(0,[$$Buffer.contents(buf)]);case 1:$$Buffer.add_char(buf,47);___ocaml_lex_state=33;continue;case 2:$$Buffer.add_char(buf,92);___ocaml_lex_state=33;continue;case 3:$$Buffer.add_char(buf,8);___ocaml_lex_state=33;continue;case 4:$$Buffer.add_char(buf,12);___ocaml_lex_state=33;continue;case 5:$$Buffer.add_char(buf,10);___ocaml_lex_state=33;continue;case 6:$$Buffer.add_char(buf,13);___ocaml_lex_state=33;continue;case 7:$$Buffer.add_char(buf,9);___ocaml_lex_state=33;continue;case 8:$$Buffer.add_char(buf,39);___ocaml_lex_state=33;continue;case 9:$$Buffer.add_char(buf,34);___ocaml_lex_state=33;continue;case 10:Lexing.new_line(lexbuf);$$Buffer.add_char(buf,10);___ocaml_lex_state=33;continue;case 11:$$Buffer.add_string(buf,Lexing.lexeme(lexbuf));___ocaml_lex_state=33;continue;case 12:return lexing_error(lexbuf,"Quoted string is missing the closing single quote");default:Curry._1(lexbuf.refill_buff,lexbuf);___ocaml_lex_state=__ocaml_lex_state$1;continue}}}function token(lexbuf){return __ocaml_lex_token_rec(lexbuf,0)}function read_double_quoted_string(buf,lexbuf){return __ocaml_lex_read_double_quoted_string_rec(buf,lexbuf,18)}function read_single_quoted_string(buf,lexbuf){return __ocaml_lex_read_single_quoted_string_rec(buf,lexbuf,33)}function read_identifier(buf,lexbuf){return __ocaml_lex_read_identifier_rec(buf,lexbuf,48)}exports.lexing_error=lexing_error;exports.__ocaml_lex_tables=__ocaml_lex_tables;exports.token=token;exports.__ocaml_lex_token_rec=__ocaml_lex_token_rec;exports.read_double_quoted_string=read_double_quoted_string;exports.__ocaml_lex_read_double_quoted_string_rec=__ocaml_lex_read_double_quoted_string_rec;exports.read_single_quoted_string=read_single_quoted_string;exports.__ocaml_lex_read_single_quoted_string_rec=__ocaml_lex_read_single_quoted_string_rec;exports.read_identifier=read_identifier;exports.__ocaml_lex_read_identifier_rec=__ocaml_lex_read_identifier_rec},{"./util.bs.js":50,"bs-platform/lib/js/block.js":2,"bs-platform/lib/js/buffer.js":3,"bs-platform/lib/js/caml_format.js":10,"bs-platform/lib/js/curry.js":27,"bs-platform/lib/js/lexing.js":31,"bs-platform/lib/js/printf.js":37}],42:[function(require,module,exports){"use strict";var List=require("bs-platform/lib/js/list.js");var Block=require("bs-platform/lib/js/block.js");var Curry=require("bs-platform/lib/js/curry.js");var Grammar=require("./grammar.bs.js");var MenhirLib=require("./menhirLib.bs.js");var Caml_exceptions=require("bs-platform/lib/js/caml_exceptions.js");var $$Error=Caml_exceptions.create("Bnf_parser.MenhirBasics.Error");function token2terminal(_tok){if(typeof _tok==="number"){switch(_tok){case 0:return 2;case 1:return 3;case 2:return 6;case 3:return 7}}else{switch(_tok.tag|0){case 0:return 1;case 1:return 4;case 2:return 5}}}function token2value(_tok){if(typeof _tok==="number"){return 0}else{return _tok[0]}}var semantic_action=[function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next.next;var _v=List.rev(match.semv);return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;return{state:_menhir_stack.state,semv:_menhir_stack.semv,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _menhir_s=_menhir_env.current;var _startpos=_menhir_stack.endp;return{state:_menhir_s,semv:undefined,startp:_startpos,endp:_startpos,next:_menhir_stack}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v=_menhir_stack.semv;return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next.next;var _v_lhs=match.semv;var _v_rhs=Grammar.sort_rule_parts(_menhir_stack.semv);var _v={lhs:_v_lhs,rhs:_v_rhs};return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v_000=_menhir_stack.semv;var _v=[_v_000,0];return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next.next;var _v_000=_menhir_stack.semv;var _v_001=match.semv;var _v=[_v_000,_v_001];return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next;var _v_weight=match.semv;var _v_symbols=List.rev(_menhir_stack.semv);var _v={weight:_v_weight,symbols:_v_symbols};return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v_symbols=List.rev(_menhir_stack.semv);var _v={weight:1,symbols:_v_symbols};return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v_000=_menhir_stack.semv;var _v=[_v_000,0];return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next;var _v_000=_menhir_stack.semv;var _v_001=match.semv;var _v=[_v_000,_v_001];return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _menhir_s=_menhir_env.current;var _startpos=_menhir_stack.endp;return{state:_menhir_s,semv:0,startp:_startpos,endp:_startpos,next:_menhir_stack}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v_000=_menhir_stack.semv;var _v=[_v_000,0];return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var match=_menhir_stack.next.next;var _v_000=_menhir_stack.semv;var _v_001=match.semv;var _v=[_v_000,_v_001];return{state:match.state,semv:_v,startp:match.startp,endp:_menhir_stack.endp,next:match.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v=Block.__(0,[_menhir_stack.semv]);return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;var _v=Block.__(1,[_menhir_stack.semv]);return{state:_menhir_stack.state,semv:_v,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}},function(_menhir_env){var _menhir_stack=_menhir_env.stack;return{state:_menhir_stack.state,semv:_menhir_stack.semv,startp:_menhir_stack.startp,endp:_menhir_stack.endp,next:_menhir_stack.next}}];var ET=MenhirLib.TableInterpreter.MakeEngineTable({token2terminal:token2terminal,error_terminal:0,token2value:token2value,default_reduction:[8,"\0\0\0\0\0\0\v\0\f\0\0\0\b\0"],error:[8,'&\0"\0L\0D\0\0v\0\0v\x002L\0\0\0\0'],action:[[8,"\0 \0\0\0\0\0\0\n\0\0\0\0\0"],[8,'!!"!%%1%1FS\r']],lhs:[4,"\nfUD32!"],$$goto:[[8,"\0\r&\0\0\0$\0\0,\0\0,\0\0\n\0\0\0\0\0"],[8,"\n\v\n\v\0\0\0\n\v\0\f\n\r\0\0\0"]],start:1,semantic_action:semantic_action,$$Error:$$Error,trace:undefined});var TI=MenhirLib.Engine.Make(ET);var entry=TI.entry;var start=TI.start;function grammar(lexer,lexbuf){return Curry._3(entry,0,lexer,lexbuf)}function grammar$1(initial_position){return Curry._2(start,0,initial_position)}var Incremental={grammar:grammar$1};var MenhirInterpreter_offer=TI.offer;var MenhirInterpreter_resume=TI.resume;var MenhirInterpreter_lexer_lexbuf_to_supplier=TI.lexer_lexbuf_to_supplier;var MenhirInterpreter_loop=TI.loop;var MenhirInterpreter_loop_handle=TI.loop_handle;var MenhirInterpreter_loop_handle_undo=TI.loop_handle_undo;var MenhirInterpreter_shifts=TI.shifts;var MenhirInterpreter_acceptable=TI.acceptable;var MenhirInterpreter_number=TI.number;var MenhirInterpreter_production_index=TI.production_index;var MenhirInterpreter_find_production=TI.find_production;var MenhirInterpreter_stack=TI.stack;var MenhirInterpreter_top=TI.top;var MenhirInterpreter_pop_many=TI.pop_many;var MenhirInterpreter_get=TI.get;var MenhirInterpreter_current_state_number=TI.current_state_number;var MenhirInterpreter_equal=TI.equal;var MenhirInterpreter_positions=TI.positions;var MenhirInterpreter_env_has_default_reduction=TI.env_has_default_reduction;var MenhirInterpreter_state_has_default_reduction=TI.state_has_default_reduction;var MenhirInterpreter_pop=TI.pop;var MenhirInterpreter_force_reduction=TI.force_reduction;var MenhirInterpreter_input_needed=TI.input_needed;var MenhirInterpreter={offer:MenhirInterpreter_offer,resume:MenhirInterpreter_resume,lexer_lexbuf_to_supplier:MenhirInterpreter_lexer_lexbuf_to_supplier,loop:MenhirInterpreter_loop,loop_handle:MenhirInterpreter_loop_handle,loop_handle_undo:MenhirInterpreter_loop_handle_undo,shifts:MenhirInterpreter_shifts,acceptable:MenhirInterpreter_acceptable,number:MenhirInterpreter_number,production_index:MenhirInterpreter_production_index,find_production:MenhirInterpreter_find_production,stack:MenhirInterpreter_stack,top:MenhirInterpreter_top,pop_many:MenhirInterpreter_pop_many,get:MenhirInterpreter_get,current_state_number:MenhirInterpreter_current_state_number,equal:MenhirInterpreter_equal,positions:MenhirInterpreter_positions,env_has_default_reduction:MenhirInterpreter_env_has_default_reduction,state_has_default_reduction:MenhirInterpreter_state_has_default_reduction,pop:MenhirInterpreter_pop,force_reduction:MenhirInterpreter_force_reduction,input_needed:MenhirInterpreter_input_needed};exports.$$Error=$$Error;exports.grammar=grammar;exports.MenhirInterpreter=MenhirInterpreter;exports.Incremental=Incremental},{"./grammar.bs.js":47,"./menhirLib.bs.js":48,"bs-platform/lib/js/block.js":2,"bs-platform/lib/js/caml_exceptions.js":8,"bs-platform/lib/js/curry.js":27,"bs-platform/lib/js/list.js":32}],43:[function(require,module,exports){"use strict";var Caml_builtin_exceptions=require("bs-platform/lib/js/caml_builtin_exceptions.js");function message(s){switch(s){case 0:return"Invalid syntax.\n";case 3:return'Left-hand side of a rule must be a single non-terminal symbol.\nIn your rule, a symbol identifier is preceded by a string or the left-hand side is empty.\nThe most likely reason is a misplaced semicolon in a previous rule.\nExample of a valid rule: <start> ::= "foo" ;\n';case 5:return'Left-hand side of a rule must be a single symbol identifier followed by "::=".\nIn your rule, a symbol identifier is followed by a string or the right-hand side is empty.\nExample of a valid rule: <foo> ::= "foo" ;\n';case 6:return'The right-hand side of a rule is empty or starts with an empty alternative.\nEmpty rules (<foo> ::= ;) and empty alternatives (<foo> ::= | "foo") are not allowed.\nExample of a valid rule: <start> ::= <foo> | <bar> ;\n';case 8:return"Weight number must be followed by a symbol identifier or a string.\nExample of a valid rule: <start> ::= 10 <foo> | <bar> ;\n";case 11:return'Unterminated rule (missing semicolon or vertical line?)\nExample of a valid rule: <start> ::= 10 <foo> | 5 <bar> | "baz" ;\n';case 14:return'Invalid rule or a missing semicolon between rules.\nExample of a valid rule sequence: <start> ::= 10 <foo> | 5 <bar>; <quux> ::= "baz";\n';case 1:case 2:case 4:case 7:case 9:case 10:case 12:case 13:case 15:case 16:throw Caml_builtin_exceptions.not_found;case 17:return'Empty alternative in a right hand side.\nEmpty alternatives such as "<foo> | | <bar>") are not allowed.\nExample of a valid rule: <start> ::= <foo> | <bar> ;\n';default:throw Caml_builtin_exceptions.not_found}}exports.message=message},{"bs-platform/lib/js/caml_builtin_exceptions.js":6}],44:[function(require,module,exports){"use strict";var Bnfgenlib=require("./bnfgenlib.bs.js");var Pervasives=require("bs-platform/lib/js/pervasives.js");var Caml_option=require("bs-platform/lib/js/caml_option.js");function generate(grammar,start,sep,max_depth){var max_depth$1=max_depth===0?undefined:max_depth;var res=Bnfgenlib.generate(Caml_option.some(max_depth$1),start,sep,grammar);if(res.tag){return Pervasives.failwith(res[0])}else{return res[0]}}function load_grammar(s){var g=Bnfgenlib.load_from_string(s);if(g.tag){return Pervasives.failwith(g[0])}else{return g[0]}}exports.generate=generate;exports.load_grammar=load_grammar},{"./bnfgenlib.bs.js":46,"bs-platform/lib/js/caml_option.js":18,"bs-platform/lib/js/pervasives.js":36}],45:[function(require,module,exports){var bnfgen=require("./bnfgen.bs.js");window.bnfgen=Object();window.bnfgen.generate=bnfgen.generate;window.bnfgen.loadGrammar=bnfgen.load_grammar},{"./bnfgen.bs.js":44}],46:[function(require,module,exports){"use strict";var Util=require("./util.bs.js");var Block=require("bs-platform/lib/js/block.js");var Curry=require("bs-platform/lib/js/curry.js");var Lexing=require("bs-platform/lib/js/lexing.js");var Printf=require("bs-platform/lib/js/printf.js");var Grammar=require("./grammar.bs.js");var Parse_bnf=require("./parse_bnf.bs.js");var Bnf_parser=require("./bnf_parser.bs.js");var Pervasives=require("bs-platform/lib/js/pervasives.js");var Caml_js_exceptions=require("bs-platform/lib/js/caml_js_exceptions.js");function $great$great$eq(r,f){if(r.tag){return r}else{return Curry._1(f,r[0])}}function parse(lexbuf){try{return Block.__(0,[Parse_bnf.parse(lexbuf,Bnf_parser.Incremental.grammar(lexbuf.lex_curr_p))])}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Util.Syntax_error){var match=exn[1];var err=match[1];var pos=match[0];if(pos!==undefined){var match$1=pos;return Block.__(1,[Curry._3(Printf.sprintf([Block.__(11,["Syntax error on line ",Block.__(4,[0,0,0,Block.__(11,[", character ",Block.__(4,[0,0,0,Block.__(11,[": ",Block.__(2,[0,0])])])])])]),"Syntax error on line %d, character %d: %s"]),match$1[0],match$1[1],err)])}else{return Block.__(1,[Curry._1(Printf.sprintf([Block.__(11,["Syntax error: ",Block.__(2,[0,0])]),"Syntax error: %s"]),err)])}}else{throw exn}}}function load_from_channel(ic){var lexbuf=Lexing.from_channel(ic);return $great$great$eq(parse(lexbuf),Grammar.check_grammar)}function load_from_file(filename){return load_from_channel(Pervasives.open_in(filename))}function load_from_string(s){var lexbuf=Lexing.from_string(s);return $great$great$eq(parse(lexbuf),Grammar.check_grammar)}var dump_rules=Grammar.string_of_rules;var generate=Grammar.reduce;exports.load_from_string=load_from_string;exports.load_from_channel=load_from_channel;exports.load_from_file=load_from_file;exports.dump_rules=dump_rules;exports.generate=generate},{"./bnf_parser.bs.js":42,"./grammar.bs.js":47,"./parse_bnf.bs.js":49,"./util.bs.js":50,"bs-platform/lib/js/block.js":2,"bs-platform/lib/js/caml_js_exceptions.js":14,"bs-platform/lib/js/curry.js":27,"bs-platform/lib/js/lexing.js":31,"bs-platform/lib/js/pervasives.js":36,"bs-platform/lib/js/printf.js":37}],47:[function(require,module,exports){"use strict";var List=require("bs-platform/lib/js/list.js");var Block=require("bs-platform/lib/js/block.js");var Curry=require("bs-platform/lib/js/curry.js");var Printf=require("bs-platform/lib/js/printf.js");var Random=require("bs-platform/lib/js/random.js");var $$String=require("bs-platform/lib/js/string.js");var Caml_obj=require("bs-platform/lib/js/caml_obj.js");var Pervasives=require("bs-platform/lib/js/pervasives.js");var Caml_option=require("bs-platform/lib/js/caml_option.js");var Caml_primitive=require("bs-platform/lib/js/caml_primitive.js");var Caml_exceptions=require("bs-platform/lib/js/caml_exceptions.js");var Caml_js_exceptions=require("bs-platform/lib/js/caml_js_exceptions.js");var Caml_builtin_exceptions=require("bs-platform/lib/js/caml_builtin_exceptions.js");var Reduction_error=Caml_exceptions.create("Grammar.Reduction_error");function string_of_symbol(s){if(s.tag){return Curry._1(Printf.sprintf([Block.__(12,[60,Block.__(2,[0,Block.__(12,[62,0])])]),"<%s>"]),s[0])}else{return Curry._1(Printf.sprintf([Block.__(12,[34,Block.__(2,[0,Block.__(12,[34,0])])]),'"%s"']),s[0])}}function string_of_rule_rhs_part(r){var l=List.map(string_of_symbol,r.symbols);var sym_str=$$String.concat(" ",l);var weight_str=r.weight===1?"":String(r.weight);return $$String.concat(" ",[weight_str,[sym_str,0]])}function string_of_rule_rhs(r){if(r){var tl=r[1];var hd=r[0];if(tl){return Curry._2(Printf.sprintf([Block.__(2,[0,Block.__(11,[" | ",Block.__(2,[0,0])])]),"%s | %s"]),string_of_rule_rhs_part(hd),string_of_rule_rhs(tl))}else{return string_of_rule_rhs_part(hd)}}else{return""}}function string_of_rule(r){return Curry._2(Printf.sprintf([Block.__(2,[0,Block.__(11,[" ::= ",Block.__(2,[0,Block.__(12,[59,0])])])]),"%s ::= %s;"]),string_of_symbol(Block.__(1,[r.lhs])),string_of_rule_rhs(r.rhs))}function string_of_rules(r){var rule_str_list=List.map(string_of_rule,r);return $$String.concat("\n",rule_str_list)}function check_for_nonexistent(rs){var get_referenced_nonterminals=function(r){var symbols=List.concat(List.map(function(r){return r.symbols},r.rhs));return List.fold_left(function(ss,s){if(s.tag){return[s[0],ss]}else{return ss}},0,symbols)};var _rs=rs;var known_symbols=List.map(function(r){return r.lhs},rs);while(true){var rs$1=_rs;if(rs$1){var nts=get_referenced_nonterminals(rs$1[0]);List.iter(function(param){var known_symbols$1=known_symbols;var s=param;try{List.find(function(param){return s===param},known_symbols$1);return 0}catch(exn){return Pervasives.failwith(Curry._1(Printf.sprintf([Block.__(11,["Undefined symbol <",Block.__(2,[0,Block.__(12,[62,0])])]),"Undefined symbol <%s>"]),s))}},nts);_rs=rs$1[1];continue}else{return 0}}}function check_for_duplicates(_rs){while(true){var rs=_rs;var sort_rules=function(rs){return List.sort(function(x,y){return Caml_primitive.caml_string_compare(x.lhs,y.lhs)},rs)};var rs$1=sort_rules(rs);if(rs$1){var match=rs$1[1];if(match){var r$prime=match[0];var r=rs$1[0];if(r.lhs===r$prime.lhs){return Pervasives.failwith(Curry._1(Printf.sprintf([Block.__(11,["Duplicate definition of symbol <",Block.__(2,[0,Block.__(12,[62,0])])]),"Duplicate definition of symbol <%s>"]),r.lhs))}else{_rs=[r$prime,match[1]];continue}}else{return 0}}else{return 0}}}function check_grammar(rs){try{check_for_duplicates(rs);check_for_nonexistent(rs);return Block.__(0,[rs])}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Caml_builtin_exceptions.failure){return Block.__(1,[exn[1]])}else{throw exn}}}function total_weight(l){return List.fold_left(function(x,y){return x+y.weight|0},0,l)}function pick_element(l){var tw=total_weight(l);var r=Random.$$int(tw);var _acc=0;var r$1=r;var _l=l;while(true){var l$1=_l;var acc=_acc;if(l$1){var tl=l$1[1];var x=l$1[0];if(tl){var acc$prime=acc+x.weight|0;if(r$1<acc$prime){return x.symbols}else{_l=tl;_acc=acc$prime;continue}}else{return x.symbols}}else{return Pervasives.failwith("Rule with empty right-hand side")}}}function find_production(name,grammar){try{var rule=List.find(function(x){return x.lhs===name},grammar);return rule.rhs}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return}else{throw exn}}}function sort_rule_parts(l){return List.sort(function(x,y){return Caml_primitive.caml_int_compare(x.weight,y.weight)},l)}function depth_exceeded(maxdepth,depth){if(maxdepth!==undefined){return Caml_obj.caml_greaterthan(depth,Caml_option.valFromOption(maxdepth))}else{return false}}function reduce_rhs(rhs,grammar,delimiter,maxdepth,depth){if(rhs){var tl=rhs[1];var hd=rhs[0];if(hd.tag){var l=reduce_symbol(hd[0],grammar,delimiter,maxdepth,depth+1|0);var r=reduce_rhs(tl,grammar,delimiter,maxdepth,depth);return Curry._2(Printf.sprintf([Block.__(2,[0,Block.__(2,[0,0])]),"%s%s"]),l,r)}else{return Curry._3(Printf.sprintf([Block.__(2,[0,Block.__(2,[0,Block.__(2,[0,0])])]),"%s%s%s"]),hd[0],delimiter,reduce_rhs(tl,grammar,delimiter,maxdepth,depth))}}else{return""}}function reduce_symbol(name,grammar,delimiter,maxdepth,depth){var r=find_production(name,grammar);if(r!==undefined){if(depth_exceeded(maxdepth,depth)){throw[Reduction_error,"Maximum recursion depth exceeded"]}var symbols=pick_element(r);return reduce_rhs(symbols,grammar,delimiter,maxdepth,depth)}else{throw[Reduction_error,Curry._1(Printf.sprintf([Block.__(11,["Undefined symbol <",Block.__(2,[0,Block.__(12,[62,0])])]),"Undefined symbol <%s>"]),name)]}}function reduce($staropt$star,$staropt$star$1,$staropt$star$2,grammar){
-var max_depth=$staropt$star!==undefined?Caml_option.valFromOption($staropt$star):undefined;var start_symbol=$staropt$star$1!==undefined?$staropt$star$1:"start";var separator=$staropt$star$2!==undefined?$staropt$star$2:"";try{return Block.__(0,[reduce_symbol(start_symbol,grammar,separator,max_depth,0)])}catch(raw_exn){var exn=Caml_js_exceptions.internalToOCamlException(raw_exn);if(exn[0]===Reduction_error){return Block.__(1,[exn[1]])}else{throw exn}}}exports.string_of_rules=string_of_rules;exports.sort_rule_parts=sort_rule_parts;exports.check_grammar=check_grammar;exports.reduce=reduce},{"bs-platform/lib/js/block.js":2,"bs-platform/lib/js/caml_builtin_exceptions.js":6,"bs-platform/lib/js/caml_exceptions.js":8,"bs-platform/lib/js/caml_js_exceptions.js":14,"bs-platform/lib/js/caml_obj.js":17,"bs-platform/lib/js/caml_option.js":18,"bs-platform/lib/js/caml_primitive.js":19,"bs-platform/lib/js/curry.js":27,"bs-platform/lib/js/list.js":32,"bs-platform/lib/js/pervasives.js":36,"bs-platform/lib/js/printf.js":37,"bs-platform/lib/js/random.js":38,"bs-platform/lib/js/string.js":39}],48:[function(require,module,exports){"use strict";var Sys=require("bs-platform/lib/js/sys.js");var Char=require("bs-platform/lib/js/char.js");var List=require("bs-platform/lib/js/list.js");var $$Array=require("bs-platform/lib/js/array.js");var Block=require("bs-platform/lib/js/block.js");var Bytes=require("bs-platform/lib/js/bytes.js");var Curry=require("bs-platform/lib/js/curry.js");var Lexing=require("bs-platform/lib/js/lexing.js");var Printf=require("bs-platform/lib/js/printf.js");var Caml_obj=require("bs-platform/lib/js/caml_obj.js");var Caml_array=require("bs-platform/lib/js/caml_array.js");var Caml_bytes=require("bs-platform/lib/js/caml_bytes.js");var Caml_int32=require("bs-platform/lib/js/caml_int32.js");var Pervasives=require("bs-platform/lib/js/pervasives.js");var Caml_option=require("bs-platform/lib/js/caml_option.js");var Caml_primitive=require("bs-platform/lib/js/caml_primitive.js");var CamlinternalLazy=require("bs-platform/lib/js/camlinternalLazy.js");var Caml_builtin_exceptions=require("bs-platform/lib/js/caml_builtin_exceptions.js");function take(n,xs){if(n!==0&&xs){var xs$1=xs[1];var xs$prime=take(n-1|0,xs$1);if(xs$1===xs$prime){return xs}else{return[xs[0],xs$prime]}}else{return 0}}function drop(_n,_xs){while(true){var xs=_xs;var n=_n;if(n!==0){if(xs){_xs=xs[1];_n=n-1|0;continue}else{return 0}}else{return xs}}}function uniq1(_cmp,x,_ys){while(true){var ys=_ys;var cmp=_cmp;if(ys){var ys$1=ys[1];var y=ys[0];if(Curry._2(cmp,x,y)===0){_ys=ys$1;_cmp=Caml_obj.caml_compare;continue}else{return[y,uniq1(cmp,y,ys$1)]}}else{return 0}}}function uniq(cmp,xs){if(xs){var x=xs[0];return[x,uniq1(cmp,x,xs[1])]}else{return 0}}function weed(cmp,xs){return uniq(cmp,List.sort(cmp,xs))}function length(xs){var match=CamlinternalLazy.force(xs);if(match){return 1+length(match[1])|0}else{return 0}}function foldr(f,xs,accu){var match=CamlinternalLazy.force(xs);if(match){return Curry._2(f,match[0],foldr(f,match[1],accu))}else{return accu}}function traditional2revised(get_raw_token,get_startp,get_endp,parser,lexer){var lexbuf=Lexing.from_string("");var lexer$1=function(lexbuf){var token=Curry._1(lexer,0);lexbuf.lex_start_p=Curry._1(get_startp,token);lexbuf.lex_curr_p=Curry._1(get_endp,token);return Curry._1(get_raw_token,token)};return Curry._2(parser,lexer$1,lexbuf)}function revised2traditional(make_token,parser,lexer,lexbuf){return Curry._1(parser,function(param){var token=Curry._1(lexer,lexbuf);return Curry._3(make_token,token,lexbuf.lex_start_p,lexbuf.lex_curr_p)})}function traditional2revised$1(parser){return function(param){return traditional2revised(function(param){return param[0]},function(param){return param[1]},function(param){return param[2]},parser,param)}}function revised2traditional$1(parser){return function(param,param$1){return revised2traditional(function(token,startp,endp){return[token,startp,endp]},parser,param,param$1)}}var Simplified={traditional2revised:traditional2revised$1,revised2traditional:revised2traditional$1};var Convert={traditional2revised:traditional2revised,revised2traditional:revised2traditional,Simplified:Simplified};var IncrementalEngine={};var EngineTypes={};function Make(T){var number=T.number;var $$Error=T.$$Error;var log=T.log;var Log=T.Log;var run=function(env,please_discard){if(log){Curry._1(Log.state,env.current)}if(please_discard){return Block.__(0,[env])}else{return check_for_default_reduction(env)}};var initiate=function(env){if(log){Curry._1(Log.initiating_error_handling,0)}var env_triple=env.triple;var env_stack=env.stack;var env_current=env.current;var env$1={error:true,triple:env_triple,stack:env_stack,current:env_current};return Block.__(3,[env$1])};var accept=function(env,prod){if(log){Curry._1(Log.reduce_or_accept,prod)}var v=env.stack.semv;return Block.__(4,[v])};var shift=function(env,please_discard,terminal,value,s$prime){if(log){Curry._2(Log.shift,terminal,s$prime)}var match=env.triple;var stack_state=env.current;var stack_startp=match[1];var stack_endp=match[2];var stack_next=env.stack;var stack={state:stack_state,semv:value,startp:stack_startp,endp:stack_endp,next:stack_next};var new_env_error=env.error;var new_env_triple=env.triple;var new_env={error:new_env_error,triple:new_env_triple,stack:stack,current:s$prime};return Block.__(1,[env,new_env,please_discard])};var announce_reduce=function(env,prod){if(Curry._1(T.is_start,prod)){return accept(env,prod)}else{return Block.__(2,[env,prod])}};var check_for_default_reduction=function(env){return Curry._4(T.default_reduction,env.current,announce_reduce,check_for_error_token,env)};var reduce=function(env,prod){if(log){Curry._1(Log.reduce_or_accept,prod)}var stack;try{stack=Curry._2(T.semantic_action,prod,env)}catch(exn){if(exn===$$Error){return initiate(env)}else{throw exn}}var current=Curry._2(T.goto_prod,stack.state,prod);var env_error=env.error;var env_triple=env.triple;var env$1={error:env_error,triple:env_triple,stack:stack,current:current};return run(env$1,false)};var check_for_error_token=function(env){if(env.error){if(log){Curry._1(Log.resuming_error_handling,0)}return Block.__(3,[env])}else{var match=env.triple;var token=match[0];return Curry._7(T.action,env.current,Curry._1(T.token2terminal,token),Curry._1(T.token2value,token),shift,announce_reduce,initiate,env)}};var error_fail=function(env){var cell=env.stack;var next=cell.next;if(next===cell){return 0}else{var env_error=env.error;var env_triple=env.triple;var env_current=cell.state;var env$1={error:env_error,triple:env_triple,stack:next,current:env_current};return Block.__(3,[env$1])}};var error_reduce=function(env,prod){if(log){Curry._1(Log.handling_error,env.current)}return reduce(env,prod)};var error_shift=function(env,please_discard,terminal,value,s$prime){if(!(Caml_obj.caml_equal(terminal,T.error_terminal)&&Caml_obj.caml_equal(value,T.error_value))){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1397,4]]}if(log){Curry._1(Log.handling_error,env.current)}return shift(env,please_discard,terminal,value,s$prime)};var discard=function(env,triple){if(log){Curry._3(Log.lookahead_token,Curry._1(T.token2terminal,triple[0]),triple[1],triple[2])}return check_for_default_reduction({error:false,triple:triple,stack:env.stack,current:env.current})};var error=function(env){if(!env.error){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1378,4]]}return Curry._7(T.action,env.current,T.error_terminal,T.error_value,error_shift,error_reduce,error_fail,env)};var start=function(s,initial){var empty={};Caml_obj.caml_update_dummy(empty,{state:s,semv:T.error_value,startp:initial,endp:initial,next:empty});var env_triple=[0,initial,initial];var env={error:false,triple:env_triple,stack:empty,current:s};return run(env,true)};var offer=function(param){if(typeof param==="number"||param.tag){return Pervasives.invalid_arg("offer expects InputNeeded")}else{var partial_arg=param[0];return function(param){return discard(partial_arg,param)}}};var resume=function(param){if(typeof param==="number"){return Pervasives.invalid_arg("resume expects HandlingError | Shifting | AboutToReduce")}else{switch(param.tag|0){case 1:return run(param[1],param[2]);case 2:return reduce(param[0],param[1]);case 3:return error(param[0]);default:return Pervasives.invalid_arg("resume expects HandlingError | Shifting | AboutToReduce")}}};var lexer_lexbuf_to_supplier=function(lexer,lexbuf,param){var token=Curry._1(lexer,lexbuf);var startp=lexbuf.lex_start_p;var endp=lexbuf.lex_curr_p;return[token,startp,endp]};var loop=function(read,_checkpoint){while(true){var checkpoint=_checkpoint;if(typeof checkpoint==="number"){throw $$Error}else{switch(checkpoint.tag|0){case 0:var triple=Curry._1(read,0);var checkpoint$1=offer(checkpoint)(triple);_checkpoint=checkpoint$1;continue;case 4:return checkpoint[0];default:var checkpoint$2=resume(checkpoint);_checkpoint=checkpoint$2;continue}}}};var entry=function(s,lexer,lexbuf){var initial=lexbuf.lex_curr_p;return loop(function(param){return lexer_lexbuf_to_supplier(lexer,lexbuf,param)},start(s,initial))};var loop_handle=function(succeed,fail,read,_checkpoint){while(true){var checkpoint=_checkpoint;if(typeof checkpoint==="number"){return Curry._1(fail,checkpoint)}else{switch(checkpoint.tag|0){case 0:var triple=Curry._1(read,0);var checkpoint$1=offer(checkpoint)(triple);_checkpoint=checkpoint$1;continue;case 1:case 2:break;case 3:return Curry._1(fail,checkpoint);case 4:return Curry._1(succeed,checkpoint[0])}}var checkpoint$2=resume(checkpoint);_checkpoint=checkpoint$2;continue}};var loop_handle_undo=function(succeed,fail,read,checkpoint){var tmp;tmp=typeof checkpoint==="number"||checkpoint.tag?false:true;if(!tmp){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1670,4]]}var succeed$1=succeed;var fail$1=fail;var read$1=read;var _param=[checkpoint,checkpoint];while(true){var param=_param;var checkpoint$1=param[1];var inputneeded=param[0];if(typeof checkpoint$1==="number"){return Curry._2(fail$1,inputneeded,checkpoint$1)}else{switch(checkpoint$1.tag|0){case 0:var triple=Curry._1(read$1,0);var checkpoint$2=offer(checkpoint$1)(triple);_param=[checkpoint$1,checkpoint$2];continue;case 1:case 2:break;case 3:return Curry._2(fail$1,inputneeded,checkpoint$1);case 4:return Curry._1(succeed$1,checkpoint$1[0])}}var checkpoint$3=resume(checkpoint$1);_param=[inputneeded,checkpoint$3];continue}};var shifts=function(_checkpoint){while(true){var checkpoint=_checkpoint;if(typeof checkpoint==="number"){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1695,8]]}else{switch(checkpoint.tag|0){case 1:return checkpoint[0];case 2:_checkpoint=resume(checkpoint);continue;case 3:return;default:throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1695,8]]}}}};var acceptable=function(checkpoint,token,pos){var triple=[token,pos,pos];var checkpoint$1=offer(checkpoint)(triple);return shifts(checkpoint$1)!==undefined};var stack=function(cell,current){return Caml_obj.caml_lazy_make(function(param){var next=cell.next;if(next===cell){return 0}else{var element_001=cell.semv;var element_002=cell.startp;var element_003=cell.endp;var element=[current,element_001,element_002,element_003];return[element,stack(next,cell.state)]}})};var stack$1=function(env){return stack(env.stack,env.current)};var top=function(env){var cell=env.stack;var next=cell.next;if(next===cell){return}else{return[env.current,cell.semv,cell.startp,cell.endp]}};var equal=function(env1,env2){if(env1.stack===env2.stack){return Curry._1(number,env1.current)===Curry._1(number,env2.current)}else{return false}};var current_state_number=function(env){return Curry._1(number,env.current)};var positions=function(param){var match=param.triple;return[match[1],match[2]]};var state_has_default_reduction=function(state){return Curry._4(T.default_reduction,state,function(_env,_prod){return true},function(_env){return false},0)};var env_has_default_reduction=function(env){return state_has_default_reduction(env.current)};var pop=function(env){var cell=env.stack;var next=cell.next;if(next===cell){return}else{return{error:env.error,triple:env.triple,stack:next,current:cell.state}}};var force_reduction=function(prod,env){if(Curry._2(T.may_reduce,env.current,prod)){if(Curry._1(T.is_start,prod)){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1883,6]]}var stack=Curry._2(T.semantic_action,prod,env);var current=Curry._2(T.goto_prod,stack.state,prod);return{error:env.error,triple:env.triple,stack:stack,current:current}}else{return Pervasives.invalid_arg("force_reduction: this reduction is not permitted in this state")}};var input_needed=function(env){return Block.__(0,[env])};var pop_many=function(_i,_env){while(true){var env=_env;var i=_i;if(i===0){return env}else{var match=pop(env);if(match!==undefined){_env=match;_i=i-1|0;continue}else{return}}}};var get=function(i,env){var match=pop_many(i,env);if(match!==undefined){return top(match)}};return{number:number,token2terminal:T.token2terminal,token2value:T.token2value,error_terminal:T.error_terminal,error_value:T.error_value,foreach_terminal:T.foreach_terminal,production_index:T.production_index,find_production:T.find_production,default_reduction:T.default_reduction,action:T.action,goto_nt:T.goto_nt,goto_prod:T.goto_prod,maybe_goto_nt:T.maybe_goto_nt,is_start:T.is_start,$$Error:$$Error,semantic_action:T.semantic_action,may_reduce:T.may_reduce,log:log,Log:Log,run:run,discard:discard,check_for_default_reduction:check_for_default_reduction,check_for_error_token:check_for_error_token,shift:shift,announce_reduce:announce_reduce,reduce:reduce,accept:accept,initiate:initiate,error:error,error_shift:error_shift,error_reduce:error_reduce,error_fail:error_fail,start:start,offer:offer,resume:resume,lexer_lexbuf_to_supplier:lexer_lexbuf_to_supplier,loop:loop,entry:entry,loop_handle:loop_handle,loop_handle_undo:loop_handle_undo,shifts:shifts,acceptable:acceptable,stack:stack$1,top:top,equal:equal,current_state_number:current_state_number,positions:positions,state_has_default_reduction:state_has_default_reduction,env_has_default_reduction:env_has_default_reduction,pop:pop,force_reduction:force_reduction,input_needed:input_needed,pop_many:pop_many,get:get}}function update(buffer,x){var match=buffer.contents;var tmp;tmp=typeof match==="number"?Block.__(0,[x]):match.tag?Block.__(1,[match[1],x]):Block.__(1,[match[0],x]);buffer.contents=tmp;return 0}function show(f,buffer){var match=buffer.contents;if(typeof match==="number"){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1976,6]]}else if(match.tag){return Curry._2(Printf.sprintf([Block.__(11,["after '",Block.__(2,[0,Block.__(11,["' and before '",Block.__(2,[0,Block.__(12,[39,0])])])])]),"after '%s' and before '%s'"]),Curry._1(f,match[0]),Curry._1(f,match[1]))}else{return Curry._1(Printf.sprintf([Block.__(11,["before '",Block.__(2,[0,Block.__(12,[39,0])])]),"before '%s'"]),Curry._1(f,match[0]))}}function last(buffer){var match=buffer.contents;if(typeof match==="number"){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",1992,6]]}else if(match.tag){return match[1]}else{return match[0]}}function wrap(lexer){var buffer={contents:0};return[buffer,function(lexbuf){var token=Curry._1(lexer,lexbuf);update(buffer,[lexbuf.lex_start_p,lexbuf.lex_curr_p]);return token}]}function Make$1(I,User){var arrow=" -> ";var dot=".";var space=" ";var newline="\n";var print_symbols=function(_i,_symbols){while(true){var symbols=_symbols;var i=_i;if(i===0){Curry._1(User.print,dot);Curry._1(User.print,space);_i=-1;continue}else if(symbols){Curry._1(User.print_symbol,symbols[0]);Curry._1(User.print,space);_symbols=symbols[1];_i=i-1|0;continue}else{return 0}}};var print_element_as_symbol=function(element){return Curry._1(User.print_symbol,[Curry._1(I.incoming_symbol,element[0])])};var match=User.print_element;var print_element=match!==undefined?match:print_element_as_symbol;var print_stack=function(env){var match=Curry._1(I.top,env);var match$1=Curry._1(I.pop,env);if(match!==undefined&&match$1!==undefined){print_stack(Caml_option.valFromOption(match$1));Curry._1(User.print,space);return Curry._1(print_element,match)}else{return 0}};var print_stack$1=function(env){print_stack(env);return Curry._1(User.print,newline)};var print_item=function(param){var prod=param[0];Curry._1(User.print_symbol,Curry._1(I.lhs,prod));Curry._1(User.print,arrow);print_symbols(param[1],Curry._1(I.rhs,prod));return Curry._1(User.print,newline)};var print_symbols$1=function(symbols){return print_symbols(-1,symbols)};var print_production=function(prod){return print_item([prod,-1])};var print_current_state=function(env){Curry._1(User.print,"Current LR(1) state: ");var match=Curry._1(I.top,env);if(match!==undefined){var current=match[0];Curry._1(User.print,String(Curry._1(I.number,current)));Curry._1(User.print,newline);return List.iter(print_item,Curry._1(I.items,current))}else{Curry._1(User.print,"<some initial state>");return Curry._1(User.print,newline)}};var print_env=function(env){print_stack(env);Curry._1(User.print,newline);print_current_state(env);return Curry._1(User.print,newline)};return{arrow:arrow,dot:dot,space:space,newline:newline,print_element_as_symbol:print_element_as_symbol,print_element:print_element,print_stack:print_stack$1,print_item:print_item,print_symbols:print_symbols$1,print_production:print_production,print_current_state:print_current_state,print_env:print_env}}function make(x){return{default:x,table:Caml_array.caml_make_vect(16384,x),extent:0}}function new_length(_length,i){while(true){var length=_length;if(i<length){return length}else{_length=length<<1;continue}}}function ensure(a,i){if(0>i){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2173,2]]}var table=a.table;var length=table.length;if(i>=length){var table$prime=Caml_array.caml_make_vect(new_length(length<<1,i),a.default);$$Array.blit(table,0,table$prime,0,length);a.table=table$prime;return 0}else{return 0}}function get(a,i){ensure(a,i);return a.table[i]}function set(a,i,x){ensure(a,i);a.table[i]=x;if(a.extent<=i){a.extent=i+1|0;return 0}else{return 0}}function extent(a){return a.extent}function domain(a){return $$Array.sub(a.table,0,a.extent)}function magnitude(v){if(v<0){return Sys.word_size}else{var _k=1;var _max=2;while(true){var max=_max;var k=_k;if(max<=0||v<max){return k}else{_max=Caml_int32.imul(max,max);_k=k<<1;continue}}}}function pack(a){var m=a.length;var k=$$Array.fold_left(function(k,v){return Caml_primitive.caml_int_max(k,magnitude(v))},1,a);if(k<=8){if(Caml_int32.mod_(8,k)!==0){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2276,4]]}var w=Caml_int32.div(8,k);var n=Caml_int32.mod_(m,w)===0?Caml_int32.div(m,w):Caml_int32.div(m,w)+1|0;var s=Caml_bytes.caml_create_bytes(n);var i={contents:0};var next=function(param){var ii=i.contents;if(ii===m){return 0}else{var v=Caml_array.caml_array_get(a,ii);i.contents=ii+1|0;return v}};for(var j=0,j_finish=n-1|0;j<=j_finish;++j){var c=0;for(var _x=1;_x<=w;++_x){c=c<<k|next(0)}s[j]=Char.chr(c)}return[k,Bytes.unsafe_to_string(s)]}else{if(k%8!==0){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2325,4]]}var w$1=k/8|0;var n$1=Caml_int32.imul(m,w$1);var s$1=Caml_bytes.caml_create_bytes(n$1);for(var i$1=0,i_finish=m-1|0;i$1<=i_finish;++i$1){var v=Caml_array.caml_array_get(a,i$1);for(var x=1;x<=w$1;++x){s$1[Caml_int32.imul(i$1+1|0,w$1)-x|0]=Char.chr(v&255);v=v>>>8}}return[k,Bytes.unsafe_to_string(s$1)]}}function get1(s,i){var c=s.charCodeAt(i>>>3);var c$1=c>>>(Pervasives.lnot(i)&7)|0;return c$1&1}function get$1(param,i){var s=param[1];var k=param[0];switch(k){case 1:return get1(s,i);case 2:var c=s.charCodeAt(i>>>2);var c$1=c>>>((Pervasives.lnot(i)&3)<<1)|0;return c$1&3;case 4:var c$2=s.charCodeAt(i>>>1);var c$3=c$2>>>((Pervasives.lnot(i)&1)<<2)|0;return c$3&15;case 8:return s.charCodeAt(i);case 3:case 5:case 6:case 7:case 9:case 10:case 11:case 12:case 13:case 14:case 15:break;case 16:var j=i<<1;return(s.charCodeAt(j)<<8)+s.charCodeAt(j+1|0)|0;default:}if(k!==32){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2394,6]]}var j$1=i<<2;return(((((s.charCodeAt(j$1)<<8)+s.charCodeAt(j$1+1|0)|0)<<8)+s.charCodeAt(j$1+2|0)|0)<<8)+s.charCodeAt(j$1+3|0)|0}function unflatten1(param,i,j){return get1(param[1],Caml_int32.imul(param[0],i)+j|0)}function encode(displacement){if(displacement>=0){return displacement<<1}else{return((-displacement|0)<<1)+1|0}}function decode(displacement){if((displacement&1)===0){return displacement>>>1}else{return-(displacement>>>1)|0}}function compress(equal,insignificant,dummy,m,n,t){if(t.length!==m){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2490,2]]}for(var i=0,i_finish=m-1|0;i<=i_finish;++i){if(Caml_array.caml_array_get(t,i).length!==n){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2493,6]]}}var sparse=function(i,line){var _j=n-1|0;var _rank=0;var _row=0;while(true){var row=_row;var rank=_rank;var j=_j;if(j<0){return[i,rank,row]}else{var x=Caml_array.caml_array_get(line,j);if(Curry._1(insignificant,x)){_j=j-1|0;continue}else{_row=[[j,x],row];_rank=1+rank|0;_j=j-1|0;continue}}}};var rows=$$Array.mapi(sparse,t);$$Array.fast_sort(function(param,param$1){return Caml_primitive.caml_int_compare(param$1[1],param[1])},rows);var displacement=Caml_array.caml_make_vect(m,0);var data=make(dummy);var fits=function(k,row){var d=data.extent;var _param=row;while(true){var param=_param;if(param){var match=param[0];var j=match[0];if((k+j|0)<0){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2571,10]]}if((k+j|0)>=d){return true}else{var y=get(data,k+j|0);if(Curry._1(insignificant,y)||Curry._2(equal,match[1],y)){_param=param[1];continue}else{return false}}}else{return true}}};var fit=function(row){if(row){var _k=-row[0][0]|0;var row$1=row;while(true){var k=_k;if(fits(k,row$1)){return k}else{_k=k+1|0;continue}}}else{return 0}};var write=function(k,_param){while(true){var param=_param;if(param){var match=param[0];set(data,k+match[0]|0,match[1]);_param=param[1];continue}else{return 0}}};$$Array.iter(function(param){var row=param[2];var k=fit(row);write(k,row);return Caml_array.caml_array_set(displacement,param[0],encode(k))},rows);return[displacement,domain(data)]}function get$2(param,i,j){var data=param[1];var displacement=param[0];if(!(0<=i&&i<displacement.length)){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2653,2]]}var k=decode(Caml_array.caml_array_get(displacement,i));if(!(0<=(k+j|0)&&(k+j|0)<data.length)){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2655,2]]}return Caml_array.caml_array_get(data,k+j|0)}function getget(get_displacement,get_data,param,i,j){var k=decode(Curry._2(get_displacement,param[0],i));return Curry._2(get_data,param[1],k+j|0)}function make$1(a){var n=a.length;var size={contents:0};var entry=$$Array.init(n+1|0,function(i){var s=size.contents;if(i<n){size.contents=s+Caml_array.caml_array_get(a,i).length|0}return s});if(Caml_array.caml_array_get(entry,n)!==size.contents){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2701,2]]}var i={contents:0};var j={contents:0};var data=$$Array.init(size.contents,function(param){while(j.contents===Caml_array.caml_array_get(a,i.contents).length){i.contents=i.contents+1|0;j.contents=0}var x=Caml_array.caml_array_get(Caml_array.caml_array_get(a,i.contents),j.contents);j.contents=j.contents+1|0;return x});return[data,entry]}function length$1(param){return param[1].length}function row_length(param,i){var entry=param[1];return Caml_array.caml_array_get(entry,i+1|0)-Caml_array.caml_array_get(entry,i)|0}function row_length_via(get_entry,i){return Curry._1(get_entry,i+1|0)-Curry._1(get_entry,i)|0}function read(la,i,j){if(!(0<=j&&j<row_length(la,i))){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2726,2]]}return Caml_array.caml_array_get(la[0],Caml_array.caml_array_get(la[1],i)+j|0)}function read_via(get_data,get_entry,i,j){if(!(0<=j&&j<row_length_via(get_entry,i))){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2730,2]]}return Curry._1(get_data,Curry._1(get_entry,i)+j|0)}function write(la,i,j,v){if(!(0<=j&&j<row_length(la,i))){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",2734,2]]}return Caml_array.caml_array_set(la[0],Caml_array.caml_array_get(la[1],i)+j|0,v)}function read_interval_via(get_data,i,j){if(i===j){return 0}else{return[Curry._1(get_data,i),read_interval_via(get_data,i+1|0,j)]}}function read_row_via(get_data,get_entry,i){return read_interval_via(get_data,Curry._1(get_entry,i),Curry._1(get_entry,i+1|0))}function read_row(param,i){var entry=param[1];var data=param[0];return read_row_via(function(param){return Caml_array.caml_array_get(data,param)},function(param){return Caml_array.caml_array_get(entry,param)},i)}var TableFormat={};var InspectionTableFormat={};function Symbols(T){return{}}function Make$2(TT,IT,ET,E){var read_packed_linearized=function(param,i){var entry=param[1];var data=param[0];return read_row_via(function(param){return get$1(data,param)},function(param){return get$1(entry,param)},i)};var decode_symbol=function(symbol){if(symbol<=0){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3044,4]]}var kind=symbol&1;var symbol$1=symbol>>>1;if(kind===0){return Curry._1(IT.terminal,symbol$1-1|0)}else{return Curry._1(IT.nonterminal,symbol$1)}};var n2i=function(nt){var answer=TT.start+nt|0;if(!Caml_obj.caml_equal(Curry._1(IT.nonterminal,answer),[Block.__(1,[nt])])){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3063,4]]}return answer};var t2i=function(t){if(!Caml_obj.caml_equal(Curry._1(IT.terminal,t),[Block.__(0,[t])])){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3069,4]]}return t};var compare_terminals=function(t1,t2){return t2i(t1)-t2i(t2)|0};var compare_nonterminals=function(nt1,nt2){return n2i(nt1)-n2i(nt2)|0};var compare_symbols=function(symbol1,symbol2){var match=symbol1[0];if(match.tag){var match$1=symbol2[0];if(match$1.tag){return compare_nonterminals(match[0],match$1[0])}else{return 1}}else{var match$2=symbol2[0];if(match$2.tag){return-1}else{return compare_terminals(match[0],match$2[0])}}};var compare_productions=function(prod1,prod2){return prod1-prod2|0};var compare_items=function(param,param$1){var c=param[0]-param$1[0]|0;if(c!==0){return c}else{return param[1]-param$1[1]|0}};var incoming_symbol=function(s){var core=get$1(IT.lr0_core,s);return decode_symbol(get$1(IT.lr0_incoming,core))[0]};var lhs=function(prod){return Curry._1(IT.nonterminal,get$1(TT.lhs,prod))};var rhs=function(prod){return List.map(decode_symbol,read_packed_linearized(IT.rhs,prod))};var $$export=function(t){return[t>>>7,t%128]};var items=function(s){var core=get$1(IT.lr0_core,s);return List.map($$export,read_packed_linearized(IT.lr0_items,core))};var decode_bool=function(i){if(!(i===0||i===1)){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3150,4]]}return i===1};var nullable=function(nt){return decode_bool(get1(IT.nullable,n2i(nt)))};var first=function(nt,t){return decode_bool(unflatten1(IT.first,n2i(nt),t2i(t)))};var xfirst=function(symbol,t){var match=symbol[0];if(match.tag){return first(match[0],t)}else{return compare_terminals(t,match[0])===0}};var foldij=function(_i,j,f,_accu){while(true){var accu=_accu;var i=_i;if(i===j){return accu}else{_accu=Curry._2(f,i,accu);_i=i+1|0;continue}}};var foreach_terminal=function(f,accu){return foldij(0,TT.error[0],function(i,accu){return Curry._2(f,Curry._1(IT.terminal,i),accu)},accu)};var foreach_terminal_but_error=function(f,accu){return foldij(0,TT.error[0],function(i,accu){if(i===TT.error_terminal){return accu}else{return Curry._2(f,Curry._1(IT.terminal,i),accu)}},accu)};var feed_failure=function(param){return Pervasives.invalid_arg("feed: outgoing transition does not exist")};var feed_nonterminal=function(nt,startp,semv,endp,env){var source=env.current;var match=Curry._2(ET.maybe_goto_nt,source,nt);if(match!==undefined){var stack_next=env.stack;var stack={state:source,semv:semv,startp:startp,endp:endp,next:stack_next};return{error:env.error,triple:env.triple,stack:stack,current:Caml_option.valFromOption(match)}}else{return Pervasives.invalid_arg("feed: outgoing transition does not exist")}};var reduce=function(_env,_prod){return Pervasives.invalid_arg("feed: outgoing transition does not exist")};var initiate=function(_env){return Pervasives.invalid_arg("feed: outgoing transition does not exist")};var feed_terminal=function(terminal,startp,semv,endp,env){var source=env.current;return Curry._7(ET.action,source,terminal,semv,function(env,_please_discard,_terminal,semv,target){var stack_next=env.stack;var stack={state:source,semv:semv,startp:startp,endp:endp,next:stack_next};return{error:env.error,triple:env.triple,stack:stack,current:target}},reduce,initiate,env)};var feed=function(symbol,startp,semv,endp,env){if(symbol.tag){return feed_nonterminal(n2i(symbol[0]),startp,semv,endp,env)}else{return feed_terminal(t2i(symbol[0]),startp,semv,endp,env)}};return{terminal:IT.terminal,nonterminal:IT.nonterminal,lr0_core:IT.lr0_core,lr0_items:IT.lr0_items,lr0_incoming:IT.lr0_incoming,read_packed_linearized:read_packed_linearized,decode_symbol:decode_symbol,n2i:n2i,t2i:t2i,compare_terminals:compare_terminals,compare_nonterminals:compare_nonterminals,compare_symbols:compare_symbols,compare_productions:compare_productions,compare_items:compare_items,incoming_symbol:incoming_symbol,lhs:lhs,rhs:rhs,$$export:$$export,items:items,decode_bool:decode_bool,nullable:nullable,first:first,xfirst:xfirst,foldij:foldij,foreach_terminal:foreach_terminal,foreach_terminal_but_error:foreach_terminal_but_error,feed_failure:feed_failure,feed_nonterminal:feed_nonterminal,reduce:reduce,initiate:initiate,feed_terminal:feed_terminal,feed:feed}}function MakeEngineTable(T){var number=function(s){return s};var foldij=function(_i,j,f,_accu){while(true){var accu=_accu;var i=_i;if(i===j){return accu}else{_accu=Curry._2(f,i,accu);_i=i+1|0;continue}}};var foreach_terminal=function(f,accu){return foldij(0,T.error[0],Curry.__2(f),accu)};var non_start_production=function(i){if(T.start<=i&&(i-T.start|0)<T.semantic_action.length){return 0}else{throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3341,4]]}};var production_index=function(i){non_start_production(i);return i};var find_production=function(i){non_start_production(i);return i};var default_reduction=function(state,defred,nodefred,env){var code=get$1(T.default_reduction,state);if(code===0){return Curry._1(nodefred,env)}else{return Curry._2(defred,env,code-1|0)}};var is_start=function(prod){return prod<T.start};var unmarshal2=function(table,i,j){return getget(get$1,get$1,table,i,j)};var action=function(state,terminal,value,shift,reduce,fail,env){var c=unflatten1(T.error,state,terminal);if(c!==1){if(c!==0){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3387,8]]}return Curry._1(fail,env)}else{var action$1=unmarshal2(T.action,state,terminal);var opcode=action$1&3;var param=action$1>>>2;if(opcode>=2){var please_discard=opcode===2;return Curry._5(shift,env,please_discard,terminal,value,param)}else{return Curry._2(reduce,env,param)}}};var goto_nt=function(state,nt){var code=unmarshal2(T.$$goto,state,nt);return code-1|0};var goto_prod=function(state,prod){return goto_nt(state,get$1(T.lhs,prod))};var maybe_goto_nt=function(state,nt){var code=unmarshal2(T.$$goto,state,nt);if(0>code){throw[Caml_builtin_exceptions.assert_failure,["menhirLib.ml",3402,4]]}if(code===0){return}else{return code-1|0}};var semantic_action=function(prod){return Caml_array.caml_array_get(T.semantic_action,prod-T.start|0)};var may_reduce=function(state,prod){return default_reduction(state,function(param,prod$prime){return prod===prod$prime},function(param){return foreach_terminal(function(t,accu){if(accu){return true}else{return action(state,t,0,function(param,param$1,param$2,param$3,param$4){return false},function(param,prod$prime){return prod===prod$prime},function(param){return false},0)}},false)},0)}
-;var log=T.trace!==undefined;var state=function(state$1){if(T.trace!==undefined){return Curry._1(Printf.fprintf(Pervasives.stderr,[Block.__(11,["State ",Block.__(4,[0,0,0,Block.__(11,[":\n",Block.__(10,[0])])])]),"State %d:\n%!"]),state$1)}else{return 0}};var shift=function(terminal,state){var match=T.trace;if(match!==undefined){return Curry._2(Printf.fprintf(Pervasives.stderr,[Block.__(11,["Shifting (",Block.__(2,[0,Block.__(11,[") to state ",Block.__(4,[0,0,0,Block.__(12,[10,Block.__(10,[0])])])])])]),"Shifting (%s) to state %d\n%!"]),Caml_array.caml_array_get(match[0],terminal),state)}else{return 0}};var reduce_or_accept=function(prod){var match=T.trace;if(match!==undefined){return Curry._1(Printf.fprintf(Pervasives.stderr,[Block.__(2,[0,Block.__(12,[10,Block.__(10,[0])])]),"%s\n%!"]),Caml_array.caml_array_get(match[1],prod))}else{return 0}};var lookahead_token=function(token,startp,endp){var match=T.trace;if(match!==undefined){return Curry._3(Printf.fprintf(Pervasives.stderr,[Block.__(11,["Lookahead token is now ",Block.__(2,[0,Block.__(11,[" (",Block.__(4,[0,0,0,Block.__(12,[45,Block.__(4,[0,0,0,Block.__(11,[")\n",Block.__(10,[0])])])])])])])]),"Lookahead token is now %s (%d-%d)\n%!"]),Caml_array.caml_array_get(match[0],token),startp.pos_cnum,endp.pos_cnum)}else{return 0}};var initiating_error_handling=function(param){if(T.trace!==undefined){return Printf.fprintf(Pervasives.stderr,[Block.__(11,["Initiating error handling\n",Block.__(10,[0])]),"Initiating error handling\n%!"])}else{return 0}};var resuming_error_handling=function(param){if(T.trace!==undefined){return Printf.fprintf(Pervasives.stderr,[Block.__(11,["Resuming error handling\n",Block.__(10,[0])]),"Resuming error handling\n%!"])}else{return 0}};var handling_error=function(state){if(T.trace!==undefined){return Curry._1(Printf.fprintf(Pervasives.stderr,[Block.__(11,["Handling error in state ",Block.__(4,[0,0,0,Block.__(12,[10,Block.__(10,[0])])])]),"Handling error in state %d\n%!"]),state)}else{return 0}};var Log={state:state,shift:shift,reduce_or_accept:reduce_or_accept,lookahead_token:lookahead_token,initiating_error_handling:initiating_error_handling,resuming_error_handling:resuming_error_handling,handling_error:handling_error};return{number:number,token2terminal:T.token2terminal,token2value:T.token2value,error_terminal:T.error_terminal,error_value:0,foldij:foldij,foreach_terminal:foreach_terminal,non_start_production:non_start_production,production_index:production_index,find_production:find_production,default_reduction:default_reduction,is_start:is_start,unmarshal2:unmarshal2,action:action,goto_nt:goto_nt,goto_prod:goto_prod,maybe_goto_nt:maybe_goto_nt,$$Error:T.$$Error,semantic_action:semantic_action,may_reduce:may_reduce,log:log,Log:Log}}var StaticVersion={require_20181113:0};var General={take:take,drop:drop,uniq:uniq,weed:weed,length:length,foldr:foldr};var Engine={Make:function(funarg){var $$let=Make(funarg);return{$$Error:$$let.$$Error,entry:$$let.entry,offer:$$let.offer,resume:$$let.resume,lexer_lexbuf_to_supplier:$$let.lexer_lexbuf_to_supplier,loop:$$let.loop,loop_handle:$$let.loop_handle,loop_handle_undo:$$let.loop_handle_undo,shifts:$$let.shifts,acceptable:$$let.acceptable,number:$$let.number,production_index:$$let.production_index,find_production:$$let.find_production,stack:$$let.stack,top:$$let.top,pop_many:$$let.pop_many,get:$$let.get,current_state_number:$$let.current_state_number,equal:$$let.equal,positions:$$let.positions,env_has_default_reduction:$$let.env_has_default_reduction,state_has_default_reduction:$$let.state_has_default_reduction,pop:$$let.pop,force_reduction:$$let.force_reduction,input_needed:$$let.input_needed,start:$$let.start}}};var ErrorReports={wrap:wrap,show:show,last:last};var Printers={Make:function(funarg,funarg$1){var $$let=Make$1(funarg,funarg$1);return{print_symbols:$$let.print_symbols,print_element_as_symbol:$$let.print_element_as_symbol,print_stack:$$let.print_stack,print_item:$$let.print_item,print_production:$$let.print_production,print_current_state:$$let.print_current_state,print_env:$$let.print_env}}};var InfiniteArray={make:make,get:get,set:set,extent:extent,domain:domain};var PackedIntArray={pack:pack,get:get$1,get1:get1,unflatten1:unflatten1};var RowDisplacement={compress:compress,get:get$2,getget:getget};var LinearizedArray={make:make$1,read:read,write:write,length:length$1,row_length:row_length,read_row:read_row,row_length_via:row_length_via,read_via:read_via,read_row_via:read_row_via};function InspectionTableInterpreter_Make(funarg,funarg$1,funarg$2,funarg$3){var $$let=Make$2(funarg,funarg$1,funarg$2,funarg$3);return{compare_terminals:$$let.compare_terminals,compare_nonterminals:$$let.compare_nonterminals,compare_symbols:$$let.compare_symbols,compare_productions:$$let.compare_productions,compare_items:$$let.compare_items,incoming_symbol:$$let.incoming_symbol,items:$$let.items,lhs:$$let.lhs,rhs:$$let.rhs,nullable:$$let.nullable,first:$$let.first,xfirst:$$let.xfirst,foreach_terminal:$$let.foreach_terminal,foreach_terminal_but_error:$$let.foreach_terminal_but_error,feed:$$let.feed}}var InspectionTableInterpreter={Symbols:Symbols,Make:InspectionTableInterpreter_Make};var TableInterpreter={MakeEngineTable:function(funarg){var $$let=MakeEngineTable(funarg);return{number:$$let.number,token2terminal:$$let.token2terminal,token2value:$$let.token2value,error_terminal:$$let.error_terminal,error_value:$$let.error_value,foreach_terminal:$$let.foreach_terminal,production_index:$$let.production_index,find_production:$$let.find_production,default_reduction:$$let.default_reduction,action:$$let.action,goto_nt:$$let.goto_nt,goto_prod:$$let.goto_prod,maybe_goto_nt:$$let.maybe_goto_nt,is_start:$$let.is_start,$$Error:$$let.$$Error,semantic_action:$$let.semantic_action,may_reduce:$$let.may_reduce,log:$$let.log,Log:$$let.Log}}};exports.General=General;exports.Convert=Convert;exports.IncrementalEngine=IncrementalEngine;exports.EngineTypes=EngineTypes;exports.Engine=Engine;exports.ErrorReports=ErrorReports;exports.Printers=Printers;exports.InfiniteArray=InfiniteArray;exports.PackedIntArray=PackedIntArray;exports.RowDisplacement=RowDisplacement;exports.LinearizedArray=LinearizedArray;exports.TableFormat=TableFormat;exports.InspectionTableFormat=InspectionTableFormat;exports.InspectionTableInterpreter=InspectionTableInterpreter;exports.TableInterpreter=TableInterpreter;exports.StaticVersion=StaticVersion},{"bs-platform/lib/js/array.js":1,"bs-platform/lib/js/block.js":2,"bs-platform/lib/js/bytes.js":4,"bs-platform/lib/js/caml_array.js":5,"bs-platform/lib/js/caml_builtin_exceptions.js":6,"bs-platform/lib/js/caml_bytes.js":7,"bs-platform/lib/js/caml_int32.js":11,"bs-platform/lib/js/caml_obj.js":17,"bs-platform/lib/js/caml_option.js":18,"bs-platform/lib/js/caml_primitive.js":19,"bs-platform/lib/js/camlinternalLazy.js":25,"bs-platform/lib/js/char.js":26,"bs-platform/lib/js/curry.js":27,"bs-platform/lib/js/lexing.js":31,"bs-platform/lib/js/list.js":32,"bs-platform/lib/js/pervasives.js":36,"bs-platform/lib/js/printf.js":37,"bs-platform/lib/js/sys.js":40}],49:[function(require,module,exports){"use strict";var Util=require("./util.bs.js");var Curry=require("bs-platform/lib/js/curry.js");var Bnf_lexer=require("./bnf_lexer.bs.js");var Bnf_parser=require("./bnf_parser.bs.js");var CamlinternalLazy=require("bs-platform/lib/js/camlinternalLazy.js");var Bnf_parser_messages=require("./bnf_parser_messages.bs.js");var Caml_builtin_exceptions=require("bs-platform/lib/js/caml_builtin_exceptions.js");function get_parse_error(env){var match=Curry._1(Bnf_parser.MenhirInterpreter.stack,env);var match$1=CamlinternalLazy.force(match);if(match$1){try{return Bnf_parser_messages.message(Curry._1(Bnf_parser.MenhirInterpreter.number,match$1[0][0]))}catch(exn){if(exn===Caml_builtin_exceptions.not_found){return"invalid syntax (no specific message for this eror)"}else{throw exn}}}else{return"Invalid syntax"}}function parse(lexbuf,_checkpoint){while(true){var checkpoint=_checkpoint;if(typeof checkpoint==="number"){throw[Util.Syntax_error,[undefined,"invalid syntax (parser rejected the input)"]]}else{switch(checkpoint.tag|0){case 0:var token=Bnf_lexer.token(lexbuf);var startp=lexbuf.lex_start_p;var endp=lexbuf.lex_curr_p;var checkpoint$1=Curry._2(Bnf_parser.MenhirInterpreter.offer,checkpoint,[token,startp,endp]);_checkpoint=checkpoint$1;continue;case 1:case 2:break;case 3:var match=Util.get_lexing_position(lexbuf);var err=get_parse_error(checkpoint[0]);throw[Util.Syntax_error,[[match[0],match[1]],err]];case 4:return checkpoint[0]}}var checkpoint$2=Curry._1(Bnf_parser.MenhirInterpreter.resume,checkpoint);_checkpoint=checkpoint$2;continue}}var I=0;exports.I=I;exports.get_parse_error=get_parse_error;exports.parse=parse},{"./bnf_lexer.bs.js":41,"./bnf_parser.bs.js":42,"./bnf_parser_messages.bs.js":43,"./util.bs.js":50,"bs-platform/lib/js/caml_builtin_exceptions.js":6,"bs-platform/lib/js/camlinternalLazy.js":25,"bs-platform/lib/js/curry.js":27}],50:[function(require,module,exports){"use strict";var Lexing=require("bs-platform/lib/js/lexing.js");var Caml_exceptions=require("bs-platform/lib/js/caml_exceptions.js");var Syntax_error=Caml_exceptions.create("Util.Syntax_error");function get_lexing_position(lexbuf){var p=Lexing.lexeme_start_p(lexbuf);var line_number=p.pos_lnum;var column=(p.pos_cnum-p.pos_bol|0)+1|0;return[line_number,column]}exports.Syntax_error=Syntax_error;exports.get_lexing_position=get_lexing_position},{"bs-platform/lib/js/caml_exceptions.js":8,"bs-platform/lib/js/lexing.js":31}],51:[function(require,module,exports){var process=module.exports={};var cachedSetTimeout;var cachedClearTimeout;function defaultSetTimout(){throw new Error("setTimeout has not been defined")}function defaultClearTimeout(){throw new Error("clearTimeout has not been defined")}(function(){try{if(typeof setTimeout==="function"){cachedSetTimeout=setTimeout}else{cachedSetTimeout=defaultSetTimout}}catch(e){cachedSetTimeout=defaultSetTimout}try{if(typeof clearTimeout==="function"){cachedClearTimeout=clearTimeout}else{cachedClearTimeout=defaultClearTimeout}}catch(e){cachedClearTimeout=defaultClearTimeout}})();function runTimeout(fun){if(cachedSetTimeout===setTimeout){return setTimeout(fun,0)}if((cachedSetTimeout===defaultSetTimout||!cachedSetTimeout)&&setTimeout){cachedSetTimeout=setTimeout;return setTimeout(fun,0)}try{return cachedSetTimeout(fun,0)}catch(e){try{return cachedSetTimeout.call(null,fun,0)}catch(e){return cachedSetTimeout.call(this,fun,0)}}}function runClearTimeout(marker){if(cachedClearTimeout===clearTimeout){return clearTimeout(marker)}if((cachedClearTimeout===defaultClearTimeout||!cachedClearTimeout)&&clearTimeout){cachedClearTimeout=clearTimeout;return clearTimeout(marker)}try{return cachedClearTimeout(marker)}catch(e){try{return cachedClearTimeout.call(null,marker)}catch(e){return cachedClearTimeout.call(this,marker)}}}var queue=[];var draining=false;var currentQueue;var queueIndex=-1;function cleanUpNextTick(){if(!draining||!currentQueue){return}draining=false;if(currentQueue.length){queue=currentQueue.concat(queue)}else{queueIndex=-1}if(queue.length){drainQueue()}}function drainQueue(){if(draining){return}var timeout=runTimeout(cleanUpNextTick);draining=true;var len=queue.length;while(len){currentQueue=queue;queue=[];while(++queueIndex<len){if(currentQueue){currentQueue[queueIndex].run()}}queueIndex=-1;len=queue.length}currentQueue=null;draining=false;runClearTimeout(timeout)}process.nextTick=function(fun){var args=new Array(arguments.length-1);if(arguments.length>1){for(var i=1;i<arguments.length;i++){args[i-1]=arguments[i]}}queue.push(new Item(fun,args));if(queue.length===1&&!draining){runTimeout(drainQueue)}};function Item(fun,array){this.fun=fun;this.array=array}Item.prototype.run=function(){this.fun.apply(null,this.array)};process.title="browser";process.browser=true;process.env={};process.argv=[];process.version="";process.versions={};function noop(){}process.on=noop;process.addListener=noop;process.once=noop;process.off=noop;process.removeListener=noop;process.removeAllListeners=noop;process.emit=noop;process.prependListener=noop;process.prependOnceListener=noop;process.listeners=function(name){return[]};process.binding=function(name){throw new Error("process.binding is not supported")};process.cwd=function(){return"/"};process.chdir=function(dir){throw new Error("process.chdir is not supported")};process.umask=function(){return 0}},{}]},{},[45]);
+// Generated by js_of_ocaml 3.8.0
+(function(e){"use strict";var
+cR="%Li",cS=" : flags Open_text and Open_binary are not compatible",da="Undefined symbol <",bM=-798940232,dl="Invalid repetition syntax. Did you forget to close a brace?\nExamples of valid rules:\n  <foo> ::= <bar>{1,4}\n  <baz> ::= <foo>{5}\n",dE="Invalid_argument",a_="lib/pack/menhirLib.ml",c$="Undefined symbol <%s>",bH=1255,c9=255,c_=0x800,V=0xffff,dD=123,bG="jsError",U=0x8000,dC="%ni",dk=12520,c8="Malformed range {",bb=256,dB=4096,c7="End_of_file",c6="Failure",dj="infinity",ag=0xff,aL=1000,cQ="Stack_overflow",d="",bL="^",dA=122,I="0",aA=0x3f,cP="Not_found",bF=0xf,aN=128,c4=-48,c5=0xdc00,dy="Sys_blocked_io",dz="fd ",c3=125,dx="Malformed range {%d,%d} (min > max)",di="Match_failure",y=248,cO="static/",u="camlinternalFormat.ml",c2="Division_by_zero",bK=252,dw=1027,c1="Sys_error",az=".",ay="+",dh=0xf0,dv=246,du="%u",c0="%d",dt="Rule with empty right-hand side",cN=1026,dg="%li",cM="} (min > max)",cZ="buffer.ml",ba="int_of_string",ds="_bigarray",de=-32,df="Invalid repetition syntax. Did you forget an opening brace?\nExamples of valid rules:\n  <foo> ::= <bar>{1,4}\n  <baz> ::= <foo>{5}\n",bQ=127,aM=1024,M=" ",R=0x80,bP="e",cL="Undefined_recursive_module",cX=120,cY=103,dr=" : flags Open_rdonly and Open_wronly are not compatible",dq="([^/]*)",cW=512,ar="-",bJ="nan",cV=0x7ff0,dd=0xe0,dp=" : file already exists",dc=0xdfff,af=0xffffff,bE="compare: functional value",db="Assert_failure",ae="/",cU="0x",cK="%i",dn="Out_of_memory",dm='Invalid repetition syntax. Should be "{num}" or "{min, max}".\nExamples of valid rules:\n  <foo> ::= <bar>{1,4}\n  <baz> ::= <foo>{5}\n',a$=254,bI=1073741823,bO="index out of bounds",cT=100,bc=250,bN="_bigarr02";function
+b5(c,b,a){var
+e=String.fromCharCode;if(b==0&&a<=dB&&a==c.length)return e.apply(null,c);var
+f=d;for(;0<a;b+=aM,a-=aM)f+=e.apply(null,c.slice(b,b+Math.min(a,aM)));return f}function
+bf(b){if(e.Uint8Array)var
+c=new(e.Uint8Array)(b.l);else
+var
+c=new
+Array(b.l);var
+f=b.c,d=f.length,a=0;for(;a<d;a++)c[a]=f.charCodeAt(a);for(d=b.l;a<d;a++)c[a]=0;b.c=c;b.t=4;return c}function
+am(d,e,b,f,c){if(c==0)return 0;if(f==0&&(c>=b.l||b.t==2&&c>=b.c.length)){b.c=d.t==4?b5(d.c,e,c):e==0&&d.c.length==c?d.c:d.c.substr(e,c);b.t=b.c.length==b.l?0:2}else
+if(b.t==2&&f==b.c.length){b.c+=d.t==4?b5(d.c,e,c):e==0&&d.c.length==c?d.c:d.c.substr(e,c);b.t=b.c.length==b.l?0:2}else{if(b.t!=4)bf(b);var
+g=d.c,h=b.c;if(d.t==4)if(f<=e)for(var
+a=0;a<c;a++)h[f+a]=g[e+a];else
+for(var
+a=c-1;a>=0;a--)h[f+a]=g[e+a];else{var
+i=Math.min(c,g.length-e);for(var
+a=0;a<i;a++)h[f+a]=g.charCodeAt(e+a);for(;a<c;a++)h[f+a]=0}}return 0}function
+an(a){return a}function
+Y(a,b,c,d,e){am(an(a),b,c,d,e);return 0}function
+iG(b,a){throw[0,b,a]}function
+aE(b,a){if(b==0)return d;if(a.repeat)return a.repeat(b);var
+e=d,c=0;for(;;){if(b&1)e+=a;b>>=1;if(b==0)return e;a+=a;c++;if(c==9)a.slice(0,1)}}function
+aC(a){if(a.t==2)a.c+=aE(a.l-a.c.length,"\0");else
+a.c=b5(a.c,0,a.c.length);a.t=0}function
+d$(a){if(a.length<24){for(var
+b=0;b<a.length;b++)if(a.charCodeAt(b)>bQ)return false;return true}else
+return!/[^\x00-\x7f]/.test(a)}function
+b7(f){for(var
+k=d,c=d,h,g,i,a,b=0,j=f.length;b<j;b++){g=f.charCodeAt(b);if(g<R){for(var
+e=b+1;e<j&&(g=f.charCodeAt(e))<R;e++);if(e-b>cW){c.substr(0,1);k+=c;c=d;k+=f.slice(b,e)}else
+c+=f.slice(b,e);if(e==j)break;b=e}a=1;if(++b<j&&((i=f.charCodeAt(b))&-64)==aN){h=i+(g<<6);if(g<dd){a=h-0x3080;if(a<R)a=1}else{a=2;if(++b<j&&((i=f.charCodeAt(b))&-64)==aN){h=i+(h<<6);if(g<dh){a=h-0xe2080;if(a<c_||a>=0xd7ff&&a<0xe000)a=2}else{a=3;if(++b<j&&((i=f.charCodeAt(b))&-64)==aN&&g<0xf5){a=i-0x3c82080+(h<<6);if(a<0x10000||a>0x10ffff)a=3}}}}}if(a<4){b-=a;c+="\ufffd"}else
+if(a>V)c+=String.fromCharCode(0xd7c0+(a>>10),c5+(a&0x3FF));else
+c+=String.fromCharCode(a);if(c.length>aM){c.substr(0,1);k+=c;c=d}}return k+c}function
+ah(c,a,b){this.t=c;this.c=a;this.l=b}ah.prototype.toString=function(){switch(this.t){case
+9:return this.c;default:aC(this);case
+0:if(d$(this.c)){this.t=9;return this.c}this.t=8;case
+8:return this.c}};ah.prototype.toUtf16=function(){var
+a=this.toString();if(this.t==9)return a;return b7(a)};ah.prototype.slice=function(){var
+a=this.t==4?this.c.slice():this.c;return new
+ah(this.t,a,this.l)};function
+dQ(a){return new
+ah(0,a,a.length)}function
+a(a){return dQ(a)}function
+b3(c,b){iG(c,a(b))}var
+p=[0];function
+v(a){b3(p.Invalid_argument,a)}function
+dN(){v(bO)}function
+aO(a,b){switch(a.t&6){default:if(b>=a.c.length)return 0;case
+0:return a.c.charCodeAt(b);case
+4:return a.c[b]}}function
+dP(b,a){if(a>>>0>=b.l)dN();return aO(b,a)}function
+o(a,c,b){b&=ag;if(a.t!=4){if(c==a.c.length){a.c+=String.fromCharCode(b);if(c+1==a.l)a.t=0;return 0}bf(a)}a.c[c]=b;return 0}function
+as(b,a,c){if(a>>>0>=b.l)dN();return o(b,a,c)}function
+ao(c,a){if(c.fun)return ao(c.fun,a);if(typeof
+c!=="function")return c;var
+b=c.length|0;if(b===0)return c.apply(null,a);var
+e=a.length|0,d=b-e|0;if(d==0)return c.apply(null,a);else
+if(d<0)return ao(c.apply(null,a.slice(0,b)),a.slice(b));else
+return function(){var
+e=arguments.length==0?1:arguments.length,d=new
+Array(a.length+e);for(var
+b=0;b<a.length;b++)d[b]=a[b];for(var
+b=0;b<arguments.length;b++)d[a.length+b]=arguments[b];return ao(c,d)}}function
+bd(){v(bO)}function
+be(a,b){if(b>>>0>=a.length-1)bd();return a}function
+h9(a){if(isFinite(a)){if(Math.abs(a)>=2.2250738585072014e-308)return 0;if(a!=0)return 1;return 2}return isNaN(a)?4:3}function
+_(a){if((a.t&6)!=0)aC(a);return a.c}var
+iR=Math.log2&&Math.log2(1.1235582092889474E+307)==1020;function
+iQ(a){if(iR)return Math.floor(Math.log2(a));var
+b=0;if(a==0)return-Infinity;if(a>=1)while(a>=2){a/=2;b++}else
+while(a<1){a*=2;b--}return b}function
+bU(c){var
+a=new(e.Float32Array)(1);a[0]=c;var
+b=new(e.Int32Array)(a.buffer);return b[0]|0}var
+dZ=Math.pow(2,-24);function
+iE(a){throw a}function
+b4(){iE(p.Division_by_zero)}function
+c(b,c,a){this.lo=b&af;this.mi=c&af;this.hi=a&V}c.prototype.caml_custom="_j";c.prototype.copy=function(){return new
+c(this.lo,this.mi,this.hi)};c.prototype.ucompare=function(a){if(this.hi>a.hi)return 1;if(this.hi<a.hi)return-1;if(this.mi>a.mi)return 1;if(this.mi<a.mi)return-1;if(this.lo>a.lo)return 1;if(this.lo<a.lo)return-1;return 0};c.prototype.compare=function(a){var
+b=this.hi<<16,c=a.hi<<16;if(b>c)return 1;if(b<c)return-1;if(this.mi>a.mi)return 1;if(this.mi<a.mi)return-1;if(this.lo>a.lo)return 1;if(this.lo<a.lo)return-1;return 0};c.prototype.neg=function(){var
+a=-this.lo,b=-this.mi+(a>>24),d=-this.hi+(b>>24);return new
+c(a,b,d)};c.prototype.add=function(a){var
+b=this.lo+a.lo,d=this.mi+a.mi+(b>>24),e=this.hi+a.hi+(d>>24);return new
+c(b,d,e)};c.prototype.sub=function(a){var
+b=this.lo-a.lo,d=this.mi-a.mi+(b>>24),e=this.hi-a.hi+(d>>24);return new
+c(b,d,e)};c.prototype.mul=function(a){var
+b=this.lo*a.lo,d=(b*dZ|0)+this.mi*a.lo+this.lo*a.mi,e=(d*dZ|0)+this.hi*a.lo+this.mi*a.mi+this.lo*a.hi;return new
+c(b,d,e)};c.prototype.isZero=function(){return(this.lo|this.mi|this.hi)==0};c.prototype.isNeg=function(){return this.hi<<16<0};c.prototype.and=function(a){return new
+c(this.lo&a.lo,this.mi&a.mi,this.hi&a.hi)};c.prototype.or=function(a){return new
+c(this.lo|a.lo,this.mi|a.mi,this.hi|a.hi)};c.prototype.xor=function(a){return new
+c(this.lo^a.lo,this.mi^a.mi,this.hi^a.hi)};c.prototype.shift_left=function(a){a=a&63;if(a==0)return this;if(a<24)return new
+c(this.lo<<a,this.mi<<a|this.lo>>24-a,this.hi<<a|this.mi>>24-a);if(a<48)return new
+c(0,this.lo<<a-24,this.mi<<a-24|this.lo>>48-a);return new
+c(0,0,this.lo<<a-48)};c.prototype.shift_right_unsigned=function(a){a=a&63;if(a==0)return this;if(a<24)return new
+c(this.lo>>a|this.mi<<24-a,this.mi>>a|this.hi<<24-a,this.hi>>a);if(a<48)return new
+c(this.mi>>a-24|this.hi<<48-a,this.hi>>a-24,0);return new
+c(this.hi>>a-48,0,0)};c.prototype.shift_right=function(a){a=a&63;if(a==0)return this;var
+d=this.hi<<16>>16;if(a<24)return new
+c(this.lo>>a|this.mi<<24-a,this.mi>>a|d<<24-a,this.hi<<16>>a>>>16);var
+b=this.hi<<16>>31;if(a<48)return new
+c(this.mi>>a-24|this.hi<<48-a,this.hi<<16>>a-24>>16,b&V);return new
+c(this.hi<<16>>a-32,b,b)};c.prototype.lsl1=function(){this.hi=this.hi<<1|this.mi>>23;this.mi=(this.mi<<1|this.lo>>23)&af;this.lo=this.lo<<1&af};c.prototype.lsr1=function(){this.lo=(this.lo>>>1|this.mi<<23)&af;this.mi=(this.mi>>>1|this.hi<<23)&af;this.hi=this.hi>>>1};c.prototype.udivmod=function(f){var
+d=0,b=this.copy(),a=f.copy(),e=new
+c(0,0,0);while(b.ucompare(a)>0){d++;a.lsl1()}while(d>=0){d--;e.lsl1();if(b.ucompare(a)>=0){e.lo++;b=b.sub(a)}a.lsr1()}return{quotient:e,modulus:b}};c.prototype.div=function(a){var
+b=this;if(a.isZero())b4();var
+d=b.hi^a.hi;if(b.hi&U)b=b.neg();if(a.hi&U)a=a.neg();var
+c=b.udivmod(a).quotient;if(d&U)c=c.neg();return c};c.prototype.mod=function(b){var
+a=this;if(b.isZero())b4();var
+d=a.hi;if(a.hi&U)a=a.neg();if(b.hi&U)b=b.neg();var
+c=a.udivmod(b).modulus;if(d&U)c=c.neg();return c};c.prototype.toInt=function(){return this.lo|this.mi<<24};c.prototype.toFloat=function(){return(this.hi<<16)*Math.pow(2,32)+this.mi*Math.pow(2,24)+this.lo};c.prototype.toArray=function(){return[this.hi>>8,this.hi&ag,this.mi>>16,this.mi>>8&ag,this.mi&ag,this.lo>>16,this.lo>>8&ag,this.lo&ag]};c.prototype.lo32=function(){return this.lo|(this.mi&ag)<<24};c.prototype.hi32=function(){return this.mi>>>8&V|this.hi<<16};function
+bi(b,d,a){return new
+c(b,d,a)}function
+bh(a){if(!isFinite(a)){if(isNaN(a))return bi(1,0,cV);return a>0?bi(0,0,cV):bi(0,0,0xfff0)}var
+f=a==0&&1/a==-Infinity?U:a>=0?0:U;if(f)a=-a;var
+b=iQ(a)+1023;if(b<=0){b=0;a/=Math.pow(2,-cN)}else{a/=Math.pow(2,b-dw);if(a<16){a*=2;b-=1}if(b==0)a/=2}var
+d=Math.pow(2,24),c=a|0;a=(a-c)*d;var
+e=a|0;a=(a-e)*d;var
+g=a|0;c=c&bF|f|b<<4;return bi(g,e,c)}function
+aS(a){return a.toArray()}function
+dM(c,b,g){c.write(32,b.dims.length);c.write(32,b.kind|b.layout<<8);if(b.caml_custom==bN)for(var
+a=0;a<b.dims.length;a++)if(b.dims[a]<V)c.write(16,b.dims[a]);else{c.write(16,V);c.write(32,0);c.write(32,b.dims[a])}else
+for(var
+a=0;a<b.dims.length;a++)c.write(32,b.dims[a]);switch(b.kind){case
+2:case
+3:case
+12:for(var
+a=0;a<b.data.length;a++)c.write(8,b.data[a]);break;case
+4:case
+5:for(var
+a=0;a<b.data.length;a++)c.write(16,b.data[a]);break;case
+6:for(var
+a=0;a<b.data.length;a++)c.write(32,b.data[a]);break;case
+8:case
+9:c.write(8,0);for(var
+a=0;a<b.data.length;a++)c.write(32,b.data[a]);break;case
+7:for(var
+a=0;a<b.data.length/2;a++){var
+e=aS(b.get(a));for(var
+d=0;d<8;d++)c.write(8,e[d])}break;case
+1:for(var
+a=0;a<b.data.length;a++){var
+e=aS(bh(b.get(a)));for(var
+d=0;d<8;d++)c.write(8,e[d])}break;case
+0:for(var
+a=0;a<b.data.length;a++){var
+e=bU(b.get(a));c.write(32,e)}break;case
+10:for(var
+a=0;a<b.data.length/2;a++){var
+d=b.get(a);c.write(32,bU(d[1]));c.write(32,bU(d[2]))}break;case
+11:for(var
+a=0;a<b.data.length/2;a++){var
+f=b.get(a),e=aS(bh(f[1]));for(var
+d=0;d<8;d++)c.write(8,e[d]);var
+e=aS(bh(f[2]));for(var
+d=0;d<8;d++)c.write(8,e[d])}break}g[0]=(4+b.dims.length)*4;g[1]=(4+b.dims.length)*8}function
+dK(a){switch(a){case
+7:case
+10:case
+11:return 2;default:return 1}}function
+h4(c,f){var
+b=e,a;switch(c){case
+0:a=b.Float32Array;break;case
+1:a=b.Float64Array;break;case
+2:a=b.Int8Array;break;case
+3:a=b.Uint8Array;break;case
+4:a=b.Int16Array;break;case
+5:a=b.Uint16Array;break;case
+6:a=b.Int32Array;break;case
+7:a=b.Int32Array;break;case
+8:a=b.Int32Array;break;case
+9:a=b.Int32Array;break;case
+10:a=b.Float32Array;break;case
+11:a=b.Float64Array;break;case
+12:a=b.Uint8Array;break}if(!a)v("Bigarray.create: unsupported kind");var
+d=new
+a(f*dK(c));return d}function
+bV(c){var
+a=new(e.Int32Array)(1);a[0]=c;var
+b=new(e.Float32Array)(a.buffer);return b[0]}function
+aR(a){return new
+c(a[7]<<0|a[6]<<8|a[5]<<16,a[4]<<0|a[3]<<8|a[2]<<16,a[1]<<0|a[0]<<8)}function
+bW(d){var
+f=d.lo,g=d.mi,b=d.hi,c=(b&0x7fff)>>4;if(c==2047)return(f|g|b&bF)==0?b&U?-Infinity:Infinity:NaN;var
+e=Math.pow(2,-24),a=(f*e+g)*e+(b&bF);if(c>0){a+=16;a*=Math.pow(2,c-dw)}else
+a*=Math.pow(2,-cN);if(b&U)a=-a;return a}function
+bR(b){var
+d=b.length,c=1;for(var
+a=0;a<d;a++){if(b[a]<0)v("Bigarray.create: negative dimension");c=c*b[a]}return c}function
+ih(b,a){return new
+c(b&af,b>>>24&ag|(a&V)<<8,a>>>16&V)}function
+bX(a){return a.hi32()}function
+bY(a){return a.lo32()}var
+h5=ds;function
+al(c,d,b,a){this.kind=c;this.layout=d;this.dims=b;this.data=a}al.prototype.caml_custom=h5;al.prototype.offset=function(b){var
+c=0;if(typeof
+b==="number")b=[b];if(!(b
+instanceof
+Array))v("bigarray.js: invalid offset");if(this.dims.length!=b.length)v("Bigarray.get/set: bad number of dimensions");if(this.layout==0)for(var
+a=0;a<this.dims.length;a++){if(b[a]<0||b[a]>=this.dims[a])bd();c=c*this.dims[a]+b[a]}else
+for(var
+a=this.dims.length-1;a>=0;a--){if(b[a]<1||b[a]>this.dims[a])bd();c=c*this.dims[a]+(b[a]-1)}return c};al.prototype.get=function(a){switch(this.kind){case
+7:var
+d=this.data[a*2+0],b=this.data[a*2+1];return ih(d,b);case
+10:case
+11:var
+e=this.data[a*2+0],c=this.data[a*2+1];return[a$,e,c];default:return this.data[a]}};al.prototype.set=function(a,b){switch(this.kind){case
+7:this.data[a*2+0]=bY(b);this.data[a*2+1]=bX(b);break;case
+10:case
+11:this.data[a*2+0]=b[1];this.data[a*2+1]=b[2];break;default:this.data[a]=b;break}return 0};al.prototype.fill=function(b){switch(this.kind){case
+7:var
+c=bY(b),e=bX(b);if(c==e)this.data.fill(c);else
+for(var
+a=0;a<this.data.length;a++)this.data[a]=a%2==0?c:e;break;case
+10:case
+11:var
+d=b[1],f=b[2];if(d==f)this.data.fill(d);else
+for(var
+a=0;a<this.data.length;a++)this.data[a]=a%2==0?d:f;break;default:this.data.fill(b);break}};al.prototype.compare=function(b,g){if(this.layout!=b.layout||this.kind!=b.kind){var
+e=this.kind|this.layout<<8,f=b.kind|b.layout<<8;return f-e}if(this.dims.length!=b.dims.length)return b.dims.length-this.dims.length;for(var
+a=0;a<this.dims.length;a++)if(this.dims[a]!=b.dims[a])return this.dims[a]<b.dims[a]?-1:1;switch(this.kind){case
+0:case
+1:case
+10:case
+11:var
+c,d;for(var
+a=0;a<this.data.length;a++){c=this.data[a];d=b.data[a];if(c<d)return-1;if(c>d)return 1;if(c!=d){if(!g)return NaN;if(c==c)return 1;if(d==d)return-1}}break;case
+7:for(var
+a=0;a<this.data.length;a+=2){if(this.data[a+1]<b.data[a+1])return-1;if(this.data[a+1]>b.data[a+1])return 1;if(this.data[a]>>>0<b.data[a]>>>0)return-1;if(this.data[a]>>>0>b.data[a]>>>0)return 1}break;case
+2:case
+3:case
+4:case
+5:case
+6:case
+8:case
+9:case
+12:for(var
+a=0;a<this.data.length;a++){if(this.data[a]<b.data[a])return-1;if(this.data[a]>b.data[a])return 1}break}return 0};function
+aB(c,d,b,a){this.kind=c;this.layout=d;this.dims=b;this.data=a}aB.prototype=new
+al();aB.prototype.offset=function(a){if(typeof
+a!=="number")if(a
+instanceof
+Array&&a.length==1)a=a[0];else
+v("Ml_Bigarray_c_1_1.offset");if(a<0||a>=this.dims[0])bd();return a};aB.prototype.get=function(a){return this.data[a]};aB.prototype.set=function(a,b){this.data[a]=b;return 0};aB.prototype.fill=function(a){this.data.fill(a);return 0};function
+dI(c,d,a,b){var
+e=dK(c);if(bR(a)*e!=b.length)v("length doesn't match dims");if(d==0&&a.length==1&&e==1)return new
+aB(c,d,a,b);return new
+al(c,d,a,b)}function
+S(a){b3(p.Failure,a)}function
+dJ(b,v,r){var
+i=b.read32s();if(i<0||i>16)S("input_value: wrong number of bigarray dimensions");var
+p=b.read32s(),j=p&ag,o=p>>8&1,h=[];if(r==bN)for(var
+a=0;a<i;a++){var
+n=b.read16u();if(n==V){var
+t=b.read32u(),u=b.read32u();if(t!=0)S("input_value: bigarray dimension overflow in 32bit");n=u}h.push(n)}else
+for(var
+a=0;a<i;a++)h.push(b.read32u());var
+d=bR(h),f=h4(j,d),g=dI(j,o,h,f);switch(j){case
+2:for(var
+a=0;a<d;a++)f[a]=b.read8s();break;case
+3:case
+12:for(var
+a=0;a<d;a++)f[a]=b.read8u();break;case
+4:for(var
+a=0;a<d;a++)f[a]=b.read16s();break;case
+5:for(var
+a=0;a<d;a++)f[a]=b.read16u();break;case
+6:for(var
+a=0;a<d;a++)f[a]=b.read32s();break;case
+8:case
+9:var
+s=b.read8u();if(s)S("input_value: cannot read bigarray with 64-bit OCaml ints");for(var
+a=0;a<d;a++)f[a]=b.read32s();break;case
+7:var
+e=new
+Array(8);for(var
+a=0;a<d;a++){for(var
+c=0;c<8;c++)e[c]=b.read8u();var
+q=aR(e);g.set(a,q)}break;case
+1:var
+e=new
+Array(8);for(var
+a=0;a<d;a++){for(var
+c=0;c<8;c++)e[c]=b.read8u();var
+k=bW(aR(e));g.set(a,k)}break;case
+0:for(var
+a=0;a<d;a++){var
+k=bV(b.read32s());g.set(a,k)}break;case
+10:for(var
+a=0;a<d;a++){var
+m=bV(b.read32s()),l=bV(b.read32s());g.set(a,[a$,m,l])}break;case
+11:var
+e=new
+Array(8);for(var
+a=0;a<d;a++){for(var
+c=0;c<8;c++)e[c]=b.read8u();var
+m=bW(aR(e));for(var
+c=0;c<8;c++)e[c]=b.read8u();var
+l=bW(aR(e));g.set(a,[a$,m,l])}break}v[0]=(4+i)*4;return dI(j,o,h,f)}function
+dH(a,b,c){return a.compare(b,c)}function
+b1(a,b){return Math.imul(a,b)}function
+ai(b,a){a=b1(a,0xcc9e2d51|0);a=a<<15|a>>>32-15;a=b1(a,0x1b873593);b^=a;b=b<<13|b>>>32-13;return(b+(b<<2)|0)+(0xe6546b64|0)|0}function
+ic(a,b){a=ai(a,bY(b));a=ai(a,bX(b));return a}function
+dY(a,b){return ic(a,bh(b))}function
+dL(c){var
+b=bR(c.dims),d=0;switch(c.kind){case
+2:case
+3:case
+12:if(b>bb)b=bb;var
+e=0,a=0;for(a=0;a+4<=c.data.length;a+=4){e=c.data[a+0]|c.data[a+1]<<8|c.data[a+2]<<16|c.data[a+3]<<24;d=ai(d,e)}e=0;switch(b&3){case
+3:e=c.data[a+2]<<16;case
+2:e|=c.data[a+1]<<8;case
+1:e|=c.data[a+0];d=ai(d,e)}break;case
+4:case
+5:if(b>aN)b=aN;var
+e=0,a=0;for(a=0;a+2<=c.data.length;a+=2){e=c.data[a+0]|c.data[a+1]<<16;d=ai(d,e)}if((b&1)!=0)d=ai(d,c.data[a]);break;case
+6:if(b>64)b=64;for(var
+a=0;a<b;a++)d=ai(d,c.data[a]);break;case
+8:case
+9:if(b>64)b=64;for(var
+a=0;a<b;a++)d=ai(d,c.data[a]);break;case
+7:if(b>32)b=32;b*=2;for(var
+a=0;a<b;a++)d=ai(d,c.data[a]);break;case
+10:b*=2;case
+0:if(b>64)b=64;for(var
+a=0;a<b;a++)d=dY(d,c.data[a]);break;case
+11:b*=2;case
+1:if(b>32)b=32;for(var
+a=0;a<b;a++)d=dY(d,c.data[a]);break}return d}function
+ie(a,b){b[0]=4;return a.read32s()}function
+iA(a,b){switch(a.read8u()){case
+1:b[0]=4;return a.read32s();case
+2:S("input_value: native integer value too large");default:S("input_value: ill-formed native integer")}}function
+ir(c,d){var
+b=new
+Array(8);for(var
+a=0;a<8;a++)b[a]=c.read8u();d[0]=8;return aR(b)}function
+im(e,d,b){var
+c=aS(d);for(var
+a=0;a<8;a++)e.write(8,c[a]);b[0]=8;b[1]=8}function
+ig(a,b,c){return a.compare(b)}function
+ij(a){return a.lo32()^a.hi32()}var
+dV={"_j":{deserialize:ir,serialize:im,fixed_length:8,compare:ig,hash:ij},"_i":{deserialize:ie,fixed_length:4},"_n":{deserialize:iA,fixed_length:4},"_bigarray":{deserialize:function(a,b){return dJ(a,b,ds)},serialize:dM,compare:dH,hash:dL},"_bigarr02":{deserialize:function(a,b){return dJ(a,b,bN)},serialize:dM,compare:dH,hash:dL}};function
+bS(a){return dV[a.caml_custom]&&dV[a.caml_custom].compare}function
+dS(f,c,d,e){var
+b=bS(c);if(b){var
+a=d>0?b(c,f,e):b(f,c,e);if(e&&a!=a)return d;if(+a!=+a)return+a;if((a|0)!=0)return a|0}return d}function
+bj(a){return a
+instanceof
+ah}function
+bZ(a){return bj(a)}function
+dT(a){if(typeof
+a==="number")return aL;else
+if(bj(a))return bK;else
+if(bZ(a))return 1252;else
+if(a
+instanceof
+Array&&a[0]===a[0]>>>0&&a[0]<=c9){var
+b=a[0]|0;return b==a$?0:b}else
+if(a
+instanceof
+String)return dk;else
+if(typeof
+a=="string")return dk;else
+if(a
+instanceof
+Number)return aL;else
+if(a&&a.caml_custom)return bH;else
+if(a&&a.compare)return 1256;else
+if(typeof
+a=="function")return 1247;else
+if(typeof
+a=="symbol")return 1251;return 1001}function
+d0(a,b){if(a<b)return-1;if(a==b)return 0;return 1}function
+dO(a,b){a.t&6&&aC(a);b.t&6&&aC(b);return a.c<b.c?-1:a.c>b.c?1:0}function
+iS(a,b){return dO(a,b)}function
+aP(a,b,d){var
+e=[];for(;;){if(!(d&&a===b)){var
+f=dT(a);if(f==bc){a=a[1];continue}var
+g=dT(b);if(g==bc){b=b[1];continue}if(f!==g){if(f==aL){if(g==bH)return dS(a,b,-1,d);return-1}if(g==aL){if(f==bH)return dS(b,a,1,d);return 1}return f<g?-1:1}switch(f){case
+247:v(bE);break;case
+248:var
+c=d0(a[2],b[2]);if(c!=0)return c|0;break;case
+249:v(bE);break;case
+250:v("equal: got Forward_tag, should not happen");break;case
+251:v("equal: abstract value");break;case
+252:if(a!==b){var
+c=dO(a,b);if(c!=0)return c|0}break;case
+253:v("equal: got Double_tag, should not happen");break;case
+254:v("equal: got Double_array_tag, should not happen");break;case
+255:v("equal: got Custom_tag, should not happen");break;case
+1247:v(bE);break;case
+1255:var
+i=bS(a);if(i!=bS(b))return a.caml_custom<b.caml_custom?-1:1;if(!i)v("compare: abstract value");var
+c=i(a,b,d);if(c!=c)return d?-1:c;if(c!==(c|0))return-1;if(c!=0)return c|0;break;case
+1256:var
+c=a.compare(b,d);if(c!=c)return d?-1:c;if(c!==(c|0))return-1;if(c!=0)return c|0;break;case
+1000:a=+a;b=+b;if(a<b)return-1;if(a>b)return 1;if(a!=b){if(!d)return NaN;if(a==a)return 1;if(b==b)return-1}break;case
+1001:if(a<b)return-1;if(a>b)return 1;if(a!=b){if(!d)return NaN;if(a==a)return 1;if(b==b)return-1}break;case
+1251:if(a!==b){if(!d)return NaN;return 1}break;case
+1252:var
+a=_(a),b=_(b);if(a!==b){if(a<b)return-1;if(a>b)return 1}break;case
+12520:var
+a=a.toString(),b=b.toString();if(a!==b){if(a<b)return-1;if(a>b)return 1}break;case
+246:case
+254:default:if(a.length!=b.length)return a.length<b.length?-1:1;if(a.length>1)e.push(a,b,1);break}}if(e.length==0)return 0;var
+h=e.pop();b=e.pop();a=e.pop();if(h+1<a.length)e.push(a,b,h+1);a=a[h];b=b[h]}}function
+dR(a,b){return aP(a,b,true)}function
+s(a){if(a<0)v("Bytes.create");return new
+ah(a?2:9,d,a)}function
+dW(a,b){return+(aP(a,b,false)==0)}function
+h_(a,c,b,e){if(b>0)if(c==0&&(b>=a.l||a.t==2&&b>=a.c.length))if(e==0){a.c=d;a.t=2}else{a.c=aE(b,String.fromCharCode(e));a.t=b==a.l?0:2}else{if(a.t!=4)bf(a);for(b+=c;c<b;c++)a.c[c]=e}return 0}function
+b2(d){d=_(d);var
+e=d.length;if(e>31)v("format_int: format too long");var
+a={justify:ay,signstyle:ar,filler:M,alternate:false,base:0,signedconv:false,width:0,uppercase:false,sign:1,prec:-1,conv:"f"};for(var
+c=0;c<e;c++){var
+b=d.charAt(c);switch(b){case"-":a.justify=ar;break;case"+":case" ":a.signstyle=b;break;case"0":a.filler=I;break;case"#":a.alternate=true;break;case"1":case"2":case"3":case"4":case"5":case"6":case"7":case"8":case"9":a.width=0;while(b=d.charCodeAt(c)-48,b>=0&&b<=9){a.width=a.width*10+b;c++}c--;break;case".":a.prec=0;c++;while(b=d.charCodeAt(c)-48,b>=0&&b<=9){a.prec=a.prec*10+b;c++}c--;case"d":case"i":a.signedconv=true;case"u":a.base=10;break;case"x":a.base=16;break;case"X":a.base=16;a.uppercase=true;break;case"o":a.base=8;break;case"e":case"f":case"g":a.signedconv=true;a.conv=b;break;case"E":case"F":case"G":a.signedconv=true;a.uppercase=true;a.conv=b.toLowerCase();break}}return a}function
+bT(b,g){if(b.uppercase)g=g.toUpperCase();var
+f=g.length;if(b.signedconv&&(b.sign<0||b.signstyle!=ar))f++;if(b.alternate){if(b.base==8)f+=1;if(b.base==16)f+=2}var
+c=d;if(b.justify==ay&&b.filler==M)for(var
+e=f;e<b.width;e++)c+=M;if(b.signedconv)if(b.sign<0)c+=ar;else
+if(b.signstyle!=ar)c+=b.signstyle;if(b.alternate&&b.base==8)c+=I;if(b.alternate&&b.base==16)c+=cU;if(b.justify==ay&&b.filler==I)for(var
+e=f;e<b.width;e++)c+=I;c+=g;if(b.justify==ar)for(var
+e=f;e<b.width;e++)c+=M;return a(c)}function
+dX(i,c){function
+j(a,b){if(Math.abs(a)<1.0)return a.toFixed(b);else{var
+c=parseInt(a.toString().split(ay)[1]);if(c>20){c-=20;a/=Math.pow(10,c);a+=new
+Array(c+1).join(I);if(b>0)a=a+az+new
+Array(b+1).join(I);return a}else
+return a.toFixed(b)}}var
+a,e=b2(i),d=e.prec<0?6:e.prec;if(c<0||c==0&&1/c==-Infinity){e.sign=-1;c=-c}if(isNaN(c)){a=bJ;e.filler=M}else
+if(!isFinite(c)){a="inf";e.filler=M}else
+switch(e.conv){case"e":var
+a=c.toExponential(d),b=a.length;if(a.charAt(b-3)==bP)a=a.slice(0,b-1)+I+a.slice(b-1);break;case"f":a=j(c,d);break;case"g":d=d?d:1;a=c.toExponential(d-1);var
+h=a.indexOf(bP),g=+a.slice(h+1);if(g<-4||c>=1e21||c.toFixed(0).length>d){var
+b=h-1;while(a.charAt(b)==I)b--;if(a.charAt(b)==az)b--;a=a.slice(0,b+1)+a.slice(h);b=a.length;if(a.charAt(b-3)==bP)a=a.slice(0,b-1)+I+a.slice(b-1);break}else{var
+f=d;if(g<0){f-=g+1;a=c.toFixed(f)}else
+while(a=c.toFixed(f),a.length>d+1)f--;if(f){var
+b=a.length-1;while(a.charAt(b)==I)b--;if(a.charAt(b)==az)b--;a=a.slice(0,b+1)}}break}return bT(e,a)}function
+bg(f,c){if(_(f)==c0)return a(d+c);var
+b=b2(f);if(c<0)if(b.signedconv){b.sign=-1;c=-c}else
+c>>>=0;var
+e=c.toString(b.base);if(b.prec>=0){b.filler=M;var
+g=b.prec-e.length;if(g>0)e=aE(g,I)+e}return bT(b,e)}var
+iC=0;function
+Z(){return iC++}function
+bk(a){return a.toUtf16()}if(e.process&&e.process.cwd)var
+aQ=e.process.cwd().replace(/\\/g,ae);else
+var
+aQ="/static";if(aQ.slice(-1)!==ae)aQ+=ae;function
+iu(a){a=bk(a);if(a.charCodeAt(0)!=47)a=aQ+a;var
+e=a.split(ae),b=[];for(var
+c=0;c<e.length;c++)switch(e[c]){case"..":if(b.length>1)b.pop();break;case".":break;case"":if(b.length==0)b.push(d);break;default:b.push(e[c]);break}b.orig=a;return b}function
+h7(a){return new
+ah(4,a,a.length)}function
+iM(f){for(var
+g=d,b=g,a,i,c=0,h=f.length;c<h;c++){a=f.charCodeAt(c);if(a<R){for(var
+e=c+1;e<h&&(a=f.charCodeAt(e))<R;e++);if(e-c>cW){b.substr(0,1);g+=b;b=d;g+=f.slice(c,e)}else
+b+=f.slice(c,e);if(e==h)break;c=e}if(a<c_){b+=String.fromCharCode(0xc0|a>>6);b+=String.fromCharCode(R|a&aA)}else
+if(a<0xd800||a>=dc)b+=String.fromCharCode(dd|a>>12,R|a>>6&aA,R|a&aA);else
+if(a>=0xdbff||c+1==h||(i=f.charCodeAt(c+1))<c5||i>dc)b+="\xef\xbf\xbd";else{c++;a=(a<<10)+i-0x35fdc00;b+=String.fromCharCode(dh|a>>18,R|a>>12&aA,R|a>>6&aA,R|a&aA)}if(b.length>aM){b.substr(0,1);g+=b;b=d}}return g+b}function
+h8(a){var
+b=9;if(!d$(a))b=8,a=iM(a);return new
+ah(b,a,a.length)}function
+aa(a){return h8(a)}function
+g(a){b3(p.Sys_error,a)}function
+iF(a){a=_(a);g(a+": No such file or directory")}function
+K(a){return a.l}function
+dF(){}function
+z(a){this.data=a}z.prototype=new
+dF();z.prototype.truncate=function(a){var
+b=this.data;this.data=s(a|0);am(b,0,this.data,0,a)};z.prototype.length=function(){return K(this.data)};z.prototype.write=function(b,d,g,a){var
+c=this.length();if(b+a>=c){var
+e=s(b+a),f=this.data;this.data=e;am(f,0,this.data,0,c)}Y(d,g,this.data,b,a);return 0};z.prototype.read=function(c,a,d,b){var
+e=this.length();am(this.data,c,a,d,b);return 0};z.prototype.read_one=function(a){return dP(this.data,a)};z.prototype.close=function(){};z.prototype.constructor=z;function
+N(b,a){this.content={};this.root=b;this.lookupFun=a}N.prototype.nm=function(a){return this.root+a};N.prototype.lookup=function(b){if(!this.content[b]&&this.lookupFun){var
+c=this.lookupFun(a(this.root),a(b));if(c!==0)this.content[b]=new
+z(an(c[1]))}};N.prototype.exists=function(a){if(a==d)return 1;var
+c=a+ae,e=new
+RegExp(bL+c);for(var
+b
+in
+this.content)if(b.match(e))return 1;this.lookup(a);return this.content[a]?1:0};N.prototype.readdir=function(c){var
+g=c==d?d:c+ae,h=new
+RegExp(bL+g+dq),e={},b=[];for(var
+f
+in
+this.content){var
+a=f.match(h);if(a&&!e[a[1]]){e[a[1]]=true;b.push(a[1])}}return b};N.prototype.is_dir=function(a){var
+e=a==d?d:a+ae,f=new
+RegExp(bL+e+dq),g=[];for(var
+c
+in
+this.content){var
+b=c.match(f);if(b)return 1}return 0};N.prototype.unlink=function(a){var
+b=this.content[a]?true:false;delete
+this.content[a];return b};N.prototype.open=function(a,b){if(b.rdonly&&b.wronly)g(this.nm(a)+dr);if(b.text&&b.binary)g(this.nm(a)+cS);this.lookup(a);if(this.content[a]){if(this.is_dir(a))g(this.nm(a)+" : is a directory");if(b.create&&b.excl)g(this.nm(a)+dp);var
+c=this.content[a];if(b.truncate)c.truncate();return c}else
+if(b.create){this.content[a]=new
+z(s(0));return this.content[a]}else
+iF(this.nm(a))};N.prototype.register=function(b,a){if(this.content[b])g(this.nm(b)+dp);if(bj(a))this.content[b]=new
+z(a);if(bZ(a))this.content[b]=new
+z(an(a));else
+if(a
+instanceof
+Array)this.content[b]=new
+z(h7(a));else
+if(typeof
+a==="string")this.content[b]=new
+z(dQ(a));else
+if(a.toString){var
+c=an(aa(a.toString()));this.content[b]=new
+z(c)}else
+g(this.nm(b)+" : registering file with invalid content type")};N.prototype.constructor=N;function
+k(a){return K(a)}function
+w(b,a){return aO(b,a)}function
+h3(d){var
+c=k(d),b=new
+Array(c),a=0;for(;a<c;a++)b[a]=w(d,a);return b}function
+dG(a){if(a.t!=4)bf(a);return a.c}function
+X(a){this.fs=require("fs");this.fd=a}X.prototype=new
+dF();X.prototype.truncate=function(a){try{this.fs.ftruncateSync(this.fd,a|0)}catch(a){g(a.toString())}};X.prototype.length=function(){try{return this.fs.fstatSync(this.fd).size}catch(a){g(a.toString())}};X.prototype.write=function(h,b,c,f){var
+a=h3(b);if(!(a
+instanceof
+e.Uint8Array))a=new(e.Uint8Array)(a);var
+d=e.Buffer.from(a);try{this.fs.writeSync(this.fd,d,c,f,h)}catch(a){g(a.toString())}return 0};X.prototype.read=function(i,d,c,h){var
+a=dG(d);if(!(a
+instanceof
+e.Uint8Array))a=new(e.Uint8Array)(a);var
+f=e.Buffer.from(a);try{this.fs.readSync(this.fd,f,c,h,i)}catch(a){g(a.toString())}for(var
+b=0;b<h;b++)as(d,c+b,f[c+b]);return 0};X.prototype.read_one=function(c){var
+b=new(e.Uint8Array)(1),a=e.Buffer.from(b);try{this.fs.readSync(this.fd,a,0,1,c)}catch(a){g(a.toString())}return a[0]};X.prototype.close=function(){try{this.fs.closeSync(this.fd)}catch(a){g(a.toString())}};X.prototype.constructor=X;function
+W(a){this.fs=require("fs");this.root=a}W.prototype.nm=function(a){return this.root+a};W.prototype.exists=function(a){try{return this.fs.existsSync(this.nm(a))?1:0}catch(a){g(a.toString())}};W.prototype.readdir=function(a){try{return this.fs.readdirSync(this.nm(a))}catch(a){g(a.toString())}};W.prototype.is_dir=function(a){try{return this.fs.statSync(this.nm(a)).isDirectory()?1:0}catch(a){g(a.toString())}};W.prototype.unlink=function(a){try{var
+b=this.fs.existsSync(this.nm(a))?1:0;this.fs.unlinkSync(this.nm(a))}catch(a){g(a.toString())}return b};W.prototype.open=function(f,c){var
+a=require("constants"),b=0;for(var
+e
+in
+c)switch(e){case"rdonly":b|=a.O_RDONLY;break;case"wronly":b|=a.O_WRONLY;break;case"append":b|=a.O_WRONLY|a.O_APPEND;break;case"create":b|=a.O_CREAT;break;case"truncate":b|=a.O_TRUNC;break;case"excl":b|=a.O_EXCL;break;case"binary":b|=a.O_BINARY;break;case"text":b|=a.O_TEXT;break;case"nonblock":b|=a.O_NONBLOCK;break}try{var
+d=this.fs.openSync(this.nm(f),b);return new
+X(d)}catch(a){g(a.toString())}};W.prototype.rename=function(b,a){try{this.fs.renameSync(this.nm(b),this.nm(a))}catch(a){g(a.toString())}};W.prototype.constructor=W;var
+aD=aQ.match(/[^\/]*\//)[0];function
+iN(){return typeof
+e.process!=="undefined"&&typeof
+e.process.versions!=="undefined"&&typeof
+e.process.versions.node!=="undefined"&&e.process.platform!=="browser"}var
+aV=[];if(iN())aV.push({path:aD,device:new
+W(aD)});else
+aV.push({path:aD,device:new
+N(aD)});aV.push({path:aD+cO,device:new
+N(aD+cO)});function
+ea(b){var
+f=iu(b),b=f.join(ae),e=b+ae,c;for(var
+d=0;d<aV.length;d++){var
+a=aV[d];if(e.search(a.path)==0&&(!c||c.path.length<a.path.length))c={path:a.path,device:a.device,rest:b.substring(a.path.length,b.length)}}return c}function
+dU(c,b){var
+c=typeof
+c=="string"?a(c):c,b=typeof
+b=="string"?a(b):b,d=ea(c);if(!d.device.register)S("cannot register file");d.device.register(d.rest,b);return 0}function
+h$(){var
+b=e.caml_fs_tmp;if(b)for(var
+a=0;a<b.length;a++)dU(b[a].name,b[a].content);e.caml_create_file=dU;e.caml_fs_tmp=[];return 0}function
+ia(a,b){return+(aP(a,b,false)>=0)}function
+ib(a,b){return+(aP(a,b,false)>0)}function
+id(a,c,l){if(!isFinite(a)){if(isNaN(a))return aa(bJ);return aa(a>0?dj:"-infinity")}var
+j=a==0&&1/a==-Infinity?1:a>=0?0:1;if(j)a=-a;var
+e=0;if(a==0);else
+if(a<1)while(a<1&&e>-1022){a*=2;e--}else
+while(a>=2){a/=2;e++}var
+k=e<0?d:ay,f=d;if(j)f=ar;else
+switch(l){case
+43:f=ay;break;case
+32:f=M;break;default:break}if(c>=0&&c<13){var
+h=Math.pow(2,c*4);a=Math.round(a*h)/h}var
+b=a.toString(16);if(c>=0){var
+i=b.indexOf(az);if(i<0)b+=az+aE(c,I);else{var
+g=i+1+c;if(b.length<g)b+=aE(g-b.length,I);else
+b=b.substr(0,g)}}return aa(f+cU+b+"p"+k+e.toString(10))}function
+il(a){return+a.isZero()}function
+ip(a){return new
+c(a&af,a>>24&af,a>>31&V)}function
+iq(a){return a.toInt()}function
+ik(a){return+a.isNeg()}function
+io(a){return a.neg()}function
+ii(h,c){var
+a=b2(h);if(a.signedconv&&ik(c)){a.sign=-1;c=io(c)}var
+b=d,i=ip(a.base),g="0123456789abcdef";do{var
+f=c.udivmod(i);c=f.quotient;b=g.charAt(iq(f.modulus))+b}while(!il(c));if(a.prec>=0){a.filler=M;var
+e=a.prec-b.length;if(e>0)b=aE(e,I)+b}return bT(a,b)}function
+iD(c){var
+a=0,e=k(c),b=10,d=1;if(e>0)switch(w(c,a)){case
+45:a++;d=-1;break;case
+43:a++;d=1;break}if(a+1<e&&w(c,a)==48)switch(w(c,a+1)){case
+120:case
+88:b=16;a+=2;break;case
+111:case
+79:b=8;a+=2;break;case
+98:case
+66:b=2;a+=2;break;case
+117:case
+85:a+=2;break}return[a,d,b]}function
+d7(a){if(a>=48&&a<=57)return a-48;if(a>=65&&a<=90)return a-55;if(a>=97&&a<=dA)return a-87;return-1}function
+is(f){var
+h=iD(f),c=h[0],i=h[1],d=h[2],g=k(f),j=-1>>>0,e=c<g?w(f,c):0,b=d7(e);if(b<0||b>=d)S(ba);var
+a=b;for(c++;c<g;c++){e=w(f,c);if(e==95)continue;b=d7(e);if(b<0||b>=d)break;a=d*a+b;if(a>j)S(ba)}if(c!=g)S(ba);a=i*a;if(d==10&&(a|0)!=a)S(ba);return a|0}function
+d1(d){return function(){var
+c=arguments.length,b=new
+Array(c+1);b[0]=this;for(var
+a=0;a<c;a++)b[a+1]=arguments[a];return ao(d,b)}}function
+aT(b){b=_(b);var
+d=b.length/2,c=new
+Array(d);for(var
+a=0;a<d;a++)c[a]=(b.charCodeAt(2*a)|b.charCodeAt(2*a+1)<<8)<<16>>16;return c}function
+it(b,t,a){var
+n=2,o=3,r=5,d=6,h=7,g=8,j=9,m=1,l=2,q=3,s=4,p=5;if(!b.lex_default){b.lex_base=aT(b[m]);b.lex_backtrk=aT(b[l]);b.lex_check=aT(b[p]);b.lex_trans=aT(b[s]);b.lex_default=aT(b[q])}var
+e,c=t,k=dG(a[n]);if(c>=0){a[h]=a[r]=a[d];a[g]=-1}else
+c=-c-1;for(;;){var
+f=b.lex_base[c];if(f<0)return-f-1;var
+i=b.lex_backtrk[c];if(i>=0){a[h]=a[d];a[g]=i}if(a[d]>=a[o])if(a[j]==0)return-c-1;else
+e=bb;else{e=k[a[d]];a[d]++}if(b.lex_check[f+e]==c)c=b.lex_trans[f+e];else
+c=b.lex_default[c];if(c<0){a[d]=a[h];if(a[g]==-1)S("lexing: empty token");else
+return a[g]}else
+if(e==bb)a[j]=0}}var
+$=new
+Array();function
+b0(c){var
+a=$[c];if(!a.opened)g("Cannot flush a closed channel");if(!a.buffer||a.buffer==d)return 0;if(a.fd&&p.fds[a.fd]&&p.fds[a.fd].output){var
+b=p.fds[a.fd].output;switch(b.length){case
+2:b(c,a.buffer);break;default:b(a.buffer)}}a.buffer=d;return 0}function
+d9(e,f){var
+b=$[e],d=a(f),c=k(d);b.file.write(b.offset,d,0,c);b.offset+=c;return 0}function
+iO(a){var
+a=b7(a),b=e;if(b.process&&b.process.stdout&&b.process.stdout.write)b.process.stderr.write(a);else{if(a.charCodeAt(a.length-1)==10)a=a.substr(0,a.length-1);var
+c=b.console;c&&c.error&&c.error(a)}}function
+iP(a){var
+a=b7(a),b=e;if(b.process&&b.process.stdout&&b.process.stdout.write)b.process.stdout.write(a);else{if(a.charCodeAt(a.length-1)==10)a=a.substr(0,a.length-1);var
+c=b.console;c&&c.log&&c.log(a)}}function
+bl(c,e,d,a){if(p.fds===undefined)p.fds=new
+Array();a=a?a:{};var
+b={};b.file=d;b.offset=a.append?d.length():0;b.flags=a;b.output=e;p.fds[c]=b;if(!p.fd_last_idx||c>p.fd_last_idx)p.fd_last_idx=c;return c}function
+iT(c,b,h){var
+a={};while(b){switch(b[1]){case
+0:a.rdonly=1;break;case
+1:a.wronly=1;break;case
+2:a.append=1;break;case
+3:a.create=1;break;case
+4:a.truncate=1;break;case
+5:a.excl=1;break;case
+6:a.binary=1;break;case
+7:a.text=1;break;case
+8:a.nonblock=1;break}b=b[2]}if(a.rdonly&&a.wronly)g(_(c)+dr);if(a.text&&a.binary)g(_(c)+cS);var
+d=ea(c),e=d.device.open(d.rest,a),f=p.fd_last_idx?p.fd_last_idx:0;return bl(f+1,d9,e,a)}bl(0,d9,new
+z(s(0)));bl(1,iP,new
+z(s(0)));bl(2,iO,new
+z(s(0)));function
+iv(c){var
+b=p.fds[c];if(b.flags.wronly)g(dz+c+" is writeonly");var
+a={file:b.file,offset:b.offset,fd:c,opened:true,out:false,refill:null};$[a.fd]=a;return a.fd}function
+d2(c){var
+b=p.fds[c];if(b.flags.rdonly)g(dz+c+" is readonly");var
+a={file:b.file,offset:b.offset,fd:c,opened:true,out:true,buffer:d};$[a.fd]=a;return a.fd}function
+iw(){var
+b=0;for(var
+a=0;a<$.length;a++)if($[a]&&$[a].opened&&$[a].out)b=[0,$[a].fd,b];return b}function
+E(a){return a}function
+ix(h,d,i,f){var
+b=$[h];if(!b.opened)g("Cannot output to a closed channel");var
+a;if(i==0&&K(d)==f)a=d;else{a=s(f);am(d,i,a,0,f)}var
+j=E(a),c=_(j),e=c.lastIndexOf("\n");if(e<0)b.buffer+=c;else{b.buffer+=c.substr(0,e+1);b0(h);b.buffer+=c.substr(e+1)}return 0}function
+d3(b,a,d,c){return ix(b,an(a),d,c)}function
+iy(c,b){var
+d=a(String.fromCharCode(b));d3(c,d,0,1);return 0}function
+iz(b,a){if(a==0)b4();return b%a}function
+aU(a,b){return+(aP(a,b,false)!=0)}function
+iB(a,b){a[0]=bc;a[1]=b;return 0}function
+d6(a){if(a
+instanceof
+Array&&a[0]==a[0]>>>0)return a[0];else
+if(bj(a))return bK;else
+if(bZ(a))return bK;else
+if(a
+instanceof
+Function||typeof
+a=="function")return 247;else
+if(a&&a.caml_custom)return c9;else
+return aL}function
+O(b,c,a){if(a&&e.toplevelReloc)b=e.toplevelReloc(a);p[b+1]=c;if(a)p[a]=c}var
+d5={};function
+iH(a,b){d5[_(a)]=b;return 0}function
+h6(a,b){if(a===b)return 1;a.t&6&&aC(a);b.t&6&&aC(b);return a.c==b.c?1:0}function
+d_(a,b){return h6(a,b)}function
+iI(){v(bO)}function
+L(b,a){if(a>>>0>=k(b))iI();return w(b,a)}function
+iJ(){return[0,a("js_of_ocaml")]}function
+iK(){return 0x7FFFFFFF/4|0}function
+b6(a){var
+b=1;while(a&&a.joo_tramp){a=a.joo_tramp.apply(null,a.joo_args);b++}return a}function
+A(b,a){return{joo_tramp:b,joo_args:a}}function
+iL(c,a){if(typeof
+a==="function"){c.fun=a;return 0}if(a.fun){c.fun=a.fun;return 0}var
+b=a.length;while(b--)c[b]=a[b];return 0}function
+d8(a){return a}function
+d4(a){return d5[a]}function
+at(a){if(a
+instanceof
+Array)return a;if(e.RangeError&&a
+instanceof
+e.RangeError&&a.message&&a.message.match(/maximum call stack/i))return d8(p.Stack_overflow);if(e.InternalError&&a
+instanceof
+e.InternalError&&a.message&&a.message.match(/too much recursion/i))return d8(p.Stack_overflow);if(a
+instanceof
+e.Error&&d4(bG))return[0,d4(bG),a];return[0,p.Failure,aa(String(a))]}function
+b(a,b){return a.length==1?a(b):ao(a,[b])}function
+i(a,b,c){return a.length==2?a(b,c):ao(a,[b,c])}function
+bD(a,b,c,d){return a.length==3?a(b,c,d):ao(a,[b,c,d])}function
+h2(a,b,c,d,e,f){return a.length==5?a(b,c,d,e,f):ao(a,[b,c,d,e,f])}h$();var
+b_=[y,a(c1),-2],b9=[y,a(c6),-3],b8=[y,a(dE),-4],aW=[y,a(cP),-7],l=[y,a(db),-11],cg=[0,a(d),0,0,-1],ch=[0,a(d),1,0,0],cp=[0,cY],cE=[0,11,a("!\x80\0\x82\0\xc0\0\0\x91@\0A\0\x01\xae\x02\x01\x02\0\x01\0\x80\0\0\x01\xa65\xc0\0\xd3\0\x01DE\0\0\x02\0\0\0\0\0")],a9=[0,a("\0\0\xf0\xff\x01\0\xf2\xff\xf3\xff\xf4\xffN\0\xf6\xff\xf7\xff\xf8\xffX\0\xfa\xff\xfb\xff\xfc\xff\x03\0\xfe\xff\xff\xff\x01\0\xfd\xff\xf1\xff\x02\0\x04\0\xf3\xff9\0:\0\xb1\0\xff\xff\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff\xfd\xff\xfe\xff6\0\xf3\xff7\0\x8c\0\xb2\0\xff\xff\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff\xfd\xff\xfe\xff\xff\0\xfc\xffL\x01\xfe\xff\xff\xff"),a("\xff\xff\xff\xff\x0f\0\xff\xff\xff\xff\xff\xff\n\0\xff\xff\xff\xff\xff\xff\x06\0\xff\xff\xff\xff\xff\xff\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x0b\0\n\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x0b\0\n\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x02\0\xff\xff\xff\xff"),a("\x01\0\0\0\x14\0\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\xff\xff\0\0\0\0\xff\xff\0\0\0\0\x14\0\x17\0\0\0\x17\0\x17\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&\0\0\0&\0&\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x004\0\0\0\xff\xff\0\0\0\0"),a("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0f\0\x10\0\x13\0\x13\0\x0f\0\x18\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0f\0\0\0\x03\0\x02\0\0\0\0\0\x1a\0\x04\0\0\0\0\0\0\0\0\0\x07\0\0\0\0\0\0\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x0e\0\x0b\0\f\0\x11\0\x12\0\0\0'\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\xff\xff\xff\xff)\0\xff\xff\n\0\x19\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\t\0\r\0\b\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0(\0\xff\xff\0\0\xff\xff\xff\xff\0\0\0\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\xff\xff\0\0\0\0\0\0\n\0\0\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\x1b\0*\0\0\0\0\0\0\0\x1c\0+\0\0\0\0\0\0\0\0\0\0\0\0\0#\x002\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x05\0\xff\xff\xff\xff\0\0\x16\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\"\x001\0\0\0\0\0\0\0\0\0!\x000\0\0\0\0\0 \0/\0\0\0\0\0\0\0\0\0\0\0\0\0\x1f\0.\0\0\0\0\0\x1e\0-\0\x1d\0,\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0%\0\xff\xff\0\0\xff\xff\xff\xff6\0\0\x007\0\0\0\0\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\0\0\0\0\0\0\0\x005\0\0\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\0\0\0\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff5\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\0\0\0\0\0\0\0\x005\0\0\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"),a("\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\x02\0\x14\0\0\0\x15\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\xff\xff\xff\xff\x15\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\x11\0\xff\xff$\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x17\0\x18\0$\0&\0\0\0\x15\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\x06\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0$\0&\0\xff\xff\x17\0\x18\0\xff\xff\xff\xff\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0'\0\xff\xff\xff\xff\xff\xff\n\0\xff\xff\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\n\0\x19\0(\0\xff\xff\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff'\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\x02\0\x14\0\xff\xff\x15\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x19\0(\0\xff\xff\xff\xff\x19\0(\0\x19\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff$\0&\0\xff\xff\x17\0\x18\x003\0\xff\xff3\0\xff\xff\xff\xff3\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\0\xff\xff\xff\xff\xff\xff\xff\xff3\0\xff\xff3\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\x003\0\xff\xff\xff\xff5\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff'\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\xff\xff\xff\xff\xff\xff\xff\xff5\0\xff\xff5\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\x005\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff3\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"),a(d),a(d),a(d),a(d),a(d),a(d)];O(11,[y,a(cL),-12],cL);O(10,l,db);O(9,[y,a(dy),-10],dy);O(8,[y,a(cQ),-9],cQ);O(7,[y,a(di),-8],di);O(6,aW,cP);O(5,[y,a(c2),-6],c2);O(4,[y,a(c7),-5],c7);O(3,b8,dE);O(2,b9,c6);O(1,b_,c1);O(0,[y,a(dn),-1],dn);var
+ec=a("true"),ed=a("false"),ef=a("option is None"),eg=a("\\\\"),eh=a("\\'"),ei=a("\\b"),ej=a("\\t"),ek=a("\\n"),el=a("\\r"),eo=a("List.init"),es=a("String.blit / Bytes.blit_string"),er=a("Bytes.blit"),eq=a("String.sub / Bytes.sub"),eu=a(d),et=a("String.concat"),ev=a("CamlinternalLazy.Undefined"),eA=a("Buffer.add: cannot grow buffer"),ez=[0,a(cZ),93,2],ey=[0,a(cZ),94,2],eJ=a("%c"),eK=a("%s"),eL=a(cK),eM=a(dg),eN=a(dC),eO=a(cR),eP=a("%f"),eQ=a("%B"),eR=a("%{"),eS=a("%}"),eT=a("%("),eU=a("%)"),eV=a("%a"),eW=a("%t"),eX=a("%?"),eY=a("%r"),eZ=a("%_r"),e0=[0,a(u),850,23],e$=[0,a(u),814,21],e3=[0,a(u),815,21],fa=[0,a(u),818,21],e4=[0,a(u),819,21],fb=[0,a(u),822,19],e5=[0,a(u),823,19],fc=[0,a(u),826,22],e6=[0,a(u),827,22],fd=[0,a(u),831,30],e7=[0,a(u),832,30],e9=[0,a(u),836,26],e1=[0,a(u),837,26],e_=[0,a(u),846,28],e2=[0,a(u),847,28],e8=[0,a(u),851,23],gf=a(du),gd=[0,a(u),1558,4],ge=a("Printf: bad conversion %["),gg=[0,a(u),1626,39],gh=[0,a(u),1649,31],gi=[0,a(u),1650,31],gj=a("Printf: bad conversion %_"),gk=a("@{"),gl=a("@["),gb=a(bJ),f$=a("neg_infinity"),ga=a(dj),f_=a(az),fU=a("%+nd"),fV=a("% nd"),fX=a("%+ni"),fY=a("% ni"),fZ=a("%nx"),f0=a("%#nx"),f1=a("%nX"),f2=a("%#nX"),f3=a("%no"),f4=a("%#no"),fT=a("%nd"),fW=a(dC),f5=a("%nu"),fH=a("%+ld"),fI=a("% ld"),fK=a("%+li"),fL=a("% li"),fM=a("%lx"),fN=a("%#lx"),fO=a("%lX"),fP=a("%#lX"),fQ=a("%lo"),fR=a("%#lo"),fG=a("%ld"),fJ=a(dg),fS=a("%lu"),fu=a("%+Ld"),fv=a("% Ld"),fx=a("%+Li"),fy=a("% Li"),fz=a("%Lx"),fA=a("%#Lx"),fB=a("%LX"),fC=a("%#LX"),fD=a("%Lo"),fE=a("%#Lo"),ft=a("%Ld"),fw=a(cR),fF=a("%Lu"),fh=a("%+d"),fi=a("% d"),fk=a("%+i"),fl=a("% i"),fm=a("%x"),fn=a("%#x"),fo=a("%X"),fp=a("%#X"),fq=a("%o"),fr=a("%#o"),fg=a(c0),fj=a(cK),fs=a(du),eB=a("@]"),eC=a("@}"),eD=a("@?"),eE=a("@\n"),eF=a("@."),eG=a("@@"),eH=a("@%"),eI=a("@"),fe=a("CamlinternalFormat.Type_mismatch"),gm=a("Random.int"),gn=[0,987910699,495797812,364182224,414272206,318284740,990407751,383018966,270373319,840823159,24560019,536292337,512266505,189156120,730249596,143776328,51606627,140166561,366354223,1003410265,700563762,981890670,913149062,526082594,1021425055,784300257,667753350,630144451,949649812,48546892,415514493,258888527,511570777,89983870,283659902,308386020,242688715,482270760,865188196,1027664170,207196989,193777847,619708188,671350186,149669678,257044018,87658204,558145612,183450813,28133145,901332182,710253903,510646120,652377910,409934019,801085050],gw=[0,a(a_),3659,8],gv=[0,a(a_),2660,6],gq=[0,a(a_),1470,4],gr=[0,a(a_),1485,4],gt=a("resume expects HandlingError | Shifting | AboutToReduce"),gs=a("offer expects InputNeeded"),gz=a("Bnfgen__Util.Syntax_error"),gB=[0,[12,34,[2,0,[12,34,0]]],a('"%s"')],gC=[0,[12,60,[2,0,[12,62,0]]],a("<%s>")],gD=[0,[2,0,[12,dD,[4,0,0,0,[12,c3,0]]]],a("%s{%d}")],gE=[0,[2,0,[12,dD,[4,0,0,0,[12,45,[4,0,0,0,[12,c3,0]]]]]],a("%s{%d-%d}")],gJ=[0,[11,a("Duplicate definition of symbol <"),[2,0,[12,62,0]]],a("Duplicate definition of symbol <%s>")],gK=[0,[11,a("Empty rule for symbol <"),[2,0,[12,62,0]]],a("Empty rule for symbol <%s>")],gM=[0,[11,a(dt),0],a(dt)],gN=[0,[11,a("Reducing symbol <"),[2,0,[12,62,0]]],a("Reducing symbol <%s>")],gP=[0,[11,a(da),[2,0,[12,62,0]]],a(c$)],gO=[0,[11,a("Alternative taken: "),[2,0,0]],a("Alternative taken: %s")],gQ=[0,[11,a(c8),[4,0,0,0,[12,44,[4,0,0,0,[11,a(cM),0]]]]],a(dx)],gR=[0,[11,a("Repetition range {"),[4,0,0,0,[12,44,[4,0,0,0,[11,a("}, repeating "),[4,0,0,0,[11,a(" times"),0]]]]]]],a("Repetition range {%d,%d}, repeating %d times")],gS=[0,0,0],gL=[0,[11,a(c8),[4,0,0,0,[12,44,[4,0,0,0,[11,a(cM),0]]]]],a(dx)],gI=[0,[11,a(da),[2,0,[12,62,0]]],a(c$)],gF=a(M),gG=a(d),gH=a(M),gA=a("Bnfgen__Grammar.Grammar_error"),gT=a("Bnfgen__Bnf_parser.MenhirBasics.Error"),gV=[0,8,a("\0\x03\0\0\x11\0\0\x15\0\x12\0\0\0\x06\0\0\x07\x14\0\0\x13\0\t\0\0\n\0\x02\x10\x01")],gW=[0,[0,8,a("4\0\x04>\0\x0f\x1e\0\x16\0\x03 4\0*:\0\0\x1e\x0e\0.\0B\x1e\0@\0\0\0")],[0,8,a('11\x1a1\x0e.1155\r5\x1e.55\x1e)\x06)"2\x06)\x1e->-96\x06-B\x069\x1d:b\x06\x11o\x1d')]],gX=[0,4,a('\x0b\xa9\x98\x87fUD32"\x10')],gY=[0,[0,8,a('\x14\0\x0f\n\0\0\x03\0*\0\x05\0\0\0\0\0\0\0"\x05\0"\0\0\f\0\0\0\0\0')],[0,8,a("\n\x0b\x1b\x16\x17\x18\x12\n\x0b\x15\x16\x1a\x05\x03\0\x06\x15\x1d\n\x14\x06\x1e\n\x0b\0\x13\0\x15\0\0\0\x15")]],hi=[0,[11,a("Symbol identifier '"),[2,0,[11,a("' must be in angle brackets (<"),[2,0,[11,a(">)"),0]]]]],a("Symbol identifier '%s' must be in angle brackets (<%s>)")],hj=[0,[11,a("unexpected character '"),[0,[12,39,0]]],a("unexpected character '%c'")],hk=a("Quoted string is missing the closing double quote"),hl=a("Quoted string is missing the closing single quote"),hm=a("Unmatched left angle bracket"),hn=[0,[11,a('Invalid character "'),[0,[11,a('" inside a non-terminal symbol identifier. Did you forget to close a left angle bracket?'),0]]],a('Invalid character "%c" inside a non-terminal symbol identifier. Did you forget to close a left angle bracket?')],hp=a("Invalid syntax.\n"),hq=a('Left-hand side of a rule must be a single non-terminal symbol.\nIn your rule, a symbol identifier is preceded by a string or the left-hand side is empty.\nThe most likely reason is a misplaced semicolon in a previous rule.\nExample of a valid rule: <start> ::= "foo" ;\n'),hr=a('Left-hand side of a rule must be a single symbol identifier followed by "::=".\nIn your rule, a symbol identifier is followed by a string or the right-hand side is empty.\nExample of a valid rule: <foo> ::= "foo" ;\n'),hs=a('The right-hand side of a rule is empty or starts with an empty alternative.\nEmpty rules (<foo> ::= ;) and empty alternatives (<foo> ::= | "foo") are not allowed.\nExample of a valid rule: <start> ::= <foo> | <bar> ;\n'),ht=a("Weight number must be followed by a symbol identifier or a string.\nExample of a valid rule: <start> ::= 10 <foo> | <bar> ;\n"),hu=a(df),hv=a(dm),hw=a(dl),hx=a(dm),hy=a(dl),hz=a(df),hA=a('Empty alternative in a right hand side.\nEmpty alternatives such as "<foo> | | <bar>") are not allowed.\nExample of a valid rule: <start> ::= <foo> | <bar> ;\n'),hF=[0,0,a("invalid syntax (parser rejected the input)")],hC=a("invalid syntax (no specific message for this eror)"),hD=a("Invalid syntax"),hO=a(M),hP=[0,[11,a("Symbol stack: "),[2,0,0]],a("Symbol stack: %s")],hQ=[1,a("Maximum total number of reductions exceeded")],hR=[0,0],hS=[0,0],hT=[1,a("Maximum number of non-productive reductions exceeded")],hL=[0,0],hH=[0,[11,a("Syntax error on line "),[4,0,0,0,[11,a(", character "),[4,0,0,0,[11,a(": "),[2,0,0]]]]]],a("Syntax error on line %d, character %d: %s")],hI=[0,[11,a("Syntax error: "),[2,0,0]],a("Syntax error: %s")],hJ=[0,[11,a("Grammar error: "),[2,0,0]],a("Grammar error: %s")],hM=a(d),hV=a("Js_of_ocaml__Js.Error"),hZ=a("Grammar is not loaded, cannot generate anything.");function
+n(a){if(typeof
+a==="number")return 0;else
+switch(a[0]){case
+0:return[0,n(a[1])];case
+1:return[1,n(a[1])];case
+2:return[2,n(a[1])];case
+3:return[3,n(a[1])];case
+4:return[4,n(a[1])];case
+5:return[5,n(a[1])];case
+6:return[6,n(a[1])];case
+7:return[7,n(a[1])];case
+8:var
+c=a[1];return[8,c,n(a[2])];case
+9:var
+b=a[1];return[9,b,b,n(a[3])];case
+10:return[10,n(a[1])];case
+11:return[11,n(a[1])];case
+12:return[12,n(a[1])];case
+13:return[13,n(a[1])];default:return[14,n(a[1])]}}function
+D(a,b){if(typeof
+a==="number")return b;else
+switch(a[0]){case
+0:return[0,D(a[1],b)];case
+1:return[1,D(a[1],b)];case
+2:return[2,D(a[1],b)];case
+3:return[3,D(a[1],b)];case
+4:return[4,D(a[1],b)];case
+5:return[5,D(a[1],b)];case
+6:return[6,D(a[1],b)];case
+7:return[7,D(a[1],b)];case
+8:var
+c=a[1];return[8,c,D(a[2],b)];case
+9:var
+d=a[2],e=a[1];return[9,e,d,D(a[3],b)];case
+10:return[10,D(a[1],b)];case
+11:return[11,D(a[1],b)];case
+12:return[12,D(a[1],b)];case
+13:return[13,D(a[1],b)];default:return[14,D(a[1],b)]}}function
+m(a,b){if(typeof
+a==="number")return b;else
+switch(a[0]){case
+0:return[0,m(a[1],b)];case
+1:return[1,m(a[1],b)];case
+2:var
+c=a[1];return[2,c,m(a[2],b)];case
+3:var
+d=a[1];return[3,d,m(a[2],b)];case
+4:var
+e=a[3],f=a[2],g=a[1];return[4,g,f,e,m(a[4],b)];case
+5:var
+h=a[3],i=a[2],j=a[1];return[5,j,i,h,m(a[4],b)];case
+6:var
+k=a[3],l=a[2],n=a[1];return[6,n,l,k,m(a[4],b)];case
+7:var
+o=a[3],p=a[2],q=a[1];return[7,q,p,o,m(a[4],b)];case
+8:var
+r=a[3],s=a[2],t=a[1];return[8,t,s,r,m(a[4],b)];case
+9:var
+u=a[1];return[9,u,m(a[2],b)];case
+10:return[10,m(a[1],b)];case
+11:var
+v=a[1];return[11,v,m(a[2],b)];case
+12:var
+w=a[1];return[12,w,m(a[2],b)];case
+13:var
+x=a[2],y=a[1];return[13,y,x,m(a[3],b)];case
+14:var
+z=a[2],A=a[1];return[14,A,z,m(a[3],b)];case
+15:return[15,m(a[1],b)];case
+16:return[16,m(a[1],b)];case
+17:var
+B=a[1];return[17,B,m(a[2],b)];case
+18:var
+C=a[1];return[18,C,m(a[2],b)];case
+19:return[19,m(a[1],b)];case
+20:var
+D=a[2],E=a[1];return[20,E,D,m(a[3],b)];case
+21:var
+F=a[1];return[21,F,m(a[2],b)];case
+22:return[22,m(a[1],b)];case
+23:var
+G=a[1];return[23,G,m(a[2],b)];default:var
+H=a[2],I=a[1];return[24,I,H,m(a[3],b)]}}function
+T(a){throw[0,b8,a]}Z(0);function
+bm(a){return 0<=a?a:-a|0}function
+b$(d,c){var
+a=k(d),e=k(c),b=s(a+e|0);Y(d,0,b,0,a);Y(c,0,b,a,e);return E(b)}function
+eb(a){return a?ec:ed}function
+aX(a,b){if(a){var
+c=a[1];return[0,c,aX(a[2],b)]}return b}iv(0);var
+bn=d2(1);d2(2);function
+ca(a){d3(bn,a,0,k(a));iy(bn,10);return b0(bn)}var
+aF=(4*iK(0)|0)-1|0;Z(0);var
+em=iJ(0);function
+aG(d,c){var
+a=d,b=c;for(;;){if(a){var
+e=[0,a[1],b],a=a[2],b=e;continue}return b}}function
+aY(a){return aG(a,0)}function
+cb(a,d,c){if(d<=a)return 0;var
+e=b(c,a);return[0,e,cb(a+1|0,d,c)]}var
+en=typeof
+em==="number"?10000:50;function
+bo(a){if(a){var
+b=a[1];return aX(b,bo(a[2]))}return 0}function
+au(c,a){if(a){var
+d=a[2],e=b(c,a[1]);return[0,e,au(c,d)]}return 0}function
+bp(d,c){var
+a=c;for(;;){if(a){var
+e=a[2];b(d,a[1]);var
+a=e;continue}return 0}}function
+cc(e,d,c){var
+b=d,a=c;for(;;){if(a){var
+f=a[2],b=i(e,b,a[1]),a=f;continue}return b}}function
+ep(e,d){var
+a=d;for(;;){if(a){var
+c=a[1],f=a[2];if(b(e,c))return c;var
+a=f;continue}throw aW}}function
+cd(a,d){function
+r(j,e){if(2===j){if(e){var
+l=e[2];if(l){var
+m=l[1],n=e[1],y=l[2],z=0<i(a,n,m)?[0,n,[0,m,0]]:[0,m,[0,n,0]];return[0,z,y]}}}else
+if(3===j&&e){var
+o=e[2];if(o){var
+p=o[2];if(p){var
+b=p[1],c=o[1],d=e[1],C=p[2],D=0<i(a,d,c)?0<i(a,c,b)?[0,d,[0,c,[0,b,0]]]:0<i(a,d,b)?[0,d,[0,b,[0,c,0]]]:[0,b,[0,d,[0,c,0]]]:0<i(a,d,b)?[0,c,[0,d,[0,b,0]]]:0<i(a,c,b)?[0,c,[0,b,[0,d,0]]]:[0,b,[0,c,[0,d,0]]];return[0,D,C]}}}var
+s=j>>1,t=k(s,e),A=t[1],u=k(j-s|0,t[2]),h=A,g=u[1],f=0,B=u[2];for(;;){if(h){if(g){var
+q=g[1],r=h[1],w=g[2],x=h[2];if(0<i(a,r,q)){var
+g=w,f=[0,q,f];continue}var
+h=x,f=[0,r,f];continue}var
+v=aG(h,f)}else
+var
+v=aG(g,f);return[0,v,B]}}function
+k(j,e){if(2===j){if(e){var
+k=e[2];if(k){var
+l=k[1],m=e[1],y=k[2],z=0<i(a,m,l)?[0,l,[0,m,0]]:[0,m,[0,l,0]];return[0,z,y]}}}else
+if(3===j&&e){var
+n=e[2];if(n){var
+o=n[2];if(o){var
+b=o[1],c=n[1],d=e[1],C=o[2],D=0<i(a,d,c)?0<i(a,d,b)?0<i(a,c,b)?[0,b,[0,c,[0,d,0]]]:[0,c,[0,b,[0,d,0]]]:[0,c,[0,d,[0,b,0]]]:0<i(a,c,b)?0<i(a,d,b)?[0,b,[0,d,[0,c,0]]]:[0,d,[0,b,[0,c,0]]]:[0,d,[0,c,[0,b,0]]];return[0,D,C]}}}var
+s=j>>1,t=r(s,e),A=t[1],u=r(j-s|0,t[2]),h=A,g=u[1],f=0,B=u[2];for(;;){if(h){if(g){var
+p=g[1],q=h[1],w=g[2],x=h[2];if(0<i(a,q,p)){var
+h=x,f=[0,q,f];continue}var
+g=w,f=[0,p,f];continue}var
+v=aG(h,f)}else
+var
+v=aG(g,f);return[0,v,B]}}var
+b=0,c=d;for(;;){if(c){var
+b=b+1|0,c=c[2];continue}return 2<=b?k(b,d)[1]:d}}function
+ap(a,c){var
+b=s(a);h_(b,0,a,c);return b}function
+ce(a){var
+b=K(a),c=s(b);am(a,0,c,0,b);return c}function
+aZ(d,b,a){var
+f=0;if(0<=b&&0<=a&&!((K(d)-a|0)<b)){var
+c=s(a);am(d,b,c,0,a);var
+e=c;f=1}if(!f)var
+e=T(eq);return E(e)}function
+cf(e,c,d,b,a){if(0<=a&&0<=c&&!((K(e)-a|0)<c)&&0<=b&&!((K(d)-a|0)<b))return am(e,c,d,b,a);return T(er)}function
+ab(e,c,d,b,a){if(0<=a&&0<=c&&!((k(e)-a|0)<c)&&0<=b&&!((K(d)-a|0)<b))return Y(e,c,d,b,a);return T(es)}function
+bq(l,g){if(g){var
+h=k(l),c=0,b=g,q=0;for(;;){if(b){var
+i=b[1];if(b[2]){var
+j=(k(i)+h|0)+c|0,n=b[2],o=c<=j?j:T(et),c=o,b=n;continue}var
+m=k(i)+c|0}else
+var
+m=c;var
+f=s(m),e=q,d=g;for(;;){if(d){var
+a=d[1];if(d[2]){var
+p=d[2];Y(a,0,f,e,k(a));Y(l,0,f,e+k(a)|0,h);var
+e=(e+k(a)|0)+h|0,d=p;continue}Y(a,0,f,e,k(a))}return E(f)}}}return eu}Z(0);function
+a0(f,e,a){var
+c=it(f,e,a),d=0<=c?1:0,g=d?a[12]!==cg?1:0:d;if(g){a[11]=a[12];var
+b=a[12];a[12]=[0,b[1],b[2],b[3],a[4]+a[6]|0]}return c}function
+br(a){return aZ(a[2],a[5],a[6]-a[5]|0)}function
+ci(c,a,b){return aZ(c[2],a,b-a|0)}function
+cj(b,a){return dP(b[2],a)}function
+a1(b){var
+a=b[12],c=a!==cg?1:0,d=c?(b[12]=[0,a[1],a[2]+1|0,a[4],a[4]],0):c;return d}var
+ew=[y,ev,Z(0)];function
+ex(a){throw ew}function
+aH(a){var
+b=1<=a?a:1,c=aF<b?aF:b,d=s(c);return[0,d,0,c,d]}function
+aI(a){return aZ(a[1],0,a[2])}function
+ck(a,c){var
+d=a[2],b=[0,a[3]];for(;;){if(b[1]<(d+c|0)){b[1]=2*b[1]|0;continue}if(aF<b[1]){if(!((d+c|0)<=aF))throw[0,b9,eA];b[1]=aF}var
+e=s(b[1]);cf(a[1],0,e,0,a[2]);a[1]=e;a[3]=b[1];if((a[2]+c|0)<=a[3]){if((d+c|0)<=a[3])return 0;throw[0,l,ey]}throw[0,l,ez]}}function
+q(a,c){var
+b=a[2];if(a[3]<=b)ck(a,1);o(a[1],b,c);a[2]=b+1|0;return 0}function
+ac(a,c){var
+b=k(c),d=a[2]+b|0;if(a[3]<d)ck(a,b);Y(c,0,a[1],a[2],b);a[2]=d;return 0}function
+bs(a){return 5===a[2]?12:-6}function
+cl(a){return[0,0,s(a)]}function
+cm(a,h){var
+b=K(a[2]),c=a[1]+h|0,d=b<c?1:0;if(d){var
+e=b*2|0,i=ia(e,c)?e:c,f=s(i);cf(a[2],0,f,0,b);a[2]=f;var
+g=0}else
+var
+g=d;return g}function
+av(a,b){cm(a,1);as(a[2],a[1],b);a[1]=a[1]+1|0;return 0}function
+B(a,c){var
+b=k(c);cm(a,b);ab(c,0,a[2],a[1],b);a[1]=a[1]+b|0;return 0}function
+cn(a){return aZ(a[2],0,a[1])}function
+bt(b,c){var
+a=c;for(;;)if(typeof
+a==="number")return 0;else
+switch(a[0]){case
+0:var
+d=a[1];B(b,eJ);var
+a=d;continue;case
+1:var
+e=a[1];B(b,eK);var
+a=e;continue;case
+2:var
+f=a[1];B(b,eL);var
+a=f;continue;case
+3:var
+g=a[1];B(b,eM);var
+a=g;continue;case
+4:var
+h=a[1];B(b,eN);var
+a=h;continue;case
+5:var
+i=a[1];B(b,eO);var
+a=i;continue;case
+6:var
+j=a[1];B(b,eP);var
+a=j;continue;case
+7:var
+k=a[1];B(b,eQ);var
+a=k;continue;case
+8:var
+l=a[2],m=a[1];B(b,eR);bt(b,m);B(b,eS);var
+a=l;continue;case
+9:var
+n=a[3],o=a[1];B(b,eT);bt(b,o);B(b,eU);var
+a=n;continue;case
+10:var
+p=a[1];B(b,eV);var
+a=p;continue;case
+11:var
+q=a[1];B(b,eW);var
+a=q;continue;case
+12:var
+r=a[1];B(b,eX);var
+a=r;continue;case
+13:var
+s=a[1];B(b,eY);var
+a=s;continue;default:var
+t=a[1];B(b,eZ);var
+a=t;continue}}function
+r(a){if(typeof
+a==="number")return 0;else
+switch(a[0]){case
+0:return[0,r(a[1])];case
+1:return[1,r(a[1])];case
+2:return[2,r(a[1])];case
+3:return[3,r(a[1])];case
+4:return[4,r(a[1])];case
+5:return[5,r(a[1])];case
+6:return[6,r(a[1])];case
+7:return[7,r(a[1])];case
+8:var
+b=a[1];return[8,b,r(a[2])];case
+9:var
+c=a[2],d=a[1];return[9,c,d,r(a[3])];case
+10:return[10,r(a[1])];case
+11:return[11,r(a[1])];case
+12:return[12,r(a[1])];case
+13:return[13,r(a[1])];default:return[14,r(a[1])]}}function
+C(a){if(typeof
+a==="number"){var
+u=function(a){return 0},v=function(a){return 0},w=function(a){return 0};return[0,function(a){return 0},w,v,u]}else
+switch(a[0]){case
+0:var
+c=C(a[1]),x=c[4],y=c[3],z=c[2],A=c[1],B=function(a){b(z,0);return 0};return[0,function(a){b(A,0);return 0},B,y,x];case
+1:var
+d=C(a[1]),D=d[4],E=d[3],F=d[2],G=d[1],H=function(a){b(F,0);return 0};return[0,function(a){b(G,0);return 0},H,E,D];case
+2:var
+e=C(a[1]),I=e[4],J=e[3],K=e[2],L=e[1],M=function(a){b(K,0);return 0};return[0,function(a){b(L,0);return 0},M,J,I];case
+3:var
+f=C(a[1]),N=f[4],O=f[3],P=f[2],Q=f[1],R=function(a){b(P,0);return 0};return[0,function(a){b(Q,0);return 0},R,O,N];case
+4:var
+g=C(a[1]),S=g[4],T=g[3],U=g[2],V=g[1],W=function(a){b(U,0);return 0};return[0,function(a){b(V,0);return 0},W,T,S];case
+5:var
+h=C(a[1]),X=h[4],Y=h[3],Z=h[2],_=h[1],$=function(a){b(Z,0);return 0};return[0,function(a){b(_,0);return 0},$,Y,X];case
+6:var
+i=C(a[1]),aa=i[4],ab=i[3],ac=i[2],ad=i[1],ae=function(a){b(ac,0);return 0};return[0,function(a){b(ad,0);return 0},ae,ab,aa];case
+7:var
+j=C(a[1]),af=j[4],ag=j[3],ah=j[2],ai=j[1],aj=function(a){b(ah,0);return 0};return[0,function(a){b(ai,0);return 0},aj,ag,af];case
+8:var
+k=C(a[2]),ak=k[4],al=k[3],am=k[2],an=k[1],ao=function(a){b(am,0);return 0};return[0,function(a){b(an,0);return 0},ao,al,ak];case
+9:var
+ap=a[2],aq=a[1],l=C(a[3]),ar=l[4],as=l[3],at=l[2],au=l[1],m=C(t(r(aq),ap)),av=m[4],aw=m[3],ax=m[2],ay=m[1],az=function(a){b(av,0);b(ar,0);return 0},aA=function(a){b(as,0);b(aw,0);return 0},aB=function(a){b(ax,0);b(at,0);return 0};return[0,function(a){b(au,0);b(ay,0);return 0},aB,aA,az];case
+10:var
+n=C(a[1]),aC=n[4],aD=n[3],aE=n[2],aF=n[1],aG=function(a){b(aE,0);return 0};return[0,function(a){b(aF,0);return 0},aG,aD,aC];case
+11:var
+o=C(a[1]),aH=o[4],aI=o[3],aJ=o[2],aK=o[1],aL=function(a){b(aJ,0);return 0};return[0,function(a){b(aK,0);return 0},aL,aI,aH];case
+12:var
+p=C(a[1]),aM=p[4],aN=p[3],aO=p[2],aP=p[1],aQ=function(a){b(aO,0);return 0};return[0,function(a){b(aP,0);return 0},aQ,aN,aM];case
+13:var
+q=C(a[1]),aR=q[4],aS=q[3],aT=q[2],aU=q[1],aV=function(a){b(aR,0);return 0},aW=function(a){b(aS,0);return 0},aX=function(a){b(aT,0);return 0};return[0,function(a){b(aU,0);return 0},aX,aW,aV];default:var
+s=C(a[1]),aY=s[4],aZ=s[3],a0=s[2],a1=s[1],a2=function(a){b(aY,0);return 0},a3=function(a){b(aZ,0);return 0},a4=function(a){b(a0,0);return 0};return[0,function(a){b(a1,0);return 0},a4,a3,a2]}}function
+t(d,c){var
+a=0;if(typeof
+d==="number")if(typeof
+c==="number")return 0;else
+switch(c[0]){case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;case
+8:a=5;break;case
+9:a=6;break;default:throw[0,l,e0]}else
+switch(d[0]){case
+0:var
+e=0,w=d[1];if(typeof
+c!=="number")switch(c[0]){case
+0:return[0,t(w,c[1])];case
+8:a=5;e=1;break;case
+9:a=6;e=1;break;case
+10:e=1;break;case
+11:a=1;e=1;break;case
+12:a=2;e=1;break;case
+13:a=3;e=1;break;case
+14:a=4;e=1;break}if(!e)a=7;break;case
+1:var
+f=0,x=d[1];if(typeof
+c!=="number")switch(c[0]){case
+1:return[1,t(x,c[1])];case
+8:a=5;f=1;break;case
+9:a=6;f=1;break;case
+10:f=1;break;case
+11:a=1;f=1;break;case
+12:a=2;f=1;break;case
+13:a=3;f=1;break;case
+14:a=4;f=1;break}if(!f)a=7;break;case
+2:var
+g=0,y=d[1];if(typeof
+c==="number")g=1;else
+switch(c[0]){case
+2:return[2,t(y,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:g=1}if(g)a=7;break;case
+3:var
+h=0,z=d[1];if(typeof
+c==="number")h=1;else
+switch(c[0]){case
+3:return[3,t(z,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:h=1}if(h)a=7;break;case
+4:var
+i=0,A=d[1];if(typeof
+c==="number")i=1;else
+switch(c[0]){case
+4:return[4,t(A,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:i=1}if(i)a=7;break;case
+5:var
+j=0,B=d[1];if(typeof
+c==="number")j=1;else
+switch(c[0]){case
+5:return[5,t(B,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:j=1}if(j)a=7;break;case
+6:var
+k=0,D=d[1];if(typeof
+c==="number")k=1;else
+switch(c[0]){case
+6:return[6,t(D,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:k=1}if(k)a=7;break;case
+7:var
+m=0,E=d[1];if(typeof
+c==="number")m=1;else
+switch(c[0]){case
+7:return[7,t(E,c[1])];case
+8:a=5;break;case
+9:a=6;break;case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:m=1}if(m)a=7;break;case
+8:var
+n=0,F=d[2],G=d[1];if(typeof
+c==="number")n=1;else
+switch(c[0]){case
+8:var
+H=c[1],I=t(F,c[2]);return[8,t(G,H),I];case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:n=1}if(n)throw[0,l,e9];break;case
+9:var
+o=0,J=d[3],K=d[2],L=d[1];if(typeof
+c==="number")o=1;else
+switch(c[0]){case
+8:a=5;break;case
+9:var
+M=c[3],N=c[2],O=c[1],v=C(t(r(K),O)),P=v[4];b(v[2],0);b(P,0);return[9,L,N,t(J,M)];case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:a=4;break;default:o=1}if(o)throw[0,l,e_];break;case
+10:var
+Q=d[1];if(typeof
+c!=="number"&&10===c[0])return[10,t(Q,c[1])];throw[0,l,e$];case
+11:var
+p=0,R=d[1];if(typeof
+c==="number")p=1;else
+switch(c[0]){case
+10:break;case
+11:return[11,t(R,c[1])];default:p=1}if(p)throw[0,l,fa];break;case
+12:var
+q=0,S=d[1];if(typeof
+c==="number")q=1;else
+switch(c[0]){case
+10:break;case
+11:a=1;break;case
+12:return[12,t(S,c[1])];default:q=1}if(q)throw[0,l,fb];break;case
+13:var
+s=0,T=d[1];if(typeof
+c==="number")s=1;else
+switch(c[0]){case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:return[13,t(T,c[1])];default:s=1}if(s)throw[0,l,fc];break;default:var
+u=0,U=d[1];if(typeof
+c==="number")u=1;else
+switch(c[0]){case
+10:break;case
+11:a=1;break;case
+12:a=2;break;case
+13:a=3;break;case
+14:return[14,t(U,c[1])];default:u=1}if(u)throw[0,l,fd]}switch(a){case
+0:throw[0,l,e3];case
+1:throw[0,l,e4];case
+2:throw[0,l,e5];case
+3:throw[0,l,e6];case
+4:throw[0,l,e7];case
+5:throw[0,l,e1];case
+6:throw[0,l,e2];default:throw[0,l,e8]}}var
+x=[y,fe,Z(0)];function
+a2(b,a){if(typeof
+b==="number")return[0,0,a];else{if(0===b[0])return[0,[0,b[1],b[2]],a];if(typeof
+a!=="number"&&2===a[0])return[0,[1,b[1]],a[1]];throw x}}function
+aJ(e,b,d){var
+a=a2(e,d);if(typeof
+b==="number"){if(b){var
+c=a[2];if(typeof
+c!=="number"&&2===c[0])return[0,a[1],1,c[1]];throw x}return[0,a[1],0,a[2]]}return[0,a[1],[0,b[1]],a[2]]}function
+F(c,d,a){if(typeof
+c==="number")return[0,0,j(d,a)];else
+switch(c[0]){case
+0:if(typeof
+a!=="number"&&0===a[0]){var
+g=F(c[1],d,a[1]);return[0,[0,g[1]],g[2]]}break;case
+1:if(typeof
+a!=="number"&&1===a[0]){var
+h=F(c[1],d,a[1]);return[0,[1,h[1]],h[2]]}break;case
+2:if(typeof
+a!=="number"&&2===a[0]){var
+i=F(c[1],d,a[1]);return[0,[2,i[1]],i[2]]}break;case
+3:if(typeof
+a!=="number"&&3===a[0]){var
+k=F(c[1],d,a[1]);return[0,[3,k[1]],k[2]]}break;case
+4:if(typeof
+a!=="number"&&4===a[0]){var
+l=F(c[1],d,a[1]);return[0,[4,l[1]],l[2]]}break;case
+5:if(typeof
+a!=="number"&&5===a[0]){var
+m=F(c[1],d,a[1]);return[0,[5,m[1]],m[2]]}break;case
+6:if(typeof
+a!=="number"&&6===a[0]){var
+o=F(c[1],d,a[1]);return[0,[6,o[1]],o[2]]}break;case
+7:if(typeof
+a!=="number"&&7===a[0]){var
+p=F(c[1],d,a[1]);return[0,[7,p[1]],p[2]]}break;case
+8:if(typeof
+a!=="number"&&8===a[0]){var
+q=a[1],B=a[2],D=c[2];if(aU([0,c[1]],[0,q]))throw x;var
+s=F(D,d,B);return[0,[8,q,s[1]],s[2]]}break;case
+9:if(typeof
+a!=="number"&&9===a[0]){var
+e=a[2],f=a[1],E=a[3],G=c[3],H=c[2],I=c[1],J=[0,n(f)];if(aU([0,n(I)],J))throw x;var
+K=[0,n(e)];if(aU([0,n(H)],K))throw x;var
+u=C(t(r(f),e)),L=u[4];b(u[2],0);b(L,0);var
+v=F(n(G),d,E),M=v[2];return[0,[9,f,e,r(v[1])],M]}break;case
+10:if(typeof
+a!=="number"&&10===a[0]){var
+w=F(c[1],d,a[1]);return[0,[10,w[1]],w[2]]}break;case
+11:if(typeof
+a!=="number"&&11===a[0]){var
+y=F(c[1],d,a[1]);return[0,[11,y[1]],y[2]]}break;case
+13:if(typeof
+a!=="number"&&13===a[0]){var
+z=F(c[1],d,a[1]);return[0,[13,z[1]],z[2]]}break;case
+14:if(typeof
+a!=="number"&&14===a[0]){var
+A=F(c[1],d,a[1]);return[0,[14,A[1]],A[2]]}break}throw x}function
+j(b,a){if(typeof
+b==="number")return[0,0,a];else
+switch(b[0]){case
+0:if(typeof
+a!=="number"&&0===a[0]){var
+u=j(b[1],a[1]);return[0,[0,u[1]],u[2]]}break;case
+1:if(typeof
+a!=="number"&&0===a[0]){var
+v=j(b[1],a[1]);return[0,[1,v[1]],v[2]]}break;case
+2:var
+af=b[2],w=a2(b[1],a),e=w[2],ag=w[1];if(typeof
+e!=="number"&&1===e[0]){var
+y=j(af,e[1]);return[0,[2,ag,y[1]],y[2]]}throw x;case
+3:var
+ah=b[2],z=a2(b[1],a),f=z[2],ai=z[1];if(typeof
+f!=="number"&&1===f[0]){var
+A=j(ah,f[1]);return[0,[3,ai,A[1]],A[2]]}throw x;case
+4:var
+aj=b[4],ak=b[1],g=aJ(b[2],b[3],a),h=g[3],al=g[1];if(typeof
+h!=="number"&&2===h[0]){var
+am=g[2],B=j(aj,h[1]);return[0,[4,ak,al,am,B[1]],B[2]]}throw x;case
+5:var
+an=b[4],ao=b[1],i=aJ(b[2],b[3],a),k=i[3],ap=i[1];if(typeof
+k!=="number"&&3===k[0]){var
+aq=i[2],C=j(an,k[1]);return[0,[5,ao,ap,aq,C[1]],C[2]]}throw x;case
+6:var
+ar=b[4],as=b[1],l=aJ(b[2],b[3],a),m=l[3],at=l[1];if(typeof
+m!=="number"&&4===m[0]){var
+au=l[2],D=j(ar,m[1]);return[0,[6,as,at,au,D[1]],D[2]]}throw x;case
+7:var
+av=b[4],aw=b[1],o=aJ(b[2],b[3],a),p=o[3],ax=o[1];if(typeof
+p!=="number"&&5===p[0]){var
+ay=o[2],E=j(av,p[1]);return[0,[7,aw,ax,ay,E[1]],E[2]]}throw x;case
+8:var
+az=b[4],aA=b[1],q=aJ(b[2],b[3],a),r=q[3],aB=q[1];if(typeof
+r!=="number"&&6===r[0]){var
+aC=q[2],H=j(az,r[1]);return[0,[8,aA,aB,aC,H[1]],H[2]]}throw x;case
+9:var
+aD=b[2],I=a2(b[1],a),s=I[2],aE=I[1];if(typeof
+s!=="number"&&7===s[0]){var
+J=j(aD,s[1]);return[0,[9,aE,J[1]],J[2]]}throw x;case
+10:var
+K=j(b[1],a);return[0,[10,K[1]],K[2]];case
+11:var
+aF=b[1],L=j(b[2],a);return[0,[11,aF,L[1]],L[2]];case
+12:var
+aG=b[1],M=j(b[2],a);return[0,[12,aG,M[1]],M[2]];case
+13:if(typeof
+a!=="number"&&8===a[0]){var
+N=a[1],aH=a[2],aI=b[3],aK=b[1];if(aU([0,b[2]],[0,N]))throw x;var
+O=j(aI,aH);return[0,[13,aK,N,O[1]],O[2]]}break;case
+14:if(typeof
+a!=="number"&&9===a[0]){var
+P=a[1],aL=a[3],aM=b[3],aN=b[2],aO=b[1],aP=[0,n(P)];if(aU([0,n(aN)],aP))throw x;var
+Q=j(aM,n(aL));return[0,[14,aO,P,Q[1]],Q[2]]}break;case
+15:if(typeof
+a!=="number"&&10===a[0]){var
+R=j(b[1],a[1]);return[0,[15,R[1]],R[2]]}break;case
+16:if(typeof
+a!=="number"&&11===a[0]){var
+S=j(b[1],a[1]);return[0,[16,S[1]],S[2]]}break;case
+17:var
+aQ=b[1],T=j(b[2],a);return[0,[17,aQ,T[1]],T[2]];case
+18:var
+U=b[2],t=b[1];if(0===t[0]){var
+Y=t[1],aV=Y[2],Z=j(Y[1],a),aW=Z[1],_=j(U,Z[2]);return[0,[18,[0,[0,aW,aV]],_[1]],_[2]]}var
+$=t[1],aX=$[2],aa=j($[1],a),aY=aa[1],ab=j(U,aa[2]);return[0,[18,[1,[0,aY,aX]],ab[1]],ab[2]];case
+19:if(typeof
+a!=="number"&&13===a[0]){var
+V=j(b[1],a[1]);return[0,[19,V[1]],V[2]]}break;case
+20:if(typeof
+a!=="number"&&1===a[0]){var
+aR=b[2],aS=b[1],W=j(b[3],a[1]);return[0,[20,aS,aR,W[1]],W[2]]}break;case
+21:if(typeof
+a!=="number"&&2===a[0]){var
+aT=b[1],X=j(b[2],a[1]);return[0,[21,aT,X[1]],X[2]]}break;case
+23:var
+d=b[2],c=b[1];if(typeof
+c==="number")switch(c){case
+0:return G(c,d,a);case
+1:return G(c,d,a);case
+2:if(typeof
+a!=="number"&&14===a[0]){var
+ac=j(d,a[1]);return[0,[23,2,ac[1]],ac[2]]}throw x;default:return G(c,d,a)}else
+switch(c[0]){case
+0:return G(c,d,a);case
+1:return G(c,d,a);case
+2:return G(c,d,a);case
+3:return G(c,d,a);case
+4:return G(c,d,a);case
+5:return G(c,d,a);case
+6:return G(c,d,a);case
+7:return G(c,d,a);case
+8:return G([8,c[1],c[2]],d,a);case
+9:var
+aZ=c[1],ad=F(c[2],d,a),ae=ad[2];return[0,[23,[9,aZ,ad[1]],ae[1]],ae[2]];case
+10:return G(c,d,a);default:return G(c,d,a)}}throw x}function
+G(d,c,b){var
+a=j(c,b);return[0,[23,d,a[1]],a[2]]}function
+H(l,g,a){var
+b=k(a),h=0<=g?l:0,d=bm(g);if(d<=b)return a;var
+m=2===h?48:32,c=ap(d,m);switch(h){case
+0:ab(a,0,c,0,b);break;case
+1:ab(a,0,c,d-b|0,b);break;default:var
+e=0;if(0<b){var
+i=0;if(43!==L(a,0)&&45!==L(a,0)&&32!==L(a,0)){e=1;i=1}if(!i){as(c,0,L(a,0));ab(a,1,c,(d-b|0)+1|0,b-1|0)}}else
+e=1;if(e){var
+f=0;if(1<b&&48===L(a,0)){var
+j=0;if(cX!==L(a,1)&&88!==L(a,1)){f=1;j=1}if(!j){as(c,1,L(a,1));ab(a,2,c,(d-b|0)+2|0,b-2|0)}}else
+f=1;if(f)ab(a,0,c,d-b|0,b)}}return E(c)}function
+aw(l,b){var
+c=bm(l),a=k(b),d=L(b,0),e=0;if(58<=d){if(71<=d){if(!(5<(d-97|0)>>>0))e=1}else
+if(65<=d)e=1}else{var
+f=0;if(32!==d)if(43<=d)switch(d-43|0){case
+5:if(a<(c+2|0)&&1<a){var
+j=0;if(cX===L(b,1)||88===L(b,1))j=1;if(j){var
+h=ap(c+2|0,48);as(h,1,L(b,1));ab(b,2,h,(c-a|0)+4|0,a-2|0);return E(h)}}e=1;f=1;break;case
+0:case
+2:break;case
+1:case
+3:case
+4:f=1;break;default:e=1;f=1}else
+f=1;if(!f&&a<(c+1|0)){var
+g=ap(c+1|0,48);as(g,0,d);ab(b,1,g,(c-a|0)+2|0,a-1|0);return E(g)}}if(e&&a<c){var
+i=ap(c,48);ab(b,0,i,c-a|0,a);return E(i)}return b}function
+ff(l){var
+j=0,F=k(l);for(;;){if(F<=j)var
+q=l;else{var
+p=w(l,j)+de|0,r=0;if(59<p>>>0){if(33<(p-61|0)>>>0)r=1}else
+if(2===p)r=1;if(!r){var
+j=j+1|0;continue}var
+e=an(l),a=[0,0],u=K(e)-1|0,A=0;if(!(u<0)){var
+i=A;for(;;){var
+f=aO(e,i),g=0;if(32<=f){var
+m=f-34|0,t=0;if(58<m>>>0){if(93<=m)t=1}else
+if(56<(m-1|0)>>>0){g=1;t=1}if(!t){var
+n=1;g=2}}else
+if(11<=f){if(13===f)g=1}else
+if(8<=f)g=1;switch(g){case
+0:var
+n=4;break;case
+1:var
+n=2;break}a[1]=a[1]+n|0;var
+D=i+1|0;if(u!==i){var
+i=D;continue}break}}if(a[1]===K(e))var
+x=ce(e);else{var
+b=s(a[1]);a[1]=0;var
+v=K(e)-1|0,B=0;if(!(v<0)){var
+h=B;for(;;){var
+c=aO(e,h),d=0;if(35<=c)if(92===c)d=2;else
+if(bQ<=c)d=1;else
+d=3;else
+if(32<=c)if(34<=c)d=2;else
+d=3;else
+if(14<=c)d=1;else
+switch(c){case
+8:o(b,a[1],92);a[1]++;o(b,a[1],98);break;case
+9:o(b,a[1],92);a[1]++;o(b,a[1],116);break;case
+10:o(b,a[1],92);a[1]++;o(b,a[1],110);break;case
+13:o(b,a[1],92);a[1]++;o(b,a[1],114);break;default:d=1}switch(d){case
+1:o(b,a[1],92);a[1]++;o(b,a[1],48+(c/cT|0)|0);a[1]++;o(b,a[1],48+((c/10|0)%10|0)|0);a[1]++;o(b,a[1],48+(c%10|0)|0);break;case
+2:o(b,a[1],92);a[1]++;o(b,a[1],c);break;case
+3:o(b,a[1],c);break}a[1]++;var
+C=h+1|0;if(v!==h){var
+h=C;continue}break}}var
+x=b}var
+q=E(x)}var
+y=k(q),z=ap(y+2|0,34);Y(q,0,z,1,y);return E(z)}}function
+co(e,g){var
+h=bm(g),f=cp?cp[1]:70;switch(e[2]){case
+0:var
+b=102;break;case
+1:var
+b=101;break;case
+2:var
+b=69;break;case
+3:var
+b=cY;break;case
+4:var
+b=71;break;case
+5:var
+b=f;break;case
+6:var
+b=104;break;case
+7:var
+b=72;break;default:var
+b=70}var
+c=cl(16);av(c,37);switch(e[1]){case
+0:break;case
+1:av(c,43);break;default:av(c,32)}if(8<=e[2])av(c,35);av(c,46);B(c,a(d+h));av(c,b);return cn(c)}function
+a3(n,a){if(13<=n){var
+g=[0,0],h=k(a)-1|0,o=0;if(!(h<0)){var
+c=o;for(;;){if(!(9<(w(a,c)+c4|0)>>>0))g[1]++;var
+r=c+1|0;if(h!==c){var
+c=r;continue}break}}var
+i=g[1],j=s(k(a)+((i-1|0)/3|0)|0),l=[0,0],d=function(a){as(j,l[1],a);l[1]++;return 0},e=[0,((i-1|0)%3|0)+1|0],m=k(a)-1|0,p=0;if(!(m<0)){var
+b=p;for(;;){var
+f=w(a,b);if(9<(f+c4|0)>>>0)d(f);else{if(0===e[1]){d(95);e[1]=3}e[1]+=-1;d(f)}var
+q=b+1|0;if(m!==b){var
+b=q;continue}break}}return E(j)}return a}function
+f6(b,c){switch(b){case
+1:var
+a=fh;break;case
+2:var
+a=fi;break;case
+4:var
+a=fk;break;case
+5:var
+a=fl;break;case
+6:var
+a=fm;break;case
+7:var
+a=fn;break;case
+8:var
+a=fo;break;case
+9:var
+a=fp;break;case
+10:var
+a=fq;break;case
+11:var
+a=fr;break;case
+0:case
+13:var
+a=fg;break;case
+3:case
+14:var
+a=fj;break;default:var
+a=fs}return a3(b,bg(a,c))}function
+f7(b,c){switch(b){case
+1:var
+a=fH;break;case
+2:var
+a=fI;break;case
+4:var
+a=fK;break;case
+5:var
+a=fL;break;case
+6:var
+a=fM;break;case
+7:var
+a=fN;break;case
+8:var
+a=fO;break;case
+9:var
+a=fP;break;case
+10:var
+a=fQ;break;case
+11:var
+a=fR;break;case
+0:case
+13:var
+a=fG;break;case
+3:case
+14:var
+a=fJ;break;default:var
+a=fS}return a3(b,bg(a,c))}function
+f8(b,c){switch(b){case
+1:var
+a=fU;break;case
+2:var
+a=fV;break;case
+4:var
+a=fX;break;case
+5:var
+a=fY;break;case
+6:var
+a=fZ;break;case
+7:var
+a=f0;break;case
+8:var
+a=f1;break;case
+9:var
+a=f2;break;case
+10:var
+a=f3;break;case
+11:var
+a=f4;break;case
+0:case
+13:var
+a=fT;break;case
+3:case
+14:var
+a=fW;break;default:var
+a=f5}return a3(b,bg(a,c))}function
+f9(b,c){switch(b){case
+1:var
+a=fu;break;case
+2:var
+a=fv;break;case
+4:var
+a=fx;break;case
+5:var
+a=fy;break;case
+6:var
+a=fz;break;case
+7:var
+a=fA;break;case
+8:var
+a=fB;break;case
+9:var
+a=fC;break;case
+10:var
+a=fD;break;case
+11:var
+a=fE;break;case
+0:case
+13:var
+a=ft;break;case
+3:case
+14:var
+a=fw;break;default:var
+a=fF}return a3(b,ii(a,c))}function
+ad(d,i,b){function
+j(c){switch(d[1]){case
+0:var
+a=45;break;case
+1:var
+a=43;break;default:var
+a=32}return id(b,i,a)}function
+u(c){var
+a=h9(b);return 3===a?b<0.?f$:ga:4<=a?gb:c}switch(d[2]){case
+5:var
+f=dX(co(d,i),b),e=0,y=k(f);for(;;){if(e===y)var
+t=0;else{var
+l=L(f,e)-46|0,m=0;if(23<l>>>0){if(55===l)m=1}else
+if(21<(l-1|0)>>>0)m=1;if(!m){var
+e=e+1|0;continue}var
+t=1}var
+z=t?f:b$(f,f_);return u(z)}case
+6:return j(0);case
+7:var
+h=an(j(0)),g=K(h);if(0===g)var
+r=h;else{var
+n=s(g),p=g-1|0,w=0;if(!(p<0)){var
+a=w;for(;;){var
+c=aO(h,a),v=0;if(97<=c&&!(dA<c)){var
+q=c+de|0;v=1}if(!v)var
+q=c;o(n,a,q);var
+x=a+1|0;if(p!==a){var
+a=x;continue}break}}var
+r=n}return E(r);case
+8:return u(j(0));default:return dX(co(d,i),b)}}function
+aK(e,M,L,K){var
+c=M,a=L,d=K;for(;;)if(typeof
+d==="number")return b(c,a);else
+switch(d[0]){case
+0:var
+N=d[1];return function(b){return f(c,[5,a,b],N)};case
+1:var
+O=d[1];return function(b){var
+e=0;if(40<=b)if(92===b)var
+d=eg;else
+if(bQ<=b)e=1;else
+e=2;else
+if(32<=b)if(39<=b)var
+d=eh;else
+e=2;else
+if(14<=b)e=1;else
+switch(b){case
+8:var
+d=ei;break;case
+9:var
+d=ej;break;case
+10:var
+d=ek;break;case
+13:var
+d=el;break;default:e=1}switch(e){case
+1:var
+g=s(4);o(g,0,92);o(g,1,48+(b/cT|0)|0);o(g,2,48+((b/10|0)%10|0)|0);o(g,3,48+(b%10|0)|0);var
+d=E(g);break;case
+2:var
+h=s(1);o(h,0,b);var
+d=E(h);break}var
+i=k(d),j=ap(i+2|0,39);Y(d,0,j,1,i);return f(c,[4,a,E(j)],O)};case
+2:var
+P=d[2],Q=d[1];return bu(c,a,P,Q,function(a){return a});case
+3:return bu(c,a,d[2],d[1],ff);case
+4:return a4(c,a,d[4],d[2],d[3],f6,d[1]);case
+5:return a4(c,a,d[4],d[2],d[3],f7,d[1]);case
+6:return a4(c,a,d[4],d[2],d[3],f8,d[1]);case
+7:return a4(c,a,d[4],d[2],d[3],f9,d[1]);case
+8:var
+q=d[4],t=d[3],u=d[2],p=d[1];if(typeof
+u==="number"){if(typeof
+t==="number")return t?function(d,b){return f(c,[4,a,ad(p,d,b)],q)}:function(b){return f(c,[4,a,ad(p,bs(p),b)],q)};var
+ah=t[1];return function(b){return f(c,[4,a,ad(p,ah,b)],q)}}else{if(0===u[0]){var
+y=u[2],z=u[1];if(typeof
+t==="number")return t?function(d,b){return f(c,[4,a,H(z,y,ad(p,d,b))],q)}:function(b){return f(c,[4,a,H(z,y,ad(p,bs(p),b))],q)};var
+ai=t[1];return function(b){return f(c,[4,a,H(z,y,ad(p,ai,b))],q)}}var
+B=u[1];if(typeof
+t==="number")return t?function(e,d,b){return f(c,[4,a,H(B,e,ad(p,d,b))],q)}:function(d,b){return f(c,[4,a,H(B,d,ad(p,bs(p),b))],q)};var
+aj=t[1];return function(d,b){return f(c,[4,a,H(B,d,ad(p,aj,b))],q)}}case
+9:return bu(c,a,d[2],d[1],eb);case
+10:var
+a=[7,a],d=d[1];continue;case
+11:var
+a=[2,a,d[1]],d=d[2];continue;case
+12:var
+a=[3,a,d[1]],d=d[2];continue;case
+13:var
+R=d[3],S=d[2],C=cl(16);bt(C,S);var
+J=cn(C);return function(b){return f(c,[4,a,J],R)};case
+14:var
+T=d[3],U=d[2];return function(d){var
+e=d[1],b=j(e,n(r(U)));if(typeof
+b[2]==="number")return f(c,a,m(b[1],T));throw x};case
+15:var
+V=d[1];return function(d,b){return f(c,[6,a,function(a){return i(d,a,b)}],V)};case
+16:var
+W=d[1];return function(b){return f(c,[6,a,b],W)};case
+17:var
+a=[0,a,d[1]],d=d[2];continue;case
+18:var
+w=d[1];if(0===w[0]){var
+X=d[2],Z=w[1][1],_=0,c=function(b,c,d){return function(a){return f(c,[1,b,[0,a]],d)}}(a,c,X),a=_,d=Z;continue}var
+$=d[2],aa=w[1][1],ab=0,c=function(b,c,d){return function(a){return f(c,[1,b,[1,a]],d)}}(a,c,$),a=ab,d=aa;continue;case
+19:throw[0,l,gd];case
+20:var
+ac=d[3],ae=[8,a,ge];return function(a){return f(c,ae,ac)};case
+21:var
+af=d[2];return function(b){return f(c,[4,a,bg(gf,b)],af)};case
+22:var
+ag=d[1];return function(b){return f(c,[5,a,b],ag)};case
+23:var
+g=d[2],v=d[1];if(typeof
+v==="number")switch(v){case
+0:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+1:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+2:throw[0,l,gg];default:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g])}else
+switch(v[0]){case
+0:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+1:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+2:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+3:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+4:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+5:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+6:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+7:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+8:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);case
+9:var
+I=v[2];return e<50?bC(e+1|0,c,a,I,g):A(bC,[0,c,a,I,g]);case
+10:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g]);default:return e<50?h(e+1|0,c,a,g):A(h,[0,c,a,g])}default:var
+D=d[3],F=d[1],G=b(d[2],0);return e<50?bB(e+1|0,c,a,D,F,G):A(bB,[0,c,a,D,F,G])}}function
+bC(e,d,c,a,b){if(typeof
+a==="number")return e<50?h(e+1|0,d,c,b):A(h,[0,d,c,b]);else
+switch(a[0]){case
+0:var
+f=a[1];return function(a){return J(d,c,f,b)};case
+1:var
+g=a[1];return function(a){return J(d,c,g,b)};case
+2:var
+i=a[1];return function(a){return J(d,c,i,b)};case
+3:var
+j=a[1];return function(a){return J(d,c,j,b)};case
+4:var
+k=a[1];return function(a){return J(d,c,k,b)};case
+5:var
+m=a[1];return function(a){return J(d,c,m,b)};case
+6:var
+n=a[1];return function(a){return J(d,c,n,b)};case
+7:var
+o=a[1];return function(a){return J(d,c,o,b)};case
+8:var
+p=a[2];return function(a){return J(d,c,p,b)};case
+9:var
+q=a[3],s=a[2],u=t(r(a[1]),s);return function(a){return J(d,c,D(u,q),b)};case
+10:var
+v=a[1];return function(e,a){return J(d,c,v,b)};case
+11:var
+w=a[1];return function(a){return J(d,c,w,b)};case
+12:var
+x=a[1];return function(a){return J(d,c,x,b)};case
+13:throw[0,l,gh];default:throw[0,l,gi]}}function
+h(d,b,e,a){var
+c=[8,e,gj];return d<50?aK(d+1|0,b,c,a):A(aK,[0,b,c,a])}function
+bB(h,c,f,a,e,d){if(e){var
+i=e[1];return function(e){return gc(c,f,a,i,b(d,e))}}var
+g=[4,f,d];return h<50?aK(h+1|0,c,g,a):A(aK,[0,c,g,a])}function
+f(a,b,c){return b6(aK(0,a,b,c))}function
+J(a,b,c,d){return b6(bC(0,a,b,c,d))}function
+gc(a,b,c,d,e){return b6(bB(0,a,b,c,d,e))}function
+bu(g,e,d,a,c){if(typeof
+a==="number")return function(a){return f(g,[4,e,b(c,a)],d)};else{if(0===a[0]){var
+h=a[2],i=a[1];return function(a){return f(g,[4,e,H(i,h,b(c,a))],d)}}var
+j=a[1];return function(h,a){return f(g,[4,e,H(j,h,b(c,a))],d)}}}function
+a4(g,e,d,h,c,b,a){if(typeof
+h==="number"){if(typeof
+c==="number")return c?function(h,c){return f(g,[4,e,aw(h,i(b,a,c))],d)}:function(c){return f(g,[4,e,i(b,a,c)],d)};var
+m=c[1];return function(c){return f(g,[4,e,aw(m,i(b,a,c))],d)}}else{if(0===h[0]){var
+j=h[2],k=h[1];if(typeof
+c==="number")return c?function(h,c){return f(g,[4,e,H(k,j,aw(h,i(b,a,c)))],d)}:function(c){return f(g,[4,e,H(k,j,i(b,a,c))],d)};var
+n=c[1];return function(c){return f(g,[4,e,H(k,j,aw(n,i(b,a,c)))],d)}}var
+l=h[1];if(typeof
+c==="number")return c?function(j,h,c){return f(g,[4,e,H(l,j,aw(h,i(b,a,c)))],d)}:function(h,c){return f(g,[4,e,H(l,h,i(b,a,c))],d)};var
+o=c[1];return function(h,c){return f(g,[4,e,H(l,h,aw(o,i(b,a,c)))],d)}}}function
+aj(c,h){var
+a=h;for(;;)if(typeof
+a==="number")return 0;else
+switch(a[0]){case
+0:var
+e=a[2],i=a[1];if(typeof
+e==="number")switch(e){case
+0:var
+d=eB;break;case
+1:var
+d=eC;break;case
+2:var
+d=eD;break;case
+3:var
+d=eE;break;case
+4:var
+d=eF;break;case
+5:var
+d=eG;break;default:var
+d=eH}else
+switch(e[0]){case
+0:var
+d=e[1];break;case
+1:var
+d=e[1];break;default:var
+d=b$(eI,E(ap(1,e[1])))}aj(c,i);return ac(c,d);case
+1:var
+f=a[2],g=a[1];if(0===f[0]){var
+j=f[1];aj(c,g);ac(c,gk);var
+a=j;continue}var
+k=f[1];aj(c,g);ac(c,gl);var
+a=k;continue;case
+6:var
+n=a[2];aj(c,a[1]);return ac(c,b(n,0));case
+7:var
+a=a[1];continue;case
+8:var
+o=a[2];aj(c,a[1]);return T(o);case
+2:case
+4:var
+l=a[2];aj(c,a[1]);return ac(c,l);default:var
+m=a[2];aj(c,a[1]);return q(c,m)}}function
+P(c,a){var
+d=a[1];return f(function(d){var
+a=aH(64);aj(a,d);return b(c,aI(a))},0,d)}function
+Q(a){return P(function(a){return a},a)}var
+cq=[0,0];function
+cr(a){cq[1]=[0,a,cq[1]];return 0}var
+ak=[0,gn.slice(),0];function
+cs(a){if(!(bI<a)&&0<a)for(;;){ak[2]=(ak[2]+1|0)%55|0;var
+c=ak[2],d=be(ak[1],c)[1+c],e=(ak[2]+24|0)%55|0,b=(be(ak[1],e)[1+e]+(d^(d>>>25|0)&31)|0)&bI,f=ak[2];be(ak[1],f)[1+f]=b;var
+g=iz(b,a);if(((bI-a|0)+1|0)<(b-g|0))continue;return g}return T(gm)}Z(0);function
+cy(b,a){return(w(b,a>>>3|0)>>>((a^-1)&7)|0)&1}function
+a5(d,b){var
+a=d[2],e=d[1],f=e-1|0;if(!(15<f>>>0))switch(f){case
+0:return cy(a,b);case
+1:return(w(a,b>>>2|0)>>>(2*((b^-1)&3)|0)|0)&3;case
+3:return(w(a,b>>>1|0)>>>(4*((b^-1)&1)|0)|0)&15;case
+7:return w(a,b);case
+15:var
+g=2*b|0;return(w(a,g)<<8)+w(a,g+1|0)|0}if(32===e){var
+c=4*b|0;return(((((w(a,c)<<8)+w(a,c+1|0)|0)<<8)+w(a,c+2|0)|0)<<8)+w(a,c+3|0)|0}throw[0,l,gv]}var
+a6=[y,gz,Z(0)];function
+cB(b){var
+a=b[11];return[0,a[2],(a[4]-a[3]|0)+1|0]}var
+a7=[y,gA,Z(0)];function
+aq(a){throw[0,a7,a]}function
+a8(a){switch(a[0]){case
+0:var
+g=a[1];return b(Q(gB),g);case
+1:var
+h=a[1];return b(Q(gC),h);default:var
+d=a[2],e=d[2],c=d[1],f=a[1];if(c===e){var
+j=a8(f);return i(Q(gD),j,c)}var
+k=a8(f);return bD(Q(gE),k,c,e)}}function
+cC(a){var
+d=a;for(;;){if(d){var
+k=d[1];if(k[2]){var
+d=d[2];continue}var
+t=k[1];b(P(aq,gK),t)}var
+g=a;for(;;){var
+e=cd(function(b,a){return dR(b[1],a[1])},g),u=0;if(e){var
+f=e[2];if(f){var
+h=f[1],j=e[1][1],s=f[2];if(!d_(j,h[1])){var
+g=[0,h,s];continue}b(P(aq,gJ),j);u=1}}var
+q=function(c,a){try{ep(function(b){return d_(a,b)},c);var
+d=0;return d}catch(c){return b(P(aq,gI),a)}},c=a,l=au(function(a){return a[1]},a);for(;;){if(c){var
+r=c[2],m=c[1][2],n=bo(au(function(a){return a[2]},m)),o=0,p=cc(function(b,a){return 1===a[0]?[0,a[1],b]:b},o,n);bp(function(a){return q(l,a)},p);var
+c=r;continue}return bp(function(a){var
+b=a[2],c=bo(au(function(a){return a[2]},b));return bp(function(a){if(2===a[0]){var
+b=a[2],c=b[2],d=b[1],e=c<d?1:0;return e?i(P(aq,gL),d,c):e}return 0},c)},a)}}}}var
+gU=[y,gT,Z(0)],cD=0;function
+gZ(b){var
+a=b[3];return[0,a[1],a[2],a[3],a[4],a[5]]}function
+g0(c){var
+b=c[3],a=b[5];return[0,a[1],[2,a[2],b[2]],a[3],b[4],a[5]]}function
+g1(b){var
+a=b[3];return[0,a[1],[1,a[2]],a[3],a[4],a[5]]}function
+g2(b){var
+a=b[3];return[0,a[1],[0,a[2]],a[3],a[4],a[5]]}function
+g3(c){var
+b=c[3],a=b[5][5];return[0,a[1],[0,b[2],a[2]],a[3],b[4],a[5]]}function
+g4(b){var
+a=b[3];return[0,a[1],[0,a[2],0],a[3],a[4],a[5]]}function
+g5(a){var
+b=a[3],c=b[4];return[0,a[4],0,c,c,b]}function
+g6(c){var
+b=c[3],a=b[5];return[0,a[1],[0,b[2],a[2]],a[3],b[4],a[5]]}function
+g7(b){var
+a=b[3];return[0,a[1],[0,a[2],0],a[3],a[4],a[5]]}function
+g8(b){var
+a=b[3],c=a[5],d=a[4],e=a[3],f=a[1];return[0,f,[0,1,aY(a[2])],e,d,c]}function
+g9(c){var
+b=c[3],a=b[5],d=a[5],e=a[3],f=a[2],g=a[1],h=b[4];return[0,g,[0,f,aY(b[2])],e,h,d]}function
+g_(c){var
+b=c[3],a=b[5][5];return[0,a[1],[0,b[2],a[2]],a[3],b[4],a[5]]}function
+g$(b){var
+a=b[3];return[0,a[1],[0,a[2],0],a[3],a[4],a[5]]}function
+ha(c){var
+b=c[3],a=b[5][5],d=a[5],e=a[3],f=a[2],g=a[1],h=b[4],i=b[2];return[0,g,[0,f,cd(function(b,a){return d0(b[1],a[1])},i)],e,h,d]}function
+hb(e){var
+b=e[3],c=b[5],d=c[5][5],a=d[5];return[0,a[1],[0,d[2],c[2]],a[3],b[4],a[5]]}function
+hc(e){var
+b=e[3],c=b[5],a=c[5],d=c[2];return[0,a[1],[0,d,d],a[3],b[4],a[5]]}function
+hd(b){var
+a=b[3];return[0,a[1],[0,a[2]],a[3],a[4],a[5]]}function
+he(a){var
+b=a[3],c=b[4];return[0,a[4],0,c,c,b]}function
+hf(b){var
+a=b[3];return[0,a[1],a[2],a[3],a[4],a[5]]}var
+hg=[0,function(c){var
+b=c[3],a=b[5][5],d=a[5],e=a[3],f=a[1],g=b[4];return[0,f,aY(a[2]),e,g,d]},hf,he,hd,hc,hb,ha,g$,g_,g9,g8,g7,g6,g5,g4,g3,g2,g1,g0,gZ],bx=0;function
+cz(b,f,e){var
+c=b[2],a=a5(b[1],f),d=0===(a&1)?a>>>1|0:-(a>>>1|0)|0;return a5(c,d+e|0)}function
+cA(e,c,n,m,k,j,a){var
+d=cy(cE[2],b1(cE[1],e)+c|0);if(1===d){var
+f=cz(gW,e,c),g=f&3,h=f>>>2|0;return 2<=g?h2(m,a,2===g?1:0,c,n,h):i(k,a,h)}if(0===d)return b(j,a);throw[0,l,gw]}function
+gx(b,a){return cz(gY,b,a5(gX,a))-1|0}function
+gy(b){var
+a=b-1|0;return be(hg,a)[1+a]}function
+bw(b,a){return a<1?[4,b[3][2]]:[2,b,a]}function
+gp(d){if(d[1])return[3,d];var
+c=d[2][1];if(typeof
+c==="number")switch(c){case
+0:var
+a=0;break;case
+1:var
+a=0;break;case
+2:var
+a=0;break;case
+3:var
+a=0;break;case
+4:var
+a=0;break;case
+5:var
+a=0;break;default:var
+a=0}else
+switch(c[0]){case
+0:var
+a=c[1];break;case
+1:var
+a=c[1];break;default:var
+a=c[1]}if(typeof
+c==="number")switch(c){case
+0:var
+b=2;break;case
+1:var
+b=3;break;case
+2:var
+b=4;break;case
+3:var
+b=6;break;case
+4:var
+b=8;break;case
+5:var
+b=9;break;default:var
+b=10}else
+switch(c[0]){case
+0:var
+b=1;break;case
+1:var
+b=5;break;default:var
+b=7}return cA(d[4],b,a,cu,bw,cw,d)}function
+ct(a){var
+b=a5(gV,a[4]);return 0===b?gp(a):bw(a,b-1|0)}function
+bv(a,b){return b?[0,a]:ct(a)}function
+cu(a,e,f,d,c){var
+b=a[2];return[1,a,[0,a[1],a[2],[0,a[4],d,b[2],b[3],a[3]],c],e]}function
+cw(a){return[3,[0,1,a[2],a[3],a[4]]]}function
+cv(a,c){try{var
+d=b(gy(c),a)}catch(b){b=at(b);if(b===gU)return cw(a);throw b}var
+e=gx(d[1],c);return bv([0,a[1],a[2],d,e],0)}function
+cx(a,c){return[dv,function(e){var
+b=a[5];if(b===a)return 0;var
+d=[0,c,a[2],a[3],a[4]];return[0,d,cx(b,a[1])]}]}function
+gu(a){return cx(a[3],a[4])}function
+hh(a){var
+b=[];iL(b,[0,0,bx,a,a,b]);return bv([0,0,[0,0,a,a],b,0],1)}function
+ax(c,b){var
+a=cB(c);throw[0,a6,[0,[0,[0,a[1],a[2]]],b]]}function
+ho(a){if(!(24<a>>>0))switch(a){case
+0:return hp;case
+3:return hq;case
+5:return hr;case
+6:return hs;case
+8:return ht;case
+10:return hu;case
+11:return hv;case
+12:return hw;case
+14:return hx;case
+15:return hy;case
+19:return hz;case
+24:return hA}throw aW}function
+hB(g){var
+a=gu(g),e=d6(a);if(bc===e)var
+c=a[1];else
+if(dv===e){var
+f=a[1];a[1]=ex;try{var
+d=b(f,0);iB(a,d)}catch(b){b=at(b);a[1]=function(a){throw b};throw b}var
+c=d}else
+var
+c=a;if(c){var
+h=c[1][1];try{var
+i=ho(h);return i}catch(a){a=at(a);if(a===aW)return hC;throw a}}return hD}function
+hE(a,G){var
+d=G;a:for(;;)if(typeof
+d==="number")throw[0,a6,hF];else
+switch(d[0]){case
+0:b:for(;;){var
+r=0;for(;;){var
+k=a0(a9,r,a);if(15<k>>>0){b(a[1],a);var
+r=k;continue}switch(k){case
+0:a1(a);continue b;case
+1:continue b;case
+2:var
+c=5;break;case
+3:var
+c=2;break;case
+4:var
+s=aH(16);c:for(;;){var
+w=51;for(;;){var
+o=a0(a9,w,a);if(3<o>>>0){b(a[1],a);var
+w=o;continue}switch(o){case
+0:var
+c=[2,aI(s)];break;case
+1:var
+c=ax(a,hm);break;case
+2:ac(s,br(a));continue c;default:var
+F=cj(a,a[5]),c=ax(a,b(Q(hn),F))}break}break}break;case
+5:var
+c=0;break;case
+6:var
+t=ci(a,a[5],a[6]),c=ax(a,i(Q(hi),t,t));break;case
+7:var
+c=3;break;case
+8:var
+c=1;break;case
+9:var
+c=6;break;case
+10:var
+c=[1,is(ci(a,a[5],a[6]))];break;case
+11:var
+c=4;break;case
+12:var
+e=aH(16);c:for(;;){var
+v=36;for(;;){var
+n=a0(a9,v,a);if(12<n>>>0){b(a[1],a);var
+v=n;continue}switch(n){case
+0:var
+c=[0,aI(e)];break;case
+1:q(e,47);continue c;case
+2:q(e,92);continue c;case
+3:q(e,8);continue c;case
+4:q(e,12);continue c;case
+5:q(e,10);continue c;case
+6:q(e,13);continue c;case
+7:q(e,9);continue c;case
+8:q(e,39);continue c;case
+9:q(e,34);continue c;case
+10:a1(a);q(e,10);continue c;case
+11:ac(e,br(a));continue c;default:var
+c=ax(a,hl)}break}break}break;case
+13:var
+f=aH(16);c:for(;;){var
+u=21;for(;;){var
+m=a0(a9,u,a);if(12<m>>>0){b(a[1],a);var
+u=m;continue}switch(m){case
+0:var
+c=[0,aI(f)];break;case
+1:q(f,47);continue c;case
+2:q(f,92);continue c;case
+3:q(f,8);continue c;case
+4:q(f,12);continue c;case
+5:q(f,10);continue c;case
+6:q(f,13);continue c;case
+7:q(f,9);continue c;case
+8:q(f,39);continue c;case
+9:q(f,34);continue c;case
+10:a1(a);q(f,10);continue c;case
+11:ac(f,br(a));continue c;default:var
+c=ax(a,hk)}break}break}break;case
+14:a1(a);continue b;default:var
+E=cj(a,a[5]),c=ax(a,b(Q(hj),E))}var
+z=0,H=[0,c,a[11],a[12]];if(typeof
+d!=="number"&&0===d[0]){var
+D=d[1],y=function(a){return function(b){return ct([0,0,b,a[3],a[4]])}}(D);z=1}if(!z)var
+y=T(gs);var
+d=b(y,H);continue a}}case
+3:var
+I=d[1],x=cB(a),J=x[2],K=x[1];throw[0,a6,[0,[0,[0,K,J]],hB(I)]];case
+4:return d[1];default:var
+p=0,j=-822677911;if(typeof
+d==="number")p=1;else
+switch(d[0]){case
+1:var
+g=bv(d[2],d[3]);break;case
+2:var
+g=cv(d[1],d[2]);break;case
+3:var
+h=d[1];if(!h[1])throw[0,l,gq];var
+A=function(d){return function(b){if(bM<=d)return 0;var
+a=b[3],c=a[5];return c===a?0:[3,[0,b[1],b[2],c,a[1]]]}}(j),B=function(c){return function(a,b){return bM<=c?bw(a,b):cv(a,b)}}(j),C=function(g){return function(d,e,a,b,f){if(dW(a,cD)&&dW(b,bx)){var
+c=bM<=g?0:e;return cu(d,c,a,b,f)}throw[0,l,gr]}}(j),g=cA(h[4],cD,bx,C,B,A,h);break;default:p=1}if(p)var
+g=T(gt);var
+d=g;continue}}function
+hG(a){try{var
+g=hE(a,hh(a[12]));cC(g);var
+k=[0,g];return k}catch(a){a=at(a);if(a[1]===a6){var
+c=a[2],d=c[2],e=c[1];if(e){var
+f=e[1],h=f[2],i=f[1];return[1,bD(Q(hH),i,h,d)]}return[1,b(Q(hI),d)]}if(a[1]===a7){var
+j=a[2];return[1,b(Q(hJ),j)]}throw a}}function
+cF(a,b){return a?ib(b,a[1]):0}var
+cG=[0,0,0,ca,0,0,hM];function
+hK(a){try{cC(a);return hL}catch(a){a=at(a);if(a[1]===a7)return[1,a[2]];throw a}}var
+by=e;function
+hN(a,e,d,c){var
+f=a?a[1]:cG;function
+g(c,E,X,W,V,U){var
+k=W,p=V,d=U;for(;;){if(c[1]){var
+Y=bq(hO,au(a8,d)),Z=b(Q(hP),Y);b(c[3],Z)}if(cF(c[4],k))return hQ;var
+F=c[3],G=c[2],_=[0,F],t=[0,G]?G:0,u=_?F:ca;if(d){var
+v=d[2],g=d[1];switch(g[0]){case
+0:var
+e=[0,[0,g[1]],v];break;case
+1:var
+w=g[1];if(t)b(P(u,gN),w);var
+m=X;for(;;){if(m){var
+z=m[1],I=m[2],J=z[2];if(0!==dR(z[1],w)){var
+m=I;continue}var
+n=[0,J]}else
+var
+n=0;var
+O=n?1:0;if(O)var
+R=n?n[1]:T(ef),x=R;else
+var
+x=b(P(aq,gP),w);var
+L=0,A=0,f=x,N=cs(cc(function(b,a){return b+a[1]|0},L,x));for(;;){if(f){var
+s=f[1];if(f[2]){var
+B=A+s[1]|0,M=f[2];if(!(N<B)){var
+A=B,f=M;continue}var
+o=s[2]}else
+var
+o=s[2]}else
+var
+o=P(aq,gM);if(t){var
+K=bq(gH,[0,gG,[0,bq(gF,au(a8,o)),0]]);b(P(u,gO),K)}var
+e=[0,0,aX(o,v)];break}break}break;default:var
+C=g[2],h=C[2],a=C[1],S=g[1];if(h<a)var
+e=i(P(aq,gQ),a,h);else{var
+j=a===h?a:cs(h-a|0)+a|0,D=function(a){return function(b){return a}}(S);if(0<=j)if(en<j){var
+r=0,l=0;for(;;){if(!(j<=l)){var
+r=[0,D(l),r],l=l+1|0;continue}var
+y=aY(r);break}}else
+var
+y=cb(0,j,D);else
+var
+y=T(eo);if(t)bD(P(u,gR),a,h,j);var
+e=[0,0,aX(y,v)]}}}else
+var
+e=gS;var
+q=e[2],H=e[1];if(H){b(E,H[1]);b(E,c[6]);if(0===q)return hR;var
+k=k+1|0,p=0,d=q;continue}if(0===q)return hS;if(cF(c[5],p))return hT;var
+k=k+1|0,p=p+1|0,d=q;continue}}try{var
+h=g(f,e,d,0,0,[0,[1,c],0]);return h}catch(a){a=at(a);if(a[1]===a7)return[1,a[2]];throw a}}var
+hU=by.Array,cH=[y,hV,Z(0)],bz=[0,cH,{}],hW=by.Error,go=d6(bz)===y?bz:bz[1];iH(a(bG),go);function
+hX(a){throw a}cr(function(a){return a[1]===cH?[0,aa(a[2].toString())]:0});cr(function(a){return a
+instanceof
+hU?0:[0,aa(a.toString())]});function
+cI(a){return b(hX,new
+hW(bk(a)))}function
+bA(a){return 0===a[0]?a[1]:cI(a[1])}function
+cJ(a){return 0===a?0:[0,a]}function
+hY(a,g){var
+h=aa(a.symbolSeparator),i=cJ(a.maxNonproductiveReductions),j=cJ(a.maxReductions);function
+k(b){a.debugFunction(bk(b));return 0}var
+d=[0,a.dumpStack,a.debug,k,j,i,h],l=aa(g),e=a.grammar;if(e){var
+m=e[1],f=[0,d]?d:cG,b=aH(dB),c=hN([0,f],function(a){return ac(b,a)},m,l),n=0===c[0]?[0,aI(b)]:c;return bk(bA(n))}return cI(hZ)}var
+h0=console.log,h1=d1(hY);by.bnfgen={"grammar":0,"debug":0,"dumpStack":0,"maxReductions":0,"maxNonproductiveReductions":0,"symbolSeparator":d,"debugFunction":h0,"loadGrammar":d1(function(n,m){var
+a=aa(m),d=[0],e=1,f=0,g=0,h=0,i=0,j=0,l=k(a),c=ce(an(a)),b=bA(hG([0,function(a){a[9]=1;return 0},c,l,j,i,h,g,f,e,d,ch,ch]));bA(hK(b));return n.grammar=[0,b]}),"generate":h1};function
+ee(b){var
+a=b;for(;;){if(a){var
+c=a[2],d=a[1];try{b0(d)}catch(a){a=at(a);if(a[1]!==b_)throw a;var
+e=a}var
+a=c;continue}return 0}}ee(iw(0));return}(function(){return this}()));
