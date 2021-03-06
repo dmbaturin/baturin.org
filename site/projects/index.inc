@@ -29,14 +29,9 @@ Extensible with Lua plugins and external helper programs.
 Perfect for Web 1.0 enthusiasts since you can make all pages look different and still have an automated workflow.
 </p>
 <ul>
-  <li>Website: <a href="https://soupault.neocities.org">soupault.neocities.org</a></li>
+  <li>Website: <a href="https://www.soupault.app">www.soupault.app</a></li>
   <li>Git: <a href="https://github.com/dmbaturin/soupault">github.com/dmbaturin/soupault</a></li>
 </ul>
-<p>
-If you are wondering why I put it on <a href="https://neocities.org">NeoCities</a> if I have my own server,
-it's to bring soupault closer to the community that can benefit from it most, and to support an independent
-and open source hosting provider.
-</p>
 
 <h3>ipaddrcheck</h3>
 <p>An ipcalc for use in scripts. Allows you to do things like <tt>ipaddrcheck --is-ipv4-net 192.0.2.0/25</tt>

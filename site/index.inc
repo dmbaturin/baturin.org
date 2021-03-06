@@ -69,6 +69,6 @@ Despite its visual simplicity, this website is not made with outdated web browse
 though anything released after 2013 should work.
 </p>
 <p>
-This site is powered by <a href="https://soupault.neocities.org">soupault</a>, a static site generator
+This site is powered by <a href="https://www.soupault.app">soupault</a>, a static site generator
 based on HTML rewriting.
 </p>
