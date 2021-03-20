@@ -69,9 +69,8 @@ Within the Oceans of Great Risk were many Sun Worshippers, and they had wanted t
 </blockquote>
 <div class="quote-source">&mdash; unknown
 <span class="footnote" id="dosfish">
-It comes from <a href="https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
-which can be found on many websites often without attribution, and I really would like to know who the original
-author is.
+It comes from <a href="https://web.archive.org/web/20170130041620/https://www.astro.umd.edu/~avondale/extra/Humor/ComputerHumor/PeaSea.html">this story</a>
+which can be found on many websites without attribution, and I really would like to know who the original author is.
 </span>
 </div>
 
