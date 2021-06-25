@@ -3,7 +3,10 @@ Plugin.require_version("2.0")
 function process_entry(container, template, entry)
   git_date = Sys.get_program_output(format("git log -n 1 --pretty=format:%%ad --date=format:%%Y-%%m-%%d %s", entry["page_file"]))
   commit_msg = ""
-  if (git_date == entry["date"]) then
+  -- For blog posts, display the excerpt rather than a git commit description
+  if entry["nav_path"][1] == "blog" then
+    entry["description"] = entry["excerpt"]
+  elseif (git_date == entry["date"]) then
     commit_msg = Sys.get_program_output(format("git log -1 --pretty=%%B %s", entry["page_file"]))
     entry["description"] = format("<p>%s</p>", commit_msg)
   else
