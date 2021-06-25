@@ -34,7 +34,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
   <li> Mastodon: <mastodon me>@dmbaturin@mastodon.social</mastodon> </li>
   <li> Twitter: <twitter>@dmbaturin</twitter> </li>
   <li> LinkedIn: <linkedin>dmbaturin</linkedin> </li>
-  <li> dmbaturin on the <a href="https://freenode.net">Freenode</a> IRC network</li>
+  <li> dmbaturin on the <a href="https://libera.chat">Libera</a> IRC network</li>
 </ul>
 
 <p>You can contact me by email &lt;daniil (at) baturin (dot) org&gt;
