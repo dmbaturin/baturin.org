@@ -1,0 +1,176 @@
+[[compositions]]
+  file = "op2020.01_a_doubt_if_it_be_us"
+  title = "A doubt if it be Us"
+  date = "April 2020"
+  instruments = ["vibraphone"]
+  description = """
+<p>
+A vibraphone solo piece inspired by (or at least named after) a <a href="https://en.wikisource.org/wiki/A_doubt_if_it_be_Us">poem</a>
+written by Emily Dickinson.
+An experiment with tonality, and a potential soundtrack for a friend's project.
+</p>
+"""
+
+[[compositions]]
+  file = "op2019.03_album_leaf"
+  title = "Album Leaf (for M.M.)"
+  date = "November 2019"
+  instruments = ["piano"]
+  description = """
+<p>
+A somewhat Satie'esque piece for a violinist friend.
+</p>
+<p>
+The funny bits are voice leading using the seventh of a chord as a common tone and modulation to the relative minor
+using the vii of the major key as the common chord (the ii of the relative minor key).
+"""
+
+[[compositions]]
+  file = "op2019.03_gigue"
+  title = "Gigue"
+  date = "December 2019"
+  instruments = ["flute", "piano"]
+  type = "chamber"
+  description = """
+<p>
+It's a gigue—a lively baroque dance in a triple meter, exactly as you´d expect.
+</p>
+"""
+
+[[compositions]]
+  file = "op2019.02_winter_waltz"
+  title = "Winter Waltz"
+  date = "October 2019"
+  instruments = ["piano"]
+  description = """
+<p>
+A sad waltz for piano solo. Something of a nod to the tradition of minor key waltzes in the Russian classical music.
+</p>
+<p>
+That tune sat half-written for like half a year, and I might have never completed its accompanying part
+if it wasn't for the birthday of a certain violinist who doubles as a harmony expert.
+I picked this one from the pile of drafts because it had modulations to the dominant key—at least something to make
+a decent gift for someone who knows much more about harmony than I do.
+</p>
+"""
+
+[[compositions]]
+  file = "op2019.01_gavotte"
+  title = "Gavotte"
+  date = "May 2019"
+  instrument = ["violin"]
+  description = """
+<p>
+Gavotte for solo violin, a small vignette for a classmate.
+</p>
+"""
+
+[[compositions]]
+  file = "op2018.03_album_leaf"
+  title = "Album Leaf (for I.N.)"
+  date = "December 2018"
+  instruments = ["piano"]
+  description = """
+<p>
+A winter holidays present for our music theory professor. Originally, “album leaf” meant a short piece written as a gift for someone,
+in the era when handwritten poetry albums were popular, and this piece is exactly that.
+</p>
+"""
+
+[[compositions]]
+  file = "op2018.02_when_i_died"
+  title = "When I died, there was no one who could disprove it"
+  date = "November 2018"
+  instruments = ["vibraphone", "flute", "oboe", "clarinet", "bassoon"]
+  type = "chamber"
+  description = """
+<p>
+A minimalist piece for a wind quartet and vibraphone that I wrote for Antonio Agostini during a contemporary music festival
+where he offered a master class in composition, and I decided to give his methods a try.
+Its title and intended program are taken from a single line poem by a psychedelic rock and punk musician Egor Letov.
+</p>
+<p>
+Somehow I lost the MuseScore file, but if you want to actually perform it and need a different instrumentation,
+I can come up with something.
+</p>
+"""
+
+[[compositions]]
+  file = "op2018.01_fake_folk_dance_2"
+  title = "Fake Folk Dance #2"
+  date = "January 2018"
+  instruments = ["flute", "piano"]
+  type = "chamber"
+  description = """
+<p>A fake folk dance—a lively one at least.</p>
+"""
+
+[[compositions]]
+  file = "op2017.07_sarabande"
+  title = "Sarabande"
+  date = "December 2017"
+  instruments = ["violin", "piano"]
+  type = "chamber"
+  description = """
+<p>
+By the romantic era, the word “sarabande” lost all connections to a particular baroque dance. Minor key, triple meter, let´s call it a sarabande.
+</p>
+"""
+
+[[compositions]]
+  file = "op2017.06_fake_folk_dance"
+  title = "Fake Folk Dance"
+  date = "August 2017"
+  instruments = ["piano"]
+  type = "chamber"
+  description = """
+<p>It could be called a polka, if you consider a polka in a minor key with prominent use of diminished chords a logical possibility.</p>
+"""
+
+[[compositions]]
+  file = "op2017.04_ballad_of_an_epic_fail"
+  title = "Ballad of an Epic Fail"
+  date = "May 2017"
+  instruments = ["piano"]
+  description = """
+<p>It would make a good fantasy RPG theme I suppose, even though I didn't set out to make one.</p>
+"""
+
+[[compositions]]
+  file = "op2017.03_rhythm_changes_prelude"
+  title = "Rhythm Changes Prelude"
+  date = "April 2017"
+  instruments = ["piano"]
+  description = """
+<p>
+The harmony of George Gershwin's song “I´ve Got Rhythm” is immensely popular with jazz composers,
+and served as a basis for numerous compositions such as Charlie Parker's “Confirmation”.
+</p>
+
+<p>
+I thought it would be fun to write something vaguely classical-sounding based on the same chord progression.
+The main challenge for me was to connect the B section chords smoothly, as it consists entirely of secondary dominants (a ragtime progression)
+and doesn't provide any obvious resolutions.
+</p>
+"""
+
+[[compositions]]
+  file = "op2017.02_awkward_waltz_for_ann"
+  title = "Awkward Waltz for Ann"
+  date = "March 2017"
+  instruments = ["piano"]
+  description = """
+<p>
+The initial idea for the chord progression was to descend from the I to the V by major seconds.
+Funnily enough, later my friend pointed me to a very dissimilar song with a similar harmonic idea,
+“Stray Cat Strut” by Brian Setzer.
+</p>
+
+<p>
+The other idea was to write a piece that can be viewed as a jazz piece with an overly elaborate intro,
+or a fully notated piece with improvised sections. Something of a third stream perhaps.
+</p>
+
+<p>The dedication was added after writing, to make it a last moment gift for a certain Ann who played double bass.</p>
+"""
+
