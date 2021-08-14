@@ -1,4 +1,89 @@
 [[compositions]]
+  file = "op2021.05_contemplation"
+  title = "Contemplation"
+  date = "August 2021"
+  instruments = ["flute", "oboe", "clarinet", "bassoon"]
+  description = """
+<p>A wind quartet piece that combines imitative counterpoint with Russian folk motives.</p>
+<p>
+Authentic Russian folk music has some distinctive recurrent features, such as the use of natural dominants
+in minor keys and certain elements of melodic language (like a V IV I motive, for example).
+There was also a tradition of folk polyphony. I wanted to experiment with that melodic and harmonic language
+and here's the result.
+</p>
+"""
+
+[[compositions]]
+  file = "op2021.04_mare_cognitum"
+  title = "Mare Cognitum"
+  date = "July 2021"
+  instruments = ["violin", "viola", "cello", "contrabass"]
+  description = """
+<p>An overture (in the romantic sense of that word) for string orchestra.</p>
+<p><wikipedia>Mare Cognitum</wikipedia> is the location on the Moon where a space probe named <wikipedia>Ranger 7</wikipedia> took the first
+close-up pictures of the lunar surface.
+It was the first spacecraft to reach the Moon and paved the way to the future soft landings.
+Hence the name of that location: a sea that has become known.
+</p>
+<p>
+This overture is dedicated to all people of the world involved in space exploration.
+The transformation of the &ldquo;tritone + descending whole-tone scale&rdquo; into a diatonic
+melody is supposed to be symbolic of the Moon becoming a reachable research target from something
+distant and unknown.
+</p>
+"""
+
+[[compositions]]
+  file = "op2021.03_prelude"
+  title = "Prelude"
+  date = "June 2021"
+  instruments = ["piano"]
+  description = """
+<p>
+A small lyrical prelude for the piano. The main self-imposed challenge was to include a long melody
+made from an ascending scale and harmonzie it so that it doesn't sound boring—that's in the middle section.
+Whether I succeeded is up to your judgement.
+</p>
+"""
+
+[[compositions]]
+  file = "op2021.02_call_to_adventure"
+  title = "Call to Adventure"
+  date = "May 2021"
+  instruments = ["flute", "oboe", "clarinet", "bassoon", "horn"]
+  description = """
+<p>
+A wind quintet piece in the style of fantasy RPG themes. It may become a theme for an actual RPG,
+if it ever gets made.
+</p>
+"""
+
+[[compositions]]
+  file = "op2021.01_waltz"
+  title = "Waltz (for those who came to this world too young in a time too old)"
+  date = "March 2021"
+  instruments = ["vibraphone"]
+  description = """
+<p>
+A vibraphone solo piece written as a birthday gift for a percussionist.
+The title is a reference to one of <wikipedia>Erik Satie</wikipedia>'s sketches that he titled
+&ldquo;Erik Satie draws himself and thinks that he was born very young in a time that was very old&rdquo;.
+</p>
+"""
+
+[[compositions]]
+  file = "op2020.02_gigue"
+  title = "Gigue"
+  date = "October 2020"
+  instruments = ["violin", "piano"]
+  description = """
+<p>
+A lively baroque dance for violin and piano, written as a gift for the violinist who got the the
+<a href="#op2019.02_winter_waltz">Winter Waltz</a> a year earlier.
+</p>
+"""
+
+[[compositions]]
   file = "op2020.01_a_doubt_if_it_be_us"
   title = "A doubt if it be Us"
   date = "April 2020"
