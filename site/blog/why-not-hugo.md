@@ -47,7 +47,7 @@ to enable some features.
 
 ### What about soupault?
 
-As already shown in previous section, there's no such problem. You are free to use any Markdown conversion tool of your choise and pass any options to it.
+As already shown in previous section, there's no such problem. You are free to use any Markdown conversion tool of your choice and pass any options to it.
 
 ## Feature inconsistenties
 
