@@ -18,16 +18,16 @@ are network admins and programmers at the same time, so even hiring in that fiel
 to the code are precious.
 
 When your project is niche and the developer/user ratio is low, you need all network effect you can get to even
-hope to start getting contributions. However, this applies to most projects. Most project in the world,
-my personal projects included, don't have and will probably never have even a dedicated contributor community,
-and occasional contributions<ref id="drive-by">Let's avoid the derogatory "drive-by contribution" term.</ref>
+hope to start getting contributions. However, this applies to most projects. Most projects in the world,
+my personal projects included, don't have and will probably never have a dedicated contributor community,
+and occasional contributions<fn id="drive-by">Let's avoid the derogatory "drive-by contribution" term.</fn>
 is best they can expect.
 
 Many ecosystems still reside completely within GitHub. Some use it as a _de facto_ standard place to store package sources
 and contribute to the repository, like [OPAM](https://opam.ocaml.org) or [nixpkgs](https://github.com/NixOS/nixpkgs).
 Others, like [Elm packages](https://package.elm-lang.org/) seem to have a much harder lock-in.
 
-For any indivisual user and project being in a place where all potential contributors can easily start contributing
+For any individual user and project being in a place where all potential contributors can easily start contributing
 is a huge benefit. I doubt anyone really thinks it's good to have the entire free and open-source software ecosystem
 locked into a single service operated by a commercial company—the main concern is if they will have any contributor
 activity if they move away from the current de facto standard code hosting platform—Microsoft GitHub.
@@ -76,3 +76,6 @@ on an independent code hosting platform.
 I'm holding my breath for the federation support in Gitea. I'm certain that until people can contribute to repositories on multiple instances
 without registering there, nothing is going to change. But when choosing an independent service like [Codeberg](https://codeberg.org)
 or a self-hosted platform no longer requires people to make an account they can't use for anything else, then centralization may finally start to erode, and I hope it will.
+
+<hr>
+<div id="footnotes"> </div>
