@@ -1,4 +1,14 @@
 [[compositions]]
+  file = "op2021.06_album_leaf_ddf"
+  title = "Album leaf (DDF)"
+  date = "September 2021"
+  instruments = ["piano"]
+  description = """
+<p>A short piano piece written as a birthday gift for a friend whose initials are DDF,
+which is why the piece features a D D F# motive prominently.</p>
+"""
+
+[[compositions]]
   file = "op2021.05_contemplation"
   title = "Contemplation"
   date = "August 2021"
