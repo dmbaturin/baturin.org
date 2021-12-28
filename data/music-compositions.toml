@@ -1,4 +1,24 @@
 [[compositions]]
+  file = "op2021.08_what_could_have_been"
+  title = "What Could Have Been"
+  date = "December 2021"
+  instruments = ["viola"]
+  description = """
+<p>A short piece for unaccompanied viola. If you want a program, the first theme represents thoughts about reality;
+while the second, danceable theme is a dream that can never come true.</p>
+<p>I thought viola is the best instrument to express that kind of imagery due to its timbre and range.</p>
+"""
+
+[[compositions]]
+  file = "op2021.07_widespread_belief"
+  title = "Widespread Belief"
+  date = "October 2021"
+  instruments = ["vibraphone"]
+  description = """
+<p>A short vibraphone piece I wrote to experiment with ambiguous tonality and enharmonic modulation.</p>
+"""
+
+[[compositions]]
   file = "op2021.06_album_leaf_ddf"
   title = "Album leaf (DDF)"
   date = "September 2021"
