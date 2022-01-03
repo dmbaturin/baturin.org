@@ -1,4 +1,15 @@
 [[compositions]]
+  file = "op2022.01_prelude"
+  title = "Prelude (in D-minor)"
+  date = "January 2022"
+  instruments = ["piano"]
+  description = """
+<p>A short prelude in the neo-baroque style. In line with the authentic baroque tradition,
+all articulation and dynamics are left to the performer.
+</p>
+"""
+
+[[compositions]]
   file = "op2021.08_what_could_have_been"
   title = "What Could Have Been"
   date = "December 2021"
