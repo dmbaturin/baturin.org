@@ -1,4 +1,18 @@
 [[compositions]]
+  file = "op2022.02_prelude"
+  title = "Prelude (in A-major)"
+  date = "January 2022"
+  instruments = ["piano"]
+  description = """
+<p>
+A short prelude I wrote as an experiment with modulation to distant keys.
+First it modulates from A to F using the Neapolitan chord in A as the common chord, since in F it's the diatonic subdominant chord:
+[♭II6 = IV6] V65 I.
+Then it goes back to F by treating the submediant chord in F as the subdominant in <em>harmonic</em> A-major: [vi = iv(♭3)] V/V♯1 V I.
+</p>
+"""
+
+[[compositions]]
   file = "op2022.01_prelude"
   title = "Prelude (in D-minor)"
   date = "January 2022"
