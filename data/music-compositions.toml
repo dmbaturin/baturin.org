@@ -1,4 +1,21 @@
 [[compositions]]
+
+  file = "op2022.03_vocalise"
+  title = "Vocalise (for clarinet and piano)"
+  date = "March 2022"
+  instrunents = ["clarinet", "piano"]
+  description = """
+<p>
+A small piece for clarinet and piano that is supposed to be as tender as it gets. It's not like I intentionally set out
+to make one, but it ended up that way. Written as a birthday gift for a certain gifted but very young (read: immature) clarinetist.
+</p>
+<p>
+One funny bit is return to B♭-major from F♯-major by tonicizing its third degree (A♯) and ending up in the theoretical A♯-major key
+for a moment.
+</p>
+"""
+
+[[compositions]]
   file = "op2022.02_prelude"
   title = "Prelude (in A-major)"
   date = "January 2022"
