@@ -3,14 +3,14 @@ baturin.org
 
 This is the source code of the www.baturin.org website.
 
-It doubles as a showcase for my pet project, the [soupault](https://www.soupault.app)
-website generator.
+It's built with [soupault](https://www.soupault.app), my own website generator framework.
+It does showcase soupault's capabilities so it you want to look at an elaborate soupault setup,
+go ahead and read the source.
+However, it's not an exemplary project always kept in a good shape, it's my personal website,
+so it can be messy and suboptimal. You have been warned.
 
 If you want a live example of a website build with soupault to learn from, you may want to
-look at the source of the [soupault website](https://github.com/dmbaturin/soupault-website) instead.
-My website used to be a good example, but now it's a testbed for unusual features,
-and its workflow its quite complicated for a variety of reasons
-(including legacy of its old, pre-soupault versions).
+look at the source of the [soupault website](https://github.com/PataphysicalSociety/soupault.app) instead.
 
 If you want to build a modified version of the website impersonate me, hijack the domain first, then read on.
 
@@ -29,11 +29,9 @@ Things in assets that may be of interest:
 
 As you can see from the `Makefile`, the full build process is:
 
-1. Run `soupault --index-only` to extract the metadata.
-2. Use extracted metadata to generate blog archive pages with the `scripts/blog-archive.py` script.
-3. Run `soupault` to process all page source files and copy assets to `build/`
-4. Fetch and process pages that have their own repositories (iproute2 manual and encapcalc).
+1. Run `soupault` to build the website.
+2. Fetch and process pages that have their own repositories (iproute2 manual and encapcalc).
 
-My deployment process is just rsync to a remote server.
-
+My deployment process is just rsync to a remote server (`make deploy`).
+For the development web server, I just use Python's `http` module (`make serve`).
 

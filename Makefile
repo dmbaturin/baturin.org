@@ -32,13 +32,7 @@ external: encapcalc iproute2-manual
 
 .PHONY: site
 site:
-	$(SOUPAULT) --index-only
-	scripts/blog-archive.py $(SITE_DIR)/blog/tag $(INDEX_FILE)
 	$(SOUPAULT)
-
-.PHONY: sounds
-sounds:
-	find $(BUILD_DIR)/music/compositions/ -name '*.mid' -exec scripts/midi2mp3.sh {} \;
 
 .PHONY: all
 all: site external
