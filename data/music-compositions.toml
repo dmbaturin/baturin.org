@@ -1,4 +1,13 @@
 [[compositions]]
+  file = "op2022.04_last_day_to_april"
+  title = "Last Day to April"
+  date = "March 2022"
+  instruments = ["vibraphone"]
+  description = """
+<p>A small vibraphone piece that is supposed to convey a feeling of a calm spring day.</p>
+"""
+
+[[compositions]]
 
   file = "op2022.03_vocalise"
   title = "Vocalise (for clarinet and piano)"
