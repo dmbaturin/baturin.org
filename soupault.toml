@@ -26,6 +26,8 @@
 
   keep_doctype = false
 
+  soupault_version = "4.0.0"
+
 
 [custom_options]
   site_url = "https://www.baturin.org"
