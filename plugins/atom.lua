@@ -1,7 +1,7 @@
 -- Atom feed generator
 -- Still somewhat experimental -- do not steal for your site just yet
 
-Plugin.require_version("2.2.0")
+Plugin.require_version("3.3.0")
 
 data = config
 
@@ -21,7 +21,7 @@ end
 
 function tags_match(entry)
   if config["use_tag"] then
-    return (Regex.match(entry["tags"], format("\\b%s\\b", config["use_tag"])))
+    return Table.has_value(entry["tags"], config["use_tag"])
   else
     return 1
   end
@@ -68,7 +68,7 @@ feed_template = [[
     <name>{{feed_author}}</name>
     <email>{{feed_author_email}}</email>
   </author>
-  <generator uri="https://soupault.neocities.org" version="{{soupault_version}}">soupault</generator>
+  <generator uri="https://soupault.app" version="{{soupault_version}}">soupault</generator>
   <logo>{{feed_logo}}</logo>
   <subtitle>{{feed_subtitle}}</subtitle>
   {%- for e in entries %}

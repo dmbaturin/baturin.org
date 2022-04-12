@@ -61,6 +61,17 @@
   excerpt = { selector = ["#summary", "p"] }
   date = { selector = ["#revision", "time"] }
 
+[hooks.post-index]
+  lua_source = '''
+     -- Split tags strings like "foo, bar" into lists
+     -- to make life easier for the Atom plugin and the indexer
+    if Value.is_string(index_fields["tags"]) then
+      tags = Regex.split(index_fields["tags"], ",")
+      Table.apply_to_values(String.trim, tags)
+      index_fields["tags"] = tags
+    end
+'''
+
 [index.views.simple]
   index_selector = "#index"
   index_item_template = "<li> <a href=\"{{url}}\">{{title}}</a> </li>"
@@ -99,14 +110,18 @@
 
 [index.views.blog]
   index_selector = "#blog-index"
-  index_item_template = """
-    <h2><a href="{{url}}">{{title}}</a></h2>
-    <p><strong>Last update:</strong> {{date}}.</p>
-    <tags>{{tags}}</tags>
-    <p>{{excerpt}}</p>
-    <a href="{{url}}">Read more</a>
+  index_template = """
+  {% for e in entries %}
+    <h2><a href="{{e.url}}">{{e.title}}</a></h2>
+    <p><strong>Last update:</strong> {{e.date}}.</p>
+    <tags>{{join(",", e.tags)}}</tags>
+    <p>{{e.excerpt}}</p>
+    <a href="{{e.url}}">Read more</a>
     <hr>
+  {% endfor %}
 """
+
+  file = "scripts/blog-index.lua"
 
 ## Widgets
 
