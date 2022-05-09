@@ -355,7 +355,7 @@ val a : t = &lt;abstr&gt;
 
 <p>The interpreter can work in both interactive mode (read-eval-print loop) and batch mode, like shell or Perl or Python.</p>
 <p>The bytecode compiler is useful on platforms where the native compiler is not available (e.g. MIPS), or for bootstrapping the native code
-   compiler on new machines (the bytecode interpreter is written in C). You can also product Javascript from OCaml bytecode files
+   compiler on new machines (the bytecode interpreter is written in C). You can also produce Javascript from OCaml bytecode files
    with js_of_ocaml.</p>
 <p> Bytecode executables are a lot slower than native ones, so most of the time people either use the interpreter for exploratory programming
 and scripting or compile to native code. </p>
