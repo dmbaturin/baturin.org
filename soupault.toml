@@ -116,7 +116,9 @@
   {% for e in entries %}
     <h2><a href="{{e.url}}">{{e.title}}</a></h2>
     <p><strong>Last update:</strong> {{e.date}}.</p>
+    {% if e.tags %}
     <tags>{{join(",", e.tags)}}</tags>
+    {% endif %}
     <p>{{e.excerpt}}</p>
     <a href="{{e.url}}">Read more</a>
     <hr>

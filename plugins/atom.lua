@@ -21,7 +21,12 @@ end
 
 function tags_match(entry)
   if config["use_tag"] then
-    return Table.has_value(entry["tags"], config["use_tag"])
+    if Table.has_key(entry, "tags") then
+      return Table.has_value(entry["tags"], config["use_tag"])
+    else
+      -- If there are no tags, it certainly doesn't match any tags... ;)
+      return 0
+    end
   else
     return 1
   end
