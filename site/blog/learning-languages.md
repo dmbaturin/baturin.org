@@ -72,8 +72,8 @@ Japanese is an extreme example. If you know how to say "five dogs", you cannot i
 "five books", or "five bottles of beer" from it even if you know the words for cows, books, and bottles.
 For starters, all those nouns require different "[counter words](https://en.wikipedia.org/wiki/Japanese_counter_word)".
 to go with the numeral. As a less extreme example, in Ukrainian, numbers less than five take nominative plurals
-but five and above require genitive plurals instead: "one violin: is "odna skrypka" (nominative singular), "two violins" is "dvi skrypky" (nominative plural)
-but "seven violins" (or ten, or twenty five, but not twenty one) is "sim skrypok" (genitive plural).
+but five and above require genitive plurals instead: "one violin: is "_odna skrypka_" (nominative singular), "two violins" is "_dvi skrypky_" (nominative plural)
+but "seven violins" (or ten, or twenty five, but not twenty one) is "_sim skrypok_" (genitive plural).
 
 Language immersion is hugely important but when the language you want to learn is distant enough from anything you know,
 it may be nearly impossible to learn through immersion alone because you don't even know what you don't know
@@ -99,7 +99,7 @@ The Georgian language treats the [aspirated](https://en.wikipedia.org/wiki/Aspir
 as two different consonants. If they knew what's aspiration and how it sounds, I'm sure they would notice the contrast.
 
 Here's another example, In Turkish, there are two suffixes for plurals: _-lar_ and _-ler_. The plural for _elma_ (apple)
-is _elmalar_; for _sucuk_ (sausage) it's _sucuklar_; but the plurals for _kedi_ (cat) and _sürücü_ (driver) they are
+is _elmalar_; for _sucuk_<fn id="turkish-c">In Turkish, C is counter-intuitively pronounced like J in English.</fn> (sausage) it's _sucuklar_; but the plurals for _kedi_ (cat) and _sürücü_ (driver) are
 _kediler_ and _sürücüler_. It certainly takes some practice to form Turkish plurals correctly,
 but the idea is pretty simple to explain to a person who knows a bit of phonology. The concept is knowns as _vowel harmony_:
 words tend to have either only [front vowels](https://en.wikipedia.org/wiki/Front_vowel) (where the tongue moves forward
@@ -107,9 +107,17 @@ toward the teeth) or back vowels (where the tongue is retracted). If the last vo
 then the plural suffix will be _-lar_ (because _a_ is a back vowel), otherwise it's _-ler_.
 If someone is not yet familiar with the classification of vowels, there are only two ways to explain it:
 a crash course in phonology or a table for rote learning. I firmly believe the first way is better.
+Knowing how different kinds of vowel articulation sound and what they are called is useful for understanding that specific rule
+but will help the learner understand other phenomena in different languages in the future.
 
-When someone teaches Spanish to English speakers, they need to tell the students that adjectives come after nouns,
-but don't need to explicitly mention the word order because both languages are SVO (Subject-Object-Verb).
+Knowing names for language phenomena is not only important for building a consistent mental picture of language rules,
+it's also useful in practice. Continuing that example with counting violins in Ukrainian:
+if you know that numbers from five to twenty always require a genitive plural,
+then to say "fifteen flutes" you can open a dictionary and look up the genitive plural for "flute".
+If you don't even know that it's named genitive case, then you are completely at the mercy of fluent speakers.
+
+When someone teaches Spanish to English speakers, they need to tell the students that adjectives come after nouns
+but don't need to explicitly mention the word order because both languages are SVO (Subject-Verb-Object).
 Speakers of a Romance or Germanic language may not even give any thought to the issue of word order
 until they start learning a language where the standard order is different. For example, in Turkish, the order is SOV,
 so "I(S) am going (V) to Istanbul (O)" is "Ben İstanbul'a gidiyorum"<fn id="turkish-pro-drop">Turkish speakers would normally omit the pronoun
