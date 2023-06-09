@@ -31,8 +31,7 @@ the MTU/MSS calculator, and the <a href="/docs/iproute2">task-centered iproute2 
 <p>You can also find me in other places:</p>
 <ul>
   <li> Github: <github>dmbaturin</github> </li>
-  <li> Mastodon: <mastodon me>@dmbaturin@mastodon.social</mastodon> </li>
-  <li> Twitter: <twitter>@dmbaturin</twitter> </li>
+  <li> Mastodon: <mastodon me>@dmbaturin@functional.cafe</mastodon> (formerly <mastodon me>@dmbaturin@mastodon.social</mastodon>)</li>
   <li> LinkedIn: <linkedin>dmbaturin</linkedin> </li>
   <li> dmbaturin on the <a href="https://libera.chat">Libera</a> IRC network</li>
 </ul>
