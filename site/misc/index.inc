@@ -14,5 +14,6 @@
   <li class="nav"> <a href="/misc/blank-page">Blank page</a> </li>
   <li class="nav"> <a href="/misc/web10">Web 1.0 memorial</a> </li>
   <li class="nav"> <a href="/misc/sysadmin-christmas-carol">Sysadmin Christmas carol</a> </li>
+  <li class="nav"> <a href="/misc/danta-as-gaeilge"><abbr title="Poems in Irish">Dánta as Gaeilge</abbr></a> </li>
 </ul>
 
