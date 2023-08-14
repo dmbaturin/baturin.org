@@ -46,3 +46,26 @@ mar níl siad ag déanamh aithrise ar Chríost.
 ```
 
 Suntas: Aithris ar Chríost = [De Imitatione Christi](https://en.wikipedia.org/wiki/The_Imitation_of_Christ).
+
+<h2 id="briongloid-barroige">Brionglóid Barróige</h2>
+
+```
+Thug tú barróg dom.
+Agus ní raibh rud ar bith timpeall
+ach amháin muid,
+agus do lámha tharam,
+agus mo cheann ar do guallain,
+agus teochroí,
+agus aoibhneas.
+Críoch an uaignis,
+críoch na héideimhne.
+Agus mhair sé
+go dtí dhúisigh mé
+agus cheiliúir do aisling.
+Agus ansin, ní raibh rud ar bith timpeall
+ach amháin mé fein,
+agus an seomra folamh,
+agus maidin mhodartha,
+agus uaigneas,
+agus cuimhne ghrinn na barróige samhailtí.
+```
