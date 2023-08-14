@@ -1,4 +1,4 @@
-<h1 id="post-title">An Chéad Bliana in Éirinn / The first year in Ireland</h1>
+<h1 id="post-title">An Chéad Bhliain in Éirinn / The first year in Ireland</h1>
 <time id="last-modified">2023-07-23</time>
 <tags>personal</tags>
 
@@ -425,7 +425,7 @@ Arguably, a vulnerable language needs its every speaker to survive and grow. Eve
 it as a second language can help it to be seen as more prestigious. If me enticing more people to speak Irish helps it grow and,
 I hope I'm giving something back to the language itself, not just enjoying learning it and reaping the benefits of belonging to its community.
 
-<h2 id="one-year">Bliana amháin</h2>
+<h2 id="one-year">Bliain amháin</h2>
 
 How do you end a story like this? There's nothing inherently special about the one-year mark. An "achievement unlocked" postcard doesn't arrive in your mail.
 All such marks are arbitrary and only significant as far as we assign significance to them. Luckily, there are quite a lot of people who ascribe significance
