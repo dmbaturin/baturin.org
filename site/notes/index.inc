@@ -33,3 +33,9 @@ while editing a blog post seems somewhat wrong. I'll keep them in this section.
   <dt><a href="/notes/intuitive">Intuitive and revolutionary</a><dt>
   <dd>Still much ignored fact that nothing is inherently intuitive.</dd>
 </dl>
+
+<h2>On human languages</h2>
+<dl>
+  <dt><a href="/notes/irish-mutations">Irish initial mutations</a></dt>
+  <dd>An attempt to present Irish initial mutations groups by place of articulation to make their patterns more clearly visible.</dd>
+</dl>
