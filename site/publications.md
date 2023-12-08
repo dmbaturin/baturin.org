@@ -1,5 +1,14 @@
 # Publications and talks
 
+## Books
+
+### Linux for System Administrators
+
+An introductory book on modern Linux for complete beginners.
+
+Published by [Packt](https://www.packtpub.com/product/linux-for-system-administrators/9781803247946) in 2023,
+with the first author credit given to Viorel Rudareanu, a co-author assigned to me by Packt.
+
 ## Computer magazine articles
 
 ### Hack Mag / «Хакер»
