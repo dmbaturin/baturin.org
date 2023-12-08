@@ -54,7 +54,7 @@ Thug tú barróg dom.
 Agus ní raibh rud ar bith timpeall
 ach amháin muid,
 agus do lámha tharam,
-agus mo cheann ar do guallain,
+agus mo cheann ar do ghuallain,
 agus teochroí,
 agus aoibhneas.
 Críoch an uaignis,
@@ -68,4 +68,24 @@ agus an seomra folamh,
 agus maidin mhodartha,
 agus uaigneas,
 agus cuimhne ghrinn na barróige samhailtí.
+```
+
+<h2 id="reiltin">Réiltín</h2>
+
+```
+Is athghéar an ghaoth anocht,
+is an-dorcha an oíche.
+Táim caillte ar an tslí dhoilbh,
+ach tá tú ann — mo réiltín.
+Tá tú in imchian
+agus ní féidir liom
+do theas a mhothú,
+ach tá do sholas geal sa dhubh.
+Tá tú solasbhlianta ar shiúl uaim:
+ní fheiceann tú mé
+agus níl a fhios agat
+go ndíríonn tú mé
+tríd an oíche ró-dhubh.
+Ach tá áthas orm
+mar go bhfuil tú ann — mo réiltín.
 ```
