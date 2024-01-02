@@ -2,7 +2,118 @@
 
 <div id="generated-toc"> </div>
 
-Tá mé ag foghlaim Gaeilge agus is maith liom filíocht. Bíonn me ag scríobh dánta beaga anois agus arís...
+Táim ag foghlaim Gaeilge agus is maith liom filíocht. Bím ag scríobh dánta beaga anois agus arís...
+
+Táim buíoch de [Eibhlís Carcione](https://eibhliscarcione.com/), [Colm Ó Ceallacháin](https://leabharbreac.com/en/product-category/colm-o-ceallachain-en/)
+agus daoine eile as léamh agus ceartú!
+
+<h2 id="aisling">Aisling</h2>
+
+Dán do mo chara atá ag obair sa tigh tabhairne. Ní fíorscéal é, ní bhíonn an iomarca óil agam mar sin! 
+
+```
+Bím ar meisce amháin anseo
+agus nuair a fheicim í 
+nílim cinnte riamh
+an fíorchailín nó aisling í.
+
+Amharc reatha, ag rith gan stad.
+Ar mo chlé, ar mo dheis anois...
+Ní fios dom go baileach
+an fíorchailín nó aisling í.
+
+Chuir mé ceist uirthi: "Cé thusa?".
+Ach ní cuimhin liom a freagra:            
+"Is mise Aisling"    
+nó, b'fhéidir, "Is aisling mé".
+
+Ba cheart dom éirí as an ól        
+ach tá faitíos orm fós:
+an bhfeicfidh mé í arís
+más aisling ná fíorchailín í?
+```
+
+<h2 id="sceal-liom-duit">Scéal liom duit</h2>
+
+<pre>
+<a href="https://wikisource.org/wiki/Sc%C3%A9l_Lem_D%C3%BAib">Scéal liom duit</a>:
+geimhreadh ann.
+Raithneach rua
+a chaill a cruth.
+Sioc a thit
+ar an bhféar.
+An Bodach geal
+atá go hard
+sa spéir fhuar —
+féach aníos!
+Ach cén fáth
+a scríobh mé é —
+nach bhfuil sé
+an-chosúil
+leis an am
+a bhí tú ann?
+Cuimhin leat
+an raithneach rua
+a&#39;s mar sin —
+níl mo scéal
+nua duit.
+Tá an lá
+ag éirí gearr
+tar éis do dhul —
+is eol duit é
+an t-<abbr title="since you've gone away, the nights grow long — Autumn Leaves by Joseph Kosma">amhrán sin</abbr>.
+Cuimhin liom
+do lámh the
+agus d'fhocail:
+"Slán go foill!".
+Cronaím thú,
+is é mo sceál,
+mo fhiorscéal —
+cronaím thú.
+</pre>
+
+<h2 id="reiltin">Réiltín</h2>
+
+<pre>
+<a href="https://en.wikipedia.org/wiki/Is_acher_in_ga%C3%ADth_in-nocht">Is athghéar an ghaoth anocht</a>,
+is an-dorcha an oíche.
+Táim caillte ar an tslí dhoilbh,
+ach tá tú ann — mo réiltín.
+Tá tú in imchian
+agus ní féidir liom
+do theas a mhothú,
+ach tá do sholas geal sa dhubh.
+Tá tú solasbhlianta ar shiúl uaim:
+ní fheiceann tú mé
+agus níl a fhios agat
+go ndíríonn tú mé
+tríd an oíche ró-dhubh.
+Ach tá áthas orm
+mar go bhfuil tú ann — mo réiltín.
+</pre>
+
+<h2 id="briongloid-barroige">Brionglóid Barróige</h2>
+
+```
+Thug tú barróg dom.
+Agus ní raibh rud ar bith timpeall
+ach amháin muid,
+agus do lámha tharam,
+agus mo cheann ar do ghuallain,
+agus teochroí,
+agus aoibhneas.
+Críoch an uaignis,
+críoch na héideimhne.
+Agus mhair sé
+go dtí dhúisigh mé
+agus cheiliúir do aisling.
+Agus ansin, ní raibh rud ar bith timpeall
+ach amháin mé fein,
+agus an seomra folamh,
+agus maidin mhodartha,
+agus uaigneas,
+agus cuimhne ghrinn na barróige samhailtí.
+```
 
 <h2 id="niamh">Niamh</h2>
 
@@ -47,45 +158,3 @@ mar níl siad ag déanamh aithrise ar Chríost.
 
 Suntas: Aithris ar Chríost = [De Imitatione Christi](https://en.wikipedia.org/wiki/The_Imitation_of_Christ).
 
-<h2 id="briongloid-barroige">Brionglóid Barróige</h2>
-
-```
-Thug tú barróg dom.
-Agus ní raibh rud ar bith timpeall
-ach amháin muid,
-agus do lámha tharam,
-agus mo cheann ar do ghuallain,
-agus teochroí,
-agus aoibhneas.
-Críoch an uaignis,
-críoch na héideimhne.
-Agus mhair sé
-go dtí dhúisigh mé
-agus cheiliúir do aisling.
-Agus ansin, ní raibh rud ar bith timpeall
-ach amháin mé fein,
-agus an seomra folamh,
-agus maidin mhodartha,
-agus uaigneas,
-agus cuimhne ghrinn na barróige samhailtí.
-```
-
-<h2 id="reiltin">Réiltín</h2>
-
-```
-Is athghéar an ghaoth anocht,
-is an-dorcha an oíche.
-Táim caillte ar an tslí dhoilbh,
-ach tá tú ann — mo réiltín.
-Tá tú in imchian
-agus ní féidir liom
-do theas a mhothú,
-ach tá do sholas geal sa dhubh.
-Tá tú solasbhlianta ar shiúl uaim:
-ní fheiceann tú mé
-agus níl a fhios agat
-go ndíríonn tú mé
-tríd an oíche ró-dhubh.
-Ach tá áthas orm
-mar go bhfuil tú ann — mo réiltín.
-```
