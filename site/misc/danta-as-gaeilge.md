@@ -54,20 +54,20 @@ leis an am
 a bhí tú ann?
 Cuimhin leat
 an raithneach rua
-a&#39;s mar sin —
+a&apos;s mar sin —
 níl mo scéal
 nua duit.
 Tá an lá
 ag éirí gearr
-tar éis do dhul —
+tar éis d&apos;imeacht —
 is eol duit é
 an t-<abbr title="since you've gone away, the nights grow long — Autumn Leaves by Joseph Kosma">amhrán sin</abbr>.
 Cuimhin liom
 do lámh the
-agus d'fhocail:
+agus d&apos;fhocail:
 "Slán go foill!".
 Cronaím thú,
-is é mo sceál,
+é mo scéal,
 mo fhiorscéal —
 cronaím thú.
 </pre>
@@ -87,7 +87,7 @@ Tá tú solasbhlianta ar shiúl uaim:
 ní fheiceann tú mé
 agus níl a fhios agat
 go ndíríonn tú mé
-tríd an oíche ró-dhubh.
+tríd an oíche ródhubh.
 Ach tá áthas orm
 mar go bhfuil tú ann — mo réiltín.
 </pre>
