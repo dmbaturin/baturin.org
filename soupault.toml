@@ -127,6 +127,7 @@
 
   file = "scripts/blog-index.lua"
 
+
 ## Widgets
 
 [widgets]
@@ -163,6 +164,8 @@
 [widgets.quick-links]
   widget = "quick-links"
 
+[widgets.inline-styles]
+  widget = "inline-style"
 
 [widgets.last-modified]
   exclude_path_regex = ["(.*)/index.inc", "blog/(.*)"]
