@@ -6,6 +6,7 @@ ENCAPCALC_REPO := https://github.com/dmbaturin/encapcalc
 IPROUTE2_REPO := https://github.com/dmbaturin/iproute2-cheatsheet
 
 # In practice it's in my ~/.local/bin
+#SOUPAULT := /home/dmbaturin/devel/soupault/_build/default/src/soupault.exe
 SOUPAULT := soupault
 
 .PHONY: encapcalc
@@ -47,4 +48,4 @@ serve:
 
 .PHONY: deploy
 deploy:
-	rsync -a -e "ssh" $(BUILD_DIR)/ www.baturin.org:/var/www/vhosts/baturin.org
+	rsync -a -e "ssh" $(BUILD_DIR)/ www.baturin.org:/var/www/baturin.org
