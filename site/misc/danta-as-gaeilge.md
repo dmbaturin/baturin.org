@@ -7,6 +7,38 @@ Táim ag foghlaim Gaeilge agus is maith liom filíocht. Bím ag scríobh dánta 
 Táim buíoch de [Eibhlís Carcione](https://eibhliscarcione.com/), [Colm Ó Ceallacháin](https://leabharbreac.com/en/product-category/colm-o-ceallachain-en/)
 agus daoine eile as léamh agus ceartú!
 
+<h2 id="na-biodh-imni-ort">Ná bíodh imní ort</h2>
+
+I gcuimhne mo chara Jack a chuir lámh ina bhás féin i samhradh 2023.
+
+```
+Ná bíodh imní ort. 
+An deoch atá agat orm —
+déan dearmad uirthi,
+tá sé ceart go leor.
+
+Ná bíodh pian ort.
+Níl pian orm anois,
+cén fáth
+go mbeadh pian ort?
+
+Ná bíodh brón ort.
+Nuair a thuig mé
+go raibh críoch mo phéine ann
+bhí áthas orm
+an céad uair i mblianta.
+
+Ná bíodh náire ort.
+Rinne tú gach rud
+gurbh fhéidir leat a dhéanamh dom.
+Táim buíoch díot.
+
+An deoch atá agat orm,
+ól í i gcuimhne ormsa.
+Táim ceart go leor anois,
+ná bíodh imní ort.
+```
+
 <h2 id="aisling">Aisling</h2>
 
 Dán do mo chara atá ag obair sa tigh tabhairne. Ní fíorscéal é, ní bhíonn an iomarca óil agam mar sin! 
