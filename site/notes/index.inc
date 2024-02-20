@@ -38,4 +38,6 @@ while editing a blog post seems somewhat wrong. I'll keep them in this section.
 <dl>
   <dt><a href="/notes/irish-mutations">Irish initial mutations</a></dt>
   <dd>An attempt to present Irish initial mutations groups by place of articulation to make their patterns more clearly visible.</dd>
+  <dt><a href="/notes/irish-article">Old and Modern Irish definite article</a></dt>
+  <dd>A side-by-side comparison of definite article forms in Old Irish and Modern Irish.</dd>
 </dl>
