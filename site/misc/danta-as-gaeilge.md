@@ -7,6 +7,39 @@ Táim ag foghlaim Gaeilge agus is maith liom filíocht. Bím ag scríobh dánta 
 Táim buíoch de [Eibhlís Carcione](https://eibhliscarcione.com/), [Colm Ó Ceallacháin](https://leabharbreac.com/en/product-category/colm-o-ceallachain-en/)
 agus daoine eile as léamh agus ceartú!
 
+<h2 id="ulchabhan">Ulchabhán</h2>
+
+<pre>
+Ar maidin go moch
+tá cosúlacht agat
+le h<a href="https://en.wikipedia.org/wiki/Little_owl">ulchabhán beag</a>.
+
+Cliste is codlatach —
+Aitéiné agus a héan
+i nduine cheana féin.
+
+Bandia na heagna
+agus éan clúmhach —
+comhcheangal dochloíte.
+
+Nuair a bhuail mé leat,
+níor thuig mé ar an mball
+go raibh mé i do chrúba,
+amhail luchóg dhímríoch.
+
+Agus táim ann fós,
+ar crochadh san aer
+in airde meadhránach
+
+nuair atá tú ag eitilt
+ar do shlí féin,
+aineolach ar do chreach.
+
+An bhfuil a fhios agat
+go bhfuil mé i do chrúba,
+a éan chliste, chlúmhach?
+</pre>
+
 <h2 id="na-biodh-imni-ort">Ná bíodh imní ort</h2>
 
 I gcuimhne mo chara Jack a chuir lámh ina bhás féin i samhradh 2023.
