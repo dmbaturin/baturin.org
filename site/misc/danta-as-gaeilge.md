@@ -7,7 +7,51 @@ Táim ag foghlaim Gaeilge agus is maith liom filíocht. Bím ag scríobh dánta 
 Táim buíoch de [Eibhlís Carcione](https://eibhliscarcione.com/), [Colm Ó Ceallacháin](https://leabharbreac.com/en/product-category/colm-o-ceallachain-en/)
 agus daoine eile as léamh agus ceartú!
 
-<h2 id="ulchabhan">Ulchabhán</h2>
+<h2 id="sraid-na-meisceoiri">Sráid na Meisceoirí</h2>
+
+<pre>
+Bíonn tú ag casoid faoi mheisceoirí ar an tsráid sin.
+Ach is mise meisceoir na sráide sin anocht.
+Bheifeá dearg le fearg dá mbeifeá ann
+agus d'fheicfeá mé... ach níl tú ann.
+
+Tá súil agam go bhfuil tú i do chodladh,
+clutharaithe i bpluid theolaí.
+Bíonn tú ag féachaint go hálainn
+nuair a bhíonn codladh go leor agat.
+
+Is é seo an áit a scaraimid,
+céad bliain gearr ó shin,
+agus d'fhéachfainn ort ag dul as radharc
+gach uair, go dtí an uair dheireanach.
+
+Tá "muid" san aimsir chaite amháin anois
+agus thit poncanna séimhithe ar na briathra
+mar a thiteann callóga ar an bfhéar marbh:
+bhíomar, chuamar, chanamar...
+
+<abbr title="non sum dignus ut intres sub tectum meum">Ní fiú mé go dtiocfá faoi mo dhíon.</abbr>
+<abbr title="mea culpa, mea maxima culpa...">Trí mo choir féin, trí mo mhorchoir féin...</abbr>
+Tá mo chroí agus m'intinn folamh anois,
+agus níl ach míreanna de shean-amhráin grá ann.
+
+"Ní raibh a fhios agam cén t-am a bhí ann
+<abbr title="&quot;I didn't know what time it was&quot; — Rodgers and Heart">nuair a bhuail mé leat".</abbr>
+Tá a fhios agam, ach is cuma:
+ní bheidh cothrom an lae sin againn.
+
+<abbr title="&quot;Honeysuckle Rose&quot; — Fats Waller">"Is milseog thú, dar lia — rós féithlinn".</abbr>
+Ní chuirtear síos go graosta mar sin
+ar dhuine uasal mar tusa.
+Níl sé sin ceart ar fad.
+
+<abbr title="&quot;All of me&quot; — Gerald Marks">"Mise go léir, cén fáth nach dtógfá mé go léir?"</abbr>
+Tá a fhios agam  nach fiú mé.
+Ní thiocfaidh tú faoi mo dhíon
+agus níl focail ann le mo anam a leigheas.
+</pre>
+
+<h2 id="ulchabhan">An t-Ulchabhán</h2>
 
 <pre>
 Ar maidin go moch
@@ -37,7 +81,7 @@ aineolach ar do chreach.
 
 An bhfuil a fhios agat
 go bhfuil mé i do chrúba,
-a éan chliste, chlúmhach?
+a éin chliste, chlúmhach?
 </pre>
 
 <h2 id="na-biodh-imni-ort">Ná bíodh imní ort</h2>
@@ -165,7 +209,7 @@ Agus ní raibh rud ar bith timpeall
 ach amháin muid,
 agus do lámha tharam,
 agus mo cheann ar do ghuallain,
-agus teochroí,
+agus gean,
 agus aoibhneas.
 Críoch an uaignis,
 críoch na héideimhne.
@@ -173,12 +217,14 @@ Agus mhair sé
 go dtí dhúisigh mé
 agus cheiliúir do aisling.
 Agus ansin, ní raibh rud ar bith timpeall
-ach amháin mé fein,
+ach amháin mé féin,
 agus an seomra folamh,
 agus maidin mhodartha,
 agus uaigneas,
 agus cuimhne ghrinn na barróige samhailtí.
 ```
+
+4 Iúl 2024
 
 <h2 id="niamh">Niamh</h2>
 
@@ -197,6 +243,8 @@ is féidir liom tú a iompar
 ar mo dhroim go dtí aon áit
 ach amháin Tír na nÓg.
 ```
+
+13 Aibreán 2023
 
 <h2 id="uaimh-an-dochais-treighte">Uaimh an Dóchais Tréighte</h2>
 
