@@ -25,7 +25,7 @@ jobs:
       run: |
         echo Installing build dependencies
         sudo apt-get update
-        sudo apt-get -y install cmark highlight make rsync
+        sudo apt-get -y install cmark highlight make lftp
 
     # Fixup for old highlight versions that don't have a TOML syntax definition in the package
     - name: Install TOML syntax definitions for highlight
@@ -55,4 +55,4 @@ jobs:
 
     - name: Deploy to the server
       run: |
-          rsync -a -e "ssh" build/ webmaster@www.baturin.org:/var/www/baturin.org
+          lftp -e "mirror --reverse build/ /var/www/baturin.org; quit;" sftp://webmaster@www.baturin.org
