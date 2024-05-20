@@ -27,6 +27,11 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install cmark highlight make
 
+    # Fixup for old highlight versions that don't have a TOML syntax definition in the package
+    - name: Install TOML syntax definitions for highlight
+      run: |
+        sudo cp scripts/toml.lang /usr/share/highlight/langDefs/
+
     - name: Install soupault
       env:
         SOUPAULT_VERSION: 4.10.0
