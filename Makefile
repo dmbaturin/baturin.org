@@ -5,8 +5,7 @@ INDEX_FILE := index.json
 ENCAPCALC_REPO := https://github.com/dmbaturin/encapcalc
 IPROUTE2_REPO := https://github.com/dmbaturin/iproute2-cheatsheet
 
-# In practice it's in my ~/.local/bin
-#SOUPAULT := /home/dmbaturin/devel/soupault/_build/default/src/soupault.exe
+# Assume that soupault is somewhere in $PATH
 SOUPAULT := soupault
 
 .PHONY: encapcalc
