@@ -48,8 +48,8 @@ jobs:
 
     - name: Set up SSH
       run: |
-            echo ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_ecdsa
-            echo ${{ secrets.SSH_KNOWN_HOSTS }} > ~/.ssh/known_hosts
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ecdsa
+            echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
     - name: Deploy to the server
       run: |
