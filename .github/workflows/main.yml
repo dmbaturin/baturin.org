@@ -48,6 +48,7 @@ jobs:
 
     - name: Set up SSH
       run: |
+            mkdir -p ~/.ssh
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ecdsa
             echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
