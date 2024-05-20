@@ -55,4 +55,7 @@ jobs:
 
     - name: Deploy to the server
       run: |
-          lftp -e "mirror --reverse build/ /var/www/baturin.org; quit;" sftp://webmaster@www.baturin.org
+          # XXX: "-u $user," has a trailing comma because lftp asks for a password
+          # if you don't give it an empty password,
+          # even if no password is needed to decrypt the SSH private key
+          lftp -u webmaster, -e "mirror --reverse build/ /var/www/baturin.org; quit;" sftp://www.baturin.org
