@@ -25,7 +25,7 @@ jobs:
       run: |
         echo Installing build dependencies
         sudo apt-get update
-        sudo apt-get -y install cmark highlight make
+        sudo apt-get -y install cmark highlight make rsync
 
     # Fixup for old highlight versions that don't have a TOML syntax definition in the package
     - name: Install TOML syntax definitions for highlight
@@ -45,6 +45,12 @@ jobs:
     - name: Build the site
       run: |
         make all
-        zip -r website.zip build/
 
+    - name: Set up SSH
+      run: |
+            echo ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_ecdsa
+            echo ${{ secrets.SSH_KNOWN_HOSTS }} > ~/.ssh/known_hosts
 
+    - name: Deploy to the server
+      run: |
+          rsync -a -e "ssh" build/ webmaster@www.baturin.org:/var/www/baturin.org
