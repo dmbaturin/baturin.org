@@ -4,7 +4,6 @@
 
 [settings]
   verbose = true
-  debug = true
 
   # Where generated files go
   build_dir = "build/"
